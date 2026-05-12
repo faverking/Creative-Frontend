@@ -81,25 +81,61 @@ admin/
 
 ### 4.2 Variables
 
-以下变量会注入 Vite 构建产物，属于公开前端配置：
+以下变量会注入 Vite 构建产物，属于公开前端配置。Monorepo 中各应用保留独立环境变量边界，workflow 只在部署阶段把 GitHub Variables 解析为每个应用自己的 `VITE_*`。
+
+每个发布应用都必须能解析出 `VITE_API_BASE_URL`，满足以下任一方式即可：
+
+- 配置共享默认值 `FRONTEND_API_BASE_URL`
+- 或同时配置应用独立值 `PORTAL_API_BASE_URL` 与 `ADMIN_API_BASE_URL`
+
+当前阿里云单机部署推荐只配置共享默认值：
+
+```text
+FRONTEND_API_BASE_URL=http://121.41.223.169
+```
+
+共享默认值：
 
 - `FRONTEND_API_BASE_URL`
 - `FRONTEND_SSO_BASE_URL`
 - `FRONTEND_AI_API_BASE_URL`
 - `FRONTEND_MONITOR_DSN`
 - `FRONTEND_TRACKING_APP_ID`
+- `FRONTEND_API_PREFIX`
 - `FRONTEND_OAUTH_PROVIDER`
 
-当前阿里云单机部署建议：
+应用独立覆盖值：
 
-```text
-FRONTEND_API_BASE_URL=http://121.41.223.169
-FRONTEND_SSO_BASE_URL=http://121.41.223.169
-FRONTEND_AI_API_BASE_URL=http://121.41.223.169
-FRONTEND_OAUTH_PROVIDER=google
-```
+- `PORTAL_API_BASE_URL`
+- `PORTAL_SSO_BASE_URL`
+- `PORTAL_AI_API_BASE_URL`
+- `PORTAL_MONITOR_DSN`
+- `PORTAL_TRACKING_APP_ID`
+- `PORTAL_API_PREFIX`
+- `PORTAL_OAUTH_PROVIDER`
+- `PORTAL_ADMIN_WEB_BASE_URL`
+- `ADMIN_API_BASE_URL`
+- `ADMIN_SSO_BASE_URL`
+- `ADMIN_AI_API_BASE_URL`
+- `ADMIN_MONITOR_DSN`
+- `ADMIN_TRACKING_APP_ID`
+- `ADMIN_API_PREFIX`
+- `ADMIN_OAUTH_PROVIDER`
 
-`FRONTEND_MONITOR_DSN` 与 `FRONTEND_TRACKING_APP_ID` 按实际观测系统配置。
+解析顺序：
+
+- `portal-web`：`PORTAL_*` 优先，其次 `FRONTEND_*`，最后使用应用部署默认值。
+- `admin-web`：`ADMIN_*` 优先，其次 `FRONTEND_*`，最后使用应用部署默认值。
+
+未配置可选变量时，工作流默认：
+
+- `SSO_BASE_URL`：沿用当前应用解析后的 `API_BASE_URL`
+- `AI_API_BASE_URL`：沿用当前应用解析后的 `API_BASE_URL`
+- `MONITOR_DSN`：`disabled`
+- `TRACKING_APP_ID`：`portal-web` 或 `admin-web`
+- `API_PREFIX`：`/api/v1`
+- `OAUTH_PROVIDER`：`google`
+- `PORTAL_ADMIN_WEB_BASE_URL`：`/admin/`
 
 ### 4.3 服务器目录前置条件
 

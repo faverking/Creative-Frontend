@@ -302,6 +302,7 @@ flowchart LR
 - 推送 `web-v*` tag 触发生产部署，例如 `web-v1.0.0`。
 - `main` 分支 push 不直接发布生产前端。
 - 先执行 `pnpm lint`、`pnpm typecheck`、`pnpm test`。
+- GitHub Variables 采用共享默认值加应用独立覆盖：`FRONTEND_*` 作为共享默认，`PORTAL_*` / `ADMIN_*` 覆盖单个应用；每个发布应用必须能解析出 `VITE_API_BASE_URL`。
 - `portal-web` 以 `VITE_APP_BASE=/` 构建并发布到站点根路径。
 - `admin-web` 以 `VITE_APP_BASE=/admin/` 构建并发布到 `/admin/` 子路径。
 - 两个 dist 打包为 `frontend.tar.gz` 上传至 `/www/apps/frontend/shared`。

@@ -131,6 +131,8 @@ VITE_APP_BASE=/admin/ pnpm --filter admin-web build
 
 - `portal-web` 发布在站点根路径 `/`
 - `admin-web` 发布在 `/admin/`
+- GitHub Variables 先按 `PORTAL_*` / `ADMIN_*` 解析应用独立值，再回退到共享 `FRONTEND_*`
+- 每个发布应用必须能解析出 `VITE_API_BASE_URL`；单机同源部署通常只需要配置 `FRONTEND_API_BASE_URL`
 - GitHub Actions 会把两个 dist 打包进同一个 `frontend.tar.gz`
 
 ## 6. 常见问题
