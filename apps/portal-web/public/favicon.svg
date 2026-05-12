@@ -1,0 +1,46 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="portalFaviconBg" x1="16" y1="16" x2="240" y2="240" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#478ac1" />
+      <stop offset="1" stop-color="#5bc7d5" />
+    </linearGradient>
+    <linearGradient id="portalFaviconRing" x1="80" y1="50" x2="186" y2="192" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EAFBFF" />
+      <stop offset="0.4" stop-color="#9EDBFF" />
+      <stop offset="0.78" stop-color="#5EA8F1" />
+      <stop offset="1" stop-color="#8190FF" />
+    </linearGradient>
+    <radialGradient
+      id="portalFaviconCore"
+      cx="0"
+      cy="0"
+      r="1"
+      gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(126 126) rotate(90) scale(27 27)"
+    >
+      <stop stop-color="#FFFFFF" />
+      <stop offset="0.7" stop-color="#EAFBFF" />
+      <stop offset="1" stop-color="#B6E8FF" />
+    </radialGradient>
+  </defs>
+
+  <rect x="12" y="12" width="232" height="232" rx="56" fill="url(#portalFaviconBg)" />
+
+  <path
+    d="M128 54C161 54 189 65 207 84C219 97 226 113 228 130C229 139 222 147 212 147C202 147 194 140 191 131C188 119 182 109 173 101C161 90 145 85 127 85C104 85 85 93 72 108C60 123 55 142 59 160C64 178 76 193 93 201C111 210 132 210 150 201C159 197 169 198 176 205C182 212 182 223 175 230C161 242 130 248 102 238C76 228 55 208 45 182C34 156 35 126 49 102C65 71 94 54 128 54Z"
+    fill="url(#portalFaviconRing)"
+  />
+  <path
+    d="M191 85C203 87 212 96 215 107C218 116 214 125 206 130C198 134 189 132 184 126C178 119 179 109 182 100C184 94 186 89 191 85Z"
+    fill="#EAFBFF"
+  />
+
+  <circle cx="126" cy="126" r="22" fill="url(#portalFaviconCore)" />
+  <path
+    d="M126 99C129 111 136 118 148 121C136 124 129 131 126 143C123 131 116 124 104 121C116 118 123 111 126 99Z"
+    fill="#FFFFFF"
+  />
+
+  <circle cx="72" cy="83" r="4" fill="#EAFBFF" />
+  <circle cx="192" cy="164" r="3.5" fill="#DDF6FF" />
+</svg>

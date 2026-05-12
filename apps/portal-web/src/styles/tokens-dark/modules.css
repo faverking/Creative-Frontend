@@ -1,0 +1,196 @@
+html.dark {
+  /* Article Listing Tokens */
+  --home-article-cover-art: linear-gradient(180deg, rgba(8, 18, 38, 0.18), rgba(8, 18, 38, 0.46));
+  --home-article-thumb-bg: linear-gradient(180deg, rgba(8, 18, 38, 0.08), rgba(8, 18, 38, 0.28));
+  --home-article-list-surface: linear-gradient(
+    180deg,
+    rgba(22, 43, 76, 0.56),
+    rgba(12, 25, 49, 0.4)
+  );
+  --home-article-module-surface:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.008)),
+    var(--home-article-list-surface);
+  --home-article-module-border: rgba(182, 224, 255, 0.1);
+  --home-article-module-divider: rgba(182, 224, 255, 0.14);
+  --home-article-module-divider-strong: rgba(121, 225, 255, 0.2);
+  --home-article-module-meta-icon-ink: color-mix(
+    in srgb,
+    var(--home-business-article-accent) 72%,
+    white 28%
+  );
+  --home-article-item-inset-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  --home-article-time-bg: rgba(164, 216, 255, 0.09);
+  --home-article-time-border: rgba(182, 224, 255, 0.11);
+  --home-article-time-ink: #c4dcef;
+  /* Shared Gallery Presentation Tokens */
+  --home-gallery-tile-bg: linear-gradient(180deg, rgba(8, 18, 38, 0.08), rgba(8, 18, 38, 0.24));
+  --home-gallery-stack-bg: linear-gradient(180deg, rgba(36, 66, 106, 0.88), rgba(14, 29, 54, 0.64));
+  --home-gallery-stack-border: rgba(182, 224, 255, 0.22);
+  --home-gallery-stack-shadow: 0 18px 34px rgba(0, 0, 0, 0.3);
+  --home-gallery-badge-bg: rgba(18, 37, 69, 0.84);
+  --home-gallery-badge-border: rgba(182, 224, 255, 0.14);
+  --home-gallery-badge-ink: color-mix(in srgb, var(--home-business-gallery-accent) 88%, white 12%);
+  /* Public Module Control Tokens */
+  --portal-module-filter-bg:
+    linear-gradient(180deg, rgba(23, 45, 76, 0.5), rgba(10, 22, 42, 0.34)),
+    color-mix(in srgb, var(--home-detail-panel-bg) 86%, rgba(9, 18, 34, 0.94) 14%);
+  --portal-module-filter-border: color-mix(
+    in srgb,
+    var(--home-detail-panel-border) 84%,
+    rgba(182, 224, 255, 0.08) 16%
+  );
+  --portal-module-filter-shadow:
+    0 8px 14px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --portal-module-filter-search-bg: color-mix(
+    in srgb,
+    var(--home-detail-card-bg) 74%,
+    rgba(11, 24, 46, 0.36) 26%
+  );
+  --portal-module-filter-search-border: color-mix(
+    in srgb,
+    var(--home-detail-card-border) 78%,
+    rgba(182, 224, 255, 0.08) 22%
+  );
+  --portal-module-filter-input-bg: rgba(14, 30, 53, 0.74);
+  --portal-module-filter-input-border: color-mix(
+    in srgb,
+    var(--home-detail-card-border) 78%,
+    rgba(182, 224, 255, 0.12) 22%
+  );
+  --portal-module-filter-button-bg: var(--home-detail-card-bg);
+  --portal-module-filter-button-border: var(--home-detail-card-border);
+  --portal-module-filter-button-ink: color-mix(
+    in srgb,
+    var(--home-detail-glass-ink) 88%,
+    transparent
+  );
+  --portal-module-filter-button-primary-bg: var(--home-detail-glass-bg-emphasis);
+  --portal-module-filter-button-primary-border: var(--home-feature-ribbon-border);
+  --portal-module-filter-sort-ink: color-mix(in srgb, var(--home-muted) 88%, transparent);
+  --portal-module-filter-category-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --portal-module-filter-category-hover-shadow:
+    0 6px 10px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --portal-module-filter-category-active-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 8px 12px rgba(0, 0, 0, 0.14);
+  --portal-module-filter-category-neutral-bg: rgba(42, 62, 84, 0.84);
+  --portal-module-filter-category-neutral-border: rgba(138, 176, 207, 0.42);
+  --portal-module-filter-category-neutral-accent: rgba(182, 219, 245, 0.84);
+  --portal-module-filter-category-amber-bg: rgba(91, 56, 42, 0.84);
+  --portal-module-filter-category-amber-border: rgba(208, 151, 120, 0.44);
+  --portal-module-filter-category-amber-accent: rgba(255, 197, 168, 0.88);
+  --portal-module-filter-category-pink-bg: rgba(82, 48, 70, 0.84);
+  --portal-module-filter-category-pink-border: rgba(203, 141, 170, 0.44);
+  --portal-module-filter-category-pink-accent: rgba(255, 201, 227, 0.88);
+  --portal-module-filter-category-blue-bg: rgba(43, 72, 94, 0.86);
+  --portal-module-filter-category-blue-border: rgba(128, 187, 226, 0.44);
+  --portal-module-filter-category-blue-accent: rgba(181, 232, 255, 0.88);
+  --portal-module-filter-category-mint-bg: rgba(40, 78, 68, 0.84);
+  --portal-module-filter-category-mint-border: rgba(120, 192, 164, 0.44);
+  --portal-module-filter-category-mint-accent: rgba(184, 236, 214, 0.88);
+  --portal-module-filter-category-violet-bg: rgba(52, 58, 98, 0.84);
+  --portal-module-filter-category-violet-border: rgba(147, 157, 220, 0.44);
+  --portal-module-filter-category-violet-accent: rgba(214, 220, 255, 0.9);
+  --portal-module-filter-tone-neutral-accent: var(--portal-module-filter-category-neutral-accent);
+  --portal-module-filter-tone-amber-accent: var(--portal-module-filter-category-amber-accent);
+  --portal-module-filter-tone-pink-accent: var(--portal-module-filter-category-pink-accent);
+  --portal-module-filter-tone-blue-accent: var(--portal-module-filter-category-blue-accent);
+  --portal-module-filter-tone-mint-accent: var(--portal-module-filter-category-mint-accent);
+  --portal-module-filter-tone-violet-accent: var(--portal-module-filter-category-violet-accent);
+  --portal-module-filter-star-ink: color-mix(in srgb, var(--portal-accent-cyan) 74%, white 26%);
+  --portal-module-filter-star-outline: color-mix(in srgb, white 38%, var(--portal-accent-cyan) 62%);
+  --portal-module-filter-star-inner-line: color-mix(
+    in srgb,
+    white 52%,
+    var(--portal-accent-cyan) 48%
+  );
+  --portal-module-filter-star-fill-mid: color-mix(
+    in srgb,
+    white 58%,
+    var(--portal-accent-cyan) 42%
+  );
+  --portal-module-filter-star-fill-core: color-mix(
+    in srgb,
+    white 76%,
+    var(--portal-accent-cyan) 24%
+  );
+  --portal-module-filter-star-fill-highlight: rgba(255, 255, 255, 0.9);
+  --portal-module-filter-star-shadow: 0 8px 16px
+    color-mix(in srgb, var(--portal-accent-cyan) 22%, transparent);
+  /* Gallery Listing Tokens */
+  /* Page State */
+  --gallery-module-page-refreshing-opacity: 0.72;
+  /* Card Presentation */
+  --gallery-module-card-stack-shadow: 0 14px 22px rgba(0, 0, 0, 0.22);
+  --gallery-module-card-stack-mark-shadow: 0 10px 18px rgba(0, 0, 0, 0.22);
+  --gallery-module-card-meta-bg: color-mix(
+    in srgb,
+    var(--home-gallery-badge-bg) 88%,
+    rgba(11, 24, 46, 0.12)
+  );
+  --gallery-module-card-meta-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --gallery-module-card-corner-border: rgba(255, 255, 255, 0.22);
+  --gallery-module-card-overlay:
+    linear-gradient(180deg, rgba(8, 18, 38, 0.16) 0%, rgba(8, 18, 38, 0.04) 34%, transparent 54%),
+    linear-gradient(180deg, transparent 40%, rgba(8, 18, 38, 0.18) 100%);
+  --gallery-module-card-divider: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--home-detail-card-border) 62%, transparent) 16%,
+    color-mix(in srgb, var(--home-feature-ribbon-border) 24%, var(--home-detail-card-border) 76%)
+      50%,
+    color-mix(in srgb, var(--home-detail-card-border) 62%, transparent) 84%,
+    transparent 100%
+  );
+  --gallery-module-card-divider-opacity: 0.82;
+  /* Topic Listing Tokens */
+  --home-column-cover-blue-bg: linear-gradient(
+    135deg,
+    rgba(121, 225, 255, 0.96),
+    rgba(122, 132, 246, 0.76)
+  );
+  --home-column-cover-iris-bg: linear-gradient(
+    135deg,
+    rgba(160, 176, 255, 0.92),
+    rgba(121, 225, 255, 0.66)
+  );
+  --home-column-cover-gold-bg: linear-gradient(
+    135deg,
+    rgba(255, 225, 154, 0.92),
+    rgba(108, 203, 255, 0.66)
+  );
+  --home-column-module-surface:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.008)),
+    var(--home-article-list-surface);
+  --home-column-module-border: rgba(182, 224, 255, 0.11);
+  --home-column-module-divider: rgba(182, 224, 255, 0.15);
+  --home-column-module-divider-strong: color-mix(
+    in srgb,
+    var(--home-business-topic-accent) 24%,
+    rgba(182, 224, 255, 0.15)
+  );
+  --home-column-module-eyebrow-ink: color-mix(
+    in srgb,
+    var(--home-business-topic-accent) 42%,
+    var(--home-muted) 58%
+  );
+  --home-column-module-meta-icon-ink: color-mix(
+    in srgb,
+    var(--home-business-topic-accent) 72%,
+    white 28%
+  );
+  --home-column-media-width: 90px;
+  --home-column-media-height: 112px;
+  --home-column-media-radius: 26px;
+  --home-column-media-overlay: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0)
+  );
+  --home-column-clip-bg: linear-gradient(180deg, rgba(28, 53, 88, 0.94), rgba(12, 25, 49, 0.92));
+  --home-column-clip-border: rgba(182, 224, 255, 0.16);
+  --home-column-clip-ink: rgba(223, 239, 255, 0.58);
+  --home-column-clip-highlight: rgba(255, 255, 255, 0.16);
+  --home-column-clip-shadow: 0 12px 20px rgba(0, 0, 0, 0.28);
+}

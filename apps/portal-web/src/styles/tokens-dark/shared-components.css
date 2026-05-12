@@ -1,0 +1,185 @@
+html.dark .auth-dialog__qr-shell {
+  --portal-qr-shell-bg:
+    linear-gradient(180deg, rgba(19, 40, 71, 0.92), rgba(10, 24, 46, 0.9)),
+    radial-gradient(circle at 18% 16%, rgba(121, 225, 255, 0.18), transparent 36%);
+  --portal-qr-shell-border: rgba(182, 224, 255, 0.16);
+  --portal-qr-shell-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 20px 36px rgba(0, 0, 0, 0.28);
+  --portal-qr-frame-start: #294a73;
+  --portal-qr-frame-end: #152d49;
+  --portal-qr-device-fill: #102846;
+  --portal-qr-device-stroke: rgba(182, 224, 255, 0.22);
+  --portal-qr-device-detail: rgba(164, 216, 255, 0.3);
+  --portal-qr-screen-start: #24476d;
+  --portal-qr-screen-end: #132a49;
+  --portal-qr-screen-band: #eef9ff;
+  --portal-qr-code-bg: #f3fbff;
+  --portal-qr-code-module: #16345f;
+  --portal-qr-code-accent: #79e1ff;
+  --portal-qr-wave: #bfe4ff;
+  --portal-qr-badge-start: #8ce8ff;
+  --portal-qr-badge-mid: #7a84f6;
+  --portal-qr-badge-end: #9fd6ff;
+  --portal-qr-badge-mark: #f5fbff;
+  --portal-qr-cloud: #2a4d72;
+  --portal-qr-bubble-fill: #dff4ff;
+  --portal-qr-bubble-stroke: #9fd6ff;
+  --portal-qr-shadow: rgba(0, 0, 0, 0.28);
+}
+html.dark .auth-dialog__alert {
+  --portal-auth-alert-border: rgba(255, 153, 191, 0.26);
+  --portal-auth-alert-bg: linear-gradient(180deg, rgba(84, 26, 48, 0.94), rgba(47, 14, 28, 0.96));
+  --portal-auth-alert-title: #ffe5ee;
+  --portal-auth-alert-description: #ffd3e1;
+  --portal-auth-alert-icon: #ff9dbf;
+  --portal-auth-alert-shadow: 0 18px 34px rgba(0, 0, 0, 0.26);
+}
+html.dark .el-message.el-message--error {
+  --el-message-bg-color: rgba(47, 14, 28, 0.96);
+  --el-message-border-color: rgba(255, 153, 191, 0.24);
+  background:
+    linear-gradient(180deg, rgba(84, 26, 48, 0.96), rgba(47, 14, 28, 0.98)), rgba(36, 10, 22, 0.94);
+  border-color: rgba(255, 153, 191, 0.24);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.28);
+}
+html.dark .el-message.el-message--error :is(.el-message__content, .el-message__icon) {
+  color: #ffe5ee;
+}
+html.dark .el-popover.el-popper:has(.el-popconfirm) {
+  background:
+    linear-gradient(180deg, rgba(24, 47, 80, 0.94), rgba(11, 24, 46, 0.96)),
+    rgba(11, 24, 46, 0.92);
+  border-color: rgba(182, 224, 255, 0.16);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.28);
+}
+html.dark .el-popover.el-popper:has(.el-popconfirm) .el-popper__arrow::before {
+  background:
+    linear-gradient(180deg, rgba(24, 47, 80, 0.94), rgba(11, 24, 46, 0.96)),
+    rgba(11, 24, 46, 0.92);
+  border-color: rgba(182, 224, 255, 0.16);
+}
+html.dark .el-popconfirm .el-popconfirm__main {
+  color: #eef8ff;
+}
+html.dark .el-popconfirm .el-button--default {
+  --el-button-bg-color: rgba(16, 34, 60, 0.84);
+  --el-button-border-color: rgba(182, 224, 255, 0.18);
+  --el-button-text-color: #d6ebff;
+}
+html.dark .el-popconfirm .el-button--primary {
+  --el-button-bg-color: rgba(121, 225, 255, 0.18);
+  --el-button-border-color: rgba(164, 216, 255, 0.24);
+  --el-button-text-color: #f5fbff;
+}
+html.dark .portal-toolbar-shell {
+  --toolbar-text: rgba(234, 247, 255, 0.76);
+  --toolbar-text-strong: #f5fbff;
+  --toolbar-highlight: #79e1ff;
+  --toolbar-line: linear-gradient(
+    180deg,
+    rgba(121, 225, 255, 0),
+    rgba(121, 225, 255, 0.28),
+    rgba(122, 132, 246, 0.2),
+    rgba(121, 225, 255, 0)
+  );
+  --toolbar-edge-line: linear-gradient(
+    90deg,
+    rgba(121, 225, 255, 0),
+    rgba(121, 225, 255, 0.28),
+    rgba(122, 132, 246, 0.22),
+    rgba(121, 225, 255, 0)
+  );
+  --toolbar-panel-border: rgba(182, 224, 255, 0.12);
+  --toolbar-nav-glow:
+    radial-gradient(circle at 22% 0%, rgba(121, 225, 255, 0.16), transparent 28%),
+    radial-gradient(circle at 78% 16%, rgba(122, 132, 246, 0.16), transparent 22%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+  --toolbar-brand-glow:
+    radial-gradient(circle at 18% 0%, rgba(121, 225, 255, 0.13), transparent 24%),
+    radial-gradient(circle at 74% 14%, rgba(122, 132, 246, 0.11), transparent 24%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
+  --toolbar-panel-brand-bg: linear-gradient(180deg, rgba(10, 21, 41, 0.62), rgba(14, 29, 54, 0.84));
+  --toolbar-panel-nav-bg: linear-gradient(180deg, rgba(13, 27, 51, 0.82), rgba(9, 19, 37, 0.9));
+  --toolbar-panel-shadow: 0 14px 30px rgba(0, 0, 0, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --toolbar-item-border: rgba(182, 224, 255, 0);
+  --toolbar-item-hover-border: rgba(182, 224, 255, 0.2);
+  --toolbar-item-hover-bg: linear-gradient(180deg, rgba(28, 54, 91, 0.7), rgba(15, 30, 56, 0.42));
+  --toolbar-item-hover-shadow:
+    0 14px 24px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --toolbar-primary-link-active-shadow:
+    0 -4px 8px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --toolbar-item-accent-bg: linear-gradient(180deg, rgba(24, 47, 80, 0.82), rgba(14, 29, 54, 0.68));
+  --toolbar-item-accent-border: rgba(121, 225, 255, 0.18);
+  --toolbar-item-accent-shadow:
+    0 12px 20px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --toolbar-item-cta-bg: linear-gradient(
+    135deg,
+    rgba(121, 225, 255, 0.18),
+    rgba(122, 132, 246, 0.18)
+  );
+  --toolbar-item-cta-border: rgba(164, 216, 255, 0.22);
+  --toolbar-item-cta-shadow:
+    0 14px 24px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --toolbar-item-line: linear-gradient(
+    90deg,
+    rgba(121, 225, 255, 0),
+    rgba(121, 225, 255, 0.96),
+    rgba(217, 221, 255, 0.86),
+    rgba(121, 225, 255, 0)
+  );
+  --toolbar-indicator-bg: #ff9dc7;
+  --toolbar-indicator-ring: rgba(11, 24, 46, 0.94);
+  --toolbar-indicator-glow: rgba(255, 157, 199, 0.42);
+}
+html.dark .theme-switch {
+  --switch-track-bg: linear-gradient(135deg, rgba(11, 24, 46, 0.94), rgba(19, 40, 74, 0.84));
+  --switch-track-border: rgba(182, 224, 255, 0.18);
+  --switch-thumb-bg: linear-gradient(135deg, rgba(244, 249, 255, 0.98), rgba(172, 221, 255, 0.92));
+  --switch-thumb-shadow: 0 6px 14px rgba(0, 0, 0, 0.24);
+  --switch-light: rgba(121, 225, 255, 0.78);
+  --switch-dark: #eaf7ff;
+}
+html.dark .theme-switch__track {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 8px 16px rgba(0, 0, 0, 0.2);
+}
+html.dark .theme-switch:hover .theme-switch__track {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 10px 20px rgba(0, 0, 0, 0.24);
+}
+html.dark {
+  /* Request Boundary Tokens */
+  --portal-request-state-bg:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0) 32%),
+    linear-gradient(180deg, rgba(18, 37, 69, 0.8), rgba(12, 25, 49, 0.84));
+  --portal-request-state-border: rgba(182, 224, 255, 0.14);
+  --portal-request-state-shadow:
+    0 18px 32px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  --portal-request-state-message-ink: #d6ebff;
+  --portal-request-state-message-size: 14px;
+  --portal-request-state-message-weight: 600;
+  --portal-request-state-primary-bg: rgba(24, 47, 80, 0.52);
+  --portal-request-state-primary-border: rgba(182, 224, 255, 0.14);
+  --portal-request-state-primary-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --portal-request-state-primary-ink: #eef8ff;
+  --portal-request-state-primary-hover-bg: rgba(29, 56, 94, 0.66);
+  --portal-request-state-primary-hover-border: rgba(182, 224, 255, 0.2);
+  --portal-request-state-primary-hover-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  --portal-request-state-secondary-bg: transparent;
+  --portal-request-state-secondary-border: transparent;
+  --portal-request-state-secondary-ink: #aac9e9;
+  --portal-request-state-secondary-hover-ink: #dcf0ff;
+  /* Shared Skeleton Tokens */
+  --home-skeleton-block: rgba(108, 150, 192, 0.2);
+  --home-skeleton-block-strong: rgba(132, 192, 234, 0.28);
+  --home-skeleton-border: rgba(182, 224, 255, 0.12);
+  --home-skeleton-highlight: rgba(255, 255, 255, 0.12);
+  --home-skeleton-shimmer: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(121, 225, 255, 0.18) 48%,
+    transparent 100%
+  );
+}

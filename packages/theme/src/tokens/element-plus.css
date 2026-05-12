@@ -1,0 +1,7 @@
+:root,
+html.dark {
+  --el-color-primary: var(--app-color-primary);
+  --el-bg-color: var(--app-bg-color);
+  --el-text-color-primary: var(--app-text-color);
+  --el-border-color: var(--app-border-color);
+}

@@ -1,0 +1,13 @@
+{
+    "extends":  "../../tsconfig.base.json",
+    "compilerOptions":  {
+
+                        },
+    "include":  [
+                    "index.ts",
+                    "api/**/*.ts",
+                    "components/**/*.ts",
+                    "composables/**/*.ts",
+                    "adapter/**/*.ts"
+                ]
+}

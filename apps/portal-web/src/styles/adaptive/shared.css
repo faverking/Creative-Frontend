@@ -1,0 +1,30 @@
+:root {
+  --portal-stage-padding-inline: 24px;
+  --portal-stage-padding-top: 18px;
+  --portal-stage-padding-bottom: 40px;
+  --portal-boundary-panel-padding-block: 18px;
+  --portal-boundary-panel-padding-inline: 20px;
+  --portal-home-stage-padding-inline: 0px;
+
+  --portal-module-gap: 16px;
+  --portal-article-module-grid-columns: 2;
+  --portal-book-module-grid-columns: 2;
+  --portal-topic-module-list-columns: 1;
+  --portal-topic-module-media-width: 212px;
+  --portal-topic-module-media-height: 152px;
+  --portal-gallery-module-column-count: 5;
+  --portal-gallery-module-column-gap: 18px;
+
+  --portal-detail-stage-gap: 18px;
+  --portal-detail-stage-max-width: 1360px;
+  --portal-gallery-detail-stage-max-width: calc(var(--portal-detail-stage-max-width) + 40px);
+  --portal-detail-layout-columns: minmax(0, 1.8fr) minmax(274px, 302px);
+  --portal-detail-sticky-top: 20px;
+
+  --portal-workspace-stage-max-width: 1460px;
+  --portal-workspace-stage-gap: 24px;
+  --portal-workspace-layout-columns: minmax(0, 1fr) 320px;
+  --portal-workspace-layout-gap: 26px;
+  --portal-workspace-toolbar-top: 82px;
+  --portal-workspace-sidebar-top: 152px;
+}

@@ -1,0 +1,36 @@
+:root[data-viewport-tier='compact'] {
+  --portal-stage-padding-inline: 18px;
+  --portal-stage-padding-bottom: 36px;
+  --portal-home-stage-padding-inline: 12px;
+
+  --portal-browse-stage-max-width: 1380px;
+  --home-section-gap-x: 28px;
+  --home-section-gap-y: 44px;
+  --home-main-col: minmax(0, 2.04fr);
+  --home-side-col: minmax(300px, 0.96fr);
+  --home-middle-main-col: minmax(0, 1.58fr);
+  --home-middle-side-col: minmax(304px, 0.92fr);
+  --home-article-feature-col: minmax(0, 1.08fr);
+  --home-article-list-col: minmax(272px, 0.92fr);
+  --home-bottom-side-col: minmax(304px, 0.94fr);
+  --home-bottom-main-col: minmax(0, 1.46fr);
+
+  --portal-module-gap: 14px;
+  --portal-article-module-grid-columns: 1;
+  --portal-book-module-grid-columns: 1;
+  --portal-topic-module-media-width: 188px;
+  --portal-topic-module-media-height: 140px;
+  --portal-gallery-module-column-count: 4;
+  --portal-gallery-module-column-gap: 16px;
+
+  --portal-detail-stage-max-width: 1320px;
+  --portal-detail-layout-columns: minmax(0, 1.72fr) minmax(250px, 286px);
+  --portal-detail-sticky-top: 18px;
+
+  --portal-workspace-stage-max-width: 1380px;
+  --portal-workspace-stage-gap: 22px;
+  --portal-workspace-layout-columns: minmax(0, 1fr) 300px;
+  --portal-workspace-layout-gap: 24px;
+  --portal-workspace-toolbar-top: 78px;
+  --portal-workspace-sidebar-top: 144px;
+}

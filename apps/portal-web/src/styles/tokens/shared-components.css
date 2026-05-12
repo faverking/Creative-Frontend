@@ -1,0 +1,119 @@
+:root {
+  /* Request Boundary Tokens */
+  --portal-request-state-bg:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0) 32%),
+    linear-gradient(180deg, rgba(244, 249, 255, 0.82), rgba(231, 240, 249, 0.74));
+  --portal-request-state-border: rgba(122, 160, 199, 0.18);
+  --portal-request-state-shadow:
+    0 14px 28px rgba(18, 41, 74, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.36);
+  --portal-request-state-message-ink: #4b6784;
+  --portal-request-state-message-size: 14px;
+  --portal-request-state-message-weight: 600;
+  --portal-request-state-primary-bg: rgba(245, 250, 255, 0.56);
+  --portal-request-state-primary-border: rgba(122, 160, 199, 0.14);
+  --portal-request-state-primary-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.38);
+  --portal-request-state-primary-ink: #294663;
+  --portal-request-state-primary-hover-bg: rgba(248, 252, 255, 0.72);
+  --portal-request-state-primary-hover-border: rgba(101, 153, 205, 0.2);
+  --portal-request-state-primary-hover-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
+  --portal-request-state-secondary-bg: transparent;
+  --portal-request-state-secondary-border: transparent;
+  --portal-request-state-secondary-ink: #6d87a2;
+  --portal-request-state-secondary-hover-ink: #4d6f93;
+  /* Shared Skeleton Tokens */
+  --home-skeleton-block: rgba(169, 196, 222, 0.3);
+  --home-skeleton-block-strong: rgba(136, 175, 211, 0.42);
+  --home-skeleton-border: rgba(122, 160, 199, 0.18);
+  --home-skeleton-highlight: rgba(255, 255, 255, 0.34);
+  --home-skeleton-title-22-height: calc(var(--home-font-size-title-hero) * 0.9);
+  --home-skeleton-title-20-height: calc(var(--home-font-size-title-lg) * 0.9);
+  --home-skeleton-title-18-height: calc(var(--home-font-size-title-md) * 0.833);
+  --home-skeleton-title-16-height: calc(var(--home-font-size-title-sm) * 0.875);
+  --home-skeleton-copy-14-height: calc(var(--home-font-size-body-lg) * 1);
+  --home-skeleton-copy-12-height: 12px;
+  --home-skeleton-copy-13-height: calc(var(--home-font-size-body-md) * 0.923);
+  --home-skeleton-shimmer: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.34) 48%,
+    transparent 100%
+  );
+}
+
+.portal-toolbar-shell {
+  --toolbar-text: rgba(29, 55, 84, 0.76);
+  --toolbar-text-strong: var(--portal-ink-strong);
+  --toolbar-highlight: var(--portal-primary-strong);
+  --toolbar-line: linear-gradient(
+    180deg,
+    rgba(123, 158, 199, 0),
+    rgba(123, 158, 199, 0.34),
+    rgba(152, 164, 255, 0.22),
+    rgba(123, 158, 199, 0)
+  );
+  --toolbar-edge-line: linear-gradient(
+    90deg,
+    rgba(105, 212, 255, 0),
+    rgba(105, 212, 255, 0.34),
+    rgba(152, 164, 255, 0.24),
+    rgba(105, 212, 255, 0)
+  );
+  --toolbar-panel-border: rgba(120, 157, 198, 0.24);
+  --toolbar-nav-glow:
+    radial-gradient(circle at 18% 0%, rgba(105, 212, 255, 0.13), transparent 24%),
+    radial-gradient(circle at 82% 18%, rgba(152, 164, 255, 0.1), transparent 22%),
+    linear-gradient(180deg, var(--portal-surface-top-soft), rgba(255, 255, 255, 0));
+  --toolbar-brand-glow:
+    radial-gradient(circle at 18% 0%, rgba(105, 212, 255, 0.11), transparent 24%),
+    radial-gradient(circle at 76% 16%, rgba(152, 164, 255, 0.09), transparent 24%),
+    linear-gradient(180deg, var(--portal-surface-top-soft), rgba(255, 255, 255, 0));
+  --toolbar-panel-brand-bg: linear-gradient(
+    180deg,
+    rgba(249, 253, 255, 0.84),
+    rgba(228, 237, 249, 0.72)
+  );
+  --toolbar-panel-nav-bg: linear-gradient(
+    180deg,
+    rgba(249, 253, 255, 0.84),
+    rgba(227, 237, 249, 0.72)
+  );
+  --toolbar-panel-shadow:
+    0 16px 32px rgba(18, 41, 74, 0.08), inset 0 1px 0 var(--portal-surface-top);
+  --toolbar-item-border: rgba(135, 171, 210, 0);
+  --toolbar-item-hover-border: rgba(135, 171, 210, 0.24);
+  --toolbar-item-hover-bg: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.54),
+    rgba(236, 244, 252, 0.28)
+  );
+  --toolbar-item-hover-shadow:
+    0 12px 20px rgba(18, 41, 74, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.48);
+  --toolbar-primary-link-active-shadow:
+    0 -4px 8px rgba(41, 78, 128, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.56);
+  --toolbar-item-accent-bg: linear-gradient(
+    180deg,
+    rgba(247, 252, 255, 0.82),
+    rgba(230, 239, 249, 0.72)
+  );
+  --toolbar-item-accent-border: rgba(135, 171, 210, 0.26);
+  --toolbar-item-accent-shadow:
+    0 10px 18px rgba(18, 41, 74, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.54);
+  --toolbar-item-cta-bg: linear-gradient(
+    135deg,
+    rgba(121, 225, 255, 0.2),
+    rgba(152, 164, 255, 0.18)
+  );
+  --toolbar-item-cta-border: rgba(136, 175, 226, 0.34);
+  --toolbar-item-cta-shadow:
+    0 14px 22px rgba(58, 97, 156, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.52);
+  --toolbar-item-line: linear-gradient(
+    90deg,
+    rgba(105, 212, 255, 0),
+    rgba(105, 212, 255, 0.92),
+    rgba(152, 164, 255, 0.82),
+    rgba(105, 212, 255, 0)
+  );
+  --toolbar-indicator-bg: #ff9ecf;
+  --toolbar-indicator-ring: rgba(245, 250, 255, 0.96);
+  --toolbar-indicator-glow: rgba(255, 158, 207, 0.32);
+}

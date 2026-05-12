@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["vite/client"],
+    "paths": {
+      "@frontend/ui": ["./packages/ui/src/index.ts"],
+      "@frontend/theme": ["./packages/theme/src/index.ts"],
+      "@frontend/types": ["./packages/types/src/index.ts"],
+      "@frontend/constants": ["./packages/constants/src/index.ts"],
+      "@frontend/composables": ["./packages/composables/src/index.ts"],
+      "@frontend/request": ["./packages/request/src/index.ts"],
+      "@frontend/store": ["./packages/store/src/index.ts"],
+      "@frontend/config": ["./packages/config/src/index.ts"],
+      "@frontend/app-runtime": ["./packages/app-runtime/src/index.ts"],
+      "@frontend/login-sdk": ["./packages/login-sdk/index.ts"],
+      "@frontend/permission-sdk": ["./packages/permission-sdk/index.ts"],
+      "@frontend/tracking-sdk": ["./packages/tracking-sdk/index.ts"],
+      "@frontend/monitor-sdk": ["./packages/monitor-sdk/index.ts"],
+      "@frontend/ai-sdk": ["./packages/ai-sdk/index.ts"],
+      "@frontend/eslint-config": ["./packages/eslint-config/index.js"],
+      "@frontend/vitest-config": ["./packages/vitest-config/index.d.ts"],
+      "@frontend/vitest-config/node-package": ["./packages/vitest-config/node-package.d.ts"],
+      "@frontend/vitest-config/vue-app": ["./packages/vitest-config/vue-app.d.ts"]
+    }
+  }
+}

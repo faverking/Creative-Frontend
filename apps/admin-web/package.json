@@ -1,0 +1,36 @@
+{
+  "name": "admin-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "format": "prettier --write \"src/**/*.{ts,tsx,vue}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,tsx,vue}\"",
+    "lint": "eslint \"src/**/*.{ts,tsx,vue}\" --max-warnings=0 --no-error-on-unmatched-pattern",
+    "typecheck": "vue-tsc --noEmit",
+    "test": "vitest run --passWithNoTests"
+  },
+  "dependencies": {
+    "@frontend/ai-sdk": "workspace:*",
+    "@frontend/app-runtime": "workspace:*",
+    "@frontend/config": "workspace:*",
+    "@frontend/login-sdk": "workspace:*",
+    "@frontend/monitor-sdk": "workspace:*",
+    "@frontend/permission-sdk": "workspace:*",
+    "@frontend/request": "workspace:*",
+    "@frontend/store": "workspace:*",
+    "@frontend/theme": "workspace:*",
+    "@frontend/tracking-sdk": "workspace:*",
+    "@frontend/ui": "workspace:*",
+    "@vueuse/core": "^13.1.0",
+    "axios": "^1.13.6",
+    "echarts": "^5.6.0",
+    "element-plus": "^2.9.11",
+    "pinia": "^2.3.1",
+    "quill": "^2.0.3",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
+  }
+}

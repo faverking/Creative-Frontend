@@ -1,0 +1,139 @@
+/* Token layers */
+@import './tokens/foundation.css';
+@import './tokens/shared-components.css';
+@import './tokens/home.css';
+@import './tokens/public-detail.css';
+@import './tokens/modules.css';
+@import './tokens/workspace.css';
+
+/* Theme overrides */
+@import './tokens-dark/foundation.css';
+@import './tokens-dark/shared-components.css';
+@import './tokens-dark/home.css';
+@import './tokens-dark/public-detail.css';
+@import './tokens-dark/modules.css';
+@import './tokens-dark/workspace.css';
+
+/* Viewport adaptive layout */
+@import './adaptive/shared.css';
+@import './adaptive/compact.css';
+@import './adaptive/standard.css';
+@import './adaptive/wide.css';
+
+/* Shared behavior layers */
+@import './home-motion.css';
+
+html,
+body,
+#app {
+  min-height: 100%;
+  margin: 0;
+}
+
+html {
+  font-family: var(--app-font-family);
+  scrollbar-color: var(--portal-scrollbar-thumb-solid) var(--portal-scrollbar-track-solid);
+  scrollbar-width: thin;
+}
+
+body {
+  color: var(--portal-ink);
+  font-family: var(--app-font-family);
+  line-height: 1.6;
+  background: var(--portal-page-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  scrollbar-color: var(--portal-scrollbar-thumb-solid) var(--portal-scrollbar-track-solid);
+  scrollbar-width: thin;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--portal-scrollbar-track-bg);
+}
+
+*::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: var(--portal-scrollbar-thumb-bg);
+  background-clip: padding-box;
+  box-shadow: inset 0 0 0 1px var(--portal-scrollbar-thumb-border);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--portal-scrollbar-thumb-hover-bg);
+  background-clip: padding-box;
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+ul {
+  margin: 0;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.portal-link-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: block;
+  border-radius: inherit;
+  color: inherit;
+  text-decoration: none;
+}
+
+.portal-link-layer:focus-visible {
+  outline: none;
+}
+
+.portal-interactive-surface {
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease,
+    filter 180ms ease;
+}
+
+.portal-interactive-surface:hover,
+.portal-interactive-surface:focus-within {
+  transform: var(--portal-interactive-hover-transform, none);
+  border-color: var(--portal-interactive-hover-border);
+  box-shadow: var(--portal-interactive-hover-shadow);
+  background: var(--portal-interactive-hover-background);
+  filter: var(--portal-interactive-hover-filter, none);
+}

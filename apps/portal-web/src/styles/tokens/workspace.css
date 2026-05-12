@@ -1,0 +1,65 @@
+:root {
+  /* Workspace Surface Tokens */
+  --workspace-messages-accent: var(--home-business-article-accent);
+  --workspace-messages-accent-soft: var(--home-business-article-accent-soft);
+  --workspace-favorites-accent: var(--home-business-bookshelf-accent);
+  --workspace-favorites-accent-soft: var(--home-business-bookshelf-accent-soft);
+  --workspace-history-accent: var(--home-business-topic-accent);
+  --workspace-history-accent-soft: var(--home-business-topic-accent-soft);
+  --workspace-surface-base-bg:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(248, 251, 255, 0.18)),
+    color-mix(in srgb, var(--home-detail-panel-bg) 84%, white 16%);
+  --workspace-surface-base-border: color-mix(
+    in srgb,
+    var(--home-detail-panel-border) 82%,
+    white 18%
+  );
+  --workspace-surface-base-shadow:
+    0 4px 8px rgba(18, 41, 74, 0.024), 0 1px 3px rgba(18, 41, 74, 0.014),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  --workspace-card-base-bg:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.03)),
+    color-mix(in srgb, var(--home-detail-card-bg) 96%, white 4%);
+  --workspace-card-base-border: var(--portal-module-filter-border);
+  --workspace-card-base-shadow: var(--home-card-shadow);
+  --workspace-card-subtle-base-bg:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
+    color-mix(in srgb, var(--home-detail-card-bg) 72%, white 28%);
+  --workspace-media-base-bg:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.08)),
+    rgba(244, 249, 255, 0.78);
+  --workspace-media-base-border: rgba(122, 160, 199, 0.14);
+  --workspace-media-base-shadow:
+    0 8px 16px rgba(18, 41, 74, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  --workspace-media-base-ring: rgba(250, 252, 255, 0.92);
+  --workspace-chip-base-surface: rgba(255, 255, 255, 0.74);
+  --workspace-chip-active-gloss: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.94),
+    rgba(255, 255, 255, 0.78)
+  );
+  --workspace-control-bg: var(--portal-module-filter-button-bg);
+  --workspace-control-border: var(--portal-module-filter-button-border);
+  --workspace-control-ink: var(--portal-module-filter-button-ink);
+  --workspace-control-primary-bg: var(--portal-module-filter-button-primary-bg);
+  --workspace-control-primary-border: var(--portal-module-filter-button-primary-border);
+  --workspace-control-primary-ink: color-mix(in srgb, var(--portal-ink-strong) 88%, transparent);
+  --workspace-control-danger-bg: color-mix(in srgb, #db5b6b 10%, rgba(255, 255, 255, 0.82));
+  --workspace-control-danger-border: color-mix(in srgb, #db5b6b 28%, transparent);
+  --workspace-control-danger-ink: #b64353;
+  --workspace-input-bg: var(--portal-module-filter-input-bg);
+  --workspace-input-border: var(--portal-module-filter-input-border);
+  --workspace-card-padding: var(--home-card-padding-sm);
+  --workspace-section-gap: var(--home-card-gap-loose);
+  --workspace-action-stack-gap: var(--home-card-gap-base);
+  --workspace-action-column-width: 108px;
+  --workspace-action-column-min-height: 58px;
+  --workspace-action-button-height: 32px;
+  --workspace-action-button-padding-x: 12px;
+  --workspace-stage-top-space: var(--home-copy-gap-base);
+  --workspace-meta-divider: color-mix(in srgb, var(--home-line) 78%, transparent);
+  --workspace-meta-divider-gap: 10px;
+  --workspace-meta-divider-height: 10px;
+  --workspace-tab-text: var(--portal-muted);
+  --workspace-tab-text-active: var(--portal-ink-strong);
+}

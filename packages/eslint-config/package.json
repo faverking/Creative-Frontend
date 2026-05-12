@@ -1,0 +1,21 @@
+{
+  "name": "@frontend/eslint-config",
+  "version": "0.1.0",
+  "private": true,
+  "type": "commonjs",
+  "main": "index.js",
+  "peerDependencies": {
+    "@typescript-eslint/eslint-plugin": "^7.18.0",
+    "@typescript-eslint/parser": "^7.18.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-vue": "^9.32.0"
+  },
+  "scripts": {
+    "lint": "node -e \"console.log('eslint-config lint skipped')\"",
+    "typecheck": "node -e \"console.log('eslint-config typecheck skipped')\"",
+    "test": "vitest run --passWithNoTests",
+    "build": "node -e \"console.log('eslint-config build skipped')\""
+  }
+}

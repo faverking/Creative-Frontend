@@ -1,0 +1,270 @@
+:root {
+  /* Article Listing Tokens */
+  --home-article-cover-art: linear-gradient(180deg, rgba(8, 18, 38, 0.12), rgba(8, 18, 38, 0.38));
+  --home-article-thumb-bg: linear-gradient(180deg, rgba(8, 18, 38, 0.06), rgba(8, 18, 38, 0.2));
+  --home-article-list-surface: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.045),
+    rgba(255, 255, 255, 0.01)
+  );
+  --home-article-module-surface:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02)),
+    var(--home-article-list-surface);
+  --home-article-module-border: color-mix(
+    in srgb,
+    var(--home-detail-card-border) 62%,
+    transparent
+  );
+  --home-article-module-divider: color-mix(in srgb, var(--home-line) 78%, transparent);
+  --home-article-module-divider-strong: color-mix(
+    in srgb,
+    var(--home-business-article-accent) 22%,
+    var(--home-line) 78%
+  );
+  --home-article-module-meta-icon-ink: color-mix(
+    in srgb,
+    var(--home-business-article-accent) 82%,
+    var(--home-ink) 18%
+  );
+  --home-article-item-inset-shadow:
+    0 -4px 4px -6px rgba(18, 41, 74, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.52);
+  --home-article-time-bg: var(--home-feature-tag-soft-bg);
+  --home-article-time-border: var(--home-feature-tag-soft-border);
+  --home-article-time-ink: var(--home-feature-tag-soft-ink);
+  /* Shared Gallery Presentation Tokens */
+  --home-gallery-tile-bg: linear-gradient(180deg, rgba(8, 18, 38, 0.06), rgba(8, 18, 38, 0.18));
+  --home-gallery-stack-bg: linear-gradient(
+    180deg,
+    rgba(251, 254, 255, 0.82),
+    rgba(233, 240, 249, 0.5)
+  );
+  --home-gallery-stack-border: rgba(144, 176, 209, 0.24);
+  --home-gallery-stack-shadow: 0 12px 24px rgba(18, 41, 74, 0.1);
+  --home-gallery-badge-bg: rgba(251, 254, 255, 0.9);
+  --home-gallery-badge-border: rgba(144, 176, 209, 0.22);
+  --home-gallery-badge-ink: color-mix(
+    in srgb,
+    var(--home-business-gallery-accent) 84%,
+    var(--home-ink) 16%
+  );
+  /* Public Module Control Tokens */
+  --portal-module-filter-bg:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(248, 251, 255, 0.2)),
+    color-mix(in srgb, var(--home-detail-panel-bg) 86%, white 14%);
+  --portal-module-filter-border: color-mix(
+    in srgb,
+    var(--home-detail-panel-border) 82%,
+    white 18%
+  );
+  --portal-module-filter-shadow:
+    0 6px 10px rgba(18, 41, 74, 0.024), 0 2px 4px rgba(18, 41, 74, 0.014),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  --portal-module-filter-search-bg: color-mix(
+    in srgb,
+    var(--home-detail-card-bg) 74%,
+    rgba(255, 255, 255, 0.58) 26%
+  );
+  --portal-module-filter-search-border: color-mix(
+    in srgb,
+    var(--home-detail-card-border) 74%,
+    white 26%
+  );
+  --portal-module-filter-input-bg: rgba(255, 255, 255, 0.7);
+  --portal-module-filter-input-border: color-mix(
+    in srgb,
+    var(--home-detail-card-border) 64%,
+    rgba(255, 255, 255, 0.36)
+  );
+  --portal-module-filter-button-bg: color-mix(
+    in srgb,
+    var(--home-detail-card-bg) 84%,
+    rgba(255, 255, 255, 0.16)
+  );
+  --portal-module-filter-button-border: var(--home-detail-card-border);
+  --portal-module-filter-button-ink: color-mix(
+    in srgb,
+    var(--home-detail-glass-ink) 88%,
+    transparent
+  );
+  --portal-module-filter-button-primary-bg: var(--home-detail-glass-bg-emphasis);
+  --portal-module-filter-button-primary-border: var(--home-feature-ribbon-border);
+  --portal-module-filter-sort-ink: color-mix(in srgb, var(--home-muted) 84%, transparent);
+  --portal-module-filter-category-shadow:
+    0 2px 6px rgba(18, 41, 74, 0.016), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  --portal-module-filter-category-hover-shadow:
+    0 4px 8px rgba(18, 41, 74, 0.022), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  --portal-module-filter-category-active-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 5px 10px rgba(18, 41, 74, 0.028);
+  --portal-module-filter-category-neutral-bg: rgba(238, 245, 249, 0.92);
+  --portal-module-filter-category-neutral-border: rgba(170, 188, 203, 0.52);
+  --portal-module-filter-category-neutral-accent: rgba(116, 142, 166, 0.86);
+  --portal-module-filter-category-amber-bg: rgba(250, 236, 229, 0.9);
+  --portal-module-filter-category-amber-border: rgba(226, 191, 169, 0.52);
+  --portal-module-filter-category-amber-accent: rgba(206, 142, 108, 0.84);
+  --portal-module-filter-category-pink-bg: rgba(248, 233, 239, 0.9);
+  --portal-module-filter-category-pink-border: rgba(225, 183, 197, 0.52);
+  --portal-module-filter-category-pink-accent: rgba(193, 121, 150, 0.84);
+  --portal-module-filter-category-blue-bg: rgba(230, 241, 250, 0.92);
+  --portal-module-filter-category-blue-border: rgba(169, 200, 222, 0.54);
+  --portal-module-filter-category-blue-accent: rgba(92, 147, 191, 0.82);
+  --portal-module-filter-category-mint-bg: rgba(229, 245, 238, 0.92);
+  --portal-module-filter-category-mint-border: rgba(170, 212, 196, 0.54);
+  --portal-module-filter-category-mint-accent: rgba(89, 155, 128, 0.82);
+  --portal-module-filter-category-violet-bg: rgba(237, 238, 251, 0.92);
+  --portal-module-filter-category-violet-border: rgba(182, 186, 226, 0.56);
+  --portal-module-filter-category-violet-accent: rgba(102, 111, 201, 0.82);
+  --portal-module-filter-tone-neutral-accent: var(--portal-module-filter-category-neutral-accent);
+  --portal-module-filter-tone-amber-accent: var(--portal-module-filter-category-amber-accent);
+  --portal-module-filter-tone-pink-accent: var(--portal-module-filter-category-pink-accent);
+  --portal-module-filter-tone-blue-accent: var(--portal-module-filter-category-blue-accent);
+  --portal-module-filter-tone-mint-accent: var(--portal-module-filter-category-mint-accent);
+  --portal-module-filter-tone-violet-accent: var(--portal-module-filter-category-violet-accent);
+  --portal-module-filter-star-ink: color-mix(
+    in srgb,
+    var(--portal-primary-strong) 64%,
+    var(--portal-ink) 36%
+  );
+  --portal-module-filter-star-outline: color-mix(
+    in srgb,
+    white 34%,
+    var(--portal-primary-strong) 66%
+  );
+  --portal-module-filter-star-inner-line: color-mix(
+    in srgb,
+    white 46%,
+    var(--portal-accent-cyan) 54%
+  );
+  --portal-module-filter-star-fill-mid: color-mix(
+    in srgb,
+    white 54%,
+    var(--portal-accent-cyan) 46%
+  );
+  --portal-module-filter-star-fill-core: color-mix(
+    in srgb,
+    white 78%,
+    var(--portal-accent-cyan) 22%
+  );
+  --portal-module-filter-star-fill-highlight: rgba(255, 255, 255, 0.84);
+  --portal-module-filter-star-shadow: 0 8px 14px
+    color-mix(in srgb, var(--portal-accent-cyan) 18%, transparent);
+  /* Gallery Listing Tokens */
+  /* Page State */
+  --gallery-module-page-refreshing-opacity: 0.72;
+  /* Card Presentation */
+  --gallery-module-card-stack-shadow: 0 12px 20px rgba(18, 41, 74, 0.065);
+  --gallery-module-card-stack-mark-bg: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--home-feature-ribbon-border) 74%, white 26%) 0%,
+    color-mix(in srgb, var(--home-feature-ribbon-border) 22%, transparent) 100%
+  );
+  --gallery-module-card-stack-mark-shadow: 0 8px 16px rgba(18, 41, 74, 0.08);
+  --gallery-module-card-stack-mark-opacity: 0.82;
+  --gallery-module-card-meta-bg: color-mix(
+    in srgb,
+    var(--home-gallery-badge-bg) 82%,
+    rgba(255, 255, 255, 0.28)
+  );
+  --gallery-module-card-meta-border: color-mix(
+    in srgb,
+    var(--home-gallery-badge-border) 76%,
+    transparent
+  );
+  --gallery-module-card-meta-ink: color-mix(
+    in srgb,
+    var(--home-gallery-badge-ink) 84%,
+    transparent
+  );
+  --gallery-module-card-meta-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  --gallery-module-card-inner-frame-opacity: 0.42;
+  --gallery-module-card-corner-border: rgba(255, 255, 255, 0.42);
+  --gallery-module-card-corner-opacity: 0.72;
+  --gallery-module-card-overlay:
+    linear-gradient(180deg, rgba(12, 22, 40, 0.16) 0%, rgba(12, 22, 40, 0.03) 34%, transparent 52%),
+    linear-gradient(180deg, transparent 42%, rgba(12, 22, 40, 0.1) 100%);
+  --gallery-module-card-divider: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--home-detail-card-border) 52%, transparent) 16%,
+    color-mix(in srgb, var(--home-feature-ribbon-border) 18%, var(--home-detail-card-border) 82%)
+      50%,
+    color-mix(in srgb, var(--home-detail-card-border) 52%, transparent) 84%,
+    transparent 100%
+  );
+  --gallery-module-card-divider-opacity: 0.74;
+  --gallery-module-card-divider-opacity-strong: 1;
+  /* Feedback and Action State */
+  --gallery-module-state-action-border: var(--home-detail-card-border);
+  --gallery-module-state-action-bg: var(--home-detail-card-bg);
+  --gallery-module-state-action-ink: color-mix(
+    in srgb,
+    var(--home-detail-glass-ink) 88%,
+    transparent
+  );
+  --gallery-module-state-action-primary-border: var(--home-feature-ribbon-border);
+  --gallery-module-state-action-primary-bg: var(--home-detail-glass-bg-emphasis);
+  --gallery-module-state-action-hover-shadow:
+    0 8px 14px rgba(18, 41, 74, 0.065), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  --gallery-module-state-action-disabled-opacity: 0.72;
+  --gallery-module-state-hint-ink: color-mix(
+    in srgb,
+    var(--home-business-gallery-accent) 78%,
+    transparent
+  );
+  /* Topic Listing Tokens */
+  --home-column-cover-blue-bg: linear-gradient(
+    135deg,
+    rgba(105, 212, 255, 0.94),
+    rgba(141, 146, 255, 0.84)
+  );
+  --home-column-cover-iris-bg: linear-gradient(
+    135deg,
+    rgba(152, 170, 237, 0.94),
+    rgba(150, 209, 255, 0.78)
+  );
+  --home-column-cover-gold-bg: linear-gradient(
+    135deg,
+    rgba(255, 214, 150, 0.96),
+    rgba(164, 216, 255, 0.76)
+  );
+  --home-column-module-surface:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02)),
+    var(--home-article-list-surface);
+  --home-column-module-border: color-mix(
+    in srgb,
+    var(--home-detail-card-border) 64%,
+    transparent
+  );
+  --home-column-module-divider: color-mix(in srgb, var(--home-line) 84%, transparent);
+  --home-column-module-divider-strong: color-mix(
+    in srgb,
+    var(--home-business-topic-accent) 24%,
+    var(--home-line) 76%
+  );
+  --home-column-module-eyebrow-ink: color-mix(
+    in srgb,
+    var(--home-business-topic-accent) 24%,
+    var(--home-muted) 76%
+  );
+  --home-column-module-meta-icon-ink: color-mix(
+    in srgb,
+    var(--home-business-topic-accent) 82%,
+    var(--home-ink) 18%
+  );
+  --home-column-media-width: 90px;
+  --home-column-media-height: 112px;
+  --home-column-media-radius: 26px;
+  --home-column-media-overlay: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.16),
+    rgba(255, 255, 255, 0.02)
+  );
+  --home-column-clip-bg: linear-gradient(
+    180deg,
+    rgba(251, 254, 255, 0.98),
+    rgba(225, 235, 246, 0.88)
+  );
+  --home-column-clip-border: rgba(129, 162, 197, 0.28);
+  --home-column-clip-ink: rgba(92, 123, 159, 0.66);
+  --home-column-clip-highlight: rgba(255, 255, 255, 0.74);
+  --home-column-clip-shadow: 0 10px 18px rgba(18, 41, 74, 0.14);
+}
