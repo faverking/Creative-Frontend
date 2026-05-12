@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node -e \"console.log('ai-console placeholder: scaffold ready')\"",
-    "build": "node -e \"console.log('ai-console placeholder build')\"",
-    "lint": "node -e \"console.log('ai-console placeholder lint')\"",
-    "typecheck": "node -e \"console.log('ai-console placeholder typecheck')\"",
-    "test": "node -e \"console.log('ai-console placeholder test')\""
+    "dev": "node -e \"console.log('ai-console workspace app ready')\"",
+    "build": "node -e \"console.log('ai-console build not configured')\"",
+    "lint": "node -e \"console.log('ai-console lint not configured')\"",
+    "typecheck": "node -e \"console.log('ai-console typecheck not configured')\"",
+    "test": "node -e \"console.log('ai-console test not configured')\""
   }
 }

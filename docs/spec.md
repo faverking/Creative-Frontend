@@ -120,6 +120,7 @@
 
 - `packages/eslint-config`
 - `packages/vitest-config`
+- `.github/workflows/deploy-frontend.yml`
 
 约定：
 
@@ -129,6 +130,8 @@
 - 应用级 `package.json` 可以保留统一命令入口，例如 `lint`、`format`、`format:check`、`typecheck`、`test`、`build`，但不要在应用里重复定义共享规则。
 - 应用级 `vitest.config.ts` 保持薄壳，只负责接入共享配置和声明必要本地特例。
 - 仓库级提交链路，例如 `husky`、`lint-staged`，统一放根目录，不在单个 app 内复制一套。
+- 前端部署唯一入口是 `.github/workflows/deploy-frontend.yml`；生产发布由 `web-v*` tag 触发，构建变量统一使用 `FRONTEND_*` GitHub Variables。
+- `portal-web` 生产部署在 `/`，`admin-web` 生产部署在 `/admin/`，新增 base path 相关行为时必须同时验证两个应用。
 - 未来新增可复用的格式化配置、构建 preset、脚手架能力、通用工程脚本时，优先沉淀到 `packages/*`。
 
 ### 全局共享组件
@@ -162,15 +165,15 @@
 
 ### 骨架屏
 
-适用判断：当任务涉及模块或详情的 loading 骨架、占位结构、shimmer 效果时，遵守本节。
+适用判断：当任务涉及模块或详情的 loading 骨架、骨架结构、shimmer 效果时，遵守本节。
 
 - 骨架结构必须和真实布局一一对应。
 - 首页骨架是默认参考实现；公开模块、公开详情、工作台等新骨架，优先沿用首页骨架那套稳定写法，不要各写一套局部语法。
 - 首页骨架稳定写法指：先搭真实结构壳子，再填充 `lines / line / block / pill`；不要直接用几条泛化长条去“估”真实高度。
 - 多行文本骨架（标题、摘要、作者简介等）统一使用“外层 `lines` 容器 + 行容器 + 内层 `block`”的三层写法；外层容器先占真实总高度，单行高度按真实文本 `line-height` 对齐。
 - 标题骨架优先对齐真实标题的 `line-height` 与总行数高度；不要只根据 `block` 自身高度或字号 token 估算两行标题高度。
-- section heading、评论输入 footer、meta 行、作者卡正文等固定高度区域，骨架必须保留对应外层 wrapper / shell；先对齐真实组件的高度、gap、padding，再放内部占位。
-- 真实结构中只出现一次的区块，骨架里也只能出现一次；不要靠重复 DOM 或额外兼容层去“拼”出视觉效果。
+- section heading、评论输入 footer、meta 行、作者卡正文等固定高度区域，骨架必须保留对应外层 wrapper / shell；先对齐真实组件的高度、gap、padding，再放内部骨架块。
+- 真实结构中只出现一次的区块，骨架里也只能出现一次；不要靠重复 DOM 或额外过渡层去“拼”出视觉效果。
 - 骨架节奏优先复用共享 rhythm / skeleton tokens。
 - 通用 shimmer 组只负责 shimmer / overflow，`position` 由具体骨架元素自己负责。
 - 情报模块：标题 1 行、摘要 2 行、封面右上主题标签、底部 meta。
@@ -178,7 +181,7 @@
 - 书库模块：标题 1 行、摘要 2 行、左侧书册封面、底部作者 / 章节 / 时间与统计。
 - 图包模块：标题最多 2 行、底部 meta。
 - 公开详情的 hero、正文、侧栏、相关推荐都要按真实结构拆分骨架。
-- 不要用泛化长条占位代替真实详情节奏。
+- 不要用泛化长条代替真实详情节奏。
 
 ### CSS Tokens
 

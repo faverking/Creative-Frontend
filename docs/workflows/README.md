@@ -1,6 +1,6 @@
 # Workflow Playbook
 
-本文档汇总 MonoApp 当前可执行的工程流程，内容已和仓库脚本、Git hooks、CI 配置以及部署脚本对齐。
+本文档汇总 MonoApp 当前可执行的工程流程，内容已和仓库脚本、Git hooks、GitHub Actions 以及部署约定对齐。
 
 ## 1. 适用范围
 
@@ -30,7 +30,7 @@ pnpm dev:ai
 
 - `dev:admin` -> 启动 `admin-web`，默认端口 `5173`
 - `dev:portal` -> 启动 `portal-web`，默认端口 `5174`
-- `dev:ai` -> 输出 placeholder 日志，不启动真实应用
+- `dev:ai` -> 执行 AI 工作台预备应用的 workspace 命令，不启动生产服务
 
 ### 2.2 全量门禁
 
@@ -58,8 +58,8 @@ pnpm -r --filter "@frontend/*" build
 | 只验证门户端      | `pnpm --filter portal-web lint && pnpm --filter portal-web typecheck && pnpm --filter portal-web test && pnpm --filter portal-web build`                         |
 | 只验证共享包      | `pnpm -r --filter "@frontend/*" lint && pnpm -r --filter "@frontend/*" typecheck && pnpm -r --filter "@frontend/*" test && pnpm -r --filter "@frontend/*" build` |
 | 提交前最小门禁    | `pnpm lint && pnpm typecheck && pnpm test`                                                                                                                       |
-| 对齐当前 CI       | `pnpm lint && pnpm typecheck && pnpm test && pnpm --filter admin-web build && pnpm -r --filter "@frontend/*" build`                                              |
-| 查看 E2E 占位状态 | `pnpm test:e2e`                                                                                                                                                  |
+| 对齐当前 Actions  | `pnpm lint && pnpm typecheck && pnpm test && pnpm --filter portal-web build && pnpm --filter admin-web build`                                                    |
+| 查看 E2E 测试入口 | `pnpm test:e2e`                                                                                                                                                  |
 
 ## 4. 当前流程文档索引
 
@@ -71,6 +71,6 @@ pnpm -r --filter "@frontend/*" build
 ## 5. 使用时需要知道的事实
 
 - `admin-web` 和 `portal-web` 都是可运行应用
-- `ai-console` 当前仍是 placeholder
+- `ai-console` 当前不纳入生产前端发布包
 - `packages/*` 的 `build` 大多是 `tsc --noEmit`，属于“校验式 build”
-- 当前 GitLab CI 只对 `admin-web` 做制品部署，`portal-web` 尚未接入部署链路
+- 当前 GitHub Actions 由 `web-v*` tag 触发，同时构建并部署 `portal-web` 与 `admin-web`

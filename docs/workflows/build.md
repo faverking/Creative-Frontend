@@ -46,13 +46,13 @@ pnpm dev:portal
 - 默认端口：`5174`
 - `/api` 代理目标来自 `apps/portal-web/vite.config.ts` 中读取的 `VITE_API_BASE_URL`
 
-### 2.3 AI 控制台占位
+### 2.3 AI 工作台预备应用
 
 ```bash
 pnpm dev:ai
 ```
 
-当前仅打印 placeholder 提示，不会启动真实前端服务。
+当前用于保持 workspace 命令闭环，不启动生产服务。
 
 ## 3. 构建命令
 
@@ -72,7 +72,7 @@ pnpm -r build
 
 - `admin-web`：执行 `vite build`，产物在 `apps/admin-web/dist`
 - `portal-web`：执行 `vite build`，产物在 `apps/portal-web/dist`
-- `ai-console`：输出 placeholder 日志
+- `ai-console`：执行工作区闭环命令，不产出生产构建物
 - 大多数共享包：执行 `tsc -p tsconfig.json --noEmit`
 - `@frontend/eslint-config`：输出 skip 日志
 
@@ -115,22 +115,23 @@ pnpm build
 node scripts/verify-workspace.mjs
 ```
 
-## 5. 与当前 CI 对齐
+## 5. 与当前 GitHub Actions 对齐
 
-当前 GitLab CI 的构建相关步骤是：
+当前 GitHub Actions 由 `web-v*` tag 触发，构建相关步骤是：
 
 ```bash
 pnpm lint
 pnpm typecheck
 pnpm test
-pnpm --filter admin-web build
-pnpm -r --filter "@frontend/*" build
+VITE_APP_BASE=/ pnpm --filter portal-web build
+VITE_APP_BASE=/admin/ pnpm --filter admin-web build
 ```
 
 这里需要特别注意：
 
-- CI 当前没有单独构建 `portal-web`
-- CI 部署产物默认指向 `apps/admin-web/dist`
+- `portal-web` 发布在站点根路径 `/`
+- `admin-web` 发布在 `/admin/`
+- GitHub Actions 会把两个 dist 打包进同一个 `frontend.tar.gz`
 
 ## 6. 常见问题
 
@@ -155,4 +156,4 @@ pnpm -r --filter "@frontend/*" build
 
 - 确认在仓库根目录执行 `pnpm install`
 - 检查 `tsconfig.base.json` 中 `@frontend/*` 路径映射
-- 检查应用 `vite.config.ts` 中 `@` 别名是否仍指向本应用 `src`
+- 检查应用 `vite.config.ts` 中 `@` 别名是否指向本应用 `src`

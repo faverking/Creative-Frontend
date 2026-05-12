@@ -28,15 +28,7 @@
         <p v-if="normalizedSummary" class="public-detail-hero__summary">{{ normalizedSummary }}</p>
       </div>
 
-      <div
-        v-if="
-          normalizedTags.length > 0 ||
-          normalizedMeta.length > 0 ||
-          normalizedStats.length > 0 ||
-          normalizedMetaTag
-        "
-        class="public-detail-hero__meta-row"
-      >
+      <div v-if="hasMetaRow" class="public-detail-hero__meta-row">
         <div class="public-detail-hero__meta-stream">
           <div v-if="normalizedTags.length > 0" class="public-detail-hero__tag-list">
             <span
@@ -190,6 +182,14 @@ const normalizedStats = computed(() =>
       value: stat.value.trim()
     }))
     .filter((stat) => Boolean(stat.label) && Boolean(stat.value))
+)
+
+const hasMetaRow = computed(
+  () =>
+    normalizedTags.value.length > 0 ||
+    normalizedMeta.value.length > 0 ||
+    normalizedStats.value.length > 0 ||
+    Boolean(normalizedMetaTag.value)
 )
 
 const normalizedActions = computed(() =>

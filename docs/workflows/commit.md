@@ -83,7 +83,7 @@ docs: refresh monorepo overview and workflow guides
 2. 按改动范围执行对应门禁命令。
 3. `git add` 暂存改动。
 4. 使用规范 commit message 提交。
-5. 推送分支并发起 MR。
+5. 推送分支并发起 Pull Request。
 
 ## 5. 什么时候需要 changeset
 
@@ -98,7 +98,7 @@ pnpm release
 建议在下面场景使用：
 
 - 修改 `packages/*` 对外导出的 API
-- 共享包行为发生兼容性变化
+- 共享包对外契约发生变化
 - 需要为后续发布保留版本记录
 
 如果只是应用内部页面、样式或文档更新，一般不需要新增 changeset。

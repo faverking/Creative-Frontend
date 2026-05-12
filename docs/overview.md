@@ -19,8 +19,8 @@
 其中：
 
 - `admin-web` 已是完整可运行的管理端应用
-- `portal-web` 已是完整可运行的门户应用，不再只是简单占位
-- `ai-console` 仍处于 placeholder 状态
+- `portal-web` 已是完整可运行的门户应用
+- `ai-console` 是 AI 工作台预备应用，当前不纳入生产前端发布包
 
 ## 2. 顶层目录
 
@@ -29,11 +29,11 @@ MonoApp/
 ├─ apps/                       # 业务应用
 ├─ packages/                   # 共享能力与 SDK
 ├─ docs/                       # 工程说明与执行手册
-├─ scripts/                    # 校验与部署脚本
-├─ tests/                      # 跨应用测试占位（当前仅 e2e 目录）
+├─ scripts/                    # 工作区校验脚本
+├─ tests/                      # E2E 测试入口
 ├─ .changeset/                 # 版本记录与发布治理
 ├─ .husky/                     # Git hooks
-├─ .gitlab-ci.yml              # GitLab CI/CD
+├─ .github/workflows/          # GitHub Actions 部署工作流
 ├─ package.json                # 根脚本与统一 devDependencies
 ├─ pnpm-workspace.yaml         # Workspace 范围
 ├─ tsconfig.base.json          # 全局 TS 配置与 @frontend/* 路径别名
@@ -51,7 +51,7 @@ packages:
   - packages/*/*
 ```
 
-前两项用于纳入应用和共享包，`packages/*/*` 主要是为了兼容部分 SDK 的分层目录结构。
+前两项用于纳入应用和共享包，`packages/*/*` 用于纳入分层 SDK 的子目录入口，例如 `core`、`plugin`、`adapter`、`api`、`components` 与 `composables`。
 
 ## 4. 应用层现状
 
@@ -95,7 +95,7 @@ packages:
 
 门户应用，技术栈同样是 `Vue 3 + Vite + TypeScript + Pinia + Vue Router + Element Plus`。
 
-当前不是简单壳子，而是已经具备以下运行时结构：
+当前运行时结构：
 
 - 门户首页
 - 登录/注册弹窗路由
@@ -130,12 +130,12 @@ packages:
 
 ### 4.3 `apps/ai-console`
 
-当前仍为占位应用：
+当前定位：
 
-- `package.json` 中 `dev/build/lint/typecheck/test` 都是 `node -e` 的 placeholder 输出
-- `src/` 与 `public/` 已创建，但尚未形成真实运行时
+- `package.json` 中 `dev/build/lint/typecheck/test` 用于保持 workspace 命令闭环
+- `src/` 与 `public/` 已创建，后续承载 AI 工作台运行时
 
-它更适合作为后续 AI 控制台应用的预留入口，而不是当前协作重点。
+当前生产发布包只包含 `portal-web` 与 `admin-web`。
 
 ## 5. 共享包分层
 
@@ -167,10 +167,10 @@ packages:
 
 ### 5.3 工程配置包
 
-| 包名                      | 当前职责                                                         |
-| ------------------------- | ---------------------------------------------------------------- |
-| `@frontend/eslint-config` | 统一 ESLint 配置导出；其 `build/lint/typecheck` 仍是 skip 型脚本 |
-| `@frontend/vitest-config` | 统一 Vitest 配置导出；应用侧 `vitest.config.ts` 只保留薄壳接入   |
+| 包名                      | 当前职责                                                       |
+| ------------------------- | -------------------------------------------------------------- |
+| `@frontend/eslint-config` | 统一 ESLint 配置导出；其 `build/lint/typecheck` 是 skip 型脚本 |
+| `@frontend/vitest-config` | 统一 Vitest 配置导出；应用侧 `vitest.config.ts` 只保留薄壳接入 |
 
 ## 6. 应用启动装配链路
 
@@ -235,7 +235,7 @@ flowchart LR
 
 - `apps/admin-web`：`vite build`，会产出 `apps/admin-web/dist`
 - `apps/portal-web`：`vite build`，会产出 `apps/portal-web/dist`
-- `apps/ai-console`：placeholder 输出，不产出真实构建物
+- `apps/ai-console`：执行工作区闭环命令，不产出生产构建物
 - 绝大多数 `packages/*`：`tsc -p tsconfig.json --noEmit`，是“校验式 build”
 - `@frontend/eslint-config`：`build` 为 skip 输出
 
@@ -287,36 +287,34 @@ flowchart LR
 ### 9.4 脚本与测试目录
 
 - `scripts/verify-workspace.mjs`：校验工作区关键文件是否存在
-- `scripts/deploy/deploy-web.sh`：SSH + rsync 的前端静态部署脚本
-- `tests/e2e/README.md`：E2E 仍明确处于延后接入阶段
+- `tests/e2e/README.md`：E2E 测试入口说明
 
-## 10. GitLab CI/CD 现状
+## 10. GitHub Actions 部署现状
 
-`.gitlab-ci.yml` 当前 stages 为：
+前端部署入口为：
 
-1. `install`
-2. `lint`
-3. `typecheck`
-4. `test`
-5. `build`
-6. `deploy`
+```text
+.github/workflows/deploy-frontend.yml
+```
 
 真实构建与部署行为：
 
-- `build_admin`：构建 `admin-web`
-- `build_packages`：递归执行 `@frontend/*` 的 build 校验
-- 当前 CI 没有单独构建或部署 `portal-web`
-- 当前部署脚本只发布 `apps/admin-web/dist`
+- 推送 `web-v*` tag 触发生产部署，例如 `web-v1.0.0`。
+- `main` 分支 push 不直接发布生产前端。
+- 先执行 `pnpm lint`、`pnpm typecheck`、`pnpm test`。
+- `portal-web` 以 `VITE_APP_BASE=/` 构建并发布到站点根路径。
+- `admin-web` 以 `VITE_APP_BASE=/admin/` 构建并发布到 `/admin/` 子路径。
+- 两个 dist 打包为 `frontend.tar.gz` 上传至 `/www/apps/frontend/shared`。
+- 服务器解压到 `/www/apps/frontend/releases/<tag>`，再原子切换 `/www/apps/frontend/current`。
 
-分支策略：
+服务器发布结构：
 
-- `deploy_test`：`test` 分支自动部署
-- `deploy_prod`：`main` 分支手动部署
-
-触发范围：
-
-- 合并请求流水线
-- 任意分支流水线
+```text
+/www/apps/frontend
+/www/apps/frontend/releases
+/www/apps/frontend/shared
+/www/apps/frontend/current
+```
 
 ## 11. 依赖边界约定
 
@@ -332,7 +330,7 @@ flowchart LR
 
 1. `README.md`
 2. `docs/workflows/README.md`
-3. `docs/工程概览.md`
+3. `docs/overview.md`
 4. `apps/admin-web/src/main.ts`
 5. `apps/portal-web/src/main.ts`
 6. `packages/app-runtime/src/index.ts`

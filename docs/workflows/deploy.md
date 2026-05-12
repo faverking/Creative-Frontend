@@ -1,173 +1,190 @@
 # Deploy Workflow
 
-本文档描述当前 GitLab CI/CD 与部署脚本的真实行为，重点是“当前到底部署了什么”。
+本文档描述当前前端生产部署链路。仓库统一通过 GitHub Actions tag 工作流发布到阿里云服务器。
 
-## 1. 流水线触发规则
+## 1. 部署目标
 
-`.gitlab-ci.yml` 当前会在以下场景运行：
-
-- `merge_request_event`
-- 任意分支提交
-
-## 2. CI 阶段
-
-当前 stages 为：
-
-1. `install`
-2. `lint`
-3. `typecheck`
-4. `test`
-5. `build`
-6. `deploy`
-
-## 3. 各 Job 的真实职责
-
-### 3.1 `install`
-
-只输出 `pnpm -v`，但在 `before_script` 中已经完成：
-
-- `corepack enable`
-- `pnpm config set store-dir $PNPM_STORE_DIR`
-- `pnpm install --frozen-lockfile`
-
-### 3.2 `lint`
-
-执行：
-
-```bash
-pnpm lint
-```
-
-### 3.3 `typecheck`
-
-执行：
-
-```bash
-pnpm typecheck
-```
-
-### 3.4 `unit_test`
-
-执行：
-
-```bash
-pnpm test
-```
-
-### 3.5 `build_admin`
-
-执行：
-
-```bash
-pnpm --filter admin-web build
-```
-
-并把以下目录作为 artifacts 保存 7 天：
+前端部署到阿里云服务器：
 
 ```text
-apps/admin-web/dist
+/www/apps/frontend
+/www/apps/frontend/releases
+/www/apps/frontend/shared
+/www/apps/frontend/current -> /www/apps/frontend/releases/<tag>
 ```
 
-### 3.6 `build_packages`
+一次部署同时发布两个应用：
 
-执行：
+- `portal-web`：站点根路径 `/`
+- `admin-web`：管理端子路径 `/admin/`
 
-```bash
-pnpm -r --filter "@frontend/*" build
-```
+当前生产发布包只包含 `portal-web` 与 `admin-web`。
 
-这里主要是共享包的类型校验式 build，不是统一产出发布制品。
-
-## 4. 当前部署范围
-
-当前部署链路只服务于 `admin-web`：
-
-- `BUILD_OUTPUT` 默认值是 `apps/admin-web/dist`
-- `deploy` 阶段依赖 `build_admin` 的 artifacts
-- `portal-web` 当前没有对应的 CI 构建和部署 job
-
-如果要把门户也纳入上线链路，需要补充新的 build/deploy job，或者显式切换 `BUILD_OUTPUT` 和部署目标。
-
-## 5. 部署脚本行为
+## 2. GitHub Actions
 
 部署入口：
 
-```bash
-scripts/deploy/deploy-web.sh [test|prod]
+```text
+.github/workflows/deploy-frontend.yml
 ```
 
-脚本会执行：
+触发规则：
 
-1. 校验目标环境参数
-2. 校验构建目录是否存在
-3. 写入 `DEPLOY_SSH_PRIVATE_KEY`
-4. `ssh-keyscan` 写入 `known_hosts`
-5. 创建远端 `releases/<timestamp>-<commit>` 目录
-6. `rsync --delete` 同步静态文件
-7. 使用软链接 `current` 原子切换版本
+- 推送 `web-v*` tag 自动触发，例如 `web-v1.0.0`
+- `main` 分支 push 不直接发布生产前端
+- tag 名必须只包含字母、数字、点、下划线和连字符，避免被当作多级目录
 
-因此当前部署模型是：
+流水线步骤：
 
-- 保留历史 release
-- 使用软链接切换当前版本
-- 基于 SSH + rsync 的静态站点发布
+1. Checkout source code
+2. 提取 tag 名作为 release id
+3. Setup Node.js 20
+4. 启用 `pnpm@10.2.1`
+5. `pnpm install --frozen-lockfile`
+6. `pnpm lint`
+7. `pnpm typecheck`
+8. `pnpm test`
+9. 构建 `portal-web`，`VITE_APP_BASE=/`
+10. 构建 `admin-web`，`VITE_APP_BASE=/admin/`
+11. 打包 `frontend.tar.gz`
+12. 上传到 `/www/apps/frontend/shared`
+13. 解压到 `/www/apps/frontend/releases/<tag>`
+14. 原子切换 `/www/apps/frontend/current`
+15. 清理历史 release，仅保留最近 5 个
 
-## 6. 分支策略
+## 3. 发布包结构
 
-### 6.1 测试环境
+`frontend.tar.gz` 内部固定为：
 
-`deploy_test`：
+```text
+portal/
+admin/
+```
 
-- 目标分支：`test`
-- 触发方式：自动
-- 目标环境名：`test`
+服务器解压后对应：
 
-### 6.2 生产环境
+```text
+/www/apps/frontend/current/portal/index.html
+/www/apps/frontend/current/admin/index.html
+```
 
-`deploy_prod`：
+## 4. GitHub 配置
 
-- 目标分支：`main`
-- 触发方式：手动
-- 目标环境名：`production`
+### 4.1 Secrets
 
-## 7. 必需 CI 变量
+复用后端同名 secrets：
 
-### 7.1 通用变量
+- `SERVER_HOST`：例如 `121.41.223.169`
+- `SERVER_USER`
+- `SERVER_PORT`
+- `SERVER_SSH_KEY`
 
-- `DEPLOY_SSH_PRIVATE_KEY`
-- `BUILD_OUTPUT`，默认 `apps/admin-web/dist`
+### 4.2 Variables
 
-### 7.2 测试环境变量
+以下变量会注入 Vite 构建产物，属于公开前端配置：
 
-- `TEST_DEPLOY_HOST`
-- `TEST_DEPLOY_USER`
-- `TEST_DEPLOY_PORT`，默认 `22`
-- `TEST_DEPLOY_PATH`
-- `TEST_DEPLOY_URL`，可选
+- `FRONTEND_API_BASE_URL`
+- `FRONTEND_SSO_BASE_URL`
+- `FRONTEND_AI_API_BASE_URL`
+- `FRONTEND_MONITOR_DSN`
+- `FRONTEND_TRACKING_APP_ID`
+- `FRONTEND_OAUTH_PROVIDER`
 
-### 7.3 生产环境变量
+当前阿里云单机部署建议：
 
-- `PROD_DEPLOY_HOST`
-- `PROD_DEPLOY_USER`
-- `PROD_DEPLOY_PORT`，默认 `22`
-- `PROD_DEPLOY_PATH`
-- `PROD_DEPLOY_URL`，可选
+```text
+FRONTEND_API_BASE_URL=http://121.41.223.169
+FRONTEND_SSO_BASE_URL=http://121.41.223.169
+FRONTEND_AI_API_BASE_URL=http://121.41.223.169
+FRONTEND_OAUTH_PROVIDER=google
+```
 
-## 8. 本地模拟当前 CI
+`FRONTEND_MONITOR_DSN` 与 `FRONTEND_TRACKING_APP_ID` 按实际观测系统配置。
+
+### 4.3 服务器目录前置条件
+
+以下目录属于服务器一次性初始化内容，不在每次部署前重复创建：
 
 ```bash
-pnpm install
+mkdir -p /www/apps/frontend/releases /www/apps/frontend/shared
+```
+
+GitHub Actions 默认 `/www/apps/frontend/shared` 已存在，因为上传步骤会直接把 `frontend.tar.gz` 放到该目录。
+
+## 5. 发版命令
+
+推荐从已经合入 `main` 的提交打生产 tag：
+
+```bash
+git checkout main
+git pull
+git tag web-v1.0.0
+git push origin web-v1.0.0
+```
+
+如需重发同一个版本，优先新建递增 tag，例如 `web-v1.0.1`。工作流会串行执行生产部署，避免多个 tag 同时切换 `/www/apps/frontend/current`。
+
+## 6. Nginx 契约
+
+建议 Nginx 站点配置满足：
+
+```nginx
+server {
+  listen 80;
+  server_name 121.41.223.169;
+
+  root /www/apps/frontend/current;
+
+  location = /admin {
+    return 301 /admin/;
+  }
+
+  location ^~ /admin/ {
+    try_files $uri $uri/ /admin/index.html;
+  }
+
+  location ^~ /api/ {
+    proxy_pass http://127.0.0.1:3000;
+    proxy_http_version 1.1;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+  }
+
+  location / {
+    try_files /portal$uri /portal$uri/ /portal/index.html;
+  }
+}
+```
+
+当前 workflow 不在每次发布时执行 `nginx -t` 或 `systemctl reload nginx`。Nginx 只需要固定指向 `/www/apps/frontend/current`，后续发布通过原子切换 symlink 生效；如服务器启用了强文件缓存，可在服务器运维流程里单独 reload。
+
+## 7. 本地验证
+
+```bash
 pnpm lint
 pnpm typecheck
 pnpm test
-pnpm --filter admin-web build
-pnpm -r --filter "@frontend/*" build
 ```
 
-如果你要验证门户本身是否可构建，需要额外手动执行：
+构建 base path 验证：
 
 ```bash
-pnpm --filter portal-web build
+VITE_APP_BASE=/ pnpm --filter portal-web build
+VITE_APP_BASE=/admin/ pnpm --filter admin-web build
 ```
 
-因为这一步当前不在 GitLab CI 的默认链路里。
+Windows PowerShell 可使用：
+
+```powershell
+$env:VITE_APP_BASE='/'; pnpm --filter portal-web build
+$env:VITE_APP_BASE='/admin/'; pnpm --filter admin-web build
+```
+
+验收重点：
+
+- `apps/portal-web/dist/index.html` 使用根路径资源。
+- `apps/admin-web/dist/index.html` 使用 `/admin/` 资源。
+- 直接刷新 `/articles/:id` 与 `/admin/home/overview` 不返回 404。
+- 前端请求进入 `/api/v1/...` 并由 Nginx 转发到后端。

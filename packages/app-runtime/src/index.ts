@@ -22,6 +22,13 @@ export type { AuthRuntimeCore, AuthRuntimeCoreOptions } from './auth-runtime-cor
 export { createAuthApi } from './auth-api'
 export type { AuthApi, RegisterPayload, RegisterResult, RegisterUserProfile } from './auth-api'
 
+// 浏览器路径：统一处理 Vite base path 下的登录回跳和浏览器地址拼装。
+export {
+  normalizeAppBasePath,
+  resolveAppRoutePathFromLocation,
+  resolveBrowserPathForAppRoute
+} from './browser-path'
+
 // HTTP 运行时：负责统一 baseURL、token 注入、刷新、错误解包与全局回调接线。
 export {
   getAppHttpClient,

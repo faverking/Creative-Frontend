@@ -3,6 +3,8 @@ import { ElMessage } from 'element-plus'
 import {
   createAuthApi,
   getAppHttpClient,
+  resolveAppRoutePathFromLocation,
+  resolveBrowserPathForAppRoute,
   resolveBusinessErrorMessage,
   resolveHttpErrorMessage,
   setupAppHttpClient,
@@ -108,8 +110,11 @@ function redirectToLogin(): void {
     return
   }
 
-  const redirect = `${window.location.pathname}${window.location.search}${window.location.hash}`
-  const target = `/login?redirect=${encodeURIComponent(redirect)}`
+  const redirect = resolveAppRoutePathFromLocation(window.location, import.meta.env.BASE_URL)
+  const target = resolveBrowserPathForAppRoute(
+    `/login?redirect=${encodeURIComponent(redirect)}`,
+    import.meta.env.BASE_URL
+  )
   window.location.assign(target)
 }
 

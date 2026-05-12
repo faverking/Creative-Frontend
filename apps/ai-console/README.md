@@ -1,4 +1,4 @@
 # ai-console
 
-This app is a phase-1 placeholder.
-Scaffold directories can be expanded when AI console implementation starts.
+AI console is a prepared workspace application.
+It is not included in the current production frontend package; production deployment currently publishes `portal-web` and `admin-web`.

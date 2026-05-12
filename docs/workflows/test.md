@@ -7,7 +7,7 @@
 - 单元测试：`Vitest`
 - Vue 组件测试：`Vue Test Utils + Vitest`
 - 共享测试配置：`@frontend/vitest-config`
-- E2E：目录已预留，但暂未接入真实框架
+- E2E：当前只有测试入口说明，未纳入默认质量门禁
 
 ## 2. 当前测试分布
 
@@ -16,13 +16,13 @@
 - `apps/admin-web`
   - 已存在 `src/components/ThemeSwitcher.test.ts`
   - 通过应用级 `vitest.config.ts` 接入共享 Vue 应用测试配置
-  - 其余页面级测试仍较少
+  - 页面级测试覆盖需要继续补齐
 - `apps/portal-web`
   - 已通过应用级 `vitest.config.ts` 接入共享 Vue 应用测试配置
-  - 当前没有明显的已落地 `.test` 文件
+  - 当前没有已落地的 `.test` 文件
   - 业务能力主要依赖运行时与页面联调
 - `apps/ai-console`
-  - `test` 脚本为 placeholder 输出
+  - `test` 脚本用于保持 workspace 命令闭环
 
 ### 2.2 共享包
 
@@ -79,13 +79,13 @@ pnpm --filter @frontend/request test
 pnpm --filter @frontend/permission-sdk test
 ```
 
-### 4.4 E2E 占位命令
+### 4.4 E2E 入口命令
 
 ```bash
 pnpm test:e2e
 ```
 
-当前只会输出占位提示。`tests/e2e/README.md` 也明确说明 E2E 在 v1 scaffold 阶段被延后。
+当前命令用于标识 E2E 入口，真实浏览器测试框架尚未纳入默认质量门禁。
 
 ## 5. 合并前建议
 

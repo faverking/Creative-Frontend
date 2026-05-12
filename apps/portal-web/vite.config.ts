@@ -59,6 +59,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, appRoot, '')
 
   return {
+    base: env.VITE_APP_BASE || '/',
     plugins: [vue()],
     resolve: {
       alias: {

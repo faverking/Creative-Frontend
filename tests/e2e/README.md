@@ -1,4 +1,4 @@
-# E2E Placeholder
+# E2E Tests
 
-E2E tests are intentionally deferred in the v1 scaffold.
-You can add Playwright or Cypress tests here in phase 3.
+This directory is the repository-level entry for browser E2E tests.
+When E2E is enabled, keep cross-application scenarios here and keep unit tests beside the source they cover.

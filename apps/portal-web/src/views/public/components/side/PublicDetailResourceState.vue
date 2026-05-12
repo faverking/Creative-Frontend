@@ -57,7 +57,8 @@ const props = withDefaults(
     accent: 'topic',
     actionLabel: '',
     label: '资源包',
-    metaTag: ''
+    metaTag: '',
+    state: 'empty'
   }
 )
 
