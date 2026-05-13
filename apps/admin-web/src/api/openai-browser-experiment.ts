@@ -78,7 +78,16 @@ const TESTAI_MODEL_ENV_KEY = 'VITE_TESTAI_MODEL'
 const TESTAI_MODEL_ADMIN_COMPOSE_ENV_KEY = 'VITE_TESTAI_API_MODEL_COMPOSE'
 
 function readString(value: BrowserExperimentEnvValue): string | undefined {
-  return typeof value === 'string' && value.trim().length > 0 ? value.trim() : undefined
+  if (typeof value !== 'string') {
+    return undefined
+  }
+
+  const normalized = value.trim()
+  if (!normalized || normalized === 'undefined' || normalized === 'null') {
+    return undefined
+  }
+
+  return normalized
 }
 
 function readModelValue(env: BrowserExperimentEnvSource): string | undefined {

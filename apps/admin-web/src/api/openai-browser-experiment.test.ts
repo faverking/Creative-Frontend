@@ -85,6 +85,27 @@ describe('resolveOpenAiBrowserExperimentConfig', () => {
     })
   })
 
+  it('falls back to compose model when optional model is serialized as undefined', () => {
+    expect(
+      resolveOpenAiBrowserExperimentConfig({
+        MODE: 'production',
+        PROD: true,
+        VITE_ADMIN_AI_EXPERIMENT_ENABLED: 'true',
+        VITE_TESTAI_API_KEY: 'key-1',
+        VITE_TESTAI_MODEL: 'undefined',
+        VITE_TESTAI_API_MODEL_COMPOSE: 'gpt-5.4-mini'
+      })
+    ).toEqual({
+      enabled: true,
+      config: {
+        apiKey: 'key-1',
+        baseUrl: 'https://api.openai.com/v1',
+        model: 'gpt-5.4-mini'
+      },
+      setupError: ''
+    })
+  })
+
   it('returns setup error when browser experiment env is incomplete', () => {
     expect(
       resolveOpenAiBrowserExperimentConfig({

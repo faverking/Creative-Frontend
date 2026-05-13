@@ -75,8 +75,21 @@ function parseEnvValue(rawValue) {
   return value
 }
 
+function normalizeOptionalValue(value) {
+  if (typeof value !== 'string') {
+    return undefined
+  }
+
+  const normalized = value.trim()
+  if (!normalized || normalized === 'undefined' || normalized === 'null') {
+    return undefined
+  }
+
+  return normalized
+}
+
 function pick(...values) {
-  return values.find((value) => typeof value === 'string' && value.length > 0)
+  return values.map(normalizeOptionalValue).find((value) => value !== undefined) ?? ''
 }
 
 function resolveValue(appConfig, envFile, viteKey, fallback) {
