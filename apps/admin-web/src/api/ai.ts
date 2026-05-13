@@ -10,7 +10,7 @@ import {
 } from '@/api/openai-browser-experiment'
 
 const env = loadEnvConfig(import.meta.env)
-const isDevOpenAiExperiment = isAdminAiExperimentEnabled(import.meta.env)
+const isBrowserOpenAiExperimentEnabled = isAdminAiExperimentEnabled(import.meta.env)
 
 function trimSlash(value: string): string {
   return value.replace(/^\/+|\/+$/g, '')
@@ -82,7 +82,7 @@ function createExperimentRequester(): AiRequester {
 
 export function getAiClient(): AiClient {
   if (!aiClient) {
-    if (isDevOpenAiExperiment) {
+    if (isBrowserOpenAiExperimentEnabled) {
       aiClient = createAiClient({
         endpoint: resolveAdminAiEndpoint(),
         requester: createExperimentRequester(),
@@ -91,10 +91,10 @@ export function getAiClient(): AiClient {
           const signal = init?.signal ?? undefined
           return createBrowserOpenAiStreamResponse(request, import.meta.env, signal)
         },
-        // 浏览器实验链路只用于本地验证，不依赖后台 token 刷新状态，
+        // 浏览器实验链路由显式开关控制，不依赖后台 token 刷新状态，
         // 这样页面侧可以沿用既有 AiClient / runner，而不用再分一套调用入口。
         ensureFreshAccessToken: async () => true,
-        getAccessToken: async () => 'dev-openai-experiment'
+        getAccessToken: async () => 'browser-openai-experiment'
       })
       return aiClient
     }

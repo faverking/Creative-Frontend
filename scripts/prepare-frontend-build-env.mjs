@@ -19,7 +19,17 @@ const appConfigs = [
     appBase: '/admin/',
     defaultAppTitle: 'admin-web',
     defaultTrackingAppId: 'admin-web',
-    extraKeys: {}
+    extraKeys: {
+      VITE_ADMIN_AI_EXPERIMENT_ENABLED: ['ADMIN_AI_EXPERIMENT_ENABLED', undefined, 'false'],
+      VITE_TESTAI_API_KEY: ['ADMIN_TESTAI_API_KEY', undefined, ''],
+      VITE_TESTAI_API_BASE_URL: [
+        'ADMIN_TESTAI_API_BASE_URL',
+        undefined,
+        'https://api.openai.com/v1'
+      ],
+      VITE_TESTAI_MODEL: ['ADMIN_TESTAI_MODEL', undefined, ''],
+      VITE_TESTAI_API_MODEL_COMPOSE: ['ADMIN_TESTAI_API_MODEL_COMPOSE', undefined, '']
+    }
   }
 ]
 

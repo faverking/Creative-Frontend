@@ -123,11 +123,18 @@ FRONTEND_API_BASE_URL=http://121.41.223.169
 - `ADMIN_TRACKING_APP_ID`
 - `ADMIN_API_PREFIX`
 - `ADMIN_OAUTH_PROVIDER`
+- `ADMIN_AI_EXPERIMENT_ENABLED`
+- `ADMIN_TESTAI_API_KEY`
+- `ADMIN_TESTAI_API_BASE_URL`
+- `ADMIN_TESTAI_MODEL`
+- `ADMIN_TESTAI_API_MODEL_COMPOSE`
 
 解析顺序：
 
 - `portal-web`：`PORTAL_*` 优先，其次 `FRONTEND_*`，最后使用 `apps/portal-web/.env.production`。
 - `admin-web`：`ADMIN_*` 优先，其次 `FRONTEND_*`，最后使用 `apps/admin-web/.env.production`。
+
+`admin-web` 的浏览器 OpenAI 实验链路由 `VITE_ADMIN_AI_EXPERIMENT_ENABLED` 显式开关控制。生产构建时，`scripts/prepare-frontend-build-env.mjs` 会把 `ADMIN_AI_EXPERIMENT_ENABLED`、`ADMIN_TESTAI_API_KEY`、`ADMIN_TESTAI_API_BASE_URL`、`ADMIN_TESTAI_MODEL`、`ADMIN_TESTAI_API_MODEL_COMPOSE` 写入 `apps/admin-web/.env.production.local`；未配置 GitHub Variables 时回落到 `apps/admin-web/.env.production`。这些最终都会进入前端构建产物，属于公开浏览器配置。
 
 当 GitHub Variables 与应用 `.env.production` 都未提供对应可选变量时，工作流默认：
 

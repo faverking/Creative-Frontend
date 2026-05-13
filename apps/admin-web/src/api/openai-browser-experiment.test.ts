@@ -30,11 +30,31 @@ afterEach(() => {
 })
 
 describe('resolveOpenAiBrowserExperimentConfig', () => {
-  it('returns disabled state outside development experiment mode', () => {
+  it('reads browser-side openai config when production experiment is enabled', () => {
     expect(
       resolveOpenAiBrowserExperimentConfig({
         MODE: 'production',
+        PROD: true,
         VITE_ADMIN_AI_EXPERIMENT_ENABLED: 'true',
+        VITE_TESTAI_API_KEY: 'key-1',
+        VITE_TESTAI_API_MODEL_COMPOSE: 'gpt-5.4-mini'
+      })
+    ).toEqual({
+      enabled: true,
+      config: {
+        apiKey: 'key-1',
+        baseUrl: 'https://api.openai.com/v1',
+        model: 'gpt-5.4-mini'
+      },
+      setupError: ''
+    })
+  })
+
+  it('returns disabled state when experiment flag is not enabled', () => {
+    expect(
+      resolveOpenAiBrowserExperimentConfig({
+        MODE: 'production',
+        PROD: true,
         VITE_TESTAI_API_KEY: 'key-1',
         VITE_TESTAI_API_MODEL_COMPOSE: 'gpt-5.4-mini'
       })
