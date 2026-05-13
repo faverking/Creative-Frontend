@@ -9,3 +9,4 @@ tmp/
 .idea/
 .temp/
 .env.local
+.env.*.local

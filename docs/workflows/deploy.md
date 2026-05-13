@@ -44,13 +44,14 @@
 6. `pnpm lint`
 7. `pnpm typecheck`
 8. `pnpm test`
-9. 构建 `portal-web`，`VITE_APP_BASE=/`
-10. 构建 `admin-web`，`VITE_APP_BASE=/admin/`
-11. 打包 `frontend.tar.gz`
-12. 上传到 `/www/apps/frontend/shared`
-13. 解压到 `/www/apps/frontend/releases/<tag>`
-14. 原子切换 `/www/apps/frontend/current`
-15. 清理历史 release，仅保留最近 5 个
+9. 生成各应用临时 `.env.production.local`
+10. 构建 `portal-web`
+11. 构建 `admin-web`
+12. 打包 `frontend.tar.gz`
+13. 上传到 `/www/apps/frontend/shared`
+14. 解压到 `/www/apps/frontend/releases/<tag>`
+15. 原子切换 `/www/apps/frontend/current`
+16. 清理历史 release，仅保留最近 5 个
 
 ## 3. 发布包结构
 
@@ -81,14 +82,15 @@ admin/
 
 ### 4.2 Variables
 
-以下变量会注入 Vite 构建产物，属于公开前端配置。Monorepo 中各应用保留独立环境变量边界，workflow 只在部署阶段把 GitHub Variables 解析为每个应用自己的 `VITE_*`。
+以下变量会注入 Vite 构建产物，属于公开前端配置。Monorepo 中各应用保留独立环境变量边界，workflow 通过 `scripts/prepare-frontend-build-env.mjs` 先读取各应用自己的 `.env.production`，再把 GitHub Variables 作为部署时覆盖项写入各应用临时 `.env.production.local`。
 
-每个发布应用都必须能解析出 `VITE_API_BASE_URL`，满足以下任一方式即可：
+每个发布应用都必须能解析出 `VITE_API_BASE_URL`，解析顺序为：
 
-- 配置共享默认值 `FRONTEND_API_BASE_URL`
-- 或同时配置应用独立值 `PORTAL_API_BASE_URL` 与 `ADMIN_API_BASE_URL`
+- 应用独立 GitHub Variable：`PORTAL_API_BASE_URL` / `ADMIN_API_BASE_URL`
+- 共享 GitHub Variable：`FRONTEND_API_BASE_URL`
+- 应用生产环境文件：`apps/portal-web/.env.production` / `apps/admin-web/.env.production`
 
-当前阿里云单机部署推荐只配置共享默认值：
+当前仓库的两个 `.env.production` 已提供阿里云单机默认值，因此不配置 GitHub Variables 也可以部署。需要临时覆盖生产地址时，优先配置共享默认值：
 
 ```text
 FRONTEND_API_BASE_URL=http://121.41.223.169
@@ -124,10 +126,10 @@ FRONTEND_API_BASE_URL=http://121.41.223.169
 
 解析顺序：
 
-- `portal-web`：`PORTAL_*` 优先，其次 `FRONTEND_*`，最后使用应用部署默认值。
-- `admin-web`：`ADMIN_*` 优先，其次 `FRONTEND_*`，最后使用应用部署默认值。
+- `portal-web`：`PORTAL_*` 优先，其次 `FRONTEND_*`，最后使用 `apps/portal-web/.env.production`。
+- `admin-web`：`ADMIN_*` 优先，其次 `FRONTEND_*`，最后使用 `apps/admin-web/.env.production`。
 
-未配置可选变量时，工作流默认：
+当 GitHub Variables 与应用 `.env.production` 都未提供对应可选变量时，工作流默认：
 
 - `SSO_BASE_URL`：沿用当前应用解析后的 `API_BASE_URL`
 - `AI_API_BASE_URL`：沿用当前应用解析后的 `API_BASE_URL`
@@ -207,15 +209,17 @@ pnpm test
 构建 base path 验证：
 
 ```bash
-VITE_APP_BASE=/ pnpm --filter portal-web build
-VITE_APP_BASE=/admin/ pnpm --filter admin-web build
+node scripts/prepare-frontend-build-env.mjs
+pnpm --filter portal-web build
+pnpm --filter admin-web build
 ```
 
 Windows PowerShell 可使用：
 
 ```powershell
-$env:VITE_APP_BASE='/'; pnpm --filter portal-web build
-$env:VITE_APP_BASE='/admin/'; pnpm --filter admin-web build
+node scripts/prepare-frontend-build-env.mjs
+pnpm --filter portal-web build
+pnpm --filter admin-web build
 ```
 
 验收重点：

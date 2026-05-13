@@ -287,6 +287,7 @@ flowchart LR
 ### 9.4 脚本与测试目录
 
 - `scripts/verify-workspace.mjs`：校验工作区关键文件是否存在
+- `scripts/prepare-frontend-build-env.mjs`：前端部署构建前生成各应用临时 `.env.production.local`
 - `tests/e2e/README.md`：E2E 测试入口说明
 
 ## 10. GitHub Actions 部署现状
@@ -302,7 +303,7 @@ flowchart LR
 - 推送 `web-v*` tag 触发生产部署，例如 `web-v1.0.0`。
 - `main` 分支 push 不直接发布生产前端。
 - 先执行 `pnpm lint`、`pnpm typecheck`、`pnpm test`。
-- GitHub Variables 采用共享默认值加应用独立覆盖：`FRONTEND_*` 作为共享默认，`PORTAL_*` / `ADMIN_*` 覆盖单个应用；每个发布应用必须能解析出 `VITE_API_BASE_URL`。
+- 部署构建通过 `scripts/prepare-frontend-build-env.mjs` 先读取各应用自己的 `.env.production`，GitHub Variables 仅作为覆盖项生成临时 `.env.production.local`；`FRONTEND_*` 是共享覆盖，`PORTAL_*` / `ADMIN_*` 覆盖单个应用；每个发布应用必须最终解析出 `VITE_API_BASE_URL`。
 - `portal-web` 以 `VITE_APP_BASE=/` 构建并发布到站点根路径。
 - `admin-web` 以 `VITE_APP_BASE=/admin/` 构建并发布到 `/admin/` 子路径。
 - 两个 dist 打包为 `frontend.tar.gz` 上传至 `/www/apps/frontend/shared`。

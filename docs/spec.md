@@ -130,7 +130,7 @@
 - 应用级 `package.json` 可以保留统一命令入口，例如 `lint`、`format`、`format:check`、`typecheck`、`test`、`build`，但不要在应用里重复定义共享规则。
 - 应用级 `vitest.config.ts` 保持薄壳，只负责接入共享配置和声明必要本地特例。
 - 仓库级提交链路，例如 `husky`、`lint-staged`，统一放根目录，不在单个 app 内复制一套。
-- 前端部署唯一入口是 `.github/workflows/deploy-frontend.yml`；生产发布由 `web-v*` tag 触发。GitHub Variables 采用共享默认值加应用独立覆盖：`FRONTEND_*` 作为共享默认，`PORTAL_*` / `ADMIN_*` 覆盖单个应用；每个发布应用必须能解析出 `VITE_API_BASE_URL`，单机同源部署优先只配置 `FRONTEND_API_BASE_URL`。
+- 前端部署唯一入口是 `.github/workflows/deploy-frontend.yml`；生产发布由 `web-v*` tag 触发。部署构建通过 `scripts/prepare-frontend-build-env.mjs` 先读取各应用自己的 `.env.production`，GitHub Variables 仅作为覆盖项生成临时 `.env.production.local`；`FRONTEND_*` 是共享覆盖，`PORTAL_*` / `ADMIN_*` 覆盖单个应用；每个发布应用必须最终解析出 `VITE_API_BASE_URL`。
 - `portal-web` 生产部署在 `/`，`admin-web` 生产部署在 `/admin/`，新增 base path 相关行为时必须同时验证两个应用。
 - 未来新增可复用的格式化配置、构建 preset、脚手架能力、通用工程脚本时，优先沉淀到 `packages/*`。
 

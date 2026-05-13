@@ -123,16 +123,17 @@ node scripts/verify-workspace.mjs
 pnpm lint
 pnpm typecheck
 pnpm test
-VITE_APP_BASE=/ pnpm --filter portal-web build
-VITE_APP_BASE=/admin/ pnpm --filter admin-web build
+node scripts/prepare-frontend-build-env.mjs
+pnpm --filter portal-web build
+pnpm --filter admin-web build
 ```
 
 这里需要特别注意：
 
 - `portal-web` 发布在站点根路径 `/`
 - `admin-web` 发布在 `/admin/`
-- GitHub Variables 先按 `PORTAL_*` / `ADMIN_*` 解析应用独立值，再回退到共享 `FRONTEND_*`
-- 每个发布应用必须能解析出 `VITE_API_BASE_URL`；单机同源部署通常只需要配置 `FRONTEND_API_BASE_URL`
+- GitHub Actions 先读取各应用自己的 `.env.production`，再用 `FRONTEND_*` 共享变量或 `PORTAL_*` / `ADMIN_*` 应用变量生成临时 `.env.production.local`
+- 每个发布应用必须最终解析出 `VITE_API_BASE_URL`；当前仓库 `.env.production` 已提供阿里云单机默认值
 - GitHub Actions 会把两个 dist 打包进同一个 `frontend.tar.gz`
 
 ## 6. 常见问题
