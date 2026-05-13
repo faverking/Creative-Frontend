@@ -10,7 +10,7 @@
     <portal-request-boundary
       as="section"
       class="workspace-history-stage"
-      :mode="boundaryMode"
+      :mode="stageBoundaryMode"
       :error-code="errorCode"
       primary-label="重试"
       @primary="loadHistory"
@@ -198,7 +198,6 @@
             </button>
           </div>
         </template>
-        <portal-empty-state v-else />
       </div>
     </portal-request-boundary>
   </portal-workspace-page-shell>
@@ -324,6 +323,9 @@ const historyItems = computed<WorkspaceHistoryCard[]>(() =>
 
 const historyGroups = computed<WorkspaceHistoryGroup<WorkspaceHistoryCard>[]>(() =>
   groupWorkspaceHistoryItems(historyItems.value)
+)
+const stageBoundaryMode = computed(() =>
+  boundaryMode.value === 'ready' && historyGroups.value.length === 0 ? 'empty' : boundaryMode.value
 )
 const canLoadMore = computed(
   () => historyItemsRaw.value.length > 0 && historyItemsRaw.value.length < total.value

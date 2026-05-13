@@ -243,7 +243,13 @@ const relatedItems = computed(() =>
 const showRelatedErrorState = computed(
   () => relatedLoadFailed.value && relatedItems.value.length === 0
 )
-const relatedBoundaryMode = computed(() => (showRelatedErrorState.value ? 'error' : 'ready'))
+const relatedBoundaryMode = computed(() => {
+  if (showRelatedErrorState.value) {
+    return 'error'
+  }
+
+  return relatedItems.value.length === 0 ? 'empty' : 'ready'
+})
 type TopicResourceState = 'internal' | 'external' | 'locked' | 'empty'
 const topicDownloadUrl = computed(() => topicDetail.value?.downloadUrl?.trim() || '')
 const imageCount = computed(() => topicDetail.value?.imageAssets?.length ?? 0)

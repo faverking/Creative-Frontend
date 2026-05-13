@@ -20,6 +20,15 @@
   --portal-request-state-secondary-border: transparent;
   --portal-request-state-secondary-ink: #6d87a2;
   --portal-request-state-secondary-hover-ink: #4d6f93;
+  /* Empty State Tokens */
+  --portal-empty-bg: var(--portal-request-state-bg);
+  --portal-empty-border: var(--portal-request-state-border);
+  --portal-empty-shadow: var(--portal-request-state-shadow);
+  --portal-empty-radius: 24px;
+  --portal-empty-padding: 24px;
+  --portal-empty-description-ink: var(--portal-muted);
+  --portal-empty-description-size: 12px;
+  --portal-empty-description-line-height: 1.7;
   /* Shared Skeleton Tokens */
   --home-skeleton-block: rgba(169, 196, 222, 0.3);
   --home-skeleton-block-strong: rgba(136, 175, 211, 0.42);

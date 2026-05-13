@@ -10,7 +10,7 @@
     <portal-request-boundary
       as="section"
       class="workspace-message-stage"
-      :mode="boundaryMode"
+      :mode="stageBoundaryMode"
       :error-code="errorCode"
       primary-label="重试"
       @primary="loadMessages"
@@ -222,7 +222,6 @@
             @change="handlePageChange"
           />
         </div>
-        <portal-empty-state v-else />
       </div>
     </portal-request-boundary>
   </portal-workspace-page-shell>
@@ -369,6 +368,9 @@ const messageItems = computed<WorkspaceMessageCard[]>(() =>
       )
     }
   })
+)
+const stageBoundaryMode = computed(() =>
+  boundaryMode.value === 'ready' && messageItems.value.length === 0 ? 'empty' : boundaryMode.value
 )
 
 onMounted(() => {

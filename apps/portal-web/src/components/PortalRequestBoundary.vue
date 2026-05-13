@@ -50,6 +50,15 @@
         </div>
       </slot>
 
+      <slot v-else-if="resolvedMode === 'empty'" name="empty">
+        <portal-empty-state
+          key="empty-state"
+          class="portal-request-boundary__empty"
+          :description="emptyDescription"
+          :image-size="emptyImageSize"
+        />
+      </slot>
+
       <slot v-else />
     </transition>
   </component>
@@ -58,12 +67,13 @@
 <script setup lang="ts">
 import { computed, ref, useSlots } from 'vue'
 
+import PortalEmptyState from './PortalEmptyState.vue'
 import error401Illustration from '@/assets/error-401.svg'
 import error403Illustration from '@/assets/error-403.svg'
 import error404Illustration from '@/assets/error-404.svg'
 import error500Illustration from '@/assets/error-500.svg'
 
-export type PortalRequestBoundaryMode = 'error' | 'loading' | 'ready'
+export type PortalRequestBoundaryMode = 'empty' | 'error' | 'loading' | 'ready'
 export type PortalRequestBoundaryErrorCode = 401 | 403 | 404 | 500
 
 const errorIllustrationMap: Record<PortalRequestBoundaryErrorCode, string> = {
@@ -77,6 +87,8 @@ const props = withDefaults(
   defineProps<{
     as?: 'article' | 'aside' | 'div' | 'section'
     debugSkeletonToggle?: boolean
+    emptyDescription?: string
+    emptyImageSize?: number
     errorCode?: PortalRequestBoundaryErrorCode
     mode: PortalRequestBoundaryMode
     primaryLabel?: string
@@ -87,6 +99,8 @@ const props = withDefaults(
   {
     as: 'div',
     debugSkeletonToggle: true,
+    emptyDescription: '暂无内容！',
+    emptyImageSize: 88,
     errorCode: 500,
     primaryLabel: '',
     secondaryLabel: '',
@@ -167,6 +181,17 @@ const resolvedTitle = computed(() => props.title.trim())
   max-width: 100%;
   height: auto;
   filter: drop-shadow(0 16px 26px rgba(18, 41, 74, 0.12));
+}
+
+.portal-request-boundary__empty {
+  min-height: inherit;
+}
+
+.portal-request-boundary__empty :deep(.el-empty) {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  min-height: inherit;
 }
 
 .portal-request-boundary__debug-toggle {

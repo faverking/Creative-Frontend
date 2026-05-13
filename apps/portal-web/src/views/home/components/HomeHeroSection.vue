@@ -5,7 +5,7 @@
 
       <portal-request-boundary
         class="home-hero__feature-stage"
-        :mode="mode"
+        :mode="featureBoundaryMode"
         :error-code="errorCode"
         primary-label="重试"
         transition-name="home-section-stage"
@@ -332,6 +332,9 @@ const quickEntries = computed(() =>
 )
 const activeFeatured = computed(
   () => featuredItems.value[activeFeaturedIndex.value] ?? featuredItems.value[0]
+)
+const featureBoundaryMode = computed<PortalRequestBoundaryMode>(() =>
+  props.mode === 'ready' && featuredItems.value.length === 0 ? 'empty' : props.mode
 )
 const activeFeaturedCoverUrl = computed(() => resolveHomeMediaUrl(activeFeatured.value?.cover))
 const activeFeaturedTags = computed(() =>

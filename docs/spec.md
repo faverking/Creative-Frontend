@@ -146,7 +146,7 @@
 
 ### PortalRequestBoundary
 
-适用判断：当任务涉及 loading / error / ready 状态舞台或状态切换结构时，遵守本节。
+适用判断：当任务涉及 loading / error / empty / ready 状态舞台或状态切换结构时，遵守本节。
 入口文件：
 
 - `apps/portal-web/src/components/PortalRequestBoundary.vue`
@@ -157,10 +157,13 @@
 - 不要在子模块内部已经用了状态壳后，父层再包一层更大的状态壳。
 - 能把原有舞台 class 直接挂到 boundary 根节点上，就不要再套纯布局 `div`。
 - `ready` 内容保持单根舞台，避免和内部 `Transition` 语义冲突。
-- 状态仅包含：`loading`、`error`、`ready`。
-- 公开模块与公开详情只使用 `loading`、`error`、`ready` 三态；失败时直接进入真实错误态。
+- 状态仅包含：`loading`、`error`、`empty`、`ready`。
+- `empty` 只表示请求成功且业务结果为空，不用于接口失败、权限失败或主详情数据缺失。
+- 公开模块、工作台列表、首页精选、首页区块和相关推荐可以在真实空结果时使用 `empty`。
+- 公开详情主请求缺失或失败时仍直接进入真实错误态，不使用 `empty`。
 - 骨架内容统一放在 `#loading` 插槽内，不要在 boundary 外再切一套 loading DOM。
 - 默认错误态使用 `errorCode` 对应插画；整体水平居中，文案和按钮区内部左对齐。
+- 默认空态使用 `PortalEmptyState`，默认文案保持通用精简。
 - `Transition` 固定保留在 boundary 内部；业务自己的 ready 态动画放在业务组件内部。
 
 ### 骨架屏

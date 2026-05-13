@@ -449,7 +449,13 @@ const relatedItems = computed(() =>
 const showRelatedErrorState = computed(
   () => relatedLoadFailed.value && relatedItems.value.length === 0
 )
-const relatedBoundaryMode = computed(() => (showRelatedErrorState.value ? 'error' : 'ready'))
+const relatedBoundaryMode = computed(() => {
+  if (showRelatedErrorState.value) {
+    return 'error'
+  }
+
+  return relatedItems.value.length === 0 ? 'empty' : 'ready'
+})
 const resolvedActions = computed(() =>
   createBookDetailActions().map((action) => ({
     ...action,

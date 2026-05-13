@@ -191,10 +191,13 @@ server {
   }
 
   location / {
-    try_files /portal$uri /portal$uri/ /portal/index.html;
+    root /www/apps/frontend/current/portal;
+    try_files $uri $uri/ /index.html;
   }
 }
 ```
+
+`location /` 必须使用 `root /www/apps/frontend/current/portal` 后 fallback 到 `/index.html`。不要写成 `try_files /portal$uri /portal$uri/ /portal/index.html`，否则 `/favicon.ico`、不存在的静态资源或门户前端路由可能在内部重定向到 `/portal/index.html` 后再次命中 `location /`，形成 rewrite/internal redirection cycle。
 
 当前 workflow 不在每次发布时执行 `nginx -t` 或 `systemctl reload nginx`。Nginx 只需要固定指向 `/www/apps/frontend/current`，后续发布通过原子切换 symlink 生效；如服务器启用了强文件缓存，可在服务器运维流程里单独 reload。
 

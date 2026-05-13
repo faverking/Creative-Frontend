@@ -12,13 +12,13 @@
       <home-article-section
         :error-code="homeSectionsErrorCode"
         :section="homeData.articleSection"
-        :mode="homeSectionsBoundaryMode"
+        :mode="articleSectionBoundaryMode"
         @retry="handleHomeSectionsRetry"
       />
       <home-column-section
         :error-code="homeSectionsErrorCode"
         :section="homeData.columnSection"
-        :mode="homeSectionsBoundaryMode"
+        :mode="columnSectionBoundaryMode"
         @retry="handleHomeSectionsRetry"
       />
     </div>
@@ -27,13 +27,13 @@
       <home-book-section
         :error-code="homeSectionsErrorCode"
         :section="homeData.bookshelfSection"
-        :mode="homeSectionsBoundaryMode"
+        :mode="bookshelfSectionBoundaryMode"
         @retry="handleHomeSectionsRetry"
       />
       <home-gallery-section
         :error-code="homeSectionsErrorCode"
         :section="homeData.gallerySection"
-        :mode="homeSectionsBoundaryMode"
+        :mode="gallerySectionBoundaryMode"
         @retry="handleHomeSectionsRetry"
       />
     </div>
@@ -71,13 +71,40 @@ const featuredBoundaryMode = computed<PortalRequestBoundaryMode>(() =>
 const homeSectionsBoundaryMode = computed<PortalRequestBoundaryMode>(() =>
   resolveBoundaryMode(homeSectionsLoading.value, homeSectionsMode.value)
 )
+const articleSectionBoundaryMode = computed<PortalRequestBoundaryMode>(() =>
+  resolveSectionBoundaryMode(
+    homeSectionsBoundaryMode.value,
+    Boolean(homeData.value.articleSection.featured) ||
+      homeData.value.articleSection.items.length > 0
+  )
+)
+const columnSectionBoundaryMode = computed<PortalRequestBoundaryMode>(() =>
+  resolveSectionBoundaryMode(
+    homeSectionsBoundaryMode.value,
+    homeData.value.columnSection.items.length > 0
+  )
+)
+const bookshelfSectionBoundaryMode = computed<PortalRequestBoundaryMode>(() =>
+  resolveSectionBoundaryMode(
+    homeSectionsBoundaryMode.value,
+    homeData.value.bookshelfSection.items.length > 0
+  )
+)
+const gallerySectionBoundaryMode = computed<PortalRequestBoundaryMode>(() =>
+  resolveSectionBoundaryMode(
+    homeSectionsBoundaryMode.value,
+    homeData.value.gallerySection.items.length > 0
+  )
+)
 
 async function loadFeaturedSection() {
   featuredLoading.value = true
   try {
     const result = await portalContentApi.getFeaturedItems()
-    if (result.data) {
-      featuredData.value = result.data
+    const featuredResponse = resolveFeaturedResponse(result.data)
+
+    if (featuredResponse) {
+      featuredData.value = featuredResponse
       featuredMode.value = 'live'
       featuredErrorCode.value = 500
       return
@@ -94,8 +121,10 @@ async function loadHomeSections() {
   homeSectionsLoading.value = true
   try {
     const result = await portalContentApi.getHomePage()
-    if (result.data) {
-      homeData.value = result.data
+    const homeResponse = resolveHomeResponse(result.data)
+
+    if (homeResponse) {
+      homeData.value = homeResponse
       homeSectionsMode.value = 'live'
       homeSectionsErrorCode.value = 500
       return
@@ -124,12 +153,65 @@ function resolveBoundaryMode(isLoading: boolean, mode: HomeSectionMode): PortalR
   return mode === 'error' ? 'error' : 'ready'
 }
 
+function resolveSectionBoundaryMode(
+  mode: PortalRequestBoundaryMode,
+  hasContent: boolean
+): PortalRequestBoundaryMode {
+  if (mode !== 'ready') {
+    return mode
+  }
+
+  return hasContent ? 'ready' : 'empty'
+}
+
 function handleFeaturedRetry(): void {
   void loadFeaturedSection()
 }
 
 function handleHomeSectionsRetry(): void {
   void loadHomeSections()
+}
+
+function resolveFeaturedResponse(
+  value: SearchFeaturedResponse | null | undefined
+): SearchFeaturedResponse | null {
+  if (!isRecord(value) || !Array.isArray(value.items) || !isFeaturedTotals(value.totals)) {
+    return null
+  }
+
+  return value as SearchFeaturedResponse
+}
+
+function resolveHomeResponse(value: HomeResponse | null | undefined): HomeResponse | null {
+  if (
+    !isRecord(value) ||
+    !isHomeSection(value.articleSection) ||
+    !isHomeSection(value.columnSection) ||
+    !isHomeSection(value.bookshelfSection) ||
+    !isHomeSection(value.gallerySection)
+  ) {
+    return null
+  }
+
+  return value as HomeResponse
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null
+}
+
+function isHomeSection(value: unknown): value is { items: unknown[] } {
+  return isRecord(value) && Array.isArray(value.items)
+}
+
+function isFeaturedTotals(value: unknown): value is SearchFeaturedResponse['totals'] {
+  return (
+    isRecord(value) &&
+    typeof value.articles === 'number' &&
+    typeof value.books === 'number' &&
+    typeof value.images === 'number' &&
+    typeof value.topics === 'number'
+  )
 }
 
 function createEmptyFeaturedResponse(): SearchFeaturedResponse {

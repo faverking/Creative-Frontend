@@ -207,7 +207,6 @@
             @change="setPage"
           />
         </template>
-        <portal-empty-state v-else />
       </div>
     </portal-request-boundary>
   </section>
@@ -286,6 +285,10 @@ const resultsBoundaryMode = computed<PortalRequestBoundaryMode>(() => {
 
   if (primaryError.value) {
     return 'error'
+  }
+
+  if (hasLoaded.value && items.value.length === 0) {
+    return 'empty'
   }
 
   return 'ready'

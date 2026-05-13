@@ -9,7 +9,7 @@
     <portal-request-boundary
       as="section"
       class="workspace-favorite-stage"
-      :mode="boundaryMode"
+      :mode="stageBoundaryMode"
       :error-code="errorCode"
       primary-label="重试"
       @primary="loadFavorites"
@@ -162,7 +162,6 @@
             @change="handlePageChange"
           />
         </div>
-        <portal-empty-state v-else />
       </div>
     </portal-request-boundary>
   </portal-workspace-page-shell>
@@ -270,6 +269,9 @@ const favoriteItems = computed<WorkspaceFavoriteCard[]>(() =>
       }
     }
   })
+)
+const stageBoundaryMode = computed(() =>
+  boundaryMode.value === 'ready' && favoriteItems.value.length === 0 ? 'empty' : boundaryMode.value
 )
 
 onMounted(() => {
