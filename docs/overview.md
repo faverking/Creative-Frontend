@@ -303,7 +303,7 @@ flowchart LR
 - 推送 `web-v*` tag 触发生产部署，例如 `web-v1.0.0`。
 - `main` 分支 push 不直接发布生产前端。
 - 先执行 `pnpm lint`、`pnpm typecheck`、`pnpm test`。
-- 部署构建通过 `scripts/prepare-frontend-build-env.mjs` 先读取各应用自己的 `.env.production`，GitHub Variables 仅作为覆盖项生成临时 `.env.production.local`；`FRONTEND_*` 是共享覆盖，`PORTAL_*` / `ADMIN_*` 覆盖单个应用；每个发布应用必须最终解析出 `VITE_API_BASE_URL`。`admin-web` 浏览器 OpenAI 实验链路的 `ADMIN_AI_EXPERIMENT_ENABLED` 与 `ADMIN_TESTAI_*` 也由该脚本写入生产构建环境。
+- 部署构建通过 `scripts/prepare-frontend-build-env.mjs` 先读取各应用自己的 `.env.production`，GitHub Variables 仅作为覆盖项生成临时 `.env.production.local`；`FRONTEND_*` 是共享覆盖，`PORTAL_*` / `ADMIN_*` 覆盖单个应用；每个发布应用必须最终解析出 `VITE_API_BASE_URL`。`admin-web` 浏览器 OpenAI 实验链路也由该脚本写入生产构建环境，OpenAI key 优先通过 `ADMIN_TESTAI_API_KEY_ENCRYPTED` + `ADMIN_TESTAI_API_KEY_ENCRYPTION_KEY` 解密注入。
 - `portal-web` 以 `VITE_APP_BASE=/` 构建并发布到站点根路径。
 - `admin-web` 以 `VITE_APP_BASE=/admin/` 构建并发布到 `/admin/` 子路径。
 - 两个 dist 打包为 `frontend.tar.gz` 上传至 `/www/apps/frontend/shared`。

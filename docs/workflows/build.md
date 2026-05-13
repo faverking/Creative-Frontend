@@ -134,6 +134,7 @@ pnpm --filter admin-web build
 - `admin-web` 发布在 `/admin/`
 - GitHub Actions 先读取各应用自己的 `.env.production`，再用 `FRONTEND_*` 共享变量或 `PORTAL_*` / `ADMIN_*` 应用变量生成临时 `.env.production.local`
 - 每个发布应用必须最终解析出 `VITE_API_BASE_URL`；当前仓库 `.env.production` 已提供阿里云单机默认值
+- `admin-web` 浏览器 OpenAI 实验链路也由 `node scripts/prepare-frontend-build-env.mjs` 写入生产构建环境；OpenAI key 推荐用 `ADMIN_TESTAI_API_KEY_ENCRYPTED` + `ADMIN_TESTAI_API_KEY_ENCRYPTION_KEY` 解密注入，不写入 git
 - GitHub Actions 会把两个 dist 打包进同一个 `frontend.tar.gz`
 
 ## 6. 常见问题

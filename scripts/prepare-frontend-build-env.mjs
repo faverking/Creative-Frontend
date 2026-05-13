@@ -1,4 +1,5 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { decryptEnvValue } from './env-crypto.mjs'
 
 const appConfigs = [
   {
@@ -21,7 +22,6 @@ const appConfigs = [
     defaultTrackingAppId: 'admin-web',
     extraKeys: {
       VITE_ADMIN_AI_EXPERIMENT_ENABLED: ['ADMIN_AI_EXPERIMENT_ENABLED', undefined, 'false'],
-      VITE_TESTAI_API_KEY: ['ADMIN_TESTAI_API_KEY', undefined, ''],
       VITE_TESTAI_API_BASE_URL: [
         'ADMIN_TESTAI_API_BASE_URL',
         undefined,
@@ -89,6 +89,30 @@ function resolveValue(appConfig, envFile, viteKey, fallback) {
   )
 }
 
+function resolveAdminTestAiApiKey(envFile) {
+  const plainTextKey = pick(process.env.ADMIN_TESTAI_API_KEY, envFile.VITE_TESTAI_API_KEY)
+  if (plainTextKey) {
+    return plainTextKey
+  }
+
+  const encryptedKey = pick(
+    process.env.ADMIN_TESTAI_API_KEY_ENCRYPTED,
+    envFile.VITE_TESTAI_API_KEY_ENCRYPTED
+  )
+  if (!encryptedKey) {
+    return ''
+  }
+
+  const encryptionKey = pick(process.env.ADMIN_TESTAI_API_KEY_ENCRYPTION_KEY)
+  if (!encryptionKey) {
+    throw new Error(
+      'Missing ADMIN_TESTAI_API_KEY_ENCRYPTION_KEY. Set it to decrypt ADMIN_TESTAI_API_KEY_ENCRYPTED or VITE_TESTAI_API_KEY_ENCRYPTED.'
+    )
+  }
+
+  return decryptEnvValue(encryptedKey, encryptionKey)
+}
+
 function writeEnvFile(file, values) {
   const lines = Object.entries(values).map(([key, value]) => `${key}=${JSON.stringify(value)}`)
   writeFileSync(file, `${lines.join('\n')}\n`, 'utf8')
@@ -132,6 +156,10 @@ for (const appConfig of appConfigs) {
       sourceEnv[viteKey],
       fallback
     )
+  }
+
+  if (appConfig.name === 'admin-web') {
+    resolved.VITE_TESTAI_API_KEY = resolveAdminTestAiApiKey(sourceEnv)
   }
 
   writeEnvFile(targetFile, resolved)
