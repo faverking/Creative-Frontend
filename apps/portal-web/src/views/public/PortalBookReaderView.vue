@@ -855,6 +855,7 @@ function updateReadingProgress(): void {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  padding-right: 28px;
   min-width: 0;
 }
 
