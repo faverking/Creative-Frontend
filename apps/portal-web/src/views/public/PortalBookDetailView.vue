@@ -180,11 +180,9 @@
               <article
                 v-for="chapter in selectedChapterItems"
                 :key="chapter.id"
+                :title="chapter.title?.trim() || resolveUntitledChapterTitle(chapter.order)"
                 class="portal-book-detail-page__chapter"
               >
-                <span class="portal-book-detail-page__chapter-order">
-                  {{ resolveChapterOrderLabel(chapter.order) }}
-                </span>
                 <strong>{{
                   chapter.title?.trim() || resolveUntitledChapterTitle(chapter.order)
                 }}</strong>
@@ -313,16 +311,18 @@ const bookAuthorLabel = computed(() => {
 const bookPartLabel = computed(() => resolvePublicBookPartLabel(bookDetail.value?.part))
 const bookAreaLabel = computed(() => resolvePublicBookAreaLabel(bookDetail.value?.area))
 const bookStatusLabel = computed(() => resolvePublicBookStatusLabel(bookDetail.value?.status))
-const bookTagLabels = computed(() =>
-  Array.from(
-    new Set(
-      [
-        ...(bookDetail.value?.tags ?? []).map((tag) => tag.trim()),
-        ...(bookDetail.value?.style ?? []).map((item) => item.name?.trim() || '')
-      ].filter(Boolean)
-    )
-  ).slice(0, 4)
-)
+const bookTagLabels = computed(() => {
+  const groupedLabelKeys = new Set(
+    [bookPartLabel.value, bookAreaLabel.value].map(normalizeBookTagLabel).filter(Boolean)
+  )
+
+  return uniqueBookTagLabels([
+    ...(bookDetail.value?.tags ?? []).map((tag) => tag.trim()),
+    ...(bookDetail.value?.style ?? []).map((item) => item.name?.trim() || '')
+  ])
+    .filter((tag) => !groupedLabelKeys.has(normalizeBookTagLabel(tag)))
+    .slice(0, 4)
+})
 const releaseTimeLabel = computed(() => formatUnixTimestampLabel(bookDetail.value?.releaseTime))
 const updateTimeLabel = computed(() => formatUnixTimestampLabel(bookDetail.value?.updateTime))
 const discussionCount = computed(() => Math.max(0, bookDetail.value?.replyCount ?? 0))
@@ -493,6 +493,29 @@ function resolveChapterOrderLabel(order: number): string {
 
 function resolveUntitledChapterTitle(order: number): string {
   return `第 ${resolveChapterOrderLabel(order)} 章`
+}
+
+function normalizeBookTagLabel(value: string): string {
+  return value.trim().toLocaleLowerCase()
+}
+
+function uniqueBookTagLabels(values: string[]): string[] {
+  const labels: string[] = []
+  const seenKeys = new Set<string>()
+
+  values.forEach((value) => {
+    const label = value.trim()
+    const labelKey = normalizeBookTagLabel(label)
+
+    if (!labelKey || seenKeys.has(labelKey)) {
+      return
+    }
+
+    seenKeys.add(labelKey)
+    labels.push(label)
+  })
+
+  return labels
 }
 
 function toggleIntroExpanded(): void {
@@ -1031,12 +1054,11 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
 }
 
 .portal-book-detail-page__chapter {
-  display: flex;
+  display: grid;
   align-items: center;
-  gap: 8px;
   min-width: 0;
   min-height: 42px;
-  padding: 8px 10px;
+  padding: 8px 12px;
   border: 1px solid color-mix(in srgb, var(--home-detail-card-border) 88%, transparent);
   border-radius: 14px;
   background:
@@ -1048,30 +1070,11 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
 .portal-book-detail-page__chapter strong {
   display: block;
   min-width: 0;
-  flex: 1 1 auto;
   overflow: hidden;
   color: var(--home-ink);
   font-size: 13px;
-  line-height: 1.3;
+  line-height: 1.45;
   text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.portal-book-detail-page__chapter-order {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  height: 22px;
-  min-width: 44px;
-  padding: 0 7px;
-  border: 1px solid color-mix(in srgb, var(--home-business-bookshelf-tag-border) 84%, transparent);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--home-business-bookshelf-tag-bg) 90%, transparent);
-  color: color-mix(in srgb, var(--home-business-bookshelf-tag-ink) 94%, transparent);
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 22px;
-  font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 

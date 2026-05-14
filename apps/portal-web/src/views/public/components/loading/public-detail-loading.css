@@ -408,11 +408,10 @@
 }
 
 .public-detail-loading-state__book-chapter-row {
-  display: flex;
+  display: grid;
   align-items: center;
-  gap: 8px;
   min-height: 42px;
-  padding: 8px 10px;
+  padding: 8px 12px;
   border: 1px solid var(--home-detail-info-row-border);
   border-radius: 14px;
   background: var(--home-detail-info-row-bg);
@@ -436,15 +435,6 @@
 
 .public-detail-loading-state__pill--book-group {
   height: 32px;
-}
-
-.public-detail-loading-state__book-chapter-order {
-  display: inline-flex;
-  width: 44px;
-  min-height: 22px;
-  border: 1px solid color-mix(in srgb, var(--home-business-bookshelf-tag-border) 82%, transparent);
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--home-business-bookshelf-tag-bg) 86%, transparent);
 }
 
 .public-detail-loading-state__article-copy {
@@ -718,7 +708,6 @@
 .public-detail-loading-state__pill,
 .public-detail-loading-state__preview,
 .public-detail-loading-state__thumb,
-.public-detail-loading-state__book-chapter-order,
 .public-detail-loading-state__book-cover,
 .public-detail-loading-state__book-cover-stack,
 .public-detail-loading-state__related-media-cover,
@@ -732,7 +721,6 @@
 .public-detail-loading-state__pill,
 .public-detail-loading-state__preview,
 .public-detail-loading-state__thumb,
-.public-detail-loading-state__book-chapter-order,
 .public-detail-loading-state__book-cover,
 .public-detail-loading-state__book-cover-stack,
 .public-detail-loading-state__related-media-cover,
@@ -748,7 +736,6 @@
 .public-detail-loading-state__pill::after,
 .public-detail-loading-state__preview::after,
 .public-detail-loading-state__thumb::after,
-.public-detail-loading-state__book-chapter-order::after,
 .public-detail-loading-state__book-cover::after,
 .public-detail-loading-state__book-cover-stack::after,
 .public-detail-loading-state__related-media-cover::after,

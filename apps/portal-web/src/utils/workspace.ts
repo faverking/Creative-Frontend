@@ -268,7 +268,7 @@ export function resolveWorkspaceMetaItems(
 
     const total = readNumber(meta, 'total')
     if (total !== null) {
-      fragments.push(`共 ${total} 册`)
+      fragments.push(`共 ${total} 章`)
     }
   } else {
     if (author?.name) {

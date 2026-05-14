@@ -151,7 +151,6 @@
         :key="`book-chapter-${index}`"
         class="public-detail-loading-state__book-chapter-row"
       >
-        <span class="public-detail-loading-state__book-chapter-order" />
         <span class="public-detail-loading-state__line public-detail-loading-state__line--body">
           <span
             class="public-detail-loading-state__block public-detail-loading-state__block--book-chapter-title"

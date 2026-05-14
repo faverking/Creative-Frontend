@@ -191,7 +191,9 @@ const topicAuthorName = computed(() =>
 const topicThemeLabel = computed(() => resolvePublicTopicThemeLabel(topicDetail.value?.topicId))
 const topicSectionLabel = computed(() => resolvePublicTopicSectionLabel(topicDetail.value?.typeId))
 const topicFeatureLabels = computed(() =>
-  resolvePublicTopicFeatureFlagLabels(topicDetail.value?.featureFlagLabels)
+  resolvePublicTopicFeatureFlagLabels(topicDetail.value?.featureFlagLabels).filter(
+    (label) => normalizeTopicLabel(label) !== normalizeTopicLabel(topicSectionLabel.value)
+  )
 )
 const topicFeatureLabelText = computed(() => topicFeatureLabels.value.slice(0, 2).join('、'))
 const publishTimeLabel = computed(() =>
@@ -354,6 +356,10 @@ function resolveActionLabel(action: PublicDetailActionItem): string {
   }
 
   return action.label
+}
+
+function normalizeTopicLabel(label: string): string {
+  return label.trim().toLocaleLowerCase()
 }
 
 async function loadTopicDetail(): Promise<void> {

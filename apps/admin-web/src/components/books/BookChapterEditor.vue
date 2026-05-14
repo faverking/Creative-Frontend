@@ -34,7 +34,7 @@
           <el-form-item :label="TEXT.source.originLabel">
             <el-input
               v-model="source.origin"
-              maxlength="120"
+              maxlength="200"
               :placeholder="TEXT.source.originPlaceholder"
             />
           </el-form-item>
@@ -42,31 +42,15 @@
 
         <p class="field-helper">{{ currentSourceOption.description }}</p>
 
-        <div class="form-grid form-grid-source">
-          <el-form-item :label="TEXT.source.comicLabel">
+        <div v-if="activeSourceIdField" class="form-grid form-grid-source">
+          <el-form-item :label="activeSourceIdLabel">
             <el-input
-              v-model="source.comicId"
+              v-model="source[activeSourceIdField]"
               maxlength="120"
-              :placeholder="TEXT.source.comicPlaceholder"
-            />
-          </el-form-item>
-
-          <el-form-item :label="TEXT.source.novelLabel">
-            <el-input
-              v-model="source.novelId"
-              maxlength="120"
-              :placeholder="TEXT.source.novelPlaceholder"
+              :placeholder="activeSourceIdPlaceholder"
             />
           </el-form-item>
         </div>
-
-        <el-form-item :label="TEXT.source.otherLabel">
-          <el-input
-            v-model="source.otherId"
-            maxlength="120"
-            :placeholder="TEXT.source.otherPlaceholder"
-          />
-        </el-form-item>
       </article>
 
       <article class="chapter-config-card">
@@ -103,6 +87,14 @@
 
         <div class="generator-actions">
           <el-button round @click="handleUseNextOrder">{{ TEXT.actions.useNextOrder }}</el-button>
+          <el-button
+            v-if="showSourceGenerateAction"
+            round
+            :loading="sourceGenerating"
+            @click="handleGenerateFromSource"
+          >
+            {{ TEXT.actions.generateFromSource }}
+          </el-button>
           <el-button type="primary" round @click="handleGenerateDrafts">
             {{ TEXT.actions.generate }}
           </el-button>
@@ -192,16 +184,19 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 
 import {
   BOOK_CHAPTER_SOURCE_OPTIONS,
+  buildBookChaptersFromSource,
   buildGeneratedBookChapters,
   createEmptyChapter,
   getBookChapterSourceOption,
   getNextBookChapterOrder,
   inferBookChapterSourcePreset,
+  isAutoBookChapterSourcePreset,
+  normalizeBookChapterSourceConfig,
   type BookChapterSourceConfig,
   type BookChapterSourcePreset,
   type EditableBookChapter
@@ -223,19 +218,17 @@ const TEXT = {
   source: {
     title: '来源配置',
     presetLabel: '来源类型',
-    originLabel: '来源标识',
-    originPlaceholder: '例如：bilibili-comic 或 custom-source',
-    comicLabel: '漫画 ID（可选）',
+    originLabel: '来源站点地址',
+    originPlaceholder: '例如：https://manga.bilibili.com/detail/mc123456',
+    comicLabel: '漫画 ID',
     comicPlaceholder: '例如：mc123456',
-    novelLabel: '小说 ID（可选）',
-    novelPlaceholder: '例如：novel_8899',
-    otherLabel: '其他 ID（可选）',
-    otherPlaceholder: '例如：站点章节簇 ID 或任务单号'
+    novelLabel: '小说 ID',
+    novelPlaceholder: '例如：1234'
   },
   generator: {
     title: '批量草稿生成',
-    tag: '为后续抓取预留',
-    hint: '当前先按来源规则批量生成章节草稿，后续如果接后端抓取接口，可直接复用这套来源与模板。',
+    tag: '来源辅助',
+    hint: '可按数量生成草稿；非手动来源可从来源站点地址抓取章节并填充列表。',
     startOrderLabel: '起始序号',
     countLabel: '生成数量',
     sizeLabel: '默认大小',
@@ -262,12 +255,17 @@ const TEXT = {
     remove: '删除',
     normalize: '重排顺序',
     useNextOrder: '从下一章开始',
-    generate: '生成章节草稿'
+    generate: '生成章节草稿',
+    generateFromSource: '按来源生成'
   },
   message: {
     presetIdRequired: '当前来源类型建议先补充对应来源 ID，再生成章节草稿。',
+    sourceUrlRequired: '请先填写来源站点地址或域名。',
+    sourceChapterEmpty: '没有从来源页面识别到章节，请确认地址或等待补充该来源的精确抓取规则。',
+    sourceFetchFailed: '来源页面抓取失败，请检查地址、跨域限制或稍后重试。',
     countRequired: '请至少生成 1 个章节草稿。',
     generated: '章节草稿已追加到列表。',
+    sourceGenerated: '已根据来源页面填充章节列表。',
     normalized: '章节顺序已按当前列表重排。'
   }
 } as const
@@ -278,10 +276,29 @@ const draftOptions = reactive({
   size: 0,
   titleTemplate: ''
 })
+const sourceGenerating = ref(false)
 
 const nextChapterOrder = computed(() => getNextBookChapterOrder(chapters.value))
 const currentSourcePreset = computed(() => inferBookChapterSourcePreset(source.value.origin))
 const currentSourceOption = computed(() => getBookChapterSourceOption(currentSourcePreset.value))
+const showSourceGenerateAction = computed(() =>
+  isAutoBookChapterSourcePreset(currentSourcePreset.value)
+)
+const activeSourceIdField = computed(() => currentSourceOption.value.preferredIdField)
+const activeSourceIdLabel = computed(() => {
+  if (activeSourceIdField.value === 'comicId') {
+    return TEXT.source.comicLabel
+  }
+
+  return TEXT.source.novelLabel
+})
+const activeSourceIdPlaceholder = computed(() => {
+  if (activeSourceIdField.value === 'comicId') {
+    return TEXT.source.comicPlaceholder
+  }
+
+  return TEXT.source.novelPlaceholder
+})
 
 const selectedSourcePreset = computed<BookChapterSourcePreset>({
   get: () => currentSourcePreset.value,
@@ -291,20 +308,36 @@ const selectedSourcePreset = computed<BookChapterSourcePreset>({
     const nextOption = getBookChapterSourceOption(nextPreset)
 
     if (nextPreset === 'manual') {
-      source.value.origin = ''
-    } else if (nextPreset === 'custom') {
-      if (!source.value.origin.trim()) {
-        source.value.origin = nextOption.defaultOrigin
-      }
+      source.value.origin = nextOption.defaultOrigin
     } else {
       source.value.origin = nextOption.defaultOrigin
     }
+
+    syncSourceFieldsToPreset(nextPreset)
 
     if (!previousTemplate || previousTemplate === previousDefaultTemplate) {
       draftOptions.titleTemplate = nextOption.defaultTitleTemplate
     }
   }
 })
+
+function syncSourceFieldsToPreset(preset = currentSourcePreset.value): void {
+  if (preset === 'bilibiliComic') {
+    source.value.novelId = ''
+    source.value.otherId = ''
+    return
+  }
+
+  if (preset === 'wenku8Novel') {
+    source.value.comicId = ''
+    source.value.otherId = ''
+    return
+  }
+
+  source.value.comicId = ''
+  source.value.novelId = ''
+  source.value.otherId = ''
+}
 
 function handleUseNextOrder(): void {
   draftOptions.startOrder = nextChapterOrder.value
@@ -333,6 +366,8 @@ function handleNormalizeOrder(): void {
 }
 
 function handleGenerateDrafts(): void {
+  syncSourceFieldsToPreset()
+
   if (draftOptions.count < 1) {
     ElMessage.warning(TEXT.message.countRequired)
     return
@@ -356,6 +391,45 @@ function handleGenerateDrafts(): void {
   chapters.value = [...chapters.value, ...generatedChapters]
   draftOptions.startOrder = getNextBookChapterOrder(chapters.value)
   ElMessage.success(TEXT.message.generated)
+}
+
+async function handleGenerateFromSource(): Promise<void> {
+  syncSourceFieldsToPreset()
+
+  if (!source.value.origin.trim()) {
+    ElMessage.warning(TEXT.message.sourceUrlRequired)
+    return
+  }
+
+  if (
+    currentSourceOption.value.preferredIdField &&
+    !source.value[currentSourceOption.value.preferredIdField]
+  ) {
+    ElMessage.warning(TEXT.message.presetIdRequired)
+    return
+  }
+
+  sourceGenerating.value = true
+
+  try {
+    const generatedChapters = await buildBookChaptersFromSource(
+      normalizeBookChapterSourceConfig(source.value),
+      currentSourcePreset.value
+    )
+
+    if (generatedChapters.length === 0) {
+      ElMessage.warning(TEXT.message.sourceChapterEmpty)
+      return
+    }
+
+    chapters.value = generatedChapters
+    draftOptions.startOrder = getNextBookChapterOrder(chapters.value)
+    ElMessage.success(TEXT.message.sourceGenerated)
+  } catch {
+    ElMessage.error(TEXT.message.sourceFetchFailed)
+  } finally {
+    sourceGenerating.value = false
+  }
 }
 
 handleUseNextOrder()
