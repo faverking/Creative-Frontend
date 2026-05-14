@@ -76,6 +76,8 @@ const summaryLabel = computed(() => props.summary.trim())
   --public-detail-related-tag-ink: var(--home-business-article-tag-ink);
   --public-detail-related-accent: var(--home-business-article-accent);
   --public-detail-related-divider: color-mix(in srgb, var(--home-detail-divider) 82%, transparent);
+  --public-detail-related-motion-duration: 180ms;
+  --public-detail-related-motion-ease: ease;
   display: grid;
   grid-template-columns: 92px minmax(0, 1fr);
   gap: 14px;
@@ -84,7 +86,8 @@ const summaryLabel = computed(() => props.summary.trim())
   padding: 4px 0 16px;
   color: inherit;
   text-decoration: none;
-  transition: border-color var(--home-motion-duration-md) var(--home-motion-ease-standard);
+  transition: border-color var(--public-detail-related-motion-duration)
+    var(--public-detail-related-motion-ease);
 }
 
 .public-detail-related-media-card::after {
@@ -151,14 +154,16 @@ const summaryLabel = computed(() => props.summary.trim())
   box-shadow: 0 8px 16px rgba(18, 41, 74, 0.045);
   overflow: hidden;
   transition:
-    border-color var(--home-motion-duration-md) var(--home-motion-ease-standard),
-    box-shadow var(--home-motion-duration-md) var(--home-motion-ease-standard),
-    transform var(--home-motion-duration-md) var(--home-motion-ease-standard);
+    border-color var(--public-detail-related-motion-duration)
+      var(--public-detail-related-motion-ease),
+    box-shadow var(--public-detail-related-motion-duration) var(--public-detail-related-motion-ease),
+    transform var(--public-detail-related-motion-duration) var(--public-detail-related-motion-ease);
 }
 
 .public-detail-related-media-card__cover-image {
   filter: saturate(0.94) contrast(0.98);
-  transition: filter var(--home-motion-duration-md) var(--home-motion-ease-standard);
+  transition: filter var(--public-detail-related-motion-duration)
+    var(--public-detail-related-motion-ease);
 }
 
 .public-detail-related-media-card__copy {
@@ -184,7 +189,8 @@ const summaryLabel = computed(() => props.summary.trim())
   font-weight: 700;
   line-height: 1.46;
   letter-spacing: -0.018em;
-  transition: color var(--home-motion-duration-md) var(--home-motion-ease-standard);
+  transition: color var(--public-detail-related-motion-duration)
+    var(--public-detail-related-motion-ease);
 }
 
 .public-detail-related-media-card__summary {

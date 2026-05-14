@@ -14,6 +14,7 @@ import {
   loadArticleDetailView,
   loadArticleModuleView,
   loadBookDetailView,
+  loadBookReaderView,
   loadBookModuleView,
   loadForbiddenView,
   loadGalleryDetailView,
@@ -32,6 +33,8 @@ import {
 } from './loaders'
 import { ensureFreshAccessToken, ensurePermissionHydrated, getAuthRuntime } from '@/auth/runtime'
 import {
+  PORTAL_BOOK_READER_ROUTE_NAME,
+  PORTAL_BOOK_READER_ROUTE_PATH,
   PORTAL_DETAIL_ROUTE_NAMES,
   PORTAL_MODULE_ROUTE_NAMES,
   PORTAL_MODULE_ROUTE_PATHS
@@ -102,8 +105,9 @@ const registerView = loadRegisterView
 
 interface PublicDetailRouteDefinition {
   path: string
-  name: `${string}-detail`
+  name: string
   component: RouteComponent
+  authDialogs?: boolean
   defaultProps?: Record<string, unknown>
 }
 
@@ -123,15 +127,20 @@ function createPublicDetailRoutes(definition: PublicDetailRouteDefinition): Rout
   const meta = {
     permission: PORTAL_ROUTE_PERMISSIONS.home
   }
+  const mainRoute: RouteRecordRaw = {
+    path: definition.path,
+    name: definition.name,
+    component: definition.component,
+    props: definition.defaultProps,
+    meta
+  }
+
+  if (definition.authDialogs === false) {
+    return [mainRoute]
+  }
 
   return [
-    {
-      path: definition.path,
-      name: definition.name,
-      component: definition.component,
-      props: definition.defaultProps,
-      meta
-    },
+    mainRoute,
     {
       path: `${definition.path}/login`,
       name: `${definition.name}-login`,
@@ -197,28 +206,36 @@ const publicModuleRoutes = [
   })
 ] satisfies RouteRecordRaw[]
 
-const publicDetailRoutes = [
-  ...createPublicDetailRoutes({
+const publicDetailRouteDefinitions = [
+  {
     path: '/articles/:id',
     name: PORTAL_DETAIL_ROUTE_NAMES.article,
     component: loadArticleDetailView
-  }),
-  ...createPublicDetailRoutes({
+  },
+  {
     path: '/topics/:id',
     name: PORTAL_DETAIL_ROUTE_NAMES.topic,
     component: loadTopicDetailView
-  }),
-  ...createPublicDetailRoutes({
+  },
+  {
     path: '/books/:id',
     name: PORTAL_DETAIL_ROUTE_NAMES.book,
     component: loadBookDetailView
-  }),
-  ...createPublicDetailRoutes({
+  },
+  {
+    path: PORTAL_BOOK_READER_ROUTE_PATH,
+    name: PORTAL_BOOK_READER_ROUTE_NAME,
+    component: loadBookReaderView,
+    authDialogs: false
+  },
+  {
     path: '/galleries/:id',
     name: PORTAL_DETAIL_ROUTE_NAMES.gallery,
     component: loadGalleryDetailView
-  })
-] satisfies RouteRecordRaw[]
+  }
+] satisfies PublicDetailRouteDefinition[]
+
+const publicDetailRoutes = publicDetailRouteDefinitions.flatMap(createPublicDetailRoutes)
 
 const workspaceRoutes = [
   createWorkspaceRoute({

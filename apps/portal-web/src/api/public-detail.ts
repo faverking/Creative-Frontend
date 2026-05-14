@@ -478,6 +478,10 @@ export const portalPublicDetailApi = {
     }
   },
 
+  async getBookDetail(id: string): Promise<ApiRequestResult<PublicBookDetailResponse>> {
+    return safeGetPublic<PublicBookDetailResponse>(`/books/${id}`, undefined, true)
+  },
+
   async getBookDetailPageData(id: string): Promise<PublicBookDetailPageResult> {
     const detailResult = await safeGetPublic<PublicBookDetailResponse>(
       `/books/${id}`,

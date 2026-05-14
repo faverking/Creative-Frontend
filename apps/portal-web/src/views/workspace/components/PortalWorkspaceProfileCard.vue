@@ -495,8 +495,8 @@ function handleToggle(): void {
 }
 
 .workspace-profile-card__notice.is-error {
-  border-color: color-mix(in srgb, var(--portal-danger, #d05b52) 16%, transparent);
-  background: color-mix(in srgb, var(--portal-danger, #d05b52) 6%, transparent);
+  border-color: color-mix(in srgb, var(--portal-danger) 16%, transparent);
+  background: color-mix(in srgb, var(--portal-danger) 6%, transparent);
 }
 
 .workspace-profile-card__retry {
@@ -551,9 +551,9 @@ function handleToggle(): void {
 }
 
 .workspace-profile-card__status.is-blocked {
-  border-color: color-mix(in srgb, var(--portal-danger, #d05b52) 18%, transparent);
-  background: color-mix(in srgb, var(--portal-danger, #d05b52) 10%, transparent);
-  color: color-mix(in srgb, var(--portal-danger, #d05b52) 72%, var(--portal-ink-strong) 28%);
+  border-color: color-mix(in srgb, var(--portal-danger) 18%, transparent);
+  background: color-mix(in srgb, var(--portal-danger) 10%, transparent);
+  color: color-mix(in srgb, var(--portal-danger) 72%, var(--portal-ink-strong) 28%);
 }
 
 .workspace-profile-card__status.is-deleted {

@@ -107,7 +107,7 @@
                   <portal-image
                     :src="activeFeaturedCoverUrl"
                     class="home-hero__cover-image"
-                    position="center top"
+                    position="center"
                   />
                   <div class="home-hero__cover-frame" />
                 </div>

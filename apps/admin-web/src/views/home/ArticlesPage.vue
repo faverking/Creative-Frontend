@@ -228,6 +228,7 @@ import { resolveAssetUrl } from '@/utils/assets'
 import { formatDateTime } from '@/utils/format'
 import {
   countRichTextNodes,
+  collectPreparedRichTextImageMediaIds,
   createRichTextExcerpt,
   extractRichTextPlainText,
   normalizeRichTextEmbeddedMedia
@@ -557,7 +558,7 @@ async function handlePublish(): Promise<void> {
       desc: effectiveSummary.value.trim(),
       content: preparedMedia.content,
       themeId: form.themeId,
-      images: preparedMedia.images.map((item) => item.mediaId),
+      images: collectPreparedRichTextImageMediaIds(preparedMedia.images),
       status: 'published' as const
     }
 

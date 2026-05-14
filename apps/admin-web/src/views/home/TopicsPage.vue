@@ -304,6 +304,7 @@ import type {
 } from '@/types/rich-text-editor'
 import {
   countRichTextNodes,
+  collectPreparedRichTextImageMediaIds,
   extractRichTextPlainText,
   normalizeRichTextEmbeddedMedia
 } from '@/utils/rich-text'
@@ -641,7 +642,7 @@ async function handlePublish(): Promise<void> {
       featureFlags: form.featureFlags,
       desc: form.desc.trim(),
       content: preparedMedia.content,
-      images: preparedMedia.images.map((item) => item.mediaId),
+      images: collectPreparedRichTextImageMediaIds(preparedMedia.images),
       downloadUrl
     }
 

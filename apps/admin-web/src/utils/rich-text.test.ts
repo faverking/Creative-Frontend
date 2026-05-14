@@ -97,6 +97,32 @@ describe('normalizeRichTextEmbeddedMedia', () => {
       'https://player.bilibili.com/player.html?page=2&high_quality=1&as_wide=1&bvid=BV1xx411c7mD'
     )
   })
+
+  it('keeps existing uploaded image media ids when only src remains', async () => {
+    const result = await normalizeRichTextEmbeddedMedia(
+      `
+        <p>编辑后的正文</p>
+        <p><img src="/api/v1/media/507f1f77bcf86cd799439011/download" /></p>
+        <p><img src="https://cdn.example.com/api/v1/media/507f1f77bcf86cd799439012/preview?size=small" /></p>
+      `,
+      {
+        resolveAssetUrl: (path) => path,
+        uploadImages: async () => []
+      }
+    )
+
+    expect(collectPreparedRichTextImageMediaIds(result.images)).toEqual([
+      '507f1f77bcf86cd799439011',
+      '507f1f77bcf86cd799439012'
+    ])
+
+    const doc = parseHtml(result.content)
+    const imageNodes = Array.from(doc.querySelectorAll('img'))
+    expect(imageNodes.map((node) => node.getAttribute('data-media-id'))).toEqual([
+      '507f1f77bcf86cd799439011',
+      '507f1f77bcf86cd799439012'
+    ])
+  })
 })
 
 describe('normalizeRichTextEmbeddedVideoInput', () => {

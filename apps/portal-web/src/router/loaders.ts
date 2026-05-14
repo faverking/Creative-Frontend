@@ -1,4 +1,8 @@
-import { PORTAL_DETAIL_ROUTE_NAMES, PORTAL_MODULE_ROUTE_NAMES } from '@/constants/portal-business'
+import {
+  PORTAL_DETAIL_ROUTE_NAMES,
+  PORTAL_MODULE_ROUTE_NAMES,
+  PORTAL_PUBLIC_DETAIL_ROUTE_NAMES
+} from '@/constants/portal-business'
 
 const routePreloadCache = new WeakSet<RouteLoader>()
 
@@ -8,13 +12,13 @@ const HOME_ROUTE_NAMES = new Set(['home', 'login', 'register'])
 const PUBLIC_MODULE_ROUTE_NAME_SET: ReadonlySet<string> = new Set(
   Object.values(PORTAL_MODULE_ROUTE_NAMES)
 )
-const PUBLIC_DETAIL_ROUTE_NAME_SET: ReadonlySet<string> = new Set(
-  Object.values(PORTAL_DETAIL_ROUTE_NAMES).flatMap((routeName) => [
-    routeName,
+const PUBLIC_DETAIL_ROUTE_NAME_SET: ReadonlySet<string> = new Set([
+  ...PORTAL_PUBLIC_DETAIL_ROUTE_NAMES,
+  ...Object.values(PORTAL_DETAIL_ROUTE_NAMES).flatMap((routeName) => [
     `${routeName}-login`,
     `${routeName}-register`
   ])
-)
+])
 
 export const loadHomeView = () => import('@/views/home/PortalHomeView.vue')
 export const loadLoginView = () => import('@/views/auth/LoginView.vue')
@@ -34,6 +38,7 @@ export const loadGalleryModuleView = () => import('@/views/modules/PortalGallery
 export const loadArticleDetailView = () => import('@/views/public/PortalArticleDetailView.vue')
 export const loadTopicDetailView = () => import('@/views/public/PortalTopicDetailView.vue')
 export const loadBookDetailView = () => import('@/views/public/PortalBookDetailView.vue')
+export const loadBookReaderView = () => import('@/views/public/PortalBookReaderView.vue')
 export const loadGalleryDetailView = () => import('@/views/public/PortalGalleryDetailView.vue')
 
 const homeFollowupLoaders = [
@@ -46,6 +51,7 @@ const homeFollowupLoaders = [
   loadArticleDetailView,
   loadTopicDetailView,
   loadBookDetailView,
+  loadBookReaderView,
   loadGalleryDetailView
 ]
 

@@ -83,14 +83,136 @@ import type {
 } from '@/types/rich-text-editor'
 
 const BlockEmbed = Quill.import('blots/block/embed') as new (...args: never[]) => object
+interface RichTextImageBlotBase {
+  domNode: HTMLElement
+  format(name: string, value: unknown): void
+}
+
+const BaseImageBlot = Quill.import('formats/image') as (new (
+  ...args: never[]
+) => RichTextImageBlotBase) & {
+  create(value: unknown): HTMLElement
+  formats?(domNode: HTMLElement): Record<string, unknown>
+  value?(domNode: HTMLElement): unknown
+}
 const icons = Quill.import('ui/icons') as Record<string, string | Record<string, string>>
+
+interface RichTextImageValue {
+  alt?: string
+  mediaId?: string
+  placeholder?: string
+  title?: string
+  url: string
+}
+
+function normalizeRichTextImageValue(value: unknown): RichTextImageValue {
+  if (typeof value === 'string') {
+    return {
+      url: value
+    }
+  }
+
+  if (value && typeof value === 'object') {
+    const imageValue = value as Partial<RichTextImageValue>
+    return {
+      alt: imageValue.alt,
+      mediaId: imageValue.mediaId,
+      placeholder: imageValue.placeholder,
+      title: imageValue.title,
+      url: imageValue.url ?? ''
+    }
+  }
+
+  return {
+    url: ''
+  }
+}
 
 class DividerBlot extends BlockEmbed {
   static blotName = 'divider'
   static tagName = 'hr'
 }
 
+class RichTextImageBlot extends BaseImageBlot {
+  static blotName = 'image'
+  static tagName = 'img'
+
+  static create(value: unknown): HTMLElement {
+    const imageValue = normalizeRichTextImageValue(value)
+    const node = super.create(imageValue.url) as HTMLImageElement
+
+    if (imageValue.alt) {
+      node.setAttribute('alt', imageValue.alt)
+    }
+
+    if (imageValue.title) {
+      node.setAttribute('title', imageValue.title)
+    }
+
+    if (imageValue.placeholder) {
+      node.setAttribute('data-media-placeholder', imageValue.placeholder)
+    }
+
+    if (imageValue.mediaId) {
+      node.setAttribute('data-media-id', imageValue.mediaId)
+    }
+
+    return node
+  }
+
+  static formats(domNode: HTMLElement): Record<string, unknown> {
+    const formats = super.formats?.(domNode) ?? {}
+    const mediaId = domNode.getAttribute('data-media-id')?.trim()
+    const placeholder = domNode.getAttribute('data-media-placeholder')?.trim()
+
+    if (mediaId) {
+      formats.mediaId = mediaId
+    }
+
+    if (placeholder) {
+      formats.mediaPlaceholder = placeholder
+    }
+
+    return formats
+  }
+
+  static value(domNode: HTMLElement): RichTextImageValue {
+    return {
+      alt: domNode.getAttribute('alt')?.trim() || undefined,
+      mediaId: domNode.getAttribute('data-media-id')?.trim() || undefined,
+      placeholder: domNode.getAttribute('data-media-placeholder')?.trim() || undefined,
+      title: domNode.getAttribute('title')?.trim() || undefined,
+      url: domNode.getAttribute('src')?.trim() ?? ''
+    }
+  }
+
+  format(name: string, value: unknown): void {
+    const domNode = this.domNode
+
+    if (name === 'mediaId') {
+      if (typeof value === 'string' && value.trim()) {
+        domNode.setAttribute('data-media-id', value.trim())
+      } else {
+        domNode.removeAttribute('data-media-id')
+      }
+      return
+    }
+
+    if (name === 'mediaPlaceholder') {
+      if (typeof value === 'string' && value.trim()) {
+        domNode.setAttribute('data-media-placeholder', value.trim())
+      } else {
+        domNode.removeAttribute('data-media-placeholder')
+      }
+      return
+    }
+
+    super.format(name, value)
+  }
+}
+
 Quill.register('formats/divider', DividerBlot, true)
+Quill.register('formats/image', RichTextImageBlot, true)
 
 icons.divider = `
   <svg viewBox="0 0 18 18" aria-hidden="true">

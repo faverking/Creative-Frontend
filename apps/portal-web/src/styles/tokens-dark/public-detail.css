@@ -2,6 +2,7 @@ html.dark {
   /* Public Detail Surface Tokens */
   --home-surface: rgba(9, 18, 34, 0.84);
   --home-detail-panel-border: rgba(182, 224, 255, 0.14);
+  --home-detail-divider: color-mix(in srgb, var(--home-detail-panel-border) 82%, transparent);
   --home-detail-panel-bg: linear-gradient(180deg, rgba(14, 29, 53, 0.84), rgba(10, 22, 43, 0.9));
   --home-detail-panel-shadow:
     0 16px 30px rgba(0, 0, 0, 0.24), 0 8px 16px rgba(0, 0, 0, 0.16),

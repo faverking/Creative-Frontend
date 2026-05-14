@@ -6,6 +6,7 @@ html.dark {
   --portal-muted: #9fc2e6;
   --portal-primary-strong: #79e1ff;
   --portal-accent-cyan: #79e1ff;
+  --portal-danger: #ff8a93;
   --portal-border: rgba(182, 224, 255, 0.14);
   --portal-border-strong: rgba(182, 224, 255, 0.24);
   --portal-panel-bg:

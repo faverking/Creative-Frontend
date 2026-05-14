@@ -1,11 +1,13 @@
 :root {
   --portal-frame-width: calc(100% - 48px);
+  --portal-topbar-height: 78px;
   --portal-page-bg: #eef4fb;
   --portal-ink: #16314c;
   --portal-ink-strong: #102a42;
   --portal-muted: #69829d;
   --portal-primary-strong: #2b7eb7;
   --portal-accent-cyan: #69d4ff;
+  --portal-danger: #d05b52;
   --portal-border: rgba(125, 160, 201, 0.24);
   --portal-border-strong: rgba(111, 148, 191, 0.34);
   --portal-panel-bg:

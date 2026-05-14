@@ -177,16 +177,17 @@
             </div>
 
             <div class="portal-book-detail-page__chapter-list">
-              <article
+              <router-link
                 v-for="chapter in selectedChapterItems"
                 :key="chapter.id"
                 :title="chapter.title?.trim() || resolveUntitledChapterTitle(chapter.order)"
                 class="portal-book-detail-page__chapter"
+                :to="resolveChapterReaderLocation(chapter)"
               >
                 <strong>{{
                   chapter.title?.trim() || resolveUntitledChapterTitle(chapter.order)
                 }}</strong>
-              </article>
+              </router-link>
             </div>
           </section>
 
@@ -238,6 +239,7 @@ import { ElMessage } from 'element-plus'
 
 import { useUserStore } from '@frontend/store'
 
+import { PORTAL_BOOK_READER_ROUTE_NAME } from '@/constants/portal-business'
 import {
   createBookDetailActions,
   resolvePublicBookAreaLabel,
@@ -493,6 +495,16 @@ function resolveChapterOrderLabel(order: number): string {
 
 function resolveUntitledChapterTitle(order: number): string {
   return `第 ${resolveChapterOrderLabel(order)} 章`
+}
+
+function resolveChapterReaderLocation(chapter: { id: number }) {
+  return {
+    name: PORTAL_BOOK_READER_ROUTE_NAME,
+    params: {
+      id: bookId.value,
+      chapterId: String(chapter.id)
+    }
+  }
 }
 
 function normalizeBookTagLabel(value: string): string {
@@ -1065,6 +1077,30 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
     linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02)),
     color-mix(in srgb, var(--home-detail-card-bg) 96%, transparent);
   box-shadow: 0 6px 12px rgba(18, 41, 74, 0.03);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    background 180ms ease;
+}
+
+.portal-book-detail-page__chapter:hover,
+.portal-book-detail-page__chapter:focus-visible {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--home-business-bookshelf-tag-border) 74%, transparent);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04)),
+    color-mix(in srgb, var(--home-business-bookshelf-tag-bg) 42%, var(--home-detail-card-bg));
+  box-shadow: 0 10px 20px rgba(18, 41, 74, 0.06);
+}
+
+.portal-book-detail-page__chapter:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px var(--portal-focus-ring),
+    0 10px 20px rgba(18, 41, 74, 0.06);
 }
 
 .portal-book-detail-page__chapter strong {

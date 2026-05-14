@@ -309,6 +309,15 @@ function readImageMediaId(node: HTMLImageElement): string {
   return node.getAttribute('data-media-id')?.trim() ?? ''
 }
 
+function inferMediaIdFromImageSource(source: string): string {
+  const trimmedSource = source.trim()
+  const match = trimmedSource.match(
+    /(?:^|\/)media\/([a-f0-9]{24})(?:\/(?:preview|download|detail)|[/?#]|$)/i
+  )
+
+  return match?.[1] ?? ''
+}
+
 function markRichTextImageNode(
   node: HTMLImageElement,
   nextSource: string,
@@ -905,7 +914,8 @@ export async function normalizeRichTextEmbeddedMedia(
 
     const uploadedImage = preparedImageMap.get(source)
     const nextSource = uploadedImage?.url ?? source
-    const nextMediaId = uploadedImage?.mediaId ?? readImageMediaId(node)
+    const nextMediaId =
+      (uploadedImage?.mediaId ?? readImageMediaId(node)) || inferMediaIdFromImageSource(source)
 
     markRichTextImageNode(node, nextSource, nextMediaId)
     preparedImages.push({

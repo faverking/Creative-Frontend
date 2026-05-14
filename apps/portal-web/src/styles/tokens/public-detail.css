@@ -3,6 +3,7 @@
   --home-surface: rgba(239, 246, 252, 0.96);
   --home-detail-panel-radius: 20px;
   --home-detail-panel-border: rgba(122, 160, 199, 0.2);
+  --home-detail-divider: color-mix(in srgb, var(--home-detail-panel-border) 82%, transparent);
   --home-detail-panel-bg: linear-gradient(
     180deg,
     rgba(244, 249, 254, 0.8),

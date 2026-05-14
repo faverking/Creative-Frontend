@@ -37,6 +37,13 @@ export const PORTAL_DETAIL_ROUTE_NAMES = {
   gallery: 'gallery-detail'
 } as const satisfies Record<PortalBusinessType, `${PortalBusinessType}-detail`>
 
+export const PORTAL_BOOK_READER_ROUTE_NAME = 'book-reader'
+export const PORTAL_BOOK_READER_ROUTE_PATH = '/books/:id/chapters/:chapterId'
+export const PORTAL_PUBLIC_DETAIL_ROUTE_NAMES = [
+  ...Object.values(PORTAL_DETAIL_ROUTE_NAMES),
+  PORTAL_BOOK_READER_ROUTE_NAME
+] as const
+
 export interface PortalBusinessItem {
   detailRouteName: (typeof PORTAL_DETAIL_ROUTE_NAMES)[PortalBusinessType]
   key: PortalBusinessType
