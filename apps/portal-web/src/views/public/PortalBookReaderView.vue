@@ -236,6 +236,7 @@ import {
   type BookReaderSourceResolution,
   type Wenku8NovelChapterContent
 } from '@/views/public/book-reader'
+import { useDocumentTitle } from '@/composables/useDocumentTitle'
 import { usePublicDetailRequestState } from '@/views/public/composables/usePublicDetailRequestState'
 
 interface BookReaderPageData {
@@ -345,6 +346,15 @@ const nextChapter = computed(() => {
 
   return readerData.value.chapters[readerData.value.chapterIndex + 1] ?? null
 })
+const readerDocumentTitle = computed(() => {
+  if (!readerData.value) {
+    return '章节阅读'
+  }
+
+  return `${chapterTitle.value} - ${bookTitle.value}`
+})
+
+useDocumentTitle(readerDocumentTitle)
 
 watch(
   [bookId, chapterId],

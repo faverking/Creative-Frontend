@@ -197,6 +197,7 @@ import PublicDetailRelatedSection from '@/views/public/components/side/PublicDet
 import { useCopyFeedback } from '@/views/public/composables/useCopyFeedback'
 import { usePublicDetailReloadTriggers } from '@/views/public/composables/usePublicDetailReloadTriggers'
 import { usePublicDetailRequestState } from '@/views/public/composables/usePublicDetailRequestState'
+import { useDocumentTitle } from '@/composables/useDocumentTitle'
 import { buildProtectedAuthDialogLocation } from '@/utils/auth-dialog'
 import { normalizeDownloadFileName, triggerBlobDownload } from '@/utils/download'
 import {
@@ -397,6 +398,9 @@ const resolvedActions = computed(() =>
     label: resolveActionLabel(action)
   }))
 )
+const galleryDocumentTitle = computed(() => (galleryDetail.value ? galleryTitle.value : '图包详情'))
+
+useDocumentTitle(galleryDocumentTitle)
 
 function resolveActionLabel(action: PublicDetailActionItem): string {
   if (action.key === 'favorite' && favorited.value) {

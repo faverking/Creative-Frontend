@@ -284,6 +284,7 @@ import {
   type MediaUploadItem,
   type ResolvedMediaAsset
 } from '@/api/content'
+import { useDocumentTitle } from '@/composables/useDocumentTitle'
 import {
   IMAGE_BATCH_LIMIT,
   IMAGE_MAX_FILE_SIZE,
@@ -388,12 +389,20 @@ const uploadedItems = ref<MediaUploadItem[]>([])
 const existingMediaItems = ref<ResolvedMediaAsset[]>([])
 const existingImageIds = ref<string[]>([])
 const coverId = ref('')
+const loadedImagePackageTitle = ref('')
 const objectUrlMap = new Map<string, string>()
 
 const editingId = computed(() =>
   route.query.mode === 'edit' && typeof route.query.id === 'string' ? route.query.id : ''
 )
 const isEditMode = computed(() => editingId.value.length > 0)
+const imageDocumentTitle = computed(() => {
+  if (!isEditMode.value) {
+    return '发布图包'
+  }
+
+  return loadedImagePackageTitle.value ? `编辑：${loadedImagePackageTitle.value}` : '编辑图包'
+})
 const currentImageCount = computed(() => existingImageIds.value.length + fileList.value.length)
 const previewFiles = computed<PreviewFile[]>(() =>
   fileList.value
@@ -433,6 +442,8 @@ const sourceAutocomplete = useImageFieldAutocomplete({
   form,
   input: imageAiInput
 })
+
+useDocumentTitle(imageDocumentTitle)
 
 function handleFieldFocusOut(surface: 'title' | 'summary', event: FocusEvent): void {
   const currentTarget = event.currentTarget as HTMLElement | null
@@ -528,6 +539,7 @@ function resetFileState(): void {
 }
 
 function resetForm(): void {
+  loadedImagePackageTitle.value = ''
   form.title = ''
   form.themeId = imageThemeOptions[0]?.value ?? 1
   form.desc = ''
@@ -560,6 +572,7 @@ function validateForm(): boolean {
 }
 
 async function loadImagePackageDetail(id: string): Promise<void> {
+  loadedImagePackageTitle.value = ''
   detailLoading.value = true
 
   try {
@@ -568,6 +581,7 @@ async function loadImagePackageDetail(id: string): Promise<void> {
     form.themeId = detail.themeId
     form.desc = detail.desc
     form.source = detail.source ?? ''
+    loadedImagePackageTitle.value = detail.title.trim()
     existingImageIds.value = detail.imageMediaIds
     coverId.value = detail.coverMediaId || detail.imageMediaIds[0] || ''
     publishResult.value = null
@@ -668,6 +682,7 @@ async function handlePublish(): Promise<void> {
         : await contentApi.createImagePackage(payload)
 
     publishResult.value = result
+    loadedImagePackageTitle.value = result.title.trim()
     ElMessage.success(isEditMode.value ? TEXT.message.updated : TEXT.message.created)
 
     if (isEditMode.value && editingId.value) {

@@ -216,6 +216,7 @@ import AdminEditorAiSuggestionPopover from '@/components/ai/AdminEditorAiSuggest
 import AdminInlineAiSuggestion from '@/components/ai/AdminInlineAiSuggestion.vue'
 import RichTextEditor from '@/components/RichTextEditor.vue'
 import { contentApi, type ArticleDetail } from '@/api/content'
+import { useDocumentTitle } from '@/composables/useDocumentTitle'
 import { useArticleEditorAutocomplete } from '@/composables/useArticleEditorAutocomplete'
 import { useArticleFieldAutocomplete } from '@/composables/useArticleFieldAutocomplete'
 import { useContentAiSurfaces } from '@/composables/useContentAiSurfaces'
@@ -283,11 +284,19 @@ const draftLoading = ref(false)
 const detailLoading = ref(false)
 const publishLoading = ref(false)
 const publishResult = ref<ArticleDetail | null>(null)
+const loadedArticleTitle = ref('')
 
 const editingId = computed(() =>
   route.query.mode === 'edit' && typeof route.query.id === 'string' ? route.query.id : ''
 )
 const isEditMode = computed(() => editingId.value.length > 0)
+const articleDocumentTitle = computed(() => {
+  if (!isEditMode.value) {
+    return '发布情报'
+  }
+
+  return loadedArticleTitle.value ? `编辑：${loadedArticleTitle.value}` : '编辑情报'
+})
 const contentLength = computed(() => extractRichTextPlainText(form.content).length)
 const embeddedImageCount = computed(() => countRichTextNodes(form.content, 'img[src]'))
 const autoSummary = computed(() => createRichTextExcerpt(form.content, 160))
@@ -311,6 +320,8 @@ const statusCardSummary = computed(() => {
 const editorSuggestionTitle = computed(() =>
   editorAutocomplete.task.value === 'rewrite-selection' ? '选区改写建议' : '正文续写建议'
 )
+useDocumentTitle(articleDocumentTitle)
+
 function readStoredDraftId(): string {
   if (typeof window === 'undefined') {
     return ''
@@ -460,6 +471,7 @@ async function loadDraft(nextDraftId: string, silent = false): Promise<void> {
 
 async function loadArticleDetail(id: string): Promise<void> {
   resetArticleAiState()
+  loadedArticleTitle.value = ''
   detailLoading.value = true
 
   try {
@@ -468,6 +480,7 @@ async function loadArticleDetail(id: string): Promise<void> {
     form.themeId = detail.themeId
     form.desc = detail.desc
     form.content = detail.content
+    loadedArticleTitle.value = detail.title.trim()
   } catch {
     // 由请求层统一提示。
   } finally {
@@ -572,6 +585,7 @@ async function handlePublish(): Promise<void> {
     form.content = preparedMedia.content
 
     if (isEditMode.value) {
+      loadedArticleTitle.value = payload.title
       ElMessage.success('情报内容已更新。')
       return
     }
@@ -609,6 +623,7 @@ watch(
       return
     }
 
+    loadedArticleTitle.value = ''
     void initializeCreateMode()
   },
   {

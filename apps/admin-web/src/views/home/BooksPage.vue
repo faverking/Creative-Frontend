@@ -186,6 +186,7 @@ import {
   type BookStyleItem,
   type CreateBookResult
 } from '@/api/content'
+import { useDocumentTitle } from '@/composables/useDocumentTitle'
 import BookChapterEditor from '@/components/books/BookChapterEditor.vue'
 import {
   cloneEditableBookChapters,
@@ -299,13 +300,23 @@ const initialChapterSource = ref<BookChapterSourceConfig>(createBookChapterSourc
 const detailLoading = ref(false)
 const submitLoading = ref(false)
 const submitResult = ref<CreateBookResult | BookDetail | null>(null)
+const loadedBookTitle = ref('')
 
 const editingId = computed(() =>
   route.query.mode === 'edit' && typeof route.query.id === 'string' ? route.query.id : ''
 )
 const isEditMode = computed(() => editingId.value.length > 0)
+const bookDocumentTitle = computed(() => {
+  if (!isEditMode.value) {
+    return '创建书库'
+  }
+
+  return loadedBookTitle.value ? `编辑：${loadedBookTitle.value}` : '编辑书库'
+})
 const coverPreviewUrl = computed(() => localCoverUrl.value || currentCoverUrl.value)
 const coverPreviewName = computed(() => coverFileList.value[0]?.name || TEXT.form.coverPreviewTitle)
+
+useDocumentTitle(bookDocumentTitle)
 
 function getErrorMessage(error: unknown): string {
   return error instanceof Error && error.message.trim().length > 0
@@ -331,6 +342,7 @@ function revokeLocalCoverUrl(): void {
 }
 
 function resetForm(): void {
+  loadedBookTitle.value = ''
   form.name = ''
   form.author = []
   form.part = 1
@@ -358,6 +370,7 @@ function handleReset(): void {
 }
 
 async function loadBookDetail(id: string): Promise<void> {
+  loadedBookTitle.value = ''
   detailLoading.value = true
 
   try {
@@ -383,6 +396,7 @@ async function loadBookDetail(id: string): Promise<void> {
     currentCoverMediaId.value = detail.coverMediaId
     currentCoverUrl.value = detail.cover
     coverFileList.value = []
+    loadedBookTitle.value = detail.name.trim()
     revokeLocalCoverUrl()
   } catch {
     // 由请求层统一提示。
@@ -530,6 +544,7 @@ async function handleSubmit(): Promise<void> {
     }
 
     submitResult.value = baseResult
+    loadedBookTitle.value = baseResult.name.trim()
     ElMessage.success(isEditMode.value ? TEXT.message.updated : TEXT.message.created)
 
     if (isEditMode.value && editingId.value) {

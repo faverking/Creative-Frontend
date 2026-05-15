@@ -154,6 +154,7 @@ import PublicDetailResourceState from '@/views/public/components/side/PublicDeta
 import { useCopyFeedback } from '@/views/public/composables/useCopyFeedback'
 import { usePublicDetailReloadTriggers } from '@/views/public/composables/usePublicDetailReloadTriggers'
 import { usePublicDetailRequestState } from '@/views/public/composables/usePublicDetailRequestState'
+import { useDocumentTitle } from '@/composables/useDocumentTitle'
 
 const COMMENTS_ANCHOR_ID = 'topic-comments-anchor'
 
@@ -345,6 +346,9 @@ const resolvedActions = computed(() =>
     label: resolveActionLabel(action)
   }))
 )
+const topicDocumentTitle = computed(() => (topicDetail.value ? topicTitle.value : '游戏详情'))
+
+useDocumentTitle(topicDocumentTitle)
 
 function resolveActionLabel(action: PublicDetailActionItem): string {
   if (action.key === 'favorite' && favorited.value) {

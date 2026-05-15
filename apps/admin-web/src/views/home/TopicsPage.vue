@@ -285,6 +285,7 @@ import AdminEditorAiSuggestionPopover from '@/components/ai/AdminEditorAiSuggest
 import AdminInlineAiSuggestion from '@/components/ai/AdminInlineAiSuggestion.vue'
 import RichTextEditor from '@/components/RichTextEditor.vue'
 import { contentApi, type TopicDetail, type UploadZipDirectResult } from '@/api/content'
+import { useDocumentTitle } from '@/composables/useDocumentTitle'
 import { useContentAiSurfaces } from '@/composables/useContentAiSurfaces'
 import { useTopicEditorAutocomplete } from '@/composables/useTopicEditorAutocomplete'
 import { useTopicFeatureFlagSuggestion } from '@/composables/useTopicFeatureFlagSuggestion'
@@ -357,11 +358,19 @@ const detailLoading = ref(false)
 const publishLoading = ref(false)
 const publishSummary = ref<PublishSummary | null>(null)
 const editorRef = ref<RichTextEditorExpose | null>(null)
+const loadedTopicTitle = ref('')
 
 const editingId = computed(() =>
   route.query.mode === 'edit' && typeof route.query.id === 'string' ? route.query.id : ''
 )
 const isEditMode = computed(() => editingId.value.length > 0)
+const topicDocumentTitle = computed(() => {
+  if (!isEditMode.value) {
+    return '发布游戏'
+  }
+
+  return loadedTopicTitle.value ? `编辑：${loadedTopicTitle.value}` : '编辑游戏'
+})
 const plainTextLength = computed(() => extractRichTextPlainText(form.content).length)
 const embeddedImageCount = computed(() => countRichTextNodes(form.content, 'img[src]'))
 const embeddedVideoCount = computed(() =>
@@ -415,6 +424,8 @@ const selectedArchive = computed(() => {
     updatedAt: lastModified ? formatDateTime(lastModified) : '未记录'
   }
 })
+
+useDocumentTitle(topicDocumentTitle)
 
 const {
   handleTitleFocusIn,
@@ -556,6 +567,7 @@ function validateForm(): boolean {
 }
 
 async function loadTopicDetail(id: string): Promise<void> {
+  loadedTopicTitle.value = ''
   detailLoading.value = true
 
   try {
@@ -568,6 +580,7 @@ async function loadTopicDetail(id: string): Promise<void> {
     form.content = detail.content
     form.downloadUrl = detail.downloadUrl
     archiveFileList.value = []
+    loadedTopicTitle.value = detail.title.trim()
     resetTopicAiState()
   } catch {
     // 由请求层统一提示。
@@ -664,6 +677,7 @@ async function handlePublish(): Promise<void> {
 
     form.downloadUrl = downloadUrl
     form.content = preparedMedia.content
+    loadedTopicTitle.value = payload.title
     resetTopicAiState()
     ElMessage.success(isEditMode.value ? '游戏内容已更新。' : '游戏已成功发布。')
 
@@ -694,6 +708,7 @@ watch(
       return
     }
 
+    loadedTopicTitle.value = ''
     resetForm()
   },
   {

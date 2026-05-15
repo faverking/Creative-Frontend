@@ -263,6 +263,7 @@ import PublicDetailRelatedSection from '@/views/public/components/side/PublicDet
 import { useCopyFeedback } from '@/views/public/composables/useCopyFeedback'
 import { usePublicDetailReloadTriggers } from '@/views/public/composables/usePublicDetailReloadTriggers'
 import { usePublicDetailRequestState } from '@/views/public/composables/usePublicDetailRequestState'
+import { useDocumentTitle } from '@/composables/useDocumentTitle'
 import { buildProtectedAuthDialogLocation } from '@/utils/auth-dialog'
 import {
   copyTextToClipboard,
@@ -464,6 +465,9 @@ const resolvedActions = computed(() =>
     label: resolveActionLabel(action)
   }))
 )
+const bookDocumentTitle = computed(() => (bookDetail.value ? bookTitle.value : '书库详情'))
+
+useDocumentTitle(bookDocumentTitle)
 
 watch(
   chapterGroups,
