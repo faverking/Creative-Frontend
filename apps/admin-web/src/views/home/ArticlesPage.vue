@@ -224,7 +224,7 @@ import type {
   RichTextEditorExpose,
   RichTextEditorSelectionSnapshot
 } from '@/types/rich-text-editor'
-import { resolveAssetUrl } from '@/utils/assets'
+import { resolvePersistedAssetPath } from '@/utils/assets'
 import { formatDateTime } from '@/utils/format'
 import {
   countRichTextNodes,
@@ -549,7 +549,7 @@ async function handlePublish(): Promise<void> {
     // 富文本图片的上传、src 回写和媒体占位标记统一由富文本处理器完成。
     const preparedMedia = await normalizeRichTextEmbeddedMedia(form.content, {
       fileNamePrefix: 'article-embedded-image',
-      resolveAssetUrl,
+      resolveAssetUrl: resolvePersistedAssetPath,
       uploadImages: async (files) => (await contentApi.uploadImages(files)).items
     })
 

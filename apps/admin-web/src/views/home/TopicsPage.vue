@@ -296,7 +296,7 @@ import {
   TOPIC_SECTION_OPTIONS,
   TOPIC_SERIES_OPTIONS
 } from '@/constants'
-import { resolveAssetUrl } from '@/utils/assets'
+import { resolveAssetUrl, resolvePersistedAssetPath } from '@/utils/assets'
 import { formatDateTime } from '@/utils/format'
 import type {
   RichTextEditorExpose,
@@ -626,7 +626,7 @@ async function handlePublish(): Promise<void> {
     // 仅在真正提交时解析富文本中的媒体，避免编辑过程中重复上传图片。
     const preparedMedia = await normalizeRichTextEmbeddedMedia(form.content, {
       fileNamePrefix: 'topic-embedded-image',
-      resolveAssetUrl,
+      resolveAssetUrl: resolvePersistedAssetPath,
       uploadImages: async (files) => (await contentApi.uploadImages(files)).items
     })
 
