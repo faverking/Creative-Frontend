@@ -141,6 +141,8 @@ class RichTextImageBlot extends BaseImageBlot {
     const imageValue = normalizeRichTextImageValue(value)
     const node = super.create(imageValue.url) as HTMLImageElement
 
+    node.setAttribute('loading', 'lazy')
+
     if (imageValue.alt) {
       node.setAttribute('alt', imageValue.alt)
     }

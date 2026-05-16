@@ -325,6 +325,7 @@ function markRichTextImageNode(
   nextMediaId?: string
 ): void {
   node.setAttribute('src', nextSource)
+  node.setAttribute('loading', 'lazy')
   // 富文本图片统一补占位标记，后续预览可再按 data-media-id 换取最新地址。
   node.setAttribute('data-media-placeholder', 'rich-text-image')
 

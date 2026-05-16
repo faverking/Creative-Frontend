@@ -47,8 +47,10 @@ describe('normalizeRichTextEmbeddedMedia', () => {
 
     expect(figures).toHaveLength(2)
     expect(figures[0]?.querySelector('img')?.getAttribute('src')).toBe('https://cdn.test/one.jpg')
+    expect(figures[0]?.querySelector('img')?.getAttribute('loading')).toBe('lazy')
     expect(figures[0]?.querySelector('figcaption')?.textContent).toBe('First image')
     expect(figures[1]?.querySelector('img')?.getAttribute('src')).toBe('https://cdn.test/two.jpg')
+    expect(figures[1]?.querySelector('img')?.getAttribute('loading')).toBe('lazy')
     expect(figures[1]?.querySelector('figcaption')?.textContent).toBe('Second image')
   })
 
@@ -119,6 +121,7 @@ describe('normalizeRichTextEmbeddedMedia', () => {
 
     const doc = parseHtml(result.content)
     const imageNodes = Array.from(doc.querySelectorAll('img'))
+    expect(imageNodes.map((node) => node.getAttribute('loading'))).toEqual(['lazy', 'lazy'])
     expect(imageNodes.map((node) => node.getAttribute('data-media-id'))).toEqual([
       '507f1f77bcf86cd799439011',
       '507f1f77bcf86cd799439012'
