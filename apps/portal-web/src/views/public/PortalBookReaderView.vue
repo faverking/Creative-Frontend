@@ -825,7 +825,6 @@ function updateReadingProgress(): void {
   display: grid;
   justify-items: center;
   width: min(100%, 760px);
-  min-height: 100px;
   border: 1px solid color-mix(in srgb, var(--portal-book-reader-border) 64%, transparent);
   border-radius: 14px;
   background: color-mix(in srgb, var(--home-detail-card-bg) 72%, transparent);
@@ -836,6 +835,7 @@ function updateReadingProgress(): void {
   width: auto;
   height: auto;
   max-height: min(78vh, 920px);
+  min-height: 200px;
 }
 
 .portal-book-reader-page__catalog {
