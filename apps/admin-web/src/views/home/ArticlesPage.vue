@@ -19,7 +19,7 @@
       <article class="stat-card">
         <span>发布摘要</span>
         <strong>{{ effectiveSummary ? `${effectiveSummary.length} 字` : '待生成' }}</strong>
-        <small>{{ effectiveSummary || '如未手动填写，将根据正文自动生成摘要。' }}</small>
+        <small>如未手动填写，将根据正文自动生成摘要。</small>
       </article>
     </section>
 
