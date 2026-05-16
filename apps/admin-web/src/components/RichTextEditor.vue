@@ -824,11 +824,12 @@ defineExpose<RichTextEditorExpose>({
 
 <style scoped>
 .rich-text-editor {
+  position: relative;
   width: 100%;
   max-width: 100%;
   border: 1px solid var(--community-border);
   border-radius: 24px;
-  overflow: hidden;
+  overflow: visible;
   background: var(--community-surface-soft);
   box-shadow: var(--community-inner-glow);
 }
@@ -841,14 +842,23 @@ defineExpose<RichTextEditorExpose>({
 }
 
 .rich-text-editor :deep(.ql-toolbar.ql-snow) {
+  position: sticky;
+  top: 12px;
+  z-index: 12;
   border: 0;
   border-bottom: 1px solid var(--community-divider);
+  border-radius: 23px 23px 0 0;
   padding: 12px 14px;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.52), rgba(255, 255, 255, 0.2));
+  backdrop-filter: blur(18px);
+  box-shadow:
+    0 12px 26px rgba(34, 67, 112, 0.1),
+    var(--community-inner-glow);
 }
 
 .rich-text-editor :deep(.ql-container.ql-snow) {
   border: 0;
+  border-radius: 0 0 23px 23px;
   background: transparent;
 }
 

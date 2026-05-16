@@ -488,7 +488,7 @@ const userRole = computed(() => `身份：${userRoleLabel.value}`)
   display: grid;
   grid-template-rows: auto 1fr;
   min-height: calc(100vh - 156px);
-  overflow: hidden;
+  overflow: visible;
   background:
     radial-gradient(circle at top right, rgba(109, 161, 223, 0.16), transparent 26%),
     radial-gradient(circle at left top, rgba(142, 222, 255, 0.2), transparent 32%),

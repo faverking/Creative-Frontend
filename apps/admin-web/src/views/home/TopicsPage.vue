@@ -2,9 +2,9 @@
   <section class="content-page topics-page">
     <section class="stats-grid">
       <article class="stat-card">
-        <span>正文长度</span>
-        <strong>{{ plainTextLength }}</strong>
-        <small>按富文本提取后的纯文本内容统计。</small>
+        <span>正文体积</span>
+        <strong :class="contentByteUsageClass">{{ contentByteSizeText }}</strong>
+        <small>纯文本 {{ plainTextLength }} 字；发布上限 {{ topicContentLimitText }}。</small>
       </article>
 
       <article class="stat-card">
@@ -293,11 +293,17 @@ import { useTopicFieldAutocomplete } from '@/composables/useTopicFieldAutocomple
 import {
   TOPIC_ARCHIVE_ACCEPT,
   TOPIC_ARCHIVE_MAX_FILE_SIZE,
+  CONTENT_BYTE_LIMITS,
   TOPIC_FEATURE_FLAG_OPTIONS,
   TOPIC_SECTION_OPTIONS,
   TOPIC_SERIES_OPTIONS
 } from '@/constants'
 import { resolveAssetUrl, resolvePersistedAssetPath } from '@/utils/assets'
+import {
+  formatContentByteSize,
+  getContentByteLimitMessage,
+  getContentByteUsage
+} from '@/utils/content-byte-limit'
 import { formatDateTime } from '@/utils/format'
 import type {
   RichTextEditorExpose,
@@ -372,6 +378,13 @@ const topicDocumentTitle = computed(() => {
   return loadedTopicTitle.value ? `编辑：${loadedTopicTitle.value}` : '编辑游戏'
 })
 const plainTextLength = computed(() => extractRichTextPlainText(form.content).length)
+const contentByteUsage = computed(() => getContentByteUsage(form.content, 'topic'))
+const contentByteSizeText = computed(() => formatContentByteSize(contentByteUsage.value.bytes))
+const topicContentLimitText = formatContentByteSize(CONTENT_BYTE_LIMITS.topic.max)
+const contentByteUsageClass = computed(() => ({
+  'is-danger': contentByteUsage.value.isOverLimit,
+  'is-warning': contentByteUsage.value.isNearLimit
+}))
 const embeddedImageCount = computed(() => countRichTextNodes(form.content, 'img[src]'))
 const embeddedVideoCount = computed(() =>
   countRichTextNodes(form.content, 'iframe.ql-video[src], video[src]')
@@ -630,18 +643,29 @@ async function handlePublish(): Promise<void> {
   publishLoading.value = true
 
   try {
-    let archiveUploadResult: UploadZipDirectResult | null = null
-    if (archiveFile) {
-      // ZIP 资源只在真正提交时上传，避免编辑态反复写入临时媒体。
-      archiveUploadResult = await contentApi.uploadZip(archiveFile, 'direct')
-    }
-
     // 仅在真正提交时解析富文本中的媒体，避免编辑过程中重复上传图片。
     const preparedMedia = await normalizeRichTextEmbeddedMedia(form.content, {
       fileNamePrefix: 'topic-embedded-image',
       resolveAssetUrl: resolvePersistedAssetPath,
       uploadImages: async (files) => (await contentApi.uploadImages(files)).items
     })
+
+    const contentLimitMessage = getContentByteLimitMessage(
+      preparedMedia.content,
+      'topic',
+      '游戏正文'
+    )
+    if (contentLimitMessage) {
+      form.content = preparedMedia.content
+      ElMessage.warning(contentLimitMessage)
+      return
+    }
+
+    let archiveUploadResult: UploadZipDirectResult | null = null
+    if (archiveFile) {
+      // ZIP 资源只在真正提交时上传，避免编辑态反复写入临时媒体。
+      archiveUploadResult = await contentApi.uploadZip(archiveFile, 'direct')
+    }
 
     const downloadUrl = resolveTopicDownloadUrl(form.downloadUrl.trim(), archiveUploadResult)
     if (!downloadUrl) {
@@ -758,6 +782,14 @@ watch(
   line-height: 1.25;
 }
 
+.stat-card strong.is-warning {
+  color: var(--el-color-warning);
+}
+
+.stat-card strong.is-danger {
+  color: var(--el-color-danger);
+}
+
 .alert-content {
   display: flex;
   gap: 18px;
@@ -766,7 +798,12 @@ watch(
 }
 
 .panel-card {
+  overflow: visible;
   padding: 6px;
+}
+
+.panel-card :deep(.el-card__body) {
+  overflow: visible;
 }
 
 .content-form {

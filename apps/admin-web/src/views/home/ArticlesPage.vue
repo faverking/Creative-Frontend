@@ -2,9 +2,12 @@
   <section class="content-page articles-page">
     <section class="stats-grid">
       <article class="stat-card">
-        <span>正文字符数</span>
-        <strong>{{ contentLength }}</strong>
-        <small>按富文本提取后的纯文本内容实时统计。</small>
+        <span>正文体积</span>
+        <strong :class="contentByteUsageClass">{{ contentByteSizeText }}</strong>
+        <small>
+          纯文本 {{ contentLength }} 字；发布上限 {{ articleContentLimitText }}，草稿
+          {{ draftContentLimitText }}。
+        </small>
       </article>
 
       <article class="stat-card">
@@ -220,12 +223,17 @@ import { useDocumentTitle } from '@/composables/useDocumentTitle'
 import { useArticleEditorAutocomplete } from '@/composables/useArticleEditorAutocomplete'
 import { useArticleFieldAutocomplete } from '@/composables/useArticleFieldAutocomplete'
 import { useContentAiSurfaces } from '@/composables/useContentAiSurfaces'
-import { ARTICLE_DRAFT_STORAGE_KEY, ARTICLE_THEME_OPTIONS } from '@/constants'
+import { ARTICLE_DRAFT_STORAGE_KEY, ARTICLE_THEME_OPTIONS, CONTENT_BYTE_LIMITS } from '@/constants'
 import type {
   RichTextEditorExpose,
   RichTextEditorSelectionSnapshot
 } from '@/types/rich-text-editor'
 import { resolvePersistedAssetPath } from '@/utils/assets'
+import {
+  formatContentByteSize,
+  getContentByteLimitMessage,
+  getContentByteUsage
+} from '@/utils/content-byte-limit'
 import { formatDateTime } from '@/utils/format'
 import {
   countRichTextNodes,
@@ -298,6 +306,14 @@ const articleDocumentTitle = computed(() => {
   return loadedArticleTitle.value ? `编辑：${loadedArticleTitle.value}` : '编辑情报'
 })
 const contentLength = computed(() => extractRichTextPlainText(form.content).length)
+const contentByteUsage = computed(() => getContentByteUsage(form.content, 'article'))
+const contentByteSizeText = computed(() => formatContentByteSize(contentByteUsage.value.bytes))
+const articleContentLimitText = formatContentByteSize(CONTENT_BYTE_LIMITS.article.max)
+const draftContentLimitText = formatContentByteSize(CONTENT_BYTE_LIMITS.draft.max)
+const contentByteUsageClass = computed(() => ({
+  'is-danger': contentByteUsage.value.isOverLimit,
+  'is-warning': contentByteUsage.value.isNearLimit
+}))
 const embeddedImageCount = computed(() => countRichTextNodes(form.content, 'img[src]'))
 const autoSummary = computed(() => createRichTextExcerpt(form.content, 160))
 const effectiveSummary = computed(() => form.desc.trim() || autoSummary.value)
@@ -418,6 +434,12 @@ function validateDraft(): boolean {
 
   if (!plainText) {
     ElMessage.warning('草稿正文不能为空。')
+    return false
+  }
+
+  const contentLimitMessage = getContentByteLimitMessage(form.content, 'draft', '草稿正文')
+  if (contentLimitMessage) {
+    ElMessage.warning(contentLimitMessage)
     return false
   }
 
@@ -566,6 +588,17 @@ async function handlePublish(): Promise<void> {
       uploadImages: async (files) => (await contentApi.uploadImages(files)).items
     })
 
+    const contentLimitMessage = getContentByteLimitMessage(
+      preparedMedia.content,
+      'article',
+      '情报正文'
+    )
+    if (contentLimitMessage) {
+      form.content = preparedMedia.content
+      ElMessage.warning(contentLimitMessage)
+      return
+    }
+
     const payload = {
       title: form.title.trim(),
       desc: effectiveSummary.value.trim(),
@@ -669,6 +702,14 @@ watch(
   line-height: 1.25;
 }
 
+.stat-card strong.is-warning {
+  color: var(--el-color-warning);
+}
+
+.stat-card strong.is-danger {
+  color: var(--el-color-danger);
+}
+
 .alert-content {
   display: flex;
   gap: 18px;
@@ -682,7 +723,12 @@ watch(
 }
 
 .panel-card {
+  overflow: visible;
   padding: 6px;
+}
+
+.panel-card :deep(.el-card__body) {
+  overflow: visible;
 }
 
 .content-form {

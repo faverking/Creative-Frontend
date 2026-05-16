@@ -142,3 +142,21 @@ export const IMAGE_MAX_FILE_SIZE = 20 * 1024 * 1024
 export const TOPIC_ARCHIVE_ACCEPT = '.zip,application/zip,application/x-zip-compressed'
 // 和后端默认 ZIP 上传上限保持一致，避免前端放行后再被服务端拒绝。
 export const TOPIC_ARCHIVE_MAX_FILE_SIZE = 100 * 1024 * 1024
+
+// 镜像 MonoNest `src/common/constants/content-limits.ts`，用于前端提前拦截明显超限的富文本正文。
+export const CONTENT_BYTE_LIMITS = {
+  article: {
+    min: 10,
+    max: 3 * 1024 * 1024
+  },
+  draft: {
+    min: 1,
+    max: 3 * 1024 * 1024
+  },
+  topic: {
+    min: 2,
+    max: 2 * 1024 * 1024
+  }
+} as const
+
+export type ContentByteLimitType = keyof typeof CONTENT_BYTE_LIMITS

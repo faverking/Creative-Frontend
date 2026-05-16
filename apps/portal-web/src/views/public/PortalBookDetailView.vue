@@ -1020,6 +1020,10 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
   gap: 12px;
 }
 
+.portal-book-detail-page__section-head :deep(.public-detail-section-heading) {
+  flex-shrink: 0;
+}
+
 .portal-book-detail-page__section-toggle {
   min-height: 34px;
   padding: 0 16px;
