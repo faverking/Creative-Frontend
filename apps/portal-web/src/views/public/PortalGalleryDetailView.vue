@@ -44,7 +44,12 @@
                       <button
                         type="button"
                         class="portal-gallery-detail-page__preview-media"
-                        :style="galleryPreviewStyle(preview.imageUrl, preview.filter)"
+                        :style="
+                          galleryPreviewStyle(
+                            resolvePreviewDisplayUrl(preview, index),
+                            preview.filter
+                          )
+                        "
                         :aria-label="`${preview.label}，点击全屏查看`"
                         @click="openLightbox(index)"
                       >
@@ -53,7 +58,7 @@
                           aria-hidden="true"
                         />
                         <portal-image
-                          :src="preview.imageUrl"
+                          :src="resolvePreviewDisplayUrl(preview, index)"
                           class="portal-gallery-detail-page__preview-media-image"
                           fit="contain"
                         />
@@ -439,6 +444,10 @@ function galleryImageStyle(filter?: string) {
   return buildCssVarsStyle({
     '--portal-gallery-detail-filter': filter
   })
+}
+
+function resolvePreviewDisplayUrl(preview: GalleryPreviewItem, index: number): string {
+  return index === currentPreviewIndex.value ? preview.imageUrl : preview.thumbnailUrl
 }
 
 function galleryPreviewStyle(imageUrl: string, filter?: string) {
