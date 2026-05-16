@@ -265,6 +265,14 @@ export function resolvePublicDetailMediaUrl(asset?: PublicMediaAsset | null): st
   return resolvePublicDetailAssetUrl(asset.previewPath || asset.downloadPath)
 }
 
+export function resolvePublicDetailOriginalMediaUrl(asset?: PublicMediaAsset | null): string {
+  if (!asset) {
+    return ''
+  }
+
+  return resolvePublicDetailAssetUrl(asset.downloadPath || asset.previewPath)
+}
+
 async function fetchUserProfile(
   userId?: string
 ): Promise<ApiRequestResult<PublicUserProfileResponse>> {

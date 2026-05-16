@@ -95,7 +95,7 @@
                         @click="selectPreview(index)"
                       >
                         <portal-image
-                          :src="preview.imageUrl"
+                          :src="preview.thumbnailUrl"
                           class="portal-gallery-detail-page__thumb-image"
                           :style="galleryImageStyle(preview.filter)"
                         />
@@ -182,6 +182,7 @@ import {
 import {
   portalPublicDetailApi,
   resolvePublicDetailMediaUrl,
+  resolvePublicDetailOriginalMediaUrl,
   type PublicGalleryDetailPageData,
   type PublicMediaAsset
 } from '@/api/public-detail'
@@ -221,6 +222,7 @@ type GalleryPreviewItem = {
   id: string
   label: string
   imageUrl: string
+  thumbnailUrl: string
   copyUrl: string
   mediaId?: string
   filter?: string
@@ -276,12 +278,14 @@ const galleryPreviews = computed<GalleryPreviewItem[]>(() => {
   )
 
   return previewAssets.map((asset, index) => {
-    const imageUrl = resolvePublicDetailMediaUrl(asset)
+    const imageUrl = resolvePublicDetailOriginalMediaUrl(asset)
+    const thumbnailUrl = resolvePublicDetailMediaUrl(asset) || imageUrl
 
     return {
       id: `${galleryDetail.value?.id || galleryId.value}-preview-${index + 1}`,
       label: `图包预览 ${String(index + 1).padStart(2, '0')}`,
       imageUrl,
+      thumbnailUrl,
       copyUrl: imageUrl,
       ...(asset?.id?.trim() ? { mediaId: asset.id.trim() } : {}),
       filter: GALLERY_PREVIEW_FILTERS[index % GALLERY_PREVIEW_FILTERS.length]
