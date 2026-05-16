@@ -426,6 +426,7 @@ function sanitizePastedHtml(html: string): string {
       'allow',
       'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
     )
+    node.setAttribute('loading', 'lazy')
     node.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin')
   })
 
@@ -843,7 +844,7 @@ defineExpose<RichTextEditorExpose>({
 
 .rich-text-editor :deep(.ql-toolbar.ql-snow) {
   position: sticky;
-  top: 12px;
+  top: 0;
   z-index: 12;
   border: 0;
   border-bottom: 1px solid var(--community-divider);

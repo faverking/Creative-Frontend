@@ -96,6 +96,7 @@ describe('normalizeRichTextEmbeddedMedia', () => {
     expect(iframe?.getAttribute('src')).toBe(
       'https://player.bilibili.com/player.html?page=2&high_quality=1&as_wide=1&bvid=BV1xx411c7mD'
     )
+    expect(iframe?.getAttribute('loading')).toBe('lazy')
   })
 
   it('keeps existing uploaded image media ids when only src remains', async () => {

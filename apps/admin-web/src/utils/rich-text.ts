@@ -239,6 +239,7 @@ function normalizeIframeNode(iframe: HTMLIFrameElement): void {
     'allow',
     'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
   )
+  iframe.setAttribute('loading', 'lazy')
   iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin')
   iframe.removeAttribute('width')
   iframe.removeAttribute('height')
