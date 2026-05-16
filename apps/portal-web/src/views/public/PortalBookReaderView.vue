@@ -105,11 +105,12 @@
             <p v-if="item.type === 'paragraph'">
               {{ item.text }}
             </p>
-            <figure v-else class="portal-book-reader-page__image-block">
+            <figure v-else-if="item.type === 'image'" class="portal-book-reader-page__image-block">
               <portal-image
                 :src="item.src"
                 :alt="item.alt"
                 :fill="false"
+                :loading="item.loading"
                 referrerpolicy="no-referrer"
                 fit="contain"
                 class="portal-book-reader-page__content-image"
@@ -824,6 +825,7 @@ function updateReadingProgress(): void {
   display: grid;
   justify-items: center;
   width: min(100%, 760px);
+  min-height: 100px;
   border: 1px solid color-mix(in srgb, var(--portal-book-reader-border) 64%, transparent);
   border-radius: 14px;
   background: color-mix(in srgb, var(--home-detail-card-bg) 72%, transparent);

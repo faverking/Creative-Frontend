@@ -138,12 +138,14 @@ describe('Wenku8 novel chapter extraction', () => {
       { text: '第一段正文。', type: 'paragraph' },
       {
         alt: '插图一',
+        loading: 'lazy',
         src: '/proxy/wenku8/novel/2/images/insert-1.jpg',
         type: 'image'
       },
       { text: '第二段正文。', type: 'paragraph' },
       {
         alt: '章节插图',
+        loading: 'lazy',
         src: 'https://img.example.test/insert-2.jpg',
         type: 'image'
       }

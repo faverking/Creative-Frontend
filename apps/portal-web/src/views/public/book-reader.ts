@@ -23,6 +23,7 @@ export type Wenku8NovelChapterContentItem =
     }
   | {
       alt: string
+      loading: 'lazy'
       src: string
       type: 'image'
     }
@@ -224,6 +225,7 @@ function extractWenku8ContentItems(
       if (imageSrc) {
         items.push({
           alt: normalizeWenku8Line(element.getAttribute('alt') ?? '') || '章节插图',
+          loading: 'lazy',
           src: imageSrc,
           type: 'image'
         })
