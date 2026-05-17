@@ -1,51 +1,67 @@
 <template>
   <div class="gallery-module-loading-grid" aria-hidden="true">
-    <article
-      v-for="cardIndex in count"
-      :key="`gallery-module-loading-${cardIndex}`"
-      class="gallery-module-loading-card"
-      :class="`gallery-module-loading-card--${variants[(cardIndex - 1) % variants.length]}`"
+    <div
+      v-for="(column, columnIndex) in loadingColumns"
+      :key="`gallery-module-loading-column-${columnIndex}`"
+      class="gallery-module-loading-grid__column"
     >
-      <div class="gallery-module-loading-card__media">
-        <span class="gallery-module-loading-card__pill gallery-module-loading-card__pill--left" />
-        <span class="gallery-module-loading-card__pill gallery-module-loading-card__pill--right" />
-        <div class="gallery-module-loading-card__cover" />
-      </div>
-
-      <div class="gallery-module-loading-card__copy">
-        <div class="gallery-module-loading-card__title">
-          <span class="gallery-module-loading-card__line gallery-module-loading-card__line--title">
-            <span
-              class="gallery-module-loading-card__block gallery-module-loading-card__block--title"
-            />
-          </span>
+      <article
+        v-for="{ item: cardIndex, index } in column"
+        :key="`gallery-module-loading-${cardIndex}`"
+        class="gallery-module-loading-card"
+        :class="`gallery-module-loading-card--${variants[index % variants.length]}`"
+      >
+        <div class="gallery-module-loading-card__media">
+          <span class="gallery-module-loading-card__pill gallery-module-loading-card__pill--left" />
           <span
-            class="gallery-module-loading-card__line gallery-module-loading-card__line--title-secondary"
-          >
-            <span
-              class="gallery-module-loading-card__block gallery-module-loading-card__block--title-short"
-            />
-          </span>
+            class="gallery-module-loading-card__pill gallery-module-loading-card__pill--right"
+          />
+          <div class="gallery-module-loading-card__cover" />
         </div>
-        <div class="gallery-module-loading-card__footer">
-          <span class="gallery-module-loading-card__line gallery-module-loading-card__line--stats">
+
+        <div class="gallery-module-loading-card__copy">
+          <div class="gallery-module-loading-card__title">
             <span
-              class="gallery-module-loading-card__block gallery-module-loading-card__block--stats"
-            />
-          </span>
-          <span class="gallery-module-loading-card__line gallery-module-loading-card__line--time">
+              class="gallery-module-loading-card__line gallery-module-loading-card__line--title"
+            >
+              <span
+                class="gallery-module-loading-card__block gallery-module-loading-card__block--title"
+              />
+            </span>
             <span
-              class="gallery-module-loading-card__block gallery-module-loading-card__block--time"
-            />
-          </span>
+              class="gallery-module-loading-card__line gallery-module-loading-card__line--title-secondary"
+            >
+              <span
+                class="gallery-module-loading-card__block gallery-module-loading-card__block--title-short"
+              />
+            </span>
+          </div>
+          <div class="gallery-module-loading-card__footer">
+            <span
+              class="gallery-module-loading-card__line gallery-module-loading-card__line--stats"
+            >
+              <span
+                class="gallery-module-loading-card__block gallery-module-loading-card__block--stats"
+              />
+            </span>
+            <span class="gallery-module-loading-card__line gallery-module-loading-card__line--time">
+              <span
+                class="gallery-module-loading-card__block gallery-module-loading-card__block--time"
+              />
+            </span>
+          </div>
         </div>
-      </div>
-    </article>
+      </article>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-withDefaults(
+import { computed } from 'vue'
+
+import { useGalleryModuleMasonryColumns } from './gallery-module-masonry'
+
+const props = withDefaults(
   defineProps<{
     count?: number
   }>(),
@@ -55,6 +71,10 @@ withDefaults(
 )
 
 const variants = ['balanced', 'tall', 'wide', 'balanced', 'tall', 'wide'] as const
+const loadingItems = computed(() =>
+  Array.from({ length: props.count }, (_value, index) => index + 1)
+)
+const { columns: loadingColumns } = useGalleryModuleMasonryColumns(loadingItems)
 </script>
 
 <style scoped src="./gallery-module-card-shared.css"></style>
@@ -69,8 +89,16 @@ const variants = ['balanced', 'tall', 'wide', 'balanced', 'tall', 'wide'] as con
   --gallery-module-card-meta-width-wide-local: 74px;
   --gallery-module-card-title-line-height-local: calc(14px * 1.38);
   --gallery-module-card-footer-line-height-local: calc(12px * 1.5);
-  column-count: var(--gallery-module-column-count-local);
-  column-gap: var(--gallery-module-grid-column-gap-local);
+  display: grid;
+  grid-template-columns: repeat(var(--gallery-module-column-count-local), minmax(0, 1fr));
+  gap: var(--gallery-module-grid-column-gap-local);
+  align-items: start;
+}
+
+.gallery-module-loading-grid__column {
+  display: grid;
+  min-width: 0;
+  align-content: start;
 }
 
 .gallery-module-loading-card__cover,

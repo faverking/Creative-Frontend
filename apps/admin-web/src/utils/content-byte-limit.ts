@@ -10,9 +10,15 @@ export interface ContentByteUsage {
 }
 
 const CONTENT_LIMIT_WARNING_RATIO = 0.85
+const EMBEDDED_IMAGE_SOURCE_PATTERN = /(<img\b[^>]*\bsrc\s*=\s*)(["'])data:[\s\S]*?\2([^>]*>)/gi
+const EMBEDDED_IMAGE_SOURCE_PLACEHOLDER = '$1$2embedded-image$2$3'
 
 export function getUtf8ByteLength(value: string): number {
   return new TextEncoder().encode(value).length
+}
+
+export function normalizeContentForByteLimit(value: string): string {
+  return value.replace(EMBEDDED_IMAGE_SOURCE_PATTERN, EMBEDDED_IMAGE_SOURCE_PLACEHOLDER)
 }
 
 export function formatContentByteSize(bytes: number): string {
@@ -32,7 +38,7 @@ export function getContentByteUsage(
   limitType: ContentByteLimitType
 ): ContentByteUsage {
   const limits = CONTENT_BYTE_LIMITS[limitType]
-  const bytes = getUtf8ByteLength(value)
+  const bytes = getUtf8ByteLength(normalizeContentForByteLimit(value))
   const ratio = limits.max > 0 ? bytes / limits.max : 0
 
   return {

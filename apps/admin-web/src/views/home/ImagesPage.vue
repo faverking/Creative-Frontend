@@ -187,7 +187,7 @@
           >
             <div class="upload-dragger">
               <strong>{{ TEXT.form.uploadTitle }}</strong>
-              <p>{{ TEXT.form.uploadHint(imageBatchLimit) }}</p>
+              <p>{{ TEXT.form.uploadHint(imageBatchLimit, imageSingleLimitText) }}</p>
             </div>
           </el-upload>
         </el-form-item>
@@ -292,7 +292,9 @@ import {
   IMAGE_SOURCE_OPTIONS
 } from '@/constants'
 import { useImageFieldAutocomplete } from '@/composables/useImageFieldAutocomplete'
+import { formatContentByteSize } from '@/utils/content-byte-limit'
 import { formatDateTime } from '@/utils/format'
+import { getImageUploadLimitMessage } from '@/utils/media-upload'
 
 interface ImageFormState {
   title: string
@@ -336,8 +338,8 @@ const TEXT = {
     descPlaceholder: '请输入图包描述，用普通文本概括内容亮点或活动信息',
     uploadLabel: '批量上传图片',
     uploadTitle: '拖拽图片到这里，或点击选择文件',
-    uploadHint: (limit: number) =>
-      `支持 jpg、png、webp、gif，单次最多 ${limit} 张，单张不超过 10MB。`
+    uploadHint: (limit: number, singleLimit: string) =>
+      `支持 jpg、png、webp、gif，单次最多 ${limit} 张，单张不超过 ${singleLimit}。`
   },
   section: {
     currentTitle: '当前图包图片',
@@ -361,7 +363,7 @@ const TEXT = {
     descRequired: '内容描述至少需要 2 个字符。',
     imagesRequired: '请至少保留或上传一张图片。',
     typeInvalid: '仅支持 jpg、png、webp、gif 格式。',
-    sizeInvalid: '单张图片大小不能超过 10MB。',
+    sizeInvalid: `单张图片大小不能超过 ${formatContentByteSize(IMAGE_MAX_FILE_SIZE)}。`,
     limit: '单次最多只能选择 ',
     updated: '图包内容已更新。',
     created: '图包已成功发布。'
@@ -372,7 +374,7 @@ const route = useRoute()
 const imageThemeOptions = IMAGE_THEME_OPTIONS
 const imageSourceOptions = IMAGE_SOURCE_OPTIONS
 const imageBatchLimit = IMAGE_BATCH_LIMIT
-const allowedMimeTypes = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/gif'])
+const imageSingleLimitText = formatContentByteSize(IMAGE_MAX_FILE_SIZE)
 
 const form = reactive<ImageFormState>({
   title: '',
@@ -530,6 +532,12 @@ function syncPreviewUrl(file: UploadUserFile): void {
   file.url = url
 }
 
+function readRawFiles(files: UploadUserFile[]): File[] {
+  return files
+    .map((file) => file.raw as File | undefined)
+    .filter((file): file is File => file instanceof File)
+}
+
 function resetFileState(): void {
   objectUrlMap.forEach((value) => {
     URL.revokeObjectURL(value)
@@ -598,20 +606,24 @@ async function loadImagePackageDetail(id: string): Promise<void> {
 }
 
 const beforeUpload: UploadProps['beforeUpload'] = (rawFile: UploadRawFile) => {
-  if (!allowedMimeTypes.has(rawFile.type)) {
-    ElMessage.error(TEXT.message.typeInvalid)
-    return false
-  }
-
-  if (rawFile.size > IMAGE_MAX_FILE_SIZE) {
-    ElMessage.error(TEXT.message.sizeInvalid)
+  const uploadLimitMessage = getImageUploadLimitMessage([rawFile])
+  if (uploadLimitMessage) {
+    ElMessage.error(uploadLimitMessage)
     return false
   }
 
   return true
 }
 
-const handleFileChange: UploadProps['onChange'] = (_file, nextFileList) => {
+const handleFileChange: UploadProps['onChange'] = (file, nextFileList) => {
+  const uploadLimitMessage = getImageUploadLimitMessage(readRawFiles(nextFileList))
+  if (uploadLimitMessage) {
+    ElMessage.error(uploadLimitMessage)
+    revokeObjectUrl(String(file.uid))
+    fileList.value = nextFileList.filter((item) => item.uid !== file.uid)
+    return
+  }
+
   fileList.value = nextFileList
   fileList.value.forEach((file) => {
     syncPreviewUrl(file)
@@ -653,9 +665,12 @@ async function handlePublish(): Promise<void> {
     return
   }
 
-  const rawFiles = fileList.value
-    .map((file) => file.raw as File | undefined)
-    .filter((file): file is File => file instanceof File)
+  const rawFiles = readRawFiles(fileList.value)
+  const uploadLimitMessage = getImageUploadLimitMessage(rawFiles)
+  if (uploadLimitMessage) {
+    ElMessage.error(uploadLimitMessage)
+    return
+  }
 
   publishLoading.value = true
 

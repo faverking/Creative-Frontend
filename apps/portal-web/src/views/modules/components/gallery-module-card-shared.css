@@ -17,7 +17,6 @@
   display: grid;
   gap: var(--gallery-module-card-gap-local);
   margin-bottom: var(--gallery-module-card-margin-bottom-local);
-  break-inside: avoid;
 }
 
 :where(.gallery-module-card, .gallery-module-loading-card)::after {

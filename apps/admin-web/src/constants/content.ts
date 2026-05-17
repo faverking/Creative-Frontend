@@ -136,6 +136,7 @@ export const BOOK_STYLE_OPTIONS: BookStyleOption[] = createBookStyleOptions(BOOK
 
 export const ARTICLE_DRAFT_STORAGE_KEY = 'admin-web:articles:draft-id'
 
+// 镜像 MonoNest 媒体上传默认配置：MEDIA_BATCH_UPLOAD_LIMIT / MEDIA_IMAGE_MAX_FILE_SIZE。
 export const IMAGE_BATCH_LIMIT = 20
 export const IMAGE_MAX_FILE_SIZE = 20 * 1024 * 1024
 

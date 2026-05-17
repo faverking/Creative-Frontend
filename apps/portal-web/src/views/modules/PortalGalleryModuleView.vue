@@ -42,12 +42,19 @@
             role="list"
             aria-label="图包列表"
           >
-            <gallery-module-masonry-card
-              v-for="(item, index) in items"
-              :key="item.id"
-              :index="index"
-              :item="item"
-            />
+            <div
+              v-for="(column, columnIndex) in masonryColumns"
+              :key="`gallery-module-column-${columnIndex}`"
+              class="gallery-module-page__masonry-column"
+              role="presentation"
+            >
+              <gallery-module-masonry-card
+                v-for="{ item, index } in column"
+                :key="item.id"
+                :index="index"
+                :item="item"
+              />
+            </div>
           </div>
           <div :ref="bindSentinelRef" class="gallery-module-page__sentinel" aria-hidden="true" />
 
@@ -80,6 +87,7 @@ import { computed, type ComponentPublicInstance } from 'vue'
 
 import GalleryModuleLoadingGrid from './components/GalleryModuleLoadingGrid.vue'
 import GalleryModuleMasonryCard from './components/GalleryModuleMasonryCard.vue'
+import { useGalleryModuleMasonryColumns } from './components/gallery-module-masonry'
 import { portalPublicModulesApi, type GalleryModuleItemResponse } from '@/api/public-modules'
 import {
   GALLERY_MODULE_TOPICS,
@@ -136,6 +144,7 @@ const { autoLoading, sentinelRef } = useAutoLoadSentinel({
   enabled: autoLoadEnabled,
   onLoadMore: loadMore
 })
+const { columns: masonryColumns } = useGalleryModuleMasonryColumns(items)
 
 const loadingMoreStatusLabel = computed(() =>
   autoLoading.value ? '正在继续加载更多图包…' : '正在加载更多图包…'
@@ -219,9 +228,17 @@ function bindSentinelRef(element: Element | ComponentPublicInstance | null): voi
 }
 
 .gallery-module-page__masonry {
-  column-count: var(--gallery-module-column-count-local);
-  column-gap: var(--gallery-module-grid-column-gap-local);
+  display: grid;
+  grid-template-columns: repeat(var(--gallery-module-column-count-local), minmax(0, 1fr));
+  gap: var(--gallery-module-grid-column-gap-local);
+  align-items: start;
   transition: opacity 180ms ease;
+}
+
+.gallery-module-page__masonry-column {
+  display: grid;
+  min-width: 0;
+  align-content: start;
 }
 
 .gallery-module-page__masonry.is-refreshing {

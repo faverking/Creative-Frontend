@@ -4,7 +4,8 @@ import {
   formatContentByteSize,
   getContentByteLimitMessage,
   getContentByteUsage,
-  getUtf8ByteLength
+  getUtf8ByteLength,
+  normalizeContentForByteLimit
 } from './content-byte-limit'
 
 describe('content byte limit', () => {
@@ -27,6 +28,16 @@ describe('content byte limit', () => {
     )
 
     expect(message).toBe('情报正文不能超过 3.00 MB，当前为 3.01 MB。')
+  })
+
+  it('does not count embedded base64 image payloads as rich text content bytes', () => {
+    const payload = 'a'.repeat(3 * 1024 * 1024 + 10 * 1024)
+    const content = `<p>正文</p><p><img src="data:image/png;base64,${payload}" alt="cover"></p>`
+    const normalized = normalizeContentForByteLimit(content)
+    const usage = getContentByteUsage(content, 'article')
+
+    expect(normalized).toContain('src="embedded-image"')
+    expect(usage.isOverLimit).toBe(false)
   })
 
   it('marks content as near the configured limit', () => {

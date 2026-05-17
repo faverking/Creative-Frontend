@@ -305,6 +305,7 @@ import {
   getContentByteUsage
 } from '@/utils/content-byte-limit'
 import { formatDateTime } from '@/utils/format'
+import { getImageUploadLimitMessage } from '@/utils/media-upload'
 import type {
   RichTextEditorExpose,
   RichTextEditorSelectionSnapshot
@@ -647,7 +648,14 @@ async function handlePublish(): Promise<void> {
     const preparedMedia = await normalizeRichTextEmbeddedMedia(form.content, {
       fileNamePrefix: 'topic-embedded-image',
       resolveAssetUrl: resolvePersistedAssetPath,
-      uploadImages: async (files) => (await contentApi.uploadImages(files)).items
+      uploadImages: async (files) => {
+        const uploadLimitMessage = getImageUploadLimitMessage(files)
+        if (uploadLimitMessage) {
+          throw new Error(uploadLimitMessage)
+        }
+
+        return (await contentApi.uploadImages(files)).items
+      }
     })
 
     const contentLimitMessage = getContentByteLimitMessage(

@@ -223,7 +223,12 @@ import { useDocumentTitle } from '@/composables/useDocumentTitle'
 import { useArticleEditorAutocomplete } from '@/composables/useArticleEditorAutocomplete'
 import { useArticleFieldAutocomplete } from '@/composables/useArticleFieldAutocomplete'
 import { useContentAiSurfaces } from '@/composables/useContentAiSurfaces'
-import { ARTICLE_DRAFT_STORAGE_KEY, ARTICLE_THEME_OPTIONS, CONTENT_BYTE_LIMITS } from '@/constants'
+import {
+  ARTICLE_DRAFT_STORAGE_KEY,
+  ARTICLE_THEME_OPTIONS,
+  CONTENT_BYTE_LIMITS,
+  type ContentByteLimitType
+} from '@/constants'
 import type {
   RichTextEditorExpose,
   RichTextEditorSelectionSnapshot
@@ -235,6 +240,7 @@ import {
   getContentByteUsage
 } from '@/utils/content-byte-limit'
 import { formatDateTime } from '@/utils/format'
+import { getImageUploadLimitMessage } from '@/utils/media-upload'
 import {
   countRichTextNodes,
   collectPreparedRichTextImageMediaIds,
@@ -249,6 +255,8 @@ interface ArticleFormState {
   desc: string
   content: string
 }
+
+class ContentPreflightError extends Error {}
 
 const route = useRoute()
 const articleThemeOptions = ARTICLE_THEME_OPTIONS
@@ -423,6 +431,32 @@ function resetForm(): void {
   form.content = ''
 }
 
+async function prepareArticleRichTextContent(
+  limitType: ContentByteLimitType,
+  label: string
+): Promise<string> {
+  const preparedMedia = await normalizeRichTextEmbeddedMedia(form.content, {
+    fileNamePrefix: 'article-embedded-image',
+    resolveAssetUrl: resolvePersistedAssetPath,
+    uploadImages: async (files) => {
+      const uploadLimitMessage = getImageUploadLimitMessage(files)
+      if (uploadLimitMessage) {
+        throw new ContentPreflightError(uploadLimitMessage)
+      }
+
+      return (await contentApi.uploadImages(files)).items
+    }
+  })
+  const contentLimitMessage = getContentByteLimitMessage(preparedMedia.content, limitType, label)
+  form.content = preparedMedia.content
+
+  if (contentLimitMessage) {
+    throw new ContentPreflightError(contentLimitMessage)
+  }
+
+  return preparedMedia.content
+}
+
 function validateDraft(): boolean {
   const title = form.title.trim()
   const plainText = extractRichTextPlainText(form.content)
@@ -550,10 +584,11 @@ async function handleSaveDraft(): Promise<void> {
   draftLoading.value = true
 
   try {
+    const content = await prepareArticleRichTextContent('draft', '草稿正文')
     const payload = {
       themeId: form.themeId,
       title: form.title.trim(),
-      content: form.content
+      content
     }
 
     // 优先复用当前草稿引用，避免二次保存时意外新建另一条草稿。
@@ -566,8 +601,10 @@ async function handleSaveDraft(): Promise<void> {
     draftUpdatedAt.value = result.updateTime || result.createTime
     writeStoredDraftId(result.id)
     ElMessage.success('草稿已保存。')
-  } catch {
-    // 由请求层统一提示。
+  } catch (error) {
+    if (error instanceof ContentPreflightError) {
+      ElMessage.error(error.message)
+    }
   } finally {
     draftLoading.value = false
   }
@@ -585,7 +622,14 @@ async function handlePublish(): Promise<void> {
     const preparedMedia = await normalizeRichTextEmbeddedMedia(form.content, {
       fileNamePrefix: 'article-embedded-image',
       resolveAssetUrl: resolvePersistedAssetPath,
-      uploadImages: async (files) => (await contentApi.uploadImages(files)).items
+      uploadImages: async (files) => {
+        const uploadLimitMessage = getImageUploadLimitMessage(files)
+        if (uploadLimitMessage) {
+          throw new ContentPreflightError(uploadLimitMessage)
+        }
+
+        return (await contentApi.uploadImages(files)).items
+      }
     })
 
     const contentLimitMessage = getContentByteLimitMessage(
