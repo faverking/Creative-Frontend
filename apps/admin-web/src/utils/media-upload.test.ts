@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest'
 
-import { IMAGE_BATCH_LIMIT, IMAGE_MAX_FILE_SIZE } from '@/constants'
-
 import { getImageUploadLimitMessage } from './media-upload'
+
+import { IMAGE_BATCH_LIMIT, IMAGE_MAX_FILE_SIZE } from '@/constants'
 
 function createImageFile(name: string, size: number, type = 'image/png'): File {
   return {
