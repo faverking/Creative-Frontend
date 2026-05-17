@@ -26,10 +26,42 @@ withDefaults(
     --public-detail-rich-text-accent-ink,
     var(--home-business-article-accent)
   );
+  --public-detail-rich-text-default-font-size: 16px;
+  --public-detail-rich-text-default-line-height: 1.76;
+  --public-detail-rich-text-default-intro-size: 18px;
+  --public-detail-rich-text-default-intro-line-height: 1.74;
+  --public-detail-rich-text-default-intro-gap: 18px;
+  --public-detail-rich-text-default-flow-space: 12px;
+  --public-detail-rich-text-default-flow-space-lg: 18px;
+  --public-detail-rich-text-default-h2-size: 22px;
+  --public-detail-rich-text-default-h2-line-height: 1.36;
+  --public-detail-rich-text-default-h3-size: 18px;
+  --public-detail-rich-text-default-h3-line-height: 1.42;
+  --public-detail-rich-text-default-heading-top-lg: 24px;
+  --public-detail-rich-text-default-heading-top-md: 20px;
+  --public-detail-rich-text-default-heading-bottom: 12px;
+  --public-detail-rich-text-default-paragraph-gap: 18px;
+  --public-detail-rich-text-default-list-space-top: 16px;
+  --public-detail-rich-text-default-list-space-bottom: 18px;
+  --public-detail-rich-text-default-list-gap: 6px;
+  --public-detail-rich-text-default-quote-padding: 12px 16px;
+  --public-detail-rich-text-default-quote-font-size: 16px;
+  --public-detail-rich-text-default-quote-line-height: 1.75;
+  --public-detail-rich-text-default-quote-space-top: 24px;
+  --public-detail-rich-text-default-quote-space-bottom: 24px;
+  --public-detail-rich-text-default-quote-paragraph-gap: 8px;
+  --public-detail-rich-text-default-divider-space-top: 28px;
+  --public-detail-rich-text-default-divider-space-bottom: 28px;
   width: min(100%, var(--public-detail-rich-text-max-width, 780px));
   color: var(--home-ink);
-  font-size: var(--public-detail-rich-text-font-size, 16px);
-  line-height: var(--public-detail-rich-text-line-height, 1.76);
+  font-size: var(
+    --public-detail-rich-text-font-size,
+    var(--public-detail-rich-text-default-font-size)
+  );
+  line-height: var(
+    --public-detail-rich-text-line-height,
+    var(--public-detail-rich-text-default-line-height)
+  );
 }
 
 .public-detail-rich-text--topic {
@@ -53,9 +85,18 @@ withDefaults(
     --public-detail-rich-text-intro-ink,
     color-mix(in srgb, var(--home-ink) 94%, transparent)
   );
-  font-size: var(--public-detail-rich-text-intro-size, 17px);
-  line-height: var(--public-detail-rich-text-intro-line-height, 1.72);
-  margin-bottom: var(--public-detail-rich-text-intro-gap, 18px);
+  font-size: var(
+    --public-detail-rich-text-intro-size,
+    var(--public-detail-rich-text-default-intro-size)
+  );
+  line-height: var(
+    --public-detail-rich-text-intro-line-height,
+    var(--public-detail-rich-text-default-intro-line-height)
+  );
+  margin-bottom: var(
+    --public-detail-rich-text-intro-gap,
+    var(--public-detail-rich-text-default-intro-gap)
+  );
 }
 
 .public-detail-rich-text :deep(p),
@@ -64,14 +105,19 @@ withDefaults(
 .public-detail-rich-text :deep(pre),
 .public-detail-rich-text :deep(table),
 .public-detail-rich-text :deep(hr) {
-  margin: 0 0 var(--public-detail-rich-text-flow-space, 14px);
+  margin: 0 0
+    var(--public-detail-rich-text-flow-space, var(--public-detail-rich-text-default-flow-space));
 }
 
 .public-detail-rich-text :deep(figure),
 .public-detail-rich-text :deep(blockquote),
 .public-detail-rich-text :deep(iframe),
 .public-detail-rich-text :deep(.ql-video) {
-  margin: 0 0 var(--public-detail-rich-text-flow-space-lg, 20px);
+  margin: 0 0
+    var(
+      --public-detail-rich-text-flow-space-lg,
+      var(--public-detail-rich-text-default-flow-space-lg)
+    );
 }
 
 .public-detail-rich-text :deep(h2),
@@ -81,17 +127,35 @@ withDefaults(
 }
 
 .public-detail-rich-text :deep(h2) {
-  font-size: var(--public-detail-rich-text-h2-size, 22px);
-  line-height: 1.36;
-  margin-top: var(--public-detail-rich-text-heading-top-lg, 32px);
-  margin-bottom: var(--public-detail-rich-text-heading-bottom, 12px);
+  font-size: var(--public-detail-rich-text-h2-size, var(--public-detail-rich-text-default-h2-size));
+  line-height: var(
+    --public-detail-rich-text-h2-line-height,
+    var(--public-detail-rich-text-default-h2-line-height)
+  );
+  margin-top: var(
+    --public-detail-rich-text-heading-top-lg,
+    var(--public-detail-rich-text-default-heading-top-lg)
+  );
+  margin-bottom: var(
+    --public-detail-rich-text-heading-bottom,
+    var(--public-detail-rich-text-default-heading-bottom)
+  );
 }
 
 .public-detail-rich-text :deep(h3) {
-  font-size: var(--public-detail-rich-text-h3-size, 18px);
-  line-height: 1.42;
-  margin-top: var(--public-detail-rich-text-heading-top-md, 26px);
-  margin-bottom: var(--public-detail-rich-text-heading-bottom, 12px);
+  font-size: var(--public-detail-rich-text-h3-size, var(--public-detail-rich-text-default-h3-size));
+  line-height: var(
+    --public-detail-rich-text-h3-line-height,
+    var(--public-detail-rich-text-default-h3-line-height)
+  );
+  margin-top: var(
+    --public-detail-rich-text-heading-top-md,
+    var(--public-detail-rich-text-default-heading-top-md)
+  );
+  margin-bottom: var(
+    --public-detail-rich-text-heading-bottom,
+    var(--public-detail-rich-text-default-heading-bottom)
+  );
 }
 
 .public-detail-rich-text :deep(p) {
@@ -99,7 +163,10 @@ withDefaults(
 }
 
 .public-detail-rich-text :deep(p + p) {
-  margin-top: var(--public-detail-rich-text-paragraph-gap, 18px);
+  margin-top: var(
+    --public-detail-rich-text-paragraph-gap,
+    var(--public-detail-rich-text-default-paragraph-gap)
+  );
 }
 
 .public-detail-rich-text :deep(a) {
@@ -121,8 +188,14 @@ withDefaults(
 
 .public-detail-rich-text :deep(ul),
 .public-detail-rich-text :deep(ol) {
-  margin-top: var(--public-detail-rich-text-list-space-top, 16px);
-  margin-bottom: var(--public-detail-rich-text-list-space-bottom, 18px);
+  margin-top: var(
+    --public-detail-rich-text-list-space-top,
+    var(--public-detail-rich-text-default-list-space-top)
+  );
+  margin-bottom: var(
+    --public-detail-rich-text-list-space-bottom,
+    var(--public-detail-rich-text-default-list-space-bottom)
+  );
   padding-left: 1.35em;
 }
 
@@ -131,7 +204,10 @@ withDefaults(
 }
 
 .public-detail-rich-text :deep(li + li) {
-  margin-top: var(--public-detail-rich-text-list-gap, 6px);
+  margin-top: var(
+    --public-detail-rich-text-list-gap,
+    var(--public-detail-rich-text-default-list-gap)
+  );
 }
 
 .public-detail-rich-text :deep(li > p) {
@@ -146,17 +222,32 @@ withDefaults(
 
 .public-detail-rich-text :deep(blockquote) {
   position: relative;
-  padding: var(--public-detail-rich-text-quote-padding, 12px 16px);
+  padding: var(
+    --public-detail-rich-text-quote-padding,
+    var(--public-detail-rich-text-default-quote-padding)
+  );
   border: 1px solid var(--home-detail-glass-border-emphasis);
   border-radius: 18px;
   background: var(--home-detail-glass-bg-emphasis);
   box-shadow: var(--home-detail-glass-shadow-emphasis);
   color: var(--home-ink);
-  font-size: 16px;
+  font-size: var(
+    --public-detail-rich-text-quote-font-size,
+    var(--public-detail-rich-text-default-quote-font-size)
+  );
   font-weight: 700;
-  line-height: 1.75;
-  margin-top: var(--public-detail-rich-text-quote-space-top, 24px);
-  margin-bottom: var(--public-detail-rich-text-quote-space-bottom, 24px);
+  line-height: var(
+    --public-detail-rich-text-quote-line-height,
+    var(--public-detail-rich-text-default-quote-line-height)
+  );
+  margin-top: var(
+    --public-detail-rich-text-quote-space-top,
+    var(--public-detail-rich-text-default-quote-space-top)
+  );
+  margin-bottom: var(
+    --public-detail-rich-text-quote-space-bottom,
+    var(--public-detail-rich-text-default-quote-space-bottom)
+  );
 }
 
 .public-detail-rich-text :deep(blockquote > :first-child) {
@@ -168,7 +259,10 @@ withDefaults(
 }
 
 .public-detail-rich-text :deep(blockquote p + p) {
-  margin-top: var(--public-detail-rich-text-quote-paragraph-gap, 8px);
+  margin-top: var(
+    --public-detail-rich-text-quote-paragraph-gap,
+    var(--public-detail-rich-text-default-quote-paragraph-gap)
+  );
 }
 
 .public-detail-rich-text :deep(blockquote)::before {
@@ -247,8 +341,14 @@ withDefaults(
 }
 
 .public-detail-rich-text :deep(hr) {
-  margin-top: var(--public-detail-rich-text-divider-space-top, 28px);
-  margin-bottom: var(--public-detail-rich-text-divider-space-bottom, 28px);
+  margin-top: var(
+    --public-detail-rich-text-divider-space-top,
+    var(--public-detail-rich-text-default-divider-space-top)
+  );
+  margin-bottom: var(
+    --public-detail-rich-text-divider-space-bottom,
+    var(--public-detail-rich-text-default-divider-space-bottom)
+  );
   border: 0;
   border-top: 1px solid color-mix(in srgb, var(--home-line) 78%, transparent);
 }

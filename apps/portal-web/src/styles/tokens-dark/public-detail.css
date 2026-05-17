@@ -58,8 +58,6 @@ html.dark {
     color-mix(in srgb, var(--home-detail-glass-bg-emphasis) 86%, transparent);
   --home-detail-info-row-shadow:
     0 10px 16px rgba(0, 0, 0, 0.17), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  --home-detail-info-row-gloss: var(--home-detail-glass-gloss);
-  --home-detail-info-row-gloss-opacity: 0.38;
   --home-detail-info-row-label-ink: color-mix(in srgb, var(--home-muted) 92%, transparent);
   /* Public Detail Author Card Tokens */
   --home-detail-author-avatar-tone-article: linear-gradient(

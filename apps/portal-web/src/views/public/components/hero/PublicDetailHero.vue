@@ -205,7 +205,6 @@ const normalizedActions = computed(() =>
 <style scoped>
 .public-detail-hero {
   --public-detail-hero-accent: var(--home-business-article-accent);
-  --public-detail-hero-accent-soft: var(--home-business-article-accent-soft);
   --public-detail-hero-tag-bg: var(--home-business-article-tag-bg);
   --public-detail-hero-tag-border: var(--home-business-article-tag-border);
   --public-detail-hero-tag-ink: var(--home-business-article-tag-ink);
@@ -218,7 +217,6 @@ const normalizedActions = computed(() =>
 
 .public-detail-hero--topic {
   --public-detail-hero-accent: var(--home-business-topic-accent);
-  --public-detail-hero-accent-soft: var(--home-business-topic-accent-soft);
   --public-detail-hero-tag-bg: var(--home-business-topic-tag-bg);
   --public-detail-hero-tag-border: var(--home-business-topic-tag-border);
   --public-detail-hero-tag-ink: var(--home-business-topic-tag-ink);
@@ -226,7 +224,6 @@ const normalizedActions = computed(() =>
 
 .public-detail-hero--book {
   --public-detail-hero-accent: var(--home-business-bookshelf-accent);
-  --public-detail-hero-accent-soft: var(--home-business-bookshelf-accent-soft);
   --public-detail-hero-tag-bg: var(--home-business-bookshelf-tag-bg);
   --public-detail-hero-tag-border: var(--home-business-bookshelf-tag-border);
   --public-detail-hero-tag-ink: var(--home-business-bookshelf-tag-ink);
@@ -234,7 +231,6 @@ const normalizedActions = computed(() =>
 
 .public-detail-hero--gallery {
   --public-detail-hero-accent: var(--home-business-gallery-accent);
-  --public-detail-hero-accent-soft: var(--home-business-gallery-accent-soft);
   --public-detail-hero-tag-bg: var(--home-business-gallery-tag-bg);
   --public-detail-hero-tag-border: var(--home-business-gallery-tag-border);
   --public-detail-hero-tag-ink: var(--home-business-gallery-tag-ink);

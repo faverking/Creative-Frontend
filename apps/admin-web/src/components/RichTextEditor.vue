@@ -827,6 +827,28 @@ defineExpose<RichTextEditorExpose>({
 
 <style scoped>
 .rich-text-editor {
+  --admin-rich-text-editor-font-size: 16px;
+  --admin-rich-text-editor-line-height: 1.78;
+  --admin-rich-text-editor-intro-size: 17px;
+  --admin-rich-text-editor-intro-line-height: 1.84;
+  --admin-rich-text-editor-paragraph-gap: 16px;
+  --admin-rich-text-editor-image-space: 14px 0;
+  --admin-rich-text-editor-divider-space: 28px 0;
+  --admin-rich-text-editor-h1-size: 24px;
+  --admin-rich-text-editor-h1-line-height: 1.35;
+  --admin-rich-text-editor-h1-space: 28px 0 12px;
+  --admin-rich-text-editor-h2-size: 22px;
+  --admin-rich-text-editor-h2-line-height: 1.4;
+  --admin-rich-text-editor-h2-space: 30px 0 12px;
+  --admin-rich-text-editor-h3-size: 20px;
+  --admin-rich-text-editor-h3-line-height: 1.45;
+  --admin-rich-text-editor-h3-space: 24px 0 10px;
+  --admin-rich-text-editor-list-space: 16px 0 18px;
+  --admin-rich-text-editor-list-gap: 8px;
+  --admin-rich-text-editor-quote-space: 22px 0 24px;
+  --admin-rich-text-editor-quote-padding: 14px 18px 14px 20px;
+  --admin-rich-text-editor-quote-paragraph-gap: 10px;
+  --admin-rich-text-editor-video-space: 18px auto;
   position: relative;
   width: 100%;
   max-width: 100%;
@@ -868,8 +890,8 @@ defineExpose<RichTextEditorExpose>({
 .rich-text-editor :deep(.ql-editor) {
   min-height: var(--editor-min-height);
   padding: 18px 20px 22px;
-  font-size: 16px;
-  line-height: 1.78;
+  font-size: var(--admin-rich-text-editor-font-size);
+  line-height: var(--admin-rich-text-editor-line-height);
   color: var(--app-text-color);
 }
 
@@ -883,8 +905,8 @@ defineExpose<RichTextEditorExpose>({
 
 .rich-text-editor :deep(.ql-editor > p:first-of-type) {
   color: color-mix(in srgb, var(--app-text-color) 96%, transparent);
-  font-size: 17px;
-  line-height: 1.84;
+  font-size: var(--admin-rich-text-editor-intro-size);
+  line-height: var(--admin-rich-text-editor-intro-line-height);
 }
 
 .rich-text-editor :deep(.ql-editor.ql-blank::before) {
@@ -898,7 +920,7 @@ defineExpose<RichTextEditorExpose>({
 }
 
 .rich-text-editor :deep(.ql-editor p + p) {
-  margin-top: 16px;
+  margin-top: var(--admin-rich-text-editor-paragraph-gap);
 }
 
 .rich-text-editor :deep(.ql-editor a) {
@@ -910,40 +932,40 @@ defineExpose<RichTextEditorExpose>({
   display: block;
   max-width: 100%;
   height: auto;
-  margin: 14px 0;
+  margin: var(--admin-rich-text-editor-image-space);
   border-radius: 18px;
 }
 
 .rich-text-editor :deep(.ql-editor hr) {
-  margin: 28px 0;
+  margin: var(--admin-rich-text-editor-divider-space);
   border: 0;
   border-top: 1px solid var(--community-divider);
 }
 
 .rich-text-editor :deep(.ql-editor h1) {
-  margin: 28px 0 12px;
-  font-size: 24px;
-  line-height: 1.35;
+  margin: var(--admin-rich-text-editor-h1-space);
+  font-size: var(--admin-rich-text-editor-h1-size);
+  line-height: var(--admin-rich-text-editor-h1-line-height);
 }
 
 .rich-text-editor :deep(.ql-editor h2) {
-  margin: 30px 0 12px;
-  font-size: 22px;
-  line-height: 1.4;
+  margin: var(--admin-rich-text-editor-h2-space);
+  font-size: var(--admin-rich-text-editor-h2-size);
+  line-height: var(--admin-rich-text-editor-h2-line-height);
   letter-spacing: -0.022em;
 }
 
 .rich-text-editor :deep(.ql-editor h3),
 .rich-text-editor :deep(.ql-editor h4) {
-  margin: 24px 0 10px;
-  font-size: 20px;
-  line-height: 1.45;
+  margin: var(--admin-rich-text-editor-h3-space);
+  font-size: var(--admin-rich-text-editor-h3-size);
+  line-height: var(--admin-rich-text-editor-h3-line-height);
   letter-spacing: -0.018em;
 }
 
 .rich-text-editor :deep(.ql-editor ul),
 .rich-text-editor :deep(.ql-editor ol) {
-  margin: 16px 0 18px;
+  margin: var(--admin-rich-text-editor-list-space);
   padding-left: 1.4em;
 }
 
@@ -952,7 +974,7 @@ defineExpose<RichTextEditorExpose>({
 }
 
 .rich-text-editor :deep(.ql-editor li + li) {
-  margin-top: 8px;
+  margin-top: var(--admin-rich-text-editor-list-gap);
 }
 
 .rich-text-editor :deep(.ql-editor li > p) {
@@ -967,8 +989,8 @@ defineExpose<RichTextEditorExpose>({
 
 .rich-text-editor :deep(.ql-editor blockquote) {
   position: relative;
-  margin: 22px 0 24px;
-  padding: 14px 18px 14px 20px;
+  margin: var(--admin-rich-text-editor-quote-space);
+  padding: var(--admin-rich-text-editor-quote-padding);
   border: 1px solid color-mix(in srgb, var(--community-border) 84%, white 16%);
   border-radius: 20px;
   background:
@@ -998,7 +1020,7 @@ defineExpose<RichTextEditorExpose>({
 }
 
 .rich-text-editor :deep(.ql-editor blockquote p + p) {
-  margin-top: 10px;
+  margin-top: var(--admin-rich-text-editor-quote-paragraph-gap);
 }
 
 .rich-text-editor :deep(.ql-editor iframe.ql-video) {
@@ -1006,7 +1028,7 @@ defineExpose<RichTextEditorExpose>({
   width: min(100%, 720px);
   aspect-ratio: 16 / 9;
   height: auto;
-  margin: 18px auto;
+  margin: var(--admin-rich-text-editor-video-space);
   border: 1px solid var(--community-border);
   border-radius: 22px;
   background:

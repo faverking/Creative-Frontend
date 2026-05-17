@@ -425,12 +425,6 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
 .portal-article-detail-page__body {
   --public-detail-rich-text-max-width: var(--portal-article-detail-body-max-width);
   --public-detail-rich-text-outset: var(--home-detail-rich-text-outset);
-  --public-detail-rich-text-flow-space: 12px;
-  --public-detail-rich-text-flow-space-lg: 18px;
-  --public-detail-rich-text-heading-top-lg: 24px;
-  --public-detail-rich-text-heading-top-md: 20px;
-  --public-detail-rich-text-intro-size: 18px;
-  --public-detail-rich-text-intro-line-height: 1.74;
 }
 
 .portal-article-detail-page__side {
