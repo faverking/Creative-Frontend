@@ -26,8 +26,8 @@ withDefaults(
     --public-detail-rich-text-accent-ink,
     var(--home-business-article-accent)
   );
-  --public-detail-rich-text-default-font-size: 16px;
-  --public-detail-rich-text-default-line-height: 1.76;
+  --public-detail-rich-text-default-font-size: 17px;
+  --public-detail-rich-text-default-line-height: 1.78;
   --public-detail-rich-text-default-intro-size: 18px;
   --public-detail-rich-text-default-intro-line-height: 1.74;
   --public-detail-rich-text-default-intro-gap: 18px;
@@ -45,8 +45,8 @@ withDefaults(
   --public-detail-rich-text-default-list-space-bottom: 18px;
   --public-detail-rich-text-default-list-gap: 6px;
   --public-detail-rich-text-default-quote-padding: 12px 16px;
-  --public-detail-rich-text-default-quote-font-size: 16px;
-  --public-detail-rich-text-default-quote-line-height: 1.75;
+  --public-detail-rich-text-default-quote-font-size: 17px;
+  --public-detail-rich-text-default-quote-line-height: 1.76;
   --public-detail-rich-text-default-quote-space-top: 24px;
   --public-detail-rich-text-default-quote-space-bottom: 24px;
   --public-detail-rich-text-default-quote-paragraph-gap: 8px;
