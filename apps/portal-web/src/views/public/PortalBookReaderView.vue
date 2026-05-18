@@ -11,7 +11,10 @@
     @secondary="goBackToBook"
   >
     <template #loading>
-      <section class="portal-book-reader-page__stage portal-book-reader-page__stage--loading">
+      <section
+        class="portal-book-reader-page__stage portal-book-reader-page__stage--loading"
+        :class="{ 'portal-book-reader-page__stage--comic': isReaderSkeletonComic }"
+      >
         <div class="portal-book-reader-page__toolbar">
           <span
             class="portal-book-reader-page__skeleton-block portal-book-reader-page__skeleton-block--back"
@@ -27,12 +30,14 @@
         </div>
 
         <div class="portal-book-reader-page__loading-tools">
-          <span
-            class="portal-book-reader-page__skeleton-line portal-book-reader-page__skeleton-line--tool"
-          />
-          <span
-            class="portal-book-reader-page__skeleton-line portal-book-reader-page__skeleton-line--tool"
-          />
+          <template v-if="!isReaderSkeletonComic">
+            <span
+              class="portal-book-reader-page__skeleton-line portal-book-reader-page__skeleton-line--tool"
+            />
+            <span
+              class="portal-book-reader-page__skeleton-line portal-book-reader-page__skeleton-line--tool"
+            />
+          </template>
           <span
             class="portal-book-reader-page__skeleton-line portal-book-reader-page__skeleton-line--catalog-button"
           />
@@ -42,21 +47,37 @@
         </div>
 
         <div class="portal-book-reader-page__layout portal-book-reader-page__layout--loading">
-          <div class="portal-book-reader-page__paper portal-book-reader-page__paper--loading">
-            <header class="portal-book-reader-page__paper-head">
+          <div
+            class="portal-book-reader-page__paper portal-book-reader-page__paper--loading"
+            :class="{
+              'portal-book-reader-page__paper--comic': isReaderSkeletonComic
+            }"
+          >
+            <template v-if="!isReaderSkeletonComic">
+              <header class="portal-book-reader-page__paper-head">
+                <span
+                  class="portal-book-reader-page__skeleton-line portal-book-reader-page__skeleton-line--chapter-meta"
+                />
+                <span
+                  class="portal-book-reader-page__skeleton-line portal-book-reader-page__skeleton-line--chapter-title"
+                />
+              </header>
+              <div class="portal-book-reader-page__skeleton-paragraphs" aria-hidden="true">
+                <span
+                  v-for="(width, index) in readerSkeletonParagraphWidths"
+                  :key="`reader-paragraph-${index}`"
+                  class="portal-book-reader-page__skeleton-line portal-book-reader-page__skeleton-line--paragraph"
+                  :style="{ width }"
+                />
+              </div>
+            </template>
+
+            <div v-else class="portal-book-reader-page__skeleton-comic-pages" aria-hidden="true">
               <span
-                class="portal-book-reader-page__skeleton-line portal-book-reader-page__skeleton-line--chapter-meta"
-              />
-              <span
-                class="portal-book-reader-page__skeleton-line portal-book-reader-page__skeleton-line--chapter-title"
-              />
-            </header>
-            <div class="portal-book-reader-page__skeleton-paragraphs" aria-hidden="true">
-              <span
-                v-for="(width, index) in readerSkeletonParagraphWidths"
-                :key="`reader-paragraph-${index}`"
-                class="portal-book-reader-page__skeleton-line portal-book-reader-page__skeleton-line--paragraph"
-                :style="{ width }"
+                v-for="(height, index) in readerSkeletonComicPageHeights"
+                :key="`reader-comic-page-${index}`"
+                class="portal-book-reader-page__skeleton-block portal-book-reader-page__skeleton-block--comic-page"
+                :style="{ height }"
               />
             </div>
           </div>
@@ -178,18 +199,20 @@
           <span>{{ readerData.chapters.length }} 章</span>
         </div>
 
-        <nav class="portal-book-reader-page__catalog-list">
-          <router-link
-            v-for="(chapter, index) in readerData.chapters"
-            :key="chapter.id"
-            class="portal-book-reader-page__catalog-item"
-            :class="{ 'is-active': isActiveChapter(chapter) }"
-            :to="resolveChapterLocation(chapter)"
-            :title="resolveChapterTitle(chapter, index)"
-          >
-            {{ resolveChapterTitle(chapter, index) }}
-          </router-link>
-        </nav>
+        <el-scrollbar class="portal-book-reader-page__catalog-scrollbar">
+          <nav class="portal-book-reader-page__catalog-list">
+            <router-link
+              v-for="(chapter, index) in readerData.chapters"
+              :key="chapter.id"
+              class="portal-book-reader-page__catalog-item"
+              :class="{ 'is-active': isActiveChapter(chapter) }"
+              :to="resolveChapterLocation(chapter)"
+              :title="resolveChapterTitle(chapter, index)"
+            >
+              {{ resolveChapterTitle(chapter, index) }}
+            </router-link>
+          </nav>
+        </el-scrollbar>
       </aside>
 
       <footer class="portal-book-reader-page__footer">
@@ -246,6 +269,7 @@ import {
   fetchWenku8NovelChapter,
   resolveBookReaderSource,
   type BookReaderChapterContent,
+  type BookReaderMode,
   type BookReaderSourceResolution
 } from '@/views/public/book-reader'
 import { useDocumentTitle } from '@/composables/useDocumentTitle'
@@ -267,6 +291,7 @@ const READER_FONT_SIZE_DEFAULT = 22
 const route = useRoute()
 const router = useRouter()
 const readerData = ref<BookReaderPageData | null>(null)
+const pendingReaderMode = ref<BookReaderMode | null>(null)
 const cachedBookDetail = ref<{ bookId: string; detail: PublicBookDetailResponse } | null>(null)
 const chapterContentCache = new Map<string, BookReaderChapterContent>()
 const readerErrorTitle = ref('章节正文暂时无法加载，请稍后再试。')
@@ -294,6 +319,7 @@ const readerSkeletonParagraphWidths = [
   '97%',
   '84%'
 ]
+const readerSkeletonComicPageHeights = ['560px', '620px', '520px']
 const bookId = computed(() => (typeof route.params.id === 'string' ? route.params.id.trim() : ''))
 const chapterId = computed(() =>
   typeof route.params.chapterId === 'string' ? route.params.chapterId.trim() : ''
@@ -339,6 +365,7 @@ const readingProgressLabel = computed(() => {
   return `${progress <= 0 ? 0 : Math.ceil(progress)}%`
 })
 const isComicReader = computed(() => readerData.value?.source.mode === 'comic')
+const isReaderSkeletonComic = computed(() => pendingReaderMode.value === 'comic')
 const readerStyle = computed(() =>
   isComicReader.value ? {} : { '--portal-book-reader-font-size': `${readerFontSize.value}px` }
 )
@@ -390,6 +417,7 @@ onBeforeUnmount(() => {
 async function loadReader(): Promise<void> {
   const loadToken = beginReaderLoad()
   readerData.value = null
+  pendingReaderMode.value = null
   readingProgressPercent.value = 0
   readerErrorTitle.value = '章节正文暂时无法加载，请稍后再试。'
 
@@ -414,6 +442,7 @@ async function loadReader(): Promise<void> {
   }
 
   const source = resolveBookReaderSource(detail, chapter)
+  pendingReaderMode.value = source.mode
   if (source.sourceType === 'unsupported') {
     readerErrorTitle.value = '当前章节暂不支持在线阅读。'
     setReaderErrorMode(500)
@@ -596,22 +625,23 @@ function updateReadingProgress(): void {
 }
 
 .portal-book-reader-page__stage {
+  --portal-book-reader-content-width: 1040px;
+  --portal-book-reader-side-gap: 28px;
   display: grid;
-  grid-template-columns: minmax(0, 1040px);
+  grid-template-columns: minmax(0, var(--portal-book-reader-content-width));
   grid-template-areas:
     'toolbar'
     'content'
     'footer';
   gap: 18px;
   align-items: start;
-  width: min(100%, 1040px);
+  width: min(100%, var(--portal-book-reader-content-width));
   margin: 0 auto;
   position: relative;
 }
 
 .portal-book-reader-page__stage--comic {
-  grid-template-columns: minmax(0, 1120px);
-  width: min(100%, 1120px);
+  --portal-book-reader-content-width: 1120px;
 }
 
 .portal-book-reader-page__toolbar {
@@ -715,7 +745,7 @@ function updateReadingProgress(): void {
   position: sticky;
   top: calc(var(--portal-topbar-height) + 104px);
   justify-self: start;
-  transform: translateX(calc(-100% - 28px));
+  transform: translateX(calc(-100% - var(--portal-book-reader-side-gap)));
   z-index: 12;
   display: flex;
   flex-direction: column;
@@ -885,15 +915,15 @@ function updateReadingProgress(): void {
   position: sticky;
   top: calc(var(--portal-topbar-height) + 104px);
   justify-self: end;
-  transform: translateX(calc(100% + 28px));
   z-index: 13;
   display: grid;
   grid-template-rows: auto minmax(0, 1fr);
-  gap: 12px;
+  gap: 10px;
   max-height: calc(100vh - var(--portal-topbar-height) - 120px);
   width: 320px;
   min-height: 380px;
-  padding: 16px;
+  overflow: hidden;
+  padding: 14px 12px 14px 14px;
   border: 1px solid color-mix(in srgb, var(--portal-book-reader-border) 78%, transparent);
   border-radius: var(--home-detail-panel-radius);
   background:
@@ -909,7 +939,7 @@ function updateReadingProgress(): void {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding-right: 28px;
+  padding-right: 4px;
   min-width: 0;
 }
 
@@ -926,13 +956,41 @@ function updateReadingProgress(): void {
   line-height: 1;
 }
 
+.portal-book-reader-page__catalog-scrollbar {
+  height: 100%;
+  min-height: 0;
+}
+
+.portal-book-reader-page__catalog-scrollbar :deep(.el-scrollbar__bar.is-vertical) {
+  right: 0;
+  width: 6px;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.portal-book-reader-page__catalog:hover
+  .portal-book-reader-page__catalog-scrollbar
+  :deep(.el-scrollbar__bar.is-vertical),
+.portal-book-reader-page__catalog-scrollbar:focus-within :deep(.el-scrollbar__bar.is-vertical) {
+  opacity: 1;
+}
+
+.portal-book-reader-page__catalog-scrollbar :deep(.el-scrollbar__thumb) {
+  border: 1px solid var(--home-detail-scrollbar-thumb-border);
+  background: var(--home-detail-scrollbar-thumb-bg);
+  opacity: 1;
+}
+
+.portal-book-reader-page__catalog-scrollbar :deep(.el-scrollbar__thumb:hover) {
+  background: var(--home-detail-scrollbar-thumb-hover-bg);
+}
+
 .portal-book-reader-page__catalog-list {
   display: grid;
   align-content: start;
   gap: 6px;
   min-height: 0;
-  overflow-y: auto;
-  padding-right: 4px;
+  padding-right: 10px;
 }
 
 .portal-book-reader-page__catalog-item {
@@ -1038,6 +1096,11 @@ function updateReadingProgress(): void {
   pointer-events: none;
 }
 
+.portal-book-reader-page__stage--comic .portal-book-reader-page__loading-tools {
+  height: auto;
+  min-height: 0;
+}
+
 .portal-book-reader-page__layout--loading {
   align-items: start;
   position: relative;
@@ -1109,10 +1172,22 @@ function updateReadingProgress(): void {
   padding-inline: 2em;
 }
 
+.portal-book-reader-page__skeleton-comic-pages {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  width: 100%;
+}
+
 .portal-book-reader-page__skeleton-line--paragraph {
   justify-self: center;
   max-width: 100%;
   height: 20px;
+}
+
+.portal-book-reader-page__skeleton-block--comic-page {
+  width: min(100%, 960px);
+  border-radius: 0;
 }
 
 .portal-book-reader-page__skeleton-line--chapter-meta {
@@ -1146,13 +1221,11 @@ function updateReadingProgress(): void {
 
 @media (max-width: 1320px) {
   .portal-book-reader-page__stage {
-    grid-template-columns: minmax(0, 960px);
-    width: min(100%, 960px);
+    --portal-book-reader-content-width: 960px;
   }
 
   .portal-book-reader-page__stage--comic {
-    grid-template-columns: minmax(0, 1000px);
-    width: min(100%, 1000px);
+    --portal-book-reader-content-width: 1000px;
   }
 
   .portal-book-reader-page__paper {
@@ -1165,12 +1238,6 @@ function updateReadingProgress(): void {
 
   .portal-book-reader-page__catalog {
     width: 300px;
-  }
-}
-
-@media (max-width: 1560px) {
-  .portal-book-reader-page__catalog {
-    transform: none;
   }
 }
 </style>
