@@ -8,8 +8,10 @@
       :class="{
         'public-detail-action-panel__action--primary': action.tone === 'primary',
         'public-detail-action-panel__action--secondary': action.tone !== 'primary',
+        'is-active': action.active,
         'is-protected': action.protected && !isAuthenticated
       }"
+      :aria-pressed="action.key === 'favorite' ? action.active : undefined"
       @click="$emit('action', action)"
     >
       <span class="public-detail-action-panel__action-icon">
@@ -119,6 +121,11 @@ defineEmits<{
   box-shadow:
     0 12px 22px color-mix(in srgb, var(--public-detail-action-primary-border) 12%, transparent),
     inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.public-detail-action-panel__action.is-active {
+  border-color: var(--public-detail-action-primary-border);
+  color: var(--public-detail-action-primary-ink);
 }
 
 .public-detail-action-panel__action.is-protected {

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import {
+  resolvePublicDetailFavoriteState,
   resolvePublicDetailMediaUrl,
   resolvePublicDetailOriginalMediaUrl,
   type PublicMediaAsset
@@ -31,5 +32,21 @@ describe('public detail media url resolvers', () => {
         previewPath: '/api/v1/media/preview-only/preview'
       })
     ).toBe('/api/v1/media/preview-only/preview')
+  })
+})
+
+describe('public detail favorite state resolver', () => {
+  it('uses the viewer favorite flag returned by detail responses', () => {
+    expect(resolvePublicDetailFavoriteState({ favored: true, favorCount: 8 })).toEqual({
+      favorited: true,
+      favoriteCount: 8
+    })
+  })
+
+  it('falls back to an anonymous uncollected state when the backend omits viewer state', () => {
+    expect(resolvePublicDetailFavoriteState({ favorCount: 3 })).toEqual({
+      favorited: false,
+      favoriteCount: 3
+    })
   })
 })

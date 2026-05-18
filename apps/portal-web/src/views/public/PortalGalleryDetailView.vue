@@ -186,6 +186,7 @@ import {
 } from '@/constants/public-detail'
 import {
   portalPublicDetailApi,
+  resolvePublicDetailFavoriteState,
   resolvePublicDetailMediaUrl,
   resolvePublicDetailOriginalMediaUrl,
   type PublicGalleryDetailPageData,
@@ -404,6 +405,7 @@ const relatedBoundaryMode = computed(() => {
 const resolvedActions = computed(() =>
   createGalleryDetailActions().map((action) => ({
     ...action,
+    active: action.key === 'favorite' ? favorited.value : false,
     label: resolveActionLabel(action)
   }))
 )
@@ -574,12 +576,13 @@ async function loadGalleryDetail(): Promise<void> {
   }
 
   const nextData = result.data
+  const favoriteState = resolvePublicDetailFavoriteState(nextData.detail)
   galleryData.value = nextData
   setGalleryLiveMode()
   isLightboxOpen.value = false
   currentPreviewIndex.value = 0
-  favorited.value = false
-  favoriteCount.value = nextData.detail.favorCount ?? 0
+  favorited.value = favoriteState.favorited
+  favoriteCount.value = favoriteState.favoriteCount
   relatedLoadFailed.value = result.meta.relatedError
   relatedErrorCode.value = result.meta.relatedErrorCode ?? 500
   thumbRefs.value = []

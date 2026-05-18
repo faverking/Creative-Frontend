@@ -121,6 +121,7 @@ import {
 } from '@/constants/public-detail'
 import {
   portalPublicDetailApi,
+  resolvePublicDetailFavoriteState,
   resolvePublicDetailMediaUrl,
   type PublicTopicDetailPageData
 } from '@/api/public-detail'
@@ -343,6 +344,7 @@ const authorAvatarUrl = computed(
 const resolvedActions = computed(() =>
   createTopicDetailActions().map((action) => ({
     ...action,
+    active: action.key === 'favorite' ? favorited.value : false,
     label: resolveActionLabel(action)
   }))
 )
@@ -394,11 +396,12 @@ async function loadTopicDetail(): Promise<void> {
   }
 
   const nextData = result.data
+  const favoriteState = resolvePublicDetailFavoriteState(nextData.detail)
   topicData.value = nextData
   setTopicLiveMode()
   authorProfileLoadFailed.value = result.meta.authorProfileError
-  favorited.value = false
-  favoriteCount.value = nextData.detail.favorCount ?? 0
+  favorited.value = favoriteState.favorited
+  favoriteCount.value = favoriteState.favoriteCount
   relatedLoadFailed.value = result.meta.relatedError
   relatedErrorCode.value = result.meta.relatedErrorCode ?? 500
 }

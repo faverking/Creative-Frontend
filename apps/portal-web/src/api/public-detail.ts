@@ -36,6 +36,16 @@ export interface PublicFavoriteToggleResponse {
   favorite_id?: string
 }
 
+export interface PublicFavoriteStateResponse {
+  favored?: boolean
+  favorCount?: number
+}
+
+export interface PublicDetailFavoriteState {
+  favorited: boolean
+  favoriteCount: number
+}
+
 export interface PublicAuthorSummaryResponse {
   id: string
   name: string
@@ -50,7 +60,7 @@ export interface PublicUserProfileResponse {
   roles?: string[]
 }
 
-export interface PublicArticleDetailResponse {
+export interface PublicArticleDetailResponse extends PublicFavoriteStateResponse {
   id: string
   title?: string
   summary?: string
@@ -60,14 +70,13 @@ export interface PublicArticleDetailResponse {
   coverMedia?: PublicMediaAsset | null
   imageAssets?: PublicMediaAsset[]
   viewCount?: number
-  favorCount?: number
   replyCount?: number
   postTime?: string
   updateTime?: string
   content?: string
 }
 
-export interface PublicTopicDetailResponse {
+export interface PublicTopicDetailResponse extends PublicFavoriteStateResponse {
   id: string
   title?: string
   summary?: string
@@ -78,7 +87,6 @@ export interface PublicTopicDetailResponse {
   featureFlagLabels?: string[]
   author?: PublicAuthorSummaryResponse
   viewCount?: number
-  favorCount?: number
   replyCount?: number
   postTime?: string
   updateTime?: string
@@ -88,7 +96,7 @@ export interface PublicTopicDetailResponse {
   imageAssets?: PublicMediaAsset[]
 }
 
-export interface PublicGalleryDetailResponse {
+export interface PublicGalleryDetailResponse extends PublicFavoriteStateResponse {
   id: string
   title?: string
   summary?: string
@@ -98,7 +106,6 @@ export interface PublicGalleryDetailResponse {
   source?: string
   author?: PublicAuthorSummaryResponse
   viewCount?: number
-  favorCount?: number
   replyCount?: number
   uploadTime?: string
   resolution?: string
@@ -117,7 +124,7 @@ export interface PublicBookChapterItemResponse {
   rule?: string
 }
 
-export interface PublicBookDetailResponse {
+export interface PublicBookDetailResponse extends PublicFavoriteStateResponse {
   id: string
   title?: string
   name?: string
@@ -132,7 +139,6 @@ export interface PublicBookDetailResponse {
   tags?: string[]
   style?: Array<{ id: number; name: string }>
   viewCount?: number
-  favorCount?: number
   replyCount?: number
   releaseTime?: number
   createTime?: number
@@ -271,6 +277,15 @@ export function resolvePublicDetailOriginalMediaUrl(asset?: PublicMediaAsset | n
   }
 
   return resolvePublicDetailAssetUrl(asset.downloadPath || asset.previewPath)
+}
+
+export function resolvePublicDetailFavoriteState(
+  detail?: PublicFavoriteStateResponse | null
+): PublicDetailFavoriteState {
+  return {
+    favorited: Boolean(detail?.favored),
+    favoriteCount: Math.max(0, detail?.favorCount ?? 0)
+  }
 }
 
 async function fetchUserProfile(

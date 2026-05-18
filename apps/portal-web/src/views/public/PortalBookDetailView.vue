@@ -249,6 +249,7 @@ import {
 } from '@/constants/public-detail'
 import {
   portalPublicDetailApi,
+  resolvePublicDetailFavoriteState,
   resolvePublicDetailMediaUrl,
   type PublicBookDetailPageData
 } from '@/api/public-detail'
@@ -462,6 +463,7 @@ const relatedBoundaryMode = computed(() => {
 const resolvedActions = computed(() =>
   createBookDetailActions().map((action) => ({
     ...action,
+    active: action.key === 'favorite' ? favorited.value : false,
     label: resolveActionLabel(action)
   }))
 )
@@ -566,10 +568,11 @@ async function loadBookDetail(): Promise<void> {
   }
 
   const nextData = result.data
+  const favoriteState = resolvePublicDetailFavoriteState(nextData.detail)
   bookData.value = nextData
   setBookLiveMode()
-  favorited.value = false
-  favoriteCount.value = nextData.detail.favorCount ?? 0
+  favorited.value = favoriteState.favorited
+  favoriteCount.value = favoriteState.favoriteCount
   relatedLoadFailed.value = result.meta.relatedError
   relatedErrorCode.value = result.meta.relatedErrorCode ?? 500
 }

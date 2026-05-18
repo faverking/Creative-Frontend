@@ -7,6 +7,7 @@ export type PublicDetailSectionTone = PublicDetailAccent | 'neutral' | 'bookshel
 export interface PublicDetailActionItem {
   key: PublicDetailActionKey
   label: string
+  active?: boolean
   protected?: boolean
   tone?: 'primary' | 'secondary'
 }
