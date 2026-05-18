@@ -59,6 +59,11 @@ function handleCurrentChange(page: number): void {
   --portal-module-pagination-active-ink: var(--home-ink);
   --portal-module-pagination-hover-shadow: 0 10px 18px rgba(18, 41, 74, 0.08);
   --portal-module-pagination-active-shadow: 0 12px 20px rgba(18, 41, 74, 0.1);
+  --portal-module-pagination-control-gap: 8px;
+  --portal-module-pagination-control-radius: 14px;
+  --portal-module-pagination-nav-width: 44px;
+  --portal-module-pagination-page-min-width: 40px;
+  --portal-module-pagination-section-gap: 12px;
   display: flex;
   justify-content: center;
 }
@@ -68,7 +73,7 @@ function handleCurrentChange(page: number): void {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: var(--portal-module-pagination-section-gap);
 }
 
 .portal-module-pagination :deep(.el-pagination__total) {
@@ -80,14 +85,24 @@ function handleCurrentChange(page: number): void {
   white-space: nowrap;
 }
 
+.portal-module-pagination :deep(.el-pager) {
+  display: flex;
+  align-items: center;
+  gap: var(--portal-module-pagination-control-gap);
+  margin: 0;
+  padding: 0;
+}
+
 .portal-module-pagination :deep(.btn-prev),
 .portal-module-pagination :deep(.btn-next),
 .portal-module-pagination :deep(.el-pager li) {
-  min-width: 34px;
-  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
   margin: 0;
   border: 1px solid var(--portal-module-pagination-border);
-  border-radius: 999px;
+  border-radius: var(--portal-module-pagination-control-radius);
   background: var(--portal-module-pagination-bg);
   box-sizing: border-box;
   color: var(--portal-module-pagination-ink);
@@ -99,6 +114,17 @@ function handleCurrentChange(page: number): void {
     background 180ms ease,
     box-shadow 180ms ease,
     color 180ms ease;
+}
+
+.portal-module-pagination :deep(.btn-prev),
+.portal-module-pagination :deep(.btn-next) {
+  width: var(--portal-module-pagination-nav-width);
+  min-width: var(--portal-module-pagination-nav-width);
+}
+
+.portal-module-pagination :deep(.el-pager li) {
+  min-width: var(--portal-module-pagination-page-min-width);
+  padding: 0 12px;
 }
 
 .portal-module-pagination :deep(.btn-prev:hover),

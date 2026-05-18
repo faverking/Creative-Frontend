@@ -35,7 +35,7 @@ export const PORTAL_MODULE_SORT_OPTIONS = [
   }
 ] as const satisfies PortalModuleSortOption[]
 
-export const CONTENT_MODULE_PAGE_SIZE = 8
+export const CONTENT_MODULE_PAGE_SIZE = 12
 export const GALLERY_MODULE_PAGE_SIZE = 18
 
 export const ARTICLE_MODULE_CATEGORIES = [

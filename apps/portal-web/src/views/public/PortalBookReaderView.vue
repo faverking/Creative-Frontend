@@ -72,7 +72,12 @@
       </section>
     </template>
 
-    <article v-if="readerData" class="portal-book-reader-page__stage" :style="readerStyle">
+    <article
+      v-if="readerData"
+      class="portal-book-reader-page__stage"
+      :class="{ 'portal-book-reader-page__stage--comic': isComicReader }"
+      :style="readerStyle"
+    >
       <header class="portal-book-reader-page__toolbar">
         <router-link class="portal-book-reader-page__breadcrumb-link" :to="bookModuleLocation">
           书库
@@ -92,8 +97,13 @@
       </header>
 
       <div class="portal-book-reader-page__layout">
-        <section ref="paperRef" class="portal-book-reader-page__paper" aria-label="章节正文">
-          <header class="portal-book-reader-page__paper-head">
+        <section
+          ref="paperRef"
+          class="portal-book-reader-page__paper"
+          :class="{ 'portal-book-reader-page__paper--comic': isComicReader }"
+          aria-label="章节正文"
+        >
+          <header v-if="!isComicReader" class="portal-book-reader-page__paper-head">
             <span>{{ chapterProgressLabel }}</span>
             <h1>{{ chapterTitle }}</h1>
           </header>
@@ -121,7 +131,7 @@
       </div>
 
       <aside class="portal-book-reader-page__floating-tools" aria-label="阅读工具">
-        <div class="portal-book-reader-page__font-tools">
+        <div v-if="!isComicReader" class="portal-book-reader-page__font-tools">
           <button
             type="button"
             class="portal-book-reader-page__tool-button"
@@ -232,10 +242,11 @@ import {
   type PublicBookDetailResponse
 } from '@/api/public-detail'
 import {
+  fetchWmanhuaComicChapter,
   fetchWenku8NovelChapter,
   resolveBookReaderSource,
-  type BookReaderSourceResolution,
-  type Wenku8NovelChapterContent
+  type BookReaderChapterContent,
+  type BookReaderSourceResolution
 } from '@/views/public/book-reader'
 import { useDocumentTitle } from '@/composables/useDocumentTitle'
 import { usePublicDetailRequestState } from '@/views/public/composables/usePublicDetailRequestState'
@@ -244,7 +255,7 @@ interface BookReaderPageData {
   chapter: PublicBookChapterItemResponse
   chapterIndex: number
   chapters: PublicBookChapterItemResponse[]
-  content: Wenku8NovelChapterContent
+  content: BookReaderChapterContent
   detail: PublicBookDetailResponse
   source: BookReaderSourceResolution
 }
@@ -257,7 +268,7 @@ const route = useRoute()
 const router = useRouter()
 const readerData = ref<BookReaderPageData | null>(null)
 const cachedBookDetail = ref<{ bookId: string; detail: PublicBookDetailResponse } | null>(null)
-const chapterContentCache = new Map<string, Wenku8NovelChapterContent>()
+const chapterContentCache = new Map<string, BookReaderChapterContent>()
 const readerErrorTitle = ref('章节正文暂时无法加载，请稍后再试。')
 const catalogExpanded = ref(false)
 const paperRef = ref<HTMLElement | null>(null)
@@ -327,9 +338,10 @@ const readingProgressLabel = computed(() => {
   const progress = readingProgressPercent.value
   return `${progress <= 0 ? 0 : Math.ceil(progress)}%`
 })
-const readerStyle = computed(() => ({
-  '--portal-book-reader-font-size': `${readerFontSize.value}px`
-}))
+const isComicReader = computed(() => readerData.value?.source.mode === 'comic')
+const readerStyle = computed(() =>
+  isComicReader.value ? {} : { '--portal-book-reader-font-size': `${readerFontSize.value}px` }
+)
 const readerFontSizeLabel = computed(() => `${readerFontSize.value}px`)
 const canDecreaseFont = computed(() => readerFontSize.value > READER_FONT_SIZE_MIN)
 const canIncreaseFont = computed(() => readerFontSize.value < READER_FONT_SIZE_MAX)
@@ -402,13 +414,7 @@ async function loadReader(): Promise<void> {
   }
 
   const source = resolveBookReaderSource(detail, chapter)
-  if (source.sourceType === 'bilibiliManga') {
-    readerErrorTitle.value = '漫画阅读模式暂未开放。'
-    setReaderErrorMode(500)
-    return
-  }
-
-  if (source.sourceType !== 'wenku8Novel') {
+  if (source.sourceType === 'unsupported') {
     readerErrorTitle.value = '当前章节暂不支持在线阅读。'
     setReaderErrorMode(500)
     return
@@ -478,14 +484,17 @@ async function resolveReaderChapterContent(
   source: BookReaderSourceResolution,
   chapter: PublicBookChapterItemResponse,
   loadToken: number
-): Promise<Wenku8NovelChapterContent | null> {
-  const cacheKey = `${bookId.value}:${chapter.id}:${source.wenku8Path}`
+): Promise<BookReaderChapterContent | null> {
+  const cacheKey = `${bookId.value}:${chapter.id}:${source.sourceType}:${source.sourcePath}`
   const cachedContent = chapterContentCache.get(cacheKey)
   if (cachedContent) {
     return cachedContent
   }
 
-  const content = await fetchWenku8NovelChapter(source.proxyUrl)
+  const content =
+    source.sourceType === 'wmanhuaComic'
+      ? await fetchWmanhuaComicChapter(source.proxyUrl)
+      : await fetchWenku8NovelChapter(source.proxyUrl)
   if (!isLatestReaderLoad(loadToken)) {
     return null
   }
@@ -600,6 +609,11 @@ function updateReadingProgress(): void {
   position: relative;
 }
 
+.portal-book-reader-page__stage--comic {
+  grid-template-columns: minmax(0, 1120px);
+  width: min(100%, 1120px);
+}
+
 .portal-book-reader-page__toolbar {
   grid-area: toolbar;
   position: sticky;
@@ -711,6 +725,11 @@ function updateReadingProgress(): void {
   min-height: 320px;
 }
 
+.portal-book-reader-page__stage--comic .portal-book-reader-page__floating-tools {
+  height: auto;
+  min-height: 0;
+}
+
 .portal-book-reader-page__font-tools {
   display: grid;
   gap: 6px;
@@ -786,6 +805,17 @@ function updateReadingProgress(): void {
   color: var(--home-ink);
 }
 
+.portal-book-reader-page__paper--comic {
+  justify-items: center;
+  gap: 6px;
+  min-height: 0;
+  padding: 18px 0 40px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
 .portal-book-reader-page__paper-head {
   display: grid;
   gap: 10px;
@@ -834,8 +864,26 @@ function updateReadingProgress(): void {
 .portal-book-reader-page__content-image :deep(.portal-image__img) {
   width: auto;
   height: auto;
-  max-height: min(78vh, 920px);
   min-height: 200px;
+}
+
+.portal-book-reader-page__paper--comic .portal-book-reader-page__image-block {
+  width: 100%;
+  margin: 0;
+}
+
+.portal-book-reader-page__paper--comic .portal-book-reader-page__content-image {
+  width: min(100%, 960px);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.portal-book-reader-page__paper--comic .portal-book-reader-page__content-image :deep(.portal-image__img) {
+  width: 100%;
+  height: auto;
+  min-height: 0;
 }
 
 .portal-book-reader-page__catalog {
@@ -944,6 +992,10 @@ function updateReadingProgress(): void {
   box-shadow: 0 10px 20px rgba(18, 41, 74, 0.045);
   backdrop-filter: blur(calc(var(--home-panel-blur) * 0.5));
   -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.5));
+}
+
+.portal-book-reader-page__stage--comic .portal-book-reader-page__progress-panel {
+  margin-top: 0;
 }
 
 .portal-book-reader-page__progress-panel span,
@@ -1104,8 +1156,17 @@ function updateReadingProgress(): void {
     width: min(100%, 960px);
   }
 
+  .portal-book-reader-page__stage--comic {
+    grid-template-columns: minmax(0, 1000px);
+    width: min(100%, 1000px);
+  }
+
   .portal-book-reader-page__paper {
     padding-inline: 56px;
+  }
+
+  .portal-book-reader-page__paper--comic {
+    padding-inline: 0;
   }
 
   .portal-book-reader-page__catalog {

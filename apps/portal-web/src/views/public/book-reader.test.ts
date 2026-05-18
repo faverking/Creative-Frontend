@@ -1,8 +1,11 @@
 import {
+  extractWmanhuaComicChapterContent,
   extractWenku8NovelChapterContent,
   resolveBookReaderSource,
   resolveWenku8ChapterPath,
-  resolveWenku8ChapterProxyUrl
+  resolveWenku8ChapterProxyUrl,
+  resolveWmanhuaChapterPath,
+  resolveWmanhuaChapterProxyUrl
 } from './book-reader'
 import type { PublicBookChapterItemResponse, PublicBookDetailResponse } from '@/api/public-detail'
 
@@ -53,9 +56,9 @@ describe('book reader source resolution', () => {
   it('identifies supported Wenku8 novel chapters from valid rules first', () => {
     const source = resolveBookReaderSource(
       createBookDetail({
-        comicId: 'mc123',
+        comicId: '1155',
         novelId: '2542',
-        origin: 'https://manga.bilibili.com'
+        origin: 'https://www.wmanhua.com'
       }),
       createChapter({
         rule: 'wenku8Path=/novel/2/2542/123456.htm'
@@ -69,24 +72,87 @@ describe('book reader source resolution', () => {
     })
   })
 
-  it('identifies Bilibili manga and unknown sources as controlled unsupported branches', () => {
+  it('resolves and guards WManhua chapter paths from chapter rules', () => {
+    expect(resolveWmanhuaChapterPath('wmanhuaPath=/chapter/1155-845383.html', '1155')).toBe(
+      '/chapter/1155-845383.html'
+    )
+
+    expect(resolveWmanhuaChapterProxyUrl('/chapter/1155-845383.html')).toBe(
+      '/proxy/wmanhua/chapter/1155-845383.html'
+    )
+    expect(resolveWmanhuaChapterPath('wmanhuaPath=/chapter/9999-845383.html', '1155')).toBe('')
+    expect(resolveWmanhuaChapterPath('wmanhuaPath=https://example.com/chapter.html', '1155')).toBe(
+      ''
+    )
+  })
+
+  it('identifies supported WManhua comic chapters and unknown sources as controlled branches', () => {
     expect(
       resolveBookReaderSource(
         createBookDetail({
-          comicId: 'mc123',
-          origin: 'https://manga.bilibili.com'
+          comicId: '1155',
+          origin: 'https://www.wmanhua.com'
         }),
-        createChapter()
+        createChapter({
+          rule: 'wmanhuaPath=/chapter/1155-845383.html'
+        })
       )
     ).toMatchObject({
       mode: 'comic',
-      sourceType: 'bilibiliManga'
+      proxyUrl: '/proxy/wmanhua/chapter/1155-845383.html',
+      sourceType: 'wmanhuaComic'
     })
 
     expect(resolveBookReaderSource(createBookDetail(), createChapter())).toMatchObject({
       mode: 'novel',
       sourceType: 'unsupported'
     })
+  })
+})
+
+describe('WManhua comic chapter extraction', () => {
+  it('builds comic image items from chapter page script variables', () => {
+    const content = extractWmanhuaComicChapterContent(`
+      <html>
+        <head><title>第01卷 - WManhua</title></head>
+        <body>
+          <script>
+            var num = eval("3")
+            var pasd = "https://image4.wmanhua.com/mh/hash/chapter-path/"
+            for(let i = 1; i <= num; i++) {
+              img.setAttribute('data-src', pasd + i + '.webp');
+            }
+          </script>
+        </body>
+      </html>
+    `)
+
+    expect(content.title).toBe('第01卷')
+    expect(content.paragraphs).toEqual([])
+    expect(content.items).toEqual([
+      {
+        alt: '第01卷 第 1 页',
+        loading: 'lazy',
+        src: 'https://image4.wmanhua.com/mh/hash/chapter-path/1.webp',
+        type: 'image'
+      },
+      {
+        alt: '第01卷 第 2 页',
+        loading: 'lazy',
+        src: 'https://image4.wmanhua.com/mh/hash/chapter-path/2.webp',
+        type: 'image'
+      },
+      {
+        alt: '第01卷 第 3 页',
+        loading: 'lazy',
+        src: 'https://image4.wmanhua.com/mh/hash/chapter-path/3.webp',
+        type: 'image'
+      }
+    ])
+  })
+
+  it('returns empty items when the chapter page has no image base', () => {
+    expect(extractWmanhuaComicChapterContent('<html><body>正文</body></html>').items).toEqual([])
   })
 })
 

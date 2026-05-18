@@ -11,7 +11,10 @@ export interface BookChapterSourceConfig {
   otherId: string
 }
 
-export type BookChapterSourcePreset = 'manual' | 'bilibiliComic' | 'wenku8Novel'
+export type BookChapterSourcePreset =
+  | 'manual'
+  | 'wenku8Novel'
+  | 'wmanhuaComic'
 
 export interface BookChapterSourceOption {
   value: BookChapterSourcePreset
@@ -31,25 +34,26 @@ export const BOOK_CHAPTER_SOURCE_OPTIONS: BookChapterSourceOption[] = [
     defaultTitleTemplate: '第 {n} 章'
   },
   {
-    value: 'bilibiliComic',
-    label: 'Bilibili 漫画',
-    description: '来源标识填写 Bilibili 漫画页面地址或域名，并只维护漫画 ID。',
-    defaultOrigin: 'https://manga.bilibili.com',
-    defaultTitleTemplate: '第 {n} 话',
-    preferredIdField: 'comicId'
-  },
-  {
     value: 'wenku8Novel',
     label: 'Wenku8 小说',
     description: '来源标识填写 Wenku8 小说页面地址或域名，并只维护小说 ID。',
     defaultOrigin: 'https://www.wenku8.net',
     defaultTitleTemplate: '第 {n} 章',
     preferredIdField: 'novelId'
+  },
+  {
+    value: 'wmanhuaComic',
+    label: 'WManhua 漫画',
+    description: '来源标识填写 WManhua 漫画页面地址或域名，并只维护漫画 ID。',
+    defaultOrigin: 'https://www.wmanhua.com',
+    defaultTitleTemplate: '第 {n} 话',
+    preferredIdField: 'comicId'
   }
 ]
 
 const BOOK_CHAPTER_SOURCE_PROXY_TARGETS: Partial<Record<BookChapterSourcePreset, string>> = {
-  wenku8Novel: 'wenku8'
+  wenku8Novel: 'wenku8',
+  wmanhuaComic: 'wmanhua'
 }
 
 export function createBookChapterSourceConfig(): BookChapterSourceConfig {
@@ -76,11 +80,10 @@ export function normalizeBookChapterSourceConfig(
   source: Partial<BookChapterSourceConfig> | undefined
 ): BookChapterSourceConfig {
   const nextSource = cloneBookChapterSourceConfig(source)
-  const rawOrigin = nextSource.origin.trim()
-  const preset = inferBookChapterSourcePreset(rawOrigin)
-  const origin = normalizeBookChapterOrigin(rawOrigin, preset)
+  const origin = nextSource.origin.trim()
+  const preset = inferBookChapterSourcePreset(origin)
 
-  if (preset === 'bilibiliComic') {
+  if (preset === 'wmanhuaComic') {
     return {
       origin,
       comicId: nextSource.comicId.trim(),
@@ -140,12 +143,12 @@ export function inferBookChapterSourcePreset(origin: string): BookChapterSourceP
     return 'manual'
   }
 
-  if (normalizedOrigin.includes('bilibili') || normalizedOrigin === 'bilibili-comic') {
-    return 'bilibiliComic'
+  if (normalizedOrigin.includes('wenku8')) {
+    return 'wenku8Novel'
   }
 
-  if (normalizedOrigin.includes('wenku8') || normalizedOrigin === 'novel-catalog') {
-    return 'wenku8Novel'
+  if (normalizedOrigin.includes('wmanhua')) {
+    return 'wmanhuaComic'
   }
 
   return 'manual'
@@ -179,8 +182,7 @@ export function isAutoBookChapterSourcePreset(preset: BookChapterSourcePreset): 
 }
 
 export function resolveBookChapterSourceUrl(source: BookChapterSourceConfig): string {
-  const preset = inferBookChapterSourcePreset(source.origin)
-  const origin = normalizeBookChapterOrigin(source.origin.trim(), preset)
+  const origin = source.origin.trim()
   if (!origin) {
     return ''
   }
@@ -190,14 +192,6 @@ export function resolveBookChapterSourceUrl(source: BookChapterSourceConfig): st
   }
 
   return `https://${origin}`
-}
-
-function normalizeBookChapterOrigin(origin: string, preset: BookChapterSourcePreset): string {
-  if (origin === 'bilibili-comic' || origin === 'novel-catalog') {
-    return getBookChapterSourceOption(preset).defaultOrigin
-  }
-
-  return origin
 }
 
 function createChapterRule(
@@ -269,23 +263,11 @@ export async function buildBookChaptersFromSource(
     return buildWenku8BookChaptersFromSource(source)
   }
 
-  const sourceUrl = resolveBookChapterSourceUrl(source)
-  const requestUrl = resolveBookChapterRequestUrl(sourceUrl, preset)
-  if (!requestUrl || !isAutoBookChapterSourcePreset(preset)) {
-    return []
+  if (preset === 'wmanhuaComic') {
+    return buildWmanhuaBookChaptersFromSource(source)
   }
 
-  const response = await fetch(requestUrl, {
-    method: 'GET',
-    credentials: 'omit'
-  })
-
-  if (!response.ok) {
-    throw new Error(`Source request failed: ${response.status}`)
-  }
-
-  const html = await decodeSourceHtml(response, preset)
-  return extractBookChaptersFromSourceHtml(html, source, preset)
+  return []
 }
 
 async function buildWenku8BookChaptersFromSource(
@@ -328,6 +310,45 @@ async function buildWenku8BookChaptersFromSource(
   return extractWenku8CatalogChapters(catalogHtml, catalogUrl)
 }
 
+async function buildWmanhuaBookChaptersFromSource(
+  source: BookChapterSourceConfig
+): Promise<EditableBookChapter[]> {
+  const normalizedSource = normalizeBookChapterSourceConfig(source)
+  const comicId = normalizedSource.comicId.trim()
+  if (!comicId) {
+    return []
+  }
+
+  const comicUrl = resolveWmanhuaComicUrl(normalizedSource)
+  const comicRequestUrl = resolveBookChapterRequestUrl(comicUrl, 'wmanhuaComic')
+  const comicResponse = await fetch(comicRequestUrl, {
+    method: 'POST',
+    credentials: 'omit'
+  })
+
+  if (!comicResponse.ok) {
+    throw new Error(`WManhua comic request failed: ${comicResponse.status}`)
+  }
+
+  const chapters = extractWmanhuaChapters(await comicResponse.json())
+  if (chapters.length === 0) {
+    return []
+  }
+
+  return chapters.map((chapter, index) => {
+    const order = index + 1
+
+    return {
+      uid: createChapterUid(),
+      id: order,
+      order,
+      size: Number(chapter.chapterNum || 0),
+      title: chapter.chapterName,
+      rule: `wmanhuaPath=${resolveWmanhuaChapterPath(normalizedSource, chapter.id)}`
+    }
+  })
+}
+
 function resolveBookChapterRequestUrl(
   sourceUrl: string,
   preset: BookChapterSourcePreset
@@ -368,6 +389,25 @@ function resolveWenku8BookUrl(source: BookChapterSourceConfig): string {
   }
 
   return new URL(`/book/${novelId}.htm`, sourceUrl).toString()
+}
+
+function resolveWmanhuaComicUrl(source: BookChapterSourceConfig): string {
+  const sourceUrl = resolveBookChapterSourceUrl(source)
+  const comicId = source.comicId.trim()
+  if (!sourceUrl || !comicId) {
+    return ''
+  }
+
+  return new URL(`/comic/${comicId}`, sourceUrl).toString()
+}
+
+function resolveWmanhuaChapterPath(source: BookChapterSourceConfig, chapterId: string): string {
+  const comicId = source.comicId.trim()
+  if (!comicId || !chapterId) {
+    return ''
+  }
+
+  return `/chapter/${comicId}-${chapterId}.html`
 }
 
 function resolveWenku8CatalogUrl(bookHtml: string, bookUrl: string): string {
@@ -462,52 +502,50 @@ function joinWenku8ChapterTitle(volumeTitle: string, chapterTitle: string): stri
   return `${volumeTitle} ${chapterTitle}`
 }
 
-function extractBookChaptersFromSourceHtml(
-  html: string,
-  source: BookChapterSourceConfig,
-  preset: BookChapterSourcePreset
-): EditableBookChapter[] {
-  const normalizedSource = normalizeBookChapterSourceConfig(source)
-  const sourceOption = getBookChapterSourceOption(preset)
-  const sourceId = resolveBookChapterSourceId(normalizedSource, preset)
-  const titles = extractChapterTitles(html, preset)
-
-  return titles.map((title, index) => {
-    const order = index + 1
-
-    return {
-      uid: createChapterUid(),
-      id: order,
-      order,
-      size: 0,
-      title,
-      rule: [
-        `origin=${normalizedSource.origin}`,
-        `source=${sourceOption.value}`,
-        sourceId ? `${sourceOption.preferredIdField}=${sourceId}` : '',
-        `order=${order}`
-      ]
-        .filter(Boolean)
-        .join('; ')
-    }
-  })
+interface WmanhuaChapterEntry {
+  chapterName: string
+  chapterNum: number
+  id: string
 }
 
-function extractChapterTitles(html: string, preset: BookChapterSourcePreset): string[] {
-  const linkTitles = Array.from(html.matchAll(/<a\b[^>]*>([\s\S]*?)<\/a>/gi))
-    .map((match) => normalizeChapterTitle(match[1]))
-    .filter((title) => isLikelyChapterTitle(title, preset))
-
-  if (linkTitles.length > 0) {
-    return uniqueChapterTitles(linkTitles)
+function extractWmanhuaChapters(payload: unknown): WmanhuaChapterEntry[] {
+  if (!isRecord(payload) || Number(payload.code) !== 0 || !isRecord(payload.data)) {
+    return []
   }
 
-  return uniqueChapterTitles(
-    html
-      .split(/\r?\n/)
-      .map((line) => normalizeChapterTitle(line))
-      .filter((title) => isLikelyChapterTitle(title, preset))
-  )
+  const rawChapters = payload.data.chapters
+  if (!Array.isArray(rawChapters)) {
+    return []
+  }
+
+  return rawChapters
+    .map(normalizeWmanhuaChapterEntry)
+    .filter((chapter): chapter is WmanhuaChapterEntry => Boolean(chapter))
+    .sort((current, next) => Number(current.id) - Number(next.id))
+}
+
+function normalizeWmanhuaChapterEntry(value: unknown): WmanhuaChapterEntry | null {
+  if (!isRecord(value)) {
+    return null
+  }
+
+  const id = String(value.id ?? '').trim()
+  const chapterName = normalizeChapterTitle(String(value.chapterName ?? ''))
+  const chapterNum = Number(value.chapterNum ?? 0)
+
+  if (!id || !chapterName || !Number.isFinite(chapterNum)) {
+    return null
+  }
+
+  return {
+    chapterName,
+    chapterNum: Math.max(0, Math.floor(chapterNum)),
+    id
+  }
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null
 }
 
 function normalizeChapterTitle(value: string): string {
@@ -525,36 +563,6 @@ function decodeHtmlEntities(value: string): string {
     .replaceAll('&gt;', '>')
     .replaceAll('&quot;', '"')
     .replaceAll('&#39;', "'")
-}
-
-function isLikelyChapterTitle(title: string, preset: BookChapterSourcePreset): boolean {
-  if (title.length < 2 || title.length > 80) {
-    return false
-  }
-
-  const chapterPattern =
-    preset === 'bilibiliComic'
-      ? /(?:第\s*\d+\s*[话話回]|^\d+\s*[话話回]|^[番外外传].{0,30})/
-      : /(?:第\s*[一二三四五六七八九十百千万零\d]+\s*[章节卷回]|^[一二三四五六七八九十百千万零\d]+\s*[章节卷回])/
-
-  return chapterPattern.test(title)
-}
-
-function uniqueChapterTitles(titles: string[]): string[] {
-  const seenTitles = new Set<string>()
-  const uniqueTitles: string[] = []
-
-  titles.forEach((title) => {
-    const key = title.toLocaleLowerCase()
-    if (seenTitles.has(key)) {
-      return
-    }
-
-    seenTitles.add(key)
-    uniqueTitles.push(title)
-  })
-
-  return uniqueTitles
 }
 
 export function getNextBookChapterOrder(

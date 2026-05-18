@@ -35,7 +35,7 @@
             <el-input
               v-model="source.origin"
               maxlength="200"
-              :placeholder="TEXT.source.originPlaceholder"
+              :placeholder="sourceOriginPlaceholder"
             />
           </el-form-item>
         </div>
@@ -219,9 +219,8 @@ const TEXT = {
     title: '来源配置',
     presetLabel: '来源类型',
     originLabel: '来源站点地址',
-    originPlaceholder: '例如：https://manga.bilibili.com/detail/mc123456',
+    originPlaceholder: '例如：https://www.wmanhua.com/comic/1155',
     comicLabel: '漫画 ID',
-    comicPlaceholder: '例如：mc123456',
     novelLabel: '小说 ID',
     novelPlaceholder: '例如：1234'
   },
@@ -285,6 +284,13 @@ const showSourceGenerateAction = computed(() =>
   isAutoBookChapterSourcePreset(currentSourcePreset.value)
 )
 const activeSourceIdField = computed(() => currentSourceOption.value.preferredIdField)
+const sourceOriginPlaceholder = computed(() => {
+  if (currentSourcePreset.value === 'wenku8Novel') {
+    return '例如：https://www.wenku8.net/book/2542.htm'
+  }
+
+  return TEXT.source.originPlaceholder
+})
 const activeSourceIdLabel = computed(() => {
   if (activeSourceIdField.value === 'comicId') {
     return TEXT.source.comicLabel
@@ -293,8 +299,8 @@ const activeSourceIdLabel = computed(() => {
   return TEXT.source.novelLabel
 })
 const activeSourceIdPlaceholder = computed(() => {
-  if (activeSourceIdField.value === 'comicId') {
-    return TEXT.source.comicPlaceholder
+  if (currentSourcePreset.value === 'wmanhuaComic') {
+    return '例如：1155'
   }
 
   return TEXT.source.novelPlaceholder
@@ -322,7 +328,7 @@ const selectedSourcePreset = computed<BookChapterSourcePreset>({
 })
 
 function syncSourceFieldsToPreset(preset = currentSourcePreset.value): void {
-  if (preset === 'bilibiliComic') {
+  if (preset === 'wmanhuaComic') {
     source.value.novelId = ''
     source.value.otherId = ''
     return

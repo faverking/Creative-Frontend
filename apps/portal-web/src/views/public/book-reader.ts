@@ -1,22 +1,22 @@
 import type { PublicBookChapterItemResponse, PublicBookDetailResponse } from '@/api/public-detail'
 
 export type BookReaderMode = 'comic' | 'novel'
-export type BookReaderSourceType = 'bilibiliManga' | 'unsupported' | 'wenku8Novel'
+export type BookReaderSourceType = 'unsupported' | 'wenku8Novel' | 'wmanhuaComic'
 
 export interface BookReaderSourceResolution {
   mode: BookReaderMode
   proxyUrl: string
+  sourcePath: string
   sourceType: BookReaderSourceType
-  wenku8Path: string
 }
 
-export interface Wenku8NovelChapterContent {
-  items: Wenku8NovelChapterContentItem[]
+export interface BookReaderChapterContent {
+  items: BookReaderChapterContentItem[]
   paragraphs: string[]
   title: string
 }
 
-export type Wenku8NovelChapterContentItem =
+export type BookReaderChapterContentItem =
   | {
       text: string
       type: 'paragraph'
@@ -31,6 +31,9 @@ export type Wenku8NovelChapterContentItem =
 const WENKU8_PATH_PATTERN = /^\/novel\/(\d+)\/(\d+)\/(\d+)\.htm$/i
 const WENKU8_RULE_PATTERN = /(?:^|;\s*)wenku8Path=([^;]+)/i
 const WENKU8_PROXY_PREFIX = '/proxy/wenku8'
+const WMANHUA_PATH_PATTERN = /^\/chapter\/(\d+)-(\d+)\.html$/i
+const WMANHUA_RULE_PATTERN = /(?:^|;\s*)wmanhuaPath=([^;]+)/i
+const WMANHUA_PROXY_PREFIX = '/proxy/wmanhua'
 
 export function resolveBookReaderSource(
   detail: PublicBookDetailResponse,
@@ -41,18 +44,28 @@ export function resolveBookReaderSource(
     return {
       mode: 'novel',
       proxyUrl: resolveWenku8ChapterProxyUrl(wenku8Path),
-      sourceType: 'wenku8Novel',
-      wenku8Path
+      sourcePath: wenku8Path,
+      sourceType: 'wenku8Novel'
+    }
+  }
+
+  const wmanhuaPath = resolveWmanhuaChapterPath(chapter.rule, detail.comicId)
+  if (wmanhuaPath) {
+    return {
+      mode: 'comic',
+      proxyUrl: resolveWmanhuaChapterProxyUrl(wmanhuaPath),
+      sourcePath: wmanhuaPath,
+      sourceType: 'wmanhuaComic'
     }
   }
 
   const origin = detail.origin?.trim().toLocaleLowerCase() ?? ''
-  if (origin.includes('bilibili') || Boolean(detail.comicId?.trim())) {
+  if (origin.includes('wmanhua')) {
     return {
       mode: 'comic',
       proxyUrl: '',
-      sourceType: 'bilibiliManga',
-      wenku8Path: ''
+      sourcePath: '',
+      sourceType: 'wmanhuaComic'
     }
   }
 
@@ -60,16 +73,16 @@ export function resolveBookReaderSource(
     return {
       mode: 'novel',
       proxyUrl: '',
-      sourceType: 'wenku8Novel',
-      wenku8Path: ''
+      sourcePath: '',
+      sourceType: 'wenku8Novel'
     }
   }
 
   return {
     mode: detail.part === 1 ? 'comic' : 'novel',
     proxyUrl: '',
-    sourceType: 'unsupported',
-    wenku8Path: ''
+    sourcePath: '',
+    sourceType: 'unsupported'
   }
 }
 
@@ -106,9 +119,40 @@ export function resolveWenku8ChapterProxyUrl(path: string): string {
   return `${WENKU8_PROXY_PREFIX}${path}`
 }
 
-export async function fetchWenku8NovelChapter(
-  proxyUrl: string
-): Promise<Wenku8NovelChapterContent> {
+export function resolveWmanhuaChapterPath(
+  rule: string | undefined,
+  comicId: string | undefined
+): string {
+  const normalizedComicId = comicId?.trim() ?? ''
+  if (!rule?.trim() || !normalizedComicId) {
+    return ''
+  }
+
+  const rawPath = rule.match(WMANHUA_RULE_PATTERN)?.[1]?.trim() ?? ''
+  if (!rawPath) {
+    return ''
+  }
+
+  let path = rawPath
+  try {
+    path = decodeURIComponent(rawPath)
+  } catch {
+    path = rawPath
+  }
+
+  const match = path.match(WMANHUA_PATH_PATTERN)
+  if (!match || match[1] !== normalizedComicId) {
+    return ''
+  }
+
+  return path
+}
+
+export function resolveWmanhuaChapterProxyUrl(path: string): string {
+  return `${WMANHUA_PROXY_PREFIX}${path}`
+}
+
+export async function fetchWenku8NovelChapter(proxyUrl: string): Promise<BookReaderChapterContent> {
   const response = await fetch(proxyUrl, {
     method: 'GET',
     credentials: 'omit'
@@ -122,6 +166,26 @@ export async function fetchWenku8NovelChapter(
   const content = extractWenku8NovelChapterContent(html, resolveWenku8PathFromProxyUrl(proxyUrl))
   if (content.items.length === 0) {
     throw new Error('Wenku8 chapter content is empty')
+  }
+
+  return content
+}
+
+export async function fetchWmanhuaComicChapter(
+  proxyUrl: string
+): Promise<BookReaderChapterContent> {
+  const response = await fetch(proxyUrl, {
+    method: 'GET',
+    credentials: 'omit'
+  })
+
+  if (!response.ok) {
+    throw new Error(`WManhua chapter request failed: ${response.status}`)
+  }
+
+  const content = extractWmanhuaComicChapterContent(await response.text())
+  if (content.items.length === 0) {
+    throw new Error('WManhua chapter content is empty')
   }
 
   return content
@@ -141,7 +205,7 @@ export async function decodeWenku8HtmlResponse(response: Response): Promise<stri
 export function extractWenku8NovelChapterContent(
   html: string,
   chapterPath = ''
-): Wenku8NovelChapterContent {
+): BookReaderChapterContent {
   const document = new DOMParser().parseFromString(html, 'text/html')
   const contentElement = document.querySelector('#content')
   if (!contentElement) {
@@ -158,6 +222,39 @@ export function extractWenku8NovelChapterContent(
     items,
     paragraphs: items.flatMap((item) => (item.type === 'paragraph' ? [item.text] : [])),
     title: extractWenku8DocumentTitle(document)
+  }
+}
+
+export function extractWmanhuaComicChapterContent(html: string): BookReaderChapterContent {
+  const document = new DOMParser().parseFromString(html, 'text/html')
+  const title = extractWmanhuaDocumentTitle(document)
+  const imageBase = extractWmanhuaImageBase(html)
+  const pageCount = extractWmanhuaPageCount(html)
+  const extension = extractWmanhuaImageExtension(html)
+
+  if (!imageBase || pageCount <= 0) {
+    return {
+      items: [],
+      paragraphs: [],
+      title
+    }
+  }
+
+  const items = Array.from({ length: pageCount }, (_, index): BookReaderChapterContentItem => {
+    const pageNumber = index + 1
+
+    return {
+      alt: title ? `${title} 第 ${pageNumber} 页` : `漫画第 ${pageNumber} 页`,
+      loading: 'lazy',
+      src: `${imageBase}${pageNumber}${extension}`,
+      type: 'image'
+    }
+  })
+
+  return {
+    items,
+    paragraphs: [],
+    title
   }
 }
 
@@ -179,11 +276,54 @@ function extractWenku8DocumentTitle(document: Document): string {
   return normalizeWenku8Line(title.replace(/_.*$/, ''))
 }
 
+function extractWmanhuaDocumentTitle(document: Document): string {
+  const heading = document.querySelector('h1, .chapter-title, .title')?.textContent?.trim() ?? ''
+  if (heading) {
+    return normalizeWenku8Line(heading)
+  }
+
+  const title = document.querySelector('title')?.textContent ?? ''
+  return normalizeWenku8Line(title.replace(/[-_].*$/, ''))
+}
+
+function extractWmanhuaImageBase(html: string): string {
+  const rawBase =
+    html
+      .match(/\bvar\s+pasd\s*=\s*(["'])(.*?)\1/i)?.[2]
+      ?.trim() ?? ''
+  if (!rawBase) {
+    return ''
+  }
+
+  try {
+    const url = new URL(rawBase)
+    if (!/^https?:$/.test(url.protocol)) {
+      return ''
+    }
+
+    return url.toString().endsWith('/') ? url.toString() : `${url.toString()}/`
+  } catch {
+    return ''
+  }
+}
+
+function extractWmanhuaPageCount(html: string): number {
+  const evalValue = html.match(/\bvar\s+num\s*=\s*eval\(\s*(["'])(\d+)\1\s*\)/i)?.[2]
+  const directValue = html.match(/\bvar\s+num\s*=\s*(\d+)/i)?.[1]
+  const pageCount = Number(evalValue ?? directValue ?? 0)
+
+  return Number.isFinite(pageCount) ? Math.max(0, Math.floor(pageCount)) : 0
+}
+
+function extractWmanhuaImageExtension(html: string): string {
+  return html.match(/pasd\s*\+\s*i\s*\+\s*(["'])(\.[a-z0-9]+)\1/i)?.[2] ?? '.webp'
+}
+
 function extractWenku8ContentItems(
   contentElement: Element,
   chapterPath: string
-): Wenku8NovelChapterContentItem[] {
-  const items: Wenku8NovelChapterContentItem[] = []
+): BookReaderChapterContentItem[] {
+  const items: BookReaderChapterContentItem[] = []
   let textBuffer = ''
 
   function appendText(value: string): void {
