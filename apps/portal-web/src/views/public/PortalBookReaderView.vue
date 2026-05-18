@@ -880,12 +880,6 @@ function updateReadingProgress(): void {
   box-shadow: none;
 }
 
-.portal-book-reader-page__paper--comic .portal-book-reader-page__content-image :deep(.portal-image__img) {
-  width: 100%;
-  height: auto;
-  min-height: 0;
-}
-
 .portal-book-reader-page__catalog {
   grid-area: content;
   position: sticky;
