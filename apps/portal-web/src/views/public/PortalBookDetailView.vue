@@ -273,6 +273,7 @@ import {
   normalizeCopyableUrl,
   resolvePortalContentDetailLocation
 } from '@/utils/content'
+import { resolvePublicBookDisplayTagLabels } from '@/utils/public-book-tags'
 
 const COMMENTS_ANCHOR_ID = 'book-comments-anchor'
 
@@ -316,16 +317,12 @@ const bookPartLabel = computed(() => resolvePublicBookPartLabel(bookDetail.value
 const bookAreaLabel = computed(() => resolvePublicBookAreaLabel(bookDetail.value?.area))
 const bookStatusLabel = computed(() => resolvePublicBookStatusLabel(bookDetail.value?.status))
 const bookTagLabels = computed(() => {
-  const groupedLabelKeys = new Set(
-    [bookPartLabel.value, bookAreaLabel.value].map(normalizeBookTagLabel).filter(Boolean)
-  )
-
-  return uniqueBookTagLabels([
-    ...(bookDetail.value?.tags ?? []).map((tag) => tag.trim()),
-    ...(bookDetail.value?.style ?? []).map((item) => item.name?.trim() || '')
-  ])
-    .filter((tag) => !groupedLabelKeys.has(normalizeBookTagLabel(tag)))
-    .slice(0, 4)
+  return resolvePublicBookDisplayTagLabels({
+    tags: bookDetail.value?.tags,
+    styles: bookDetail.value?.style,
+    excludedLabels: [bookPartLabel.value, bookAreaLabel.value],
+    limit: 4
+  })
 })
 const releaseTimeLabel = computed(() => formatUnixTimestampLabel(bookDetail.value?.releaseTime))
 const updateTimeLabel = computed(() => formatUnixTimestampLabel(bookDetail.value?.updateTime))
@@ -511,29 +508,6 @@ function resolveChapterReaderLocation(chapter: { id: number }) {
       chapterId: String(chapter.id)
     }
   }
-}
-
-function normalizeBookTagLabel(value: string): string {
-  return value.trim().toLocaleLowerCase()
-}
-
-function uniqueBookTagLabels(values: string[]): string[] {
-  const labels: string[] = []
-  const seenKeys = new Set<string>()
-
-  values.forEach((value) => {
-    const label = value.trim()
-    const labelKey = normalizeBookTagLabel(label)
-
-    if (!labelKey || seenKeys.has(labelKey)) {
-      return
-    }
-
-    seenKeys.add(labelKey)
-    labels.push(label)
-  })
-
-  return labels
 }
 
 function toggleIntroExpanded(): void {

@@ -242,6 +242,7 @@ import {
   resolvePortalContentDetailLocation
 } from '@/utils/content'
 import { createToneTagList } from '@/utils/home'
+import { resolvePublicBookDisplayTagLabels } from '@/utils/public-book-tags'
 
 const {
   activeCategoryValue: activePart,
@@ -318,7 +319,13 @@ function resolveMetaEntries(
 }
 
 function resolveStyleTags(item: PublicBookModuleItemResponse) {
-  return createToneTagList(item.tags ?? [], HOME_TAG_TONES, 3)
+  const tagLabels = resolvePublicBookDisplayTagLabels({
+    tags: item.tags,
+    excludedLabels: [resolvePublicBookPartLabel(item.part)],
+    limit: 3
+  })
+
+  return createToneTagList(tagLabels, HOME_TAG_TONES, 3)
 }
 
 function resolveMetrics(item: PublicBookModuleItemResponse) {
