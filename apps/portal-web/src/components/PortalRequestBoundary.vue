@@ -362,21 +362,4 @@ const resolvedTitle = computed(() => props.title.trim())
     transform: none;
   }
 }
-
-@media (max-width: 760px) {
-  .portal-request-boundary__state {
-    grid-template-columns: minmax(0, 1fr);
-    justify-items: center;
-    gap: 16px;
-    text-align: center;
-  }
-
-  .portal-request-boundary__copy {
-    justify-items: center;
-  }
-
-  .portal-request-boundary__actions {
-    justify-content: center;
-  }
-}
 </style>

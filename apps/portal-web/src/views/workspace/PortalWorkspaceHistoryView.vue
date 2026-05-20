@@ -581,12 +581,12 @@ async function clearHistory(): Promise<void> {
 
 .workspace-history-group {
   display: grid;
-  grid-template-columns: 112px minmax(0, 1fr);
+  grid-template-columns: var(--workspace-history-group-columns, 112px minmax(0, 1fr));
   gap: 18px;
 }
 
 .workspace-history-group__head {
-  position: sticky;
+  position: var(--workspace-history-group-head-position, sticky);
   top: var(--portal-workspace-sidebar-top);
   align-self: start;
   display: grid;
@@ -615,12 +615,13 @@ async function clearHistory(): Promise<void> {
 
 .workspace-history-group__track {
   position: relative;
-  padding-left: 28px;
+  padding-left: var(--workspace-history-track-padding-left, 28px);
 }
 
 .workspace-history-group__track::before {
   content: '';
   position: absolute;
+  display: var(--workspace-history-track-line-display, block);
   top: 8px;
   bottom: 8px;
   left: 10px;
@@ -636,7 +637,10 @@ async function clearHistory(): Promise<void> {
 .workspace-history-card {
   position: relative;
   display: grid;
-  grid-template-columns: 116px minmax(0, 1fr) var(--workspace-action-column-width);
+  grid-template-columns: var(
+    --workspace-history-card-columns,
+    116px minmax(0, 1fr) var(--workspace-action-column-width)
+  );
   align-items: start;
   gap: var(--home-card-gap-base);
   padding: var(--workspace-card-padding);
@@ -649,6 +653,7 @@ async function clearHistory(): Promise<void> {
 .workspace-history-card::before {
   content: '';
   position: absolute;
+  display: var(--workspace-history-card-marker-display, block);
   left: -27px;
   top: 28px;
   width: 12px;
@@ -806,7 +811,7 @@ async function clearHistory(): Promise<void> {
   display: grid;
   align-content: start;
   gap: var(--workspace-action-stack-gap);
-  justify-items: stretch;
+  justify-items: var(--workspace-history-aside-justify-items, stretch);
   min-height: var(--workspace-action-column-min-height);
 }
 
@@ -912,7 +917,7 @@ async function clearHistory(): Promise<void> {
 .workspace-history-skeleton__aside {
   align-content: start;
   gap: var(--workspace-action-stack-gap);
-  justify-items: stretch;
+  justify-items: var(--workspace-history-aside-justify-items, stretch);
   min-height: var(--workspace-action-column-min-height);
 }
 
@@ -1030,33 +1035,5 @@ async function clearHistory(): Promise<void> {
   width: 42px;
   height: calc(var(--workspace-history-meta-size) * var(--workspace-history-meta-line-height));
   min-height: calc(var(--workspace-history-meta-size) * var(--workspace-history-meta-line-height));
-}
-
-@media (max-width: 1100px) {
-  .workspace-history-group {
-    grid-template-columns: 1fr;
-  }
-
-  .workspace-history-group__head {
-    position: static;
-  }
-
-  .workspace-history-group__track {
-    padding-left: 0;
-  }
-
-  .workspace-history-group__track::before,
-  .workspace-history-card::before {
-    content: none;
-  }
-
-  .workspace-history-card {
-    grid-template-columns: 1fr;
-  }
-
-  .workspace-history-card__aside,
-  .workspace-history-skeleton__aside {
-    justify-items: start;
-  }
 }
 </style>

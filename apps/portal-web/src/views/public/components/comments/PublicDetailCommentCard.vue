@@ -498,19 +498,4 @@ function handleReplyDraftInput(event: Event): void {
   cursor: default;
   opacity: 0.72;
 }
-
-@media (max-width: 640px) {
-  .public-detail-comment-card__footer,
-  .public-detail-comment-card__reply-actions,
-  .public-detail-comment-card__replies,
-  .public-detail-comment-card__reply-box {
-    margin-left: 0;
-    padding-left: 0;
-    border-left: 0;
-  }
-
-  .public-detail-comment-card__reply {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
 </style>

@@ -24,7 +24,7 @@
 ## 30 秒速读
 
 - `portal-web` 显式字号不得低于 `12px`，默认桌面优先。
-- `portal-web` 桌面分辨率统一按 `compact / standard / wide` 三档组织，`1920` 视角属于 `standard` 主档。
+- `portal-web` 桌面分辨率统一按 `compact / standard / wide` 三档组织，`1920` 视角属于 `standard` 主档；`mobile` 是独立可移除的窄屏适配层。
 - 共享规则、通用配置、工程能力优先进入 `packages/*`，不要先写在单个 app 或根配置里兜底。
 - 公开内容请求统一走 `safeGetPublic`，返回结构统一带 `errorCode`。
 - `PortalRequestBoundary` 必须按原子方式使用，且 `ready` 内容保持单根舞台。
@@ -66,7 +66,8 @@
 - 显式 `font-size` 不得小于 `12px`。
 - 默认按桌面端优先，不主动做手机适配。
 - `portal-web` 当前只维护三档桌面分辨率：
-  - `compact`：`1280 - 1599`
+  - `mobile`：`1100` 及以下，独立窄屏适配层，可按需整体移除
+  - `compact`：`1101 - 1599`
   - `standard`：`1600 - 2239`
   - `wide`：`2240+`
 - `standard` 以 `1920` 视角为主设计锚点；`compact` 负责更窄桌面与低一档笔记本，`wide` 负责 2K / 超宽屏扩展。
@@ -200,14 +201,14 @@
 
 - `index.css` 是 `portal-web` 唯一全局样式入口；只负责导入 token 层、adaptive 层、全局 reset 和少量基础交互样式。
 - 全局 token 按职责分层；当前固定分为：`foundation`、`shared-components`、`home`、`public-detail`、`modules`、`workspace`。
-- 分辨率档位样式单独维护在 `styles/adaptive/*`，不要把 `compact / standard / wide` 的布局常量塞回业务 token 文件。
+- 分辨率档位样式单独维护在 `styles/adaptive/*`，不要把 `mobile / compact / standard / wide` 的布局常量塞回业务 token 文件。
 - 深色 token 目录按同名镜像维护；亮色与深色必须保持同一语义、同一命名、同一层级归属。
 - 全局 token 只保留稳定的业务语义。
 - 纯尺寸、局部布局、单组件实现细节尽量留在组件内部。
 - 单组件私有变量默认留在组件内；只有跨多个页面 / 组件复用，或确实要供 teleport 到全局层的 UI 消费时，才提升为全局 token。
 - 不要为了复用局部尺寸而创建全局 token；优先接受 feature-local / component-local 变量。
 - 布局档位变量优先放在 adaptive 层，通过根节点 viewport tier 驱动；业务页面只消费变量，不在页面 SFC 内重复声明主档位断点。
-- `compact`、`standard`、`wide` 共用同一批布局变量名；新增档位时先复用变量，不复制一套同义 token。
+- `compact`、`standard`、`wide` 共用同一批桌面布局变量名；`mobile` 的窄屏覆盖由 `adaptive/mobile.css` 作为入口，分拆在 `adaptive/mobile/*`，保持独立、可移除。
 - 首页与公开模块在同一档位下优先共用同一条 browse stage 基线；确有差异时，只在列数、卡片密度或局部 media 比例层面分化，不重复维护两套舞台宽度 token。
 - adaptive 层变量不要在页面里再包一层无新增语义的中转别名；只有页面真正引入了新的业务语义或局部组合关系，才允许再落 feature-local 变量。
 - token 分组注释要专业、精准，不使用过于泛化的 `family/shared/misc`。

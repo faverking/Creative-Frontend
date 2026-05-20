@@ -16,6 +16,7 @@
 
 /* Viewport adaptive layout */
 @import './adaptive/shared.css';
+@import './adaptive/mobile.css';
 @import './adaptive/compact.css';
 @import './adaptive/standard.css';
 @import './adaptive/wide.css';

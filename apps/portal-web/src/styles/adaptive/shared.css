@@ -26,5 +26,17 @@
   --portal-workspace-layout-columns: minmax(0, 1fr) 320px;
   --portal-workspace-layout-gap: 26px;
   --portal-workspace-toolbar-top: 82px;
+  --portal-workspace-toolbar-align-items: center;
+  --portal-workspace-toolbar-padding: 12px 14px 13px;
+  --portal-workspace-toolbar-section-width: auto;
+  --portal-workspace-toolbar-side-justify: flex-end;
+  --portal-workspace-toolbar-side-min-width: max-content;
+  --portal-workspace-toolbar-side-margin-left: auto;
+  --portal-workspace-sidebar-position: sticky;
   --portal-workspace-sidebar-top: 152px;
+
+  --portal-book-reader-novel-content-width: 1040px;
+  --portal-book-reader-comic-content-width: 1120px;
+  --portal-book-reader-paper-padding-inline: 64px;
+  --portal-book-reader-catalog-width: 320px;
 }

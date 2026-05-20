@@ -27,6 +27,11 @@
   --portal-detail-layout-columns: minmax(0, 1.72fr) minmax(250px, 286px);
   --portal-detail-sticky-top: 18px;
 
+  --portal-book-reader-novel-content-width: 960px;
+  --portal-book-reader-comic-content-width: 1000px;
+  --portal-book-reader-paper-padding-inline: 56px;
+  --portal-book-reader-catalog-width: 300px;
+
   --portal-workspace-stage-max-width: 1380px;
   --portal-workspace-stage-gap: 22px;
   --portal-workspace-layout-columns: minmax(0, 1fr) 300px;

@@ -1,0 +1,69 @@
+:root[data-viewport-tier='mobile']
+  :is(
+    .portal-article-module-page,
+    .portal-book-module-page,
+    .portal-topic-module-page,
+    .gallery-module-page
+  ) {
+  width: 100%;
+  gap: var(--portal-module-gap);
+}
+
+:root[data-viewport-tier='mobile']
+  :is(
+    .portal-article-module-page__grid,
+    .portal-book-module-page__grid,
+    .portal-topic-module-page__list
+  ) {
+  grid-template-columns: repeat(var(--portal-article-module-grid-columns), minmax(0, 1fr));
+}
+
+:root[data-viewport-tier='mobile'] .gallery-module-page__masonry,
+:root[data-viewport-tier='mobile'] .gallery-module-loading-grid {
+  grid-template-columns: repeat(var(--portal-gallery-module-column-count), minmax(0, 1fr));
+  gap: var(--portal-gallery-module-column-gap);
+}
+
+:root[data-viewport-tier='mobile'] .portal-book-module-page__card,
+:root[data-viewport-tier='mobile'] .portal-topic-module-page__card {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+:root[data-viewport-tier='mobile'] .portal-book-module-page__cover,
+:root[data-viewport-tier='mobile'] .portal-topic-module-page__media {
+  width: 100%;
+}
+
+:root[data-viewport-tier='mobile'] .portal-book-module-page__cover {
+  max-width: 220px;
+}
+
+:root[data-viewport-tier='mobile'] .portal-topic-module-page__media {
+  min-height: var(--portal-topic-module-media-height);
+}
+
+:root[data-viewport-tier='mobile']
+  :is(
+    .portal-article-module-page__footer,
+    .portal-book-module-page__footer,
+    .portal-topic-module-page__footer
+  ) {
+  align-items: flex-start;
+  gap: 10px;
+}
+
+:root[data-viewport-tier='mobile']
+  :is(
+    .portal-article-module-page__meta,
+    .portal-article-module-page__metrics,
+    .portal-book-module-page__meta,
+    .portal-book-module-page__metrics,
+    .portal-topic-module-page__meta,
+    .portal-topic-module-page__metrics
+  ) {
+  flex-wrap: wrap;
+}
+
+:root[data-viewport-tier='mobile'] .gallery-module-page__footer-button {
+  width: 100%;
+}

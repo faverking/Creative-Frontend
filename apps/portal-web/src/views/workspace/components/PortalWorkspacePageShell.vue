@@ -281,10 +281,10 @@ function handleToolbarAction(key: string): void {
   z-index: 4;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: var(--portal-workspace-toolbar-align-items);
   justify-content: space-between;
   gap: 18px;
-  padding: 12px 14px 13px;
+  padding: var(--portal-workspace-toolbar-padding);
   border: 1px solid var(--workspace-surface-border);
   border-radius: 20px;
   background: var(--workspace-surface-bg);
@@ -295,6 +295,7 @@ function handleToolbarAction(key: string): void {
 
 .workspace-page__tabs {
   flex: 1 1 420px;
+  width: var(--portal-workspace-toolbar-section-width);
   min-width: 0;
 }
 
@@ -309,9 +310,10 @@ function handleToolbarAction(key: string): void {
 
 .workspace-page__toolbar-side {
   flex: 0 1 auto;
-  min-width: max-content;
-  margin-left: auto;
-  justify-content: flex-end;
+  width: var(--portal-workspace-toolbar-section-width);
+  min-width: var(--portal-workspace-toolbar-side-min-width);
+  margin-left: var(--portal-workspace-toolbar-side-margin-left);
+  justify-content: var(--portal-workspace-toolbar-side-justify);
 }
 
 .workspace-page__toolbar-group--actions {
@@ -415,7 +417,7 @@ function handleToolbarAction(key: string): void {
 }
 
 .workspace-page__sidebar {
-  position: sticky;
+  position: var(--portal-workspace-sidebar-position);
   top: var(--portal-workspace-sidebar-top);
 }
 
@@ -505,37 +507,6 @@ function handleToolbarAction(key: string): void {
 .workspace-page__tab-text {
   line-height: 1;
   white-space: nowrap;
-}
-
-@media (max-width: 1100px) {
-  .workspace-page__layout {
-    grid-template-columns: 1fr;
-  }
-
-  .workspace-page__sidebar {
-    position: static;
-  }
-
-  .workspace-page {
-    padding-inline: 12px;
-  }
-
-  .workspace-page__toolbar {
-    top: 72px;
-    align-items: flex-start;
-    padding: 12px 14px 14px;
-  }
-
-  .workspace-page__tabs,
-  .workspace-page__toolbar-side {
-    width: 100%;
-  }
-
-  .workspace-page__toolbar-side {
-    justify-content: flex-start;
-    min-width: 0;
-    margin-left: 0;
-  }
 }
 
 :deep(.workspace-page__tabs .el-tabs__header) {

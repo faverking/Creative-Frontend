@@ -1,0 +1,86 @@
+:root[data-viewport-tier='mobile'] .portal-book-reader-page {
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+:root[data-viewport-tier='mobile'] .portal-book-reader-page__stage {
+  --portal-book-reader-side-gap: 0px;
+  width: 100%;
+  gap: 12px;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+:root[data-viewport-tier='mobile'] .portal-book-reader-page__toolbar {
+  position: static;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+:root[data-viewport-tier='mobile'] .portal-book-reader-page__breadcrumb-current {
+  flex: 1 1 100%;
+}
+
+:root[data-viewport-tier='mobile'] .portal-book-reader-page__floating-tools,
+:root[data-viewport-tier='mobile'] .portal-book-reader-page__catalog {
+  position: static;
+  top: auto;
+  justify-self: stretch;
+  width: 100%;
+  transform: none;
+}
+
+:root[data-viewport-tier='mobile'] .portal-book-reader-page__floating-tools {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 10px;
+}
+
+:root[data-viewport-tier='mobile'] .portal-book-reader-page__font-tools {
+  flex-direction: row;
+}
+
+:root[data-viewport-tier='mobile'] .portal-book-reader-page__catalog {
+  max-height: none;
+}
+
+:root[data-viewport-tier='mobile'] .portal-book-reader-page__catalog-scrollbar {
+  max-height: 320px;
+}
+
+:root[data-viewport-tier='mobile'] .portal-book-reader-page__paper {
+  width: 100%;
+  padding: 28px var(--portal-book-reader-paper-padding-inline) 34px;
+}
+
+:root[data-viewport-tier='mobile'] .portal-book-reader-page__paper--comic {
+  padding-inline: 0;
+}
+
+:root[data-viewport-tier='mobile'] .portal-book-reader-page__paper-head h1 {
+  font-size: 22px;
+}
+
+:root[data-viewport-tier='mobile'] .portal-book-reader-page__paper p {
+  word-break: break-word;
+}
+
+:root[data-viewport-tier='mobile'] .portal-book-reader-page__footer {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+:root[data-viewport-tier='mobile'] .portal-book-reader-page__nav-action {
+  justify-content: center;
+  width: 100%;
+}
+
+:root[data-viewport-tier='mobile'] .portal-book-reader-page__loading-tools {
+  position: static;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 100%;
+  transform: none;
+}
+
+:root[data-viewport-tier='mobile'] .portal-book-reader-page__layout--loading {
+  grid-template-columns: minmax(0, 1fr);
+}

@@ -625,7 +625,7 @@ function updateReadingProgress(): void {
 }
 
 .portal-book-reader-page__stage {
-  --portal-book-reader-content-width: 1040px;
+  --portal-book-reader-content-width: var(--portal-book-reader-novel-content-width);
   --portal-book-reader-side-gap: 28px;
   display: grid;
   grid-template-columns: minmax(0, var(--portal-book-reader-content-width));
@@ -641,7 +641,7 @@ function updateReadingProgress(): void {
 }
 
 .portal-book-reader-page__stage--comic {
-  --portal-book-reader-content-width: 1120px;
+  --portal-book-reader-content-width: var(--portal-book-reader-comic-content-width);
 }
 
 .portal-book-reader-page__toolbar {
@@ -819,7 +819,7 @@ function updateReadingProgress(): void {
   gap: calc(var(--portal-book-reader-font-size, 22px) * 0.98);
   width: 100%;
   min-height: 560px;
-  padding: 40px 64px 50px;
+  padding: 40px var(--portal-book-reader-paper-padding-inline) 50px;
   border: 1px solid color-mix(in srgb, var(--portal-book-reader-border) 78%, transparent);
   border-radius: var(--home-detail-panel-radius);
   background:
@@ -921,7 +921,7 @@ function updateReadingProgress(): void {
   grid-template-rows: auto minmax(0, 1fr);
   gap: 10px;
   max-height: calc(100vh - var(--portal-topbar-height) - 120px);
-  width: 320px;
+  width: var(--portal-book-reader-catalog-width);
   min-height: 380px;
   overflow: hidden;
   padding: 14px 12px 14px 14px;
@@ -1218,27 +1218,5 @@ function updateReadingProgress(): void {
   height: 54px;
   margin-top: auto;
   border-radius: var(--home-detail-panel-radius);
-}
-
-@media (max-width: 1320px) {
-  .portal-book-reader-page__stage {
-    --portal-book-reader-content-width: 960px;
-  }
-
-  .portal-book-reader-page__stage--comic {
-    --portal-book-reader-content-width: 1000px;
-  }
-
-  .portal-book-reader-page__paper {
-    padding-inline: 56px;
-  }
-
-  .portal-book-reader-page__paper--comic {
-    padding-inline: 0;
-  }
-
-  .portal-book-reader-page__catalog {
-    width: 300px;
-  }
 }
 </style>

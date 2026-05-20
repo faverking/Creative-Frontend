@@ -1,0 +1,49 @@
+:root[data-viewport-tier='mobile'] .auth-dialog-layer {
+  align-items: stretch;
+  padding: 12px;
+}
+
+:root[data-viewport-tier='mobile'] .auth-dialog {
+  width: 100%;
+  max-height: calc(100vh - 24px);
+  min-height: 0;
+  grid-template-columns: minmax(0, 1fr);
+  overflow: auto;
+  border-radius: 22px;
+}
+
+:root[data-viewport-tier='mobile'] .auth-dialog__aside,
+:root[data-viewport-tier='mobile'] .auth-dialog__divider {
+  display: none;
+}
+
+:root[data-viewport-tier='mobile'] .auth-dialog__close {
+  top: 12px;
+  right: 12px;
+}
+
+:root[data-viewport-tier='mobile'] .auth-dialog__panel {
+  padding: 22px 18px 20px;
+}
+
+:root[data-viewport-tier='mobile'] .auth-dialog__tabs {
+  padding-right: 38px;
+}
+
+:root[data-viewport-tier='mobile'] .auth-dialog__field {
+  min-height: 44px;
+  padding-inline: 12px;
+}
+
+:root[data-viewport-tier='mobile'] .auth-dialog__field-label {
+  flex-basis: 36px;
+}
+
+:root[data-viewport-tier='mobile'] .auth-dialog__action-row {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+:root[data-viewport-tier='mobile'] .auth-dialog__secondary-link,
+:root[data-viewport-tier='mobile'] .auth-dialog__primary-button {
+  width: 100%;
+}

@@ -405,7 +405,10 @@ async function handleToggleFavorite(item: WorkspaceFavoriteCard): Promise<void> 
 
 .workspace-favorite-card {
   display: grid;
-  grid-template-columns: 208px minmax(0, 1fr) var(--workspace-action-column-width);
+  grid-template-columns: var(
+    --workspace-favorite-card-columns,
+    208px minmax(0, 1fr) var(--workspace-action-column-width)
+  );
   align-items: start;
   gap: var(--home-card-gap-base);
   padding: var(--workspace-card-padding);
@@ -417,7 +420,7 @@ async function handleToggleFavorite(item: WorkspaceFavoriteCard): Promise<void> 
 
 .workspace-favorite-card__cover {
   position: relative;
-  width: 208px;
+  width: var(--workspace-favorite-cover-width, 208px);
   height: 124px;
   overflow: hidden;
   border: 1px solid var(--workspace-media-border-current);
@@ -640,7 +643,7 @@ async function handleToggleFavorite(item: WorkspaceFavoriteCard): Promise<void> 
   display: grid;
   align-content: start;
   gap: var(--workspace-action-stack-gap);
-  justify-items: stretch;
+  justify-items: var(--workspace-favorite-aside-justify-items, stretch);
   min-height: max(var(--workspace-action-column-min-height), 80px);
   padding-top: var(--workspace-favorite-aside-offset-top);
 }
@@ -664,7 +667,7 @@ async function handleToggleFavorite(item: WorkspaceFavoriteCard): Promise<void> 
   box-sizing: border-box;
   align-content: start;
   gap: var(--workspace-action-stack-gap);
-  justify-items: stretch;
+  justify-items: var(--workspace-favorite-aside-justify-items, stretch);
   min-height: max(var(--workspace-action-column-min-height), 80px);
   padding-top: var(--workspace-favorite-aside-offset-top);
 }
@@ -788,20 +791,5 @@ async function handleToggleFavorite(item: WorkspaceFavoriteCard): Promise<void> 
 .workspace-favorite-skeleton__tag {
   width: 56px;
   height: 28px;
-}
-
-@media (max-width: 1100px) {
-  .workspace-favorite-card {
-    grid-template-columns: 1fr;
-  }
-
-  .workspace-favorite-card__cover {
-    width: 100%;
-  }
-
-  .workspace-favorite-card__aside,
-  .workspace-favorite-skeleton__aside {
-    justify-items: start;
-  }
 }
 </style>

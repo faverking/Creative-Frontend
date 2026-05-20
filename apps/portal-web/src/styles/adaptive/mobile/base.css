@@ -1,0 +1,136 @@
+:root[data-viewport-tier='mobile'] {
+  --portal-frame-width: 100%;
+  --portal-stage-padding-inline: 12px;
+  --portal-stage-padding-top: 12px;
+  --portal-stage-padding-bottom: 28px;
+  --portal-boundary-panel-padding-block: 16px;
+  --portal-boundary-panel-padding-inline: 14px;
+  --portal-home-stage-padding-inline: 12px;
+  --portal-browse-stage-max-width: 100%;
+
+  --home-section-gap-x: 16px;
+  --home-section-gap-y: 26px;
+  --home-main-col: minmax(0, 1fr);
+  --home-side-col: minmax(0, 1fr);
+  --home-middle-main-col: minmax(0, 1fr);
+  --home-middle-side-col: minmax(0, 1fr);
+  --home-article-feature-col: minmax(0, 1fr);
+  --home-article-list-col: minmax(0, 1fr);
+  --home-bottom-side-col: minmax(0, 1fr);
+  --home-bottom-main-col: minmax(0, 1fr);
+  --home-secondary-grid-columns: 1;
+  --home-hero-feature-cover-width: 100%;
+  --home-card-padding-xs: 14px;
+
+  --portal-module-gap: 12px;
+  --portal-article-module-grid-columns: 1;
+  --portal-book-module-grid-columns: 1;
+  --portal-topic-module-list-columns: 1;
+  --portal-topic-module-media-width: 100%;
+  --portal-topic-module-media-height: 160px;
+  --portal-gallery-module-column-count: 2;
+  --portal-gallery-module-column-gap: 12px;
+
+  --portal-detail-stage-gap: 14px;
+  --portal-detail-stage-max-width: 100%;
+  --portal-gallery-detail-stage-max-width: 100%;
+  --portal-detail-layout-columns: minmax(0, 1fr);
+  --portal-detail-sticky-top: 12px;
+  --home-detail-main-panel-padding-top: 18px;
+  --home-detail-main-panel-padding-inline: 16px;
+  --home-detail-main-panel-padding-bottom: 20px;
+
+  --portal-book-reader-novel-content-width: 100%;
+  --portal-book-reader-comic-content-width: 100%;
+  --portal-book-reader-paper-padding-inline: 18px;
+  --portal-book-reader-catalog-width: min(100%, 320px);
+
+  --portal-workspace-stage-max-width: 100%;
+  --portal-workspace-stage-gap: 16px;
+  --portal-workspace-layout-columns: 1fr;
+  --portal-workspace-layout-gap: 16px;
+  --portal-workspace-toolbar-top: 72px;
+  --portal-workspace-toolbar-align-items: flex-start;
+  --portal-workspace-toolbar-padding: 12px 14px 14px;
+  --portal-workspace-toolbar-section-width: 100%;
+  --portal-workspace-toolbar-side-justify: flex-start;
+  --portal-workspace-toolbar-side-min-width: 0;
+  --portal-workspace-toolbar-side-margin-left: 0;
+  --portal-workspace-sidebar-position: static;
+  --portal-workspace-sidebar-top: 0;
+
+  --workspace-favorite-card-columns: 1fr;
+  --workspace-favorite-cover-width: 100%;
+  --workspace-favorite-aside-justify-items: start;
+
+  --workspace-history-group-columns: 1fr;
+  --workspace-history-group-head-position: static;
+  --workspace-history-track-padding-left: 0;
+  --workspace-history-track-line-display: none;
+  --workspace-history-card-columns: 1fr;
+  --workspace-history-card-marker-display: none;
+  --workspace-history-aside-justify-items: start;
+}
+
+html[data-viewport-tier='mobile'],
+html[data-viewport-tier='mobile'] body,
+html[data-viewport-tier='mobile'] #app {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  overflow-x: clip;
+}
+
+html[data-viewport-tier='mobile'] .portal-app,
+html[data-viewport-tier='mobile'] .portal-app .portal-app__frame,
+html[data-viewport-tier='mobile'] .portal-app .portal-app__content {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: hidden;
+  overflow-x: clip;
+  box-sizing: border-box;
+}
+
+html[data-viewport-tier='mobile'] .portal-app .portal-app__frame {
+  margin-inline: 0;
+  padding-top: 18px;
+  padding-bottom: var(--portal-stage-padding-bottom);
+}
+
+html[data-viewport-tier='mobile']
+  .portal-app
+  :is(
+    .portal-home-page,
+    .portal-home-page *,
+    .portal-article-module-page,
+    .portal-article-module-page *,
+    .portal-book-module-page,
+    .portal-book-module-page *,
+    .portal-topic-module-page,
+    .portal-topic-module-page *,
+    .gallery-module-page,
+    .gallery-module-page *,
+    .portal-article-detail-page,
+    .portal-article-detail-page *,
+    .portal-topic-detail-page,
+    .portal-topic-detail-page *,
+    .portal-book-detail-page,
+    .portal-book-detail-page *,
+    .portal-gallery-detail-page,
+    .portal-gallery-detail-page *,
+    .portal-book-reader-page,
+    .portal-book-reader-page *,
+    .workspace-page,
+    .workspace-page *,
+    .workspace-forbidden,
+    .workspace-forbidden *,
+    .auth-dialog,
+    .auth-dialog *
+  ) {
+  min-width: 0;
+}
+
+html[data-viewport-tier='mobile'] .portal-app :is(img, canvas, video, iframe) {
+  max-width: 100%;
+}
