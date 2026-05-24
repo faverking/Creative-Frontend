@@ -914,7 +914,7 @@ function updateReadingProgress(): void {
   grid-area: content;
   position: sticky;
   top: calc(var(--portal-topbar-height) + 104px);
-  transform: translate(calc(100% + var(--portal-book-reader-side-gap)));
+  transform: translateX(80%);
   justify-self: end;
   z-index: 13;
   display: grid;
