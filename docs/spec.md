@@ -1,294 +1,257 @@
-# AI 生成约束与项目 Spec
+# MonoApp AI 编码 Spec
 
-## 作用与范围
+## 1. 定位
 
-- 这是新会话的必读规范，优先级高于 `docs/overview.md`。
-- `overview` 只负责工程概览；稳定边界、分层约束、共享规则、UI 规范统一写在这里。
-- 当前仓库是 monorepo。
-- 主要活跃应用：
-  - `apps/portal-web`
-  - `apps/admin-web`
-- 公共包位于 `packages/*`。
-- 公开内容相关后端接口来自兄弟仓库 `MonoNest`，不在本仓库内部。
+这份文档是 MonoApp 的 AI 编码约束，优先级高于 `docs/overview.md` 和 `docs/workflows/*`。
 
-## 新会话读取顺序
+- `docs/spec.md` 只放稳定边界、职责分层、通用规则和场景硬约束。
+- `docs/overview.md` 只放工程现状、目录说明和依赖关系概览。
+- `docs/workflows/*` 只放命令、构建、测试、提交与部署流程。
+
+当前仓库是前端 monorepo：
+
+- 活跃应用：`apps/portal-web`、`apps/admin-web`
+- 预备应用：`apps/ai-console`
+- 共享能力：`packages/*`
+- 公开内容后端：兄弟仓库 `MonoNest`，不在本仓库内维护
+
+## 2. 新会话读取顺序
 
 1. `docs/spec.md`
 2. `docs/overview.md`
 3. `docs/workflows/README.md`
-4. `apps/portal-web/src/styles/index.css`
-5. `apps/portal-web/src/styles/tokens/*.css`
-6. `apps/portal-web/src/styles/tokens-dark/*.css`
-7. `apps/portal-web/src/styles/adaptive/*.css`
+4. 任务触达 `apps/portal-web` 样式 / 布局时，再读：
+   - `apps/portal-web/src/styles/index.css`
+   - `apps/portal-web/src/styles/tokens/*.css`
+   - `apps/portal-web/src/styles/tokens-dark/*.css`
+   - `apps/portal-web/src/styles/adaptive/*.css`
 
-## 30 秒速读
+## 3. 执行总则
 
-- `portal-web` 显式字号不得低于 `12px`，默认桌面优先。
-- `portal-web` 桌面分辨率统一按 `compact / standard / wide` 三档组织，`1920` 视角属于 `standard` 主档；`mobile` 是独立可移除的窄屏适配层。
-- 共享规则、通用配置、工程能力优先进入 `packages/*`，不要先写在单个 app 或根配置里兜底。
-- 公开内容请求统一走 `safeGetPublic`，返回结构统一带 `errorCode`。
-- `PortalRequestBoundary` 必须按原子方式使用，且 `ready` 内容保持单根舞台。
-- 筛选面板只承担控制职责；结果数量与摘要放在结果区，不放在 sticky 筛选面板里。
-- 同业务的首页 / 模块 / 详情主题色必须一致，骨架结构必须贴真实布局。
+- 不使用破坏性 git 命令；不回退用户已有未提交改动，除非用户明确要求。
+- 先沿现有结构、命名和设计语言增强，不无故重做。
+- 不为了分层而分层；只有能降低真实复杂度、减少有意义重复或贴合既有边界时才新增抽象。
+- 不保留兼容分支、旧别名、fallback 静态数据、重复入口或临时 adapter，除非用户明确要求迁移窗口。
+- 行为迁移时同步清理残留：无用 import、死常量、过期状态分支、冗余 wrapper、废弃 CSS/token 变量。
+- 先判断命中场景，再执行对应硬规则；多个场景同时命中时，规则累加。
 
-## 使用方式
+## 4. 最高优先级：PowerShell 乱码判断
 
-- 先看上面的“30 秒速读”。
-- 再遵守“通用约束”。
-- 如果命中“PowerShell 乱码判断”场景，优先按该场景执行；该场景优先级高于其他场景约束。
-- 最后判断当前任务命中了哪些“场景约束”；命中后，该场景下的约束按硬边界执行。
+只要 PowerShell 输出、终端预览或命令结果中出现中文乱码、疑似编码异常或字符错乱，立即命中本节。
 
-## 通用约束
+- 不要仅根据终端乱码判断源码、文档或资源文件编码损坏。
+- 使用显式 UTF-8 重新读取文件，并结合 `typecheck`、`build` 或运行结果判断真实状态。
+- 如果终端显示与文件实际内容冲突，以文件实际内容和验证结果为准。
+- 未核实前，不要重编码、批量转码或覆盖文件。
 
-- 不要使用破坏性 git 命令。
-- 不要回退用户已有的未提交改动，除非用户明确要求。
-- 先沿现有结构和设计语言做增强，不要无故重做。
-- 审查全局注册组件，避免模板里重复 `import`。
-- 涉及多个 app / package 的共享规则、通用配置、工程能力，优先沉淀到 `packages/*` 共享包。
-- 根目录与应用目录下的配置文件尽量保持薄壳，只保留 `extends`、脚本入口和必要本地特例。
+## 5. 仓库边界
 
-## 按场景遵守的约束
+### 5.1 应用与共享包
 
-### PowerShell 乱码判断
+- `apps/*` 只依赖 `packages/*`，不跨应用互相依赖。
+- 应用层负责业务页面、业务 API 装配、业务权限模型、启动装配和应用特例。
+- 跨 app 的登录、权限、请求、埋点、监控、主题、通用类型、工程配置等能力优先沉淀到 `packages/*`。
+- 共享包之间通过清晰入口导出能力，避免循环依赖和深层路径耦合。
 
-适用判断：只要在 PowerShell 输出、终端预览、命令结果里发现中文乱码、疑似编码异常或字符显示错乱，就立即命中本节。
+### 5.2 工程配置
 
-- 本节优先级最高，高于其他场景约束与基于终端显示的经验判断。
-- 不要仅根据 PowerShell 乱码显示判断源码、文档或资源文件编码损坏。
-- 优先按文件实际内容、显式编码方式读取结果，以及 `typecheck` / `build` / 运行结果判断真实编码状态。
-- 如果 PowerShell 输出与文件实际内容冲突，以文件实际内容和验证结果为准。
-- 在未核实前，不要因为终端乱码擅自重编码、批量转码或覆盖文件内容。
+命中：lint、format、test、build preset、hooks、脚本入口、CI/CD、部署行为。
 
-### portal-web 基础
-
-适用判断：只要当前任务改动 `apps/portal-web`，就默认遵守本节。
-
-- 显式 `font-size` 不得小于 `12px`。
-- 默认按桌面端优先，不主动做手机适配。
-- `portal-web` 当前只维护三档桌面分辨率：
-  - `mobile`：`1100` 及以下，独立窄屏适配层，可按需整体移除
-  - `compact`：`1101 - 1599`
-  - `standard`：`1600 - 2239`
-  - `wide`：`2240+`
-- `standard` 以 `1920` 视角为主设计锚点；`compact` 负责更窄桌面与低一档笔记本，`wide` 负责 2K / 超宽屏扩展。
-
-### 公开内容 API
-
-适用判断：当任务涉及公开内容请求、错误处理、模块 / 详情数据拉取时，遵守本节。
-入口文件：
-
-- `apps/portal-web/src/api/public-request.ts`
-
-约定：
-
-- `safeGetPublic` 负责把异常流适配为结果流。
-- 返回结构统一为：`data`、`error`、`errorCode`。
-- `errorCode` 统一归一化为：`401`、`403`、`404`、`500`。
-- 不要在页面里直接判断 `AxiosError` 再拆状态码。
-
-### Constants
-
-适用判断：当任务涉及模块配置、筛选项、排序项、query 解析时，遵守本节。
-入口文件：
-
-- `apps/portal-web/src/constants/public-modules.ts`
-
-约定：
-
-- 稳定模块配置、筛选项、排序项、query 解析放 `public-modules.ts`。
-- portal-web 首页、公开模块与公开详情统一只保留真实请求链路，不维护额外静态数据 constants。
-- 不要把模块配置散落回 `api/*`。
-
-### Composables
-
-适用判断：当任务涉及模块查询状态、路由同步、详情请求状态或图包自动续载时，遵守本节。
-入口文件：
-
-- `apps/portal-web/src/views/modules/composables/usePortalModuleQuery.ts`
-- `apps/portal-web/src/views/public/composables/usePublicDetailRequestState.ts`
-- `apps/portal-web/src/composables/useAutoLoadSentinel.ts`
-
-约定：
-
-- 可共享的查询、路由同步、错误状态优先收进公共 composable。
-- 公开模块与公开详情的 composable 只保留真实请求、路由同步和错误状态。
-- 图包和其他滚动续载页面统一复用 `src/composables/useAutoLoadSentinel.ts`。
-
-### 工程配置
-
-适用判断：当任务涉及 lint、format、共享工程规则、提交钩子、脚本入口时，遵守本节。
-共享入口：
+入口：
 
 - `packages/eslint-config`
 - `packages/vitest-config`
 - `.github/workflows/deploy-frontend.yml`
+- `scripts/prepare-frontend-build-env.mjs`
 
-约定：
+规则：
 
-- ESLint 的共享规则、Vue / TS 通用 lint 规则，统一改在 `packages/eslint-config/*`。
-- Vitest 的共享测试配置统一改在 `packages/vitest-config/*`。
-- 根目录 `.eslintrc.cjs` 保持轻量壳层，默认只做 `extends` 汇总。
-- 应用级 `package.json` 可以保留统一命令入口，例如 `lint`、`format`、`format:check`、`typecheck`、`test`、`build`，但不要在应用里重复定义共享规则。
-- 应用级 `vitest.config.ts` 保持薄壳，只负责接入共享配置和声明必要本地特例。
-- 仓库级提交链路，例如 `husky`、`lint-staged`，统一放根目录，不在单个 app 内复制一套。
-- 前端部署唯一入口是 `.github/workflows/deploy-frontend.yml`；生产发布由 `web-v*` tag 触发。部署构建通过 `scripts/prepare-frontend-build-env.mjs` 先读取各应用自己的 `.env.production`，GitHub Variables 仅作为覆盖项生成临时 `.env.production.local`；`FRONTEND_*` 是共享覆盖，`PORTAL_*` / `ADMIN_*` 覆盖单个应用；每个发布应用必须最终解析出 `VITE_API_BASE_URL`。`admin-web` 的浏览器 OpenAI 实验链路也必须由该脚本写入生产构建环境，OpenAI key 不写入 git，优先使用 `ADMIN_TESTAI_API_KEY_ENCRYPTED` + `ADMIN_TESTAI_API_KEY_ENCRYPTION_KEY` 解密注入。
-- `portal-web` 生产部署在 `/`，`admin-web` 生产部署在 `/admin/`，新增 base path 相关行为时必须同时验证两个应用。
-- 未来新增可复用的格式化配置、构建 preset、脚手架能力、通用工程脚本时，优先沉淀到 `packages/*`。
+- ESLint 共享规则只改 `packages/eslint-config/*`。
+- Vitest 共享配置只改 `packages/vitest-config/*`。
+- 根目录 `.eslintrc.cjs` 和应用级 `vitest.config.ts` 保持薄壳，只做 extends / preset 接入和必要本地特例。
+- 仓库级 hooks、lint-staged、commitlint 放根目录，不在单个 app 复制。
+- 可复用格式化配置、构建 preset、脚手架能力、通用工程脚本优先沉淀到 `packages/*` 或 `scripts/*`。
+- 前端生产发布只从 `.github/workflows/deploy-frontend.yml` 进入，由 `web-v*` tag 触发；新增 base path、部署环境变量或打包结构时，必须同时验证 `portal-web` 与 `admin-web`。
+- 生产构建环境由 `scripts/prepare-frontend-build-env.mjs` 生成；`FRONTEND_*` 是共享覆盖，`PORTAL_*` / `ADMIN_*` 是单应用覆盖；OpenAI key 不写入 git，优先使用加密变量注入。
 
-### 全局共享组件
+## 6. portal-web 通用边界
 
-适用判断：当任务涉及公开内容域的共享组件编排、复用、导入方式时，遵守本节。
-重要组件：`PortalRequestBoundary`、`PortalModuleFilterPanel`、`PortalSectionHeading`
+命中：任何 `apps/portal-web` 改动。
 
-约定：
+- 显式 `font-size` 不得低于 `12px`。
+- 默认桌面优先，不主动新增手机适配。
+- 分辨率档位只维护：
+  - `mobile`：`1100` 及以下，独立窄屏适配层，可整体移除
+  - `compact`：`1101 - 1599`
+  - `standard`：`1600 - 2239`，以 `1920` 为主设计锚点
+  - `wide`：`2240+`
+- 不在页面 SFC 中重复声明主档位断点；布局档位变量由 adaptive 层驱动。
 
-- 如果组件已全局注册，模板内不要重复本地导入。
-- 只有在脚本类型引用或局部逻辑确实需要时，才引入类型。
+## 7. portal-web 公开内容域
 
-### PortalRequestBoundary
+公开内容域包括首页、公开模块页、公开详情页、评论、相关推荐和工作台里复用的公开内容状态组件。
 
-适用判断：当任务涉及 loading / error / empty / ready 状态舞台或状态切换结构时，遵守本节。
-入口文件：
+### 7.1 请求与错误
 
+命中：公开内容请求、首页 / 模块 / 详情数据拉取、错误处理、空态判断。
+
+入口：
+
+- `apps/portal-web/src/api/public-request.ts`
+- `apps/portal-web/src/api/content.ts`
+- `apps/portal-web/src/api/public-modules.ts`
+- `apps/portal-web/src/api/public-detail.ts`
+
+规则：
+
+- 公开内容 GET 请求统一走 `safeGetPublic`。
+- `safeGetPublic` 返回结构统一为 `data`、`error`、`errorCode`。
+- `errorCode` 只归一化为 `401`、`403`、`404`、`500`。
+- 页面层不直接判断 `AxiosError` 或拆状态码。
+- 首页、公开模块、公开详情只展示真实请求结果；不新增额外静态数据常量、fallback 数据源、并行 mock 状态或绕过真实请求的入口。
+- 请求失败进入真实错误态，由 `PortalRequestBoundary` 消费 `errorCode`；请求成功但业务结果为空才使用 `empty`。
+
+### 7.2 常量与查询状态
+
+命中：模块配置、筛选项、排序项、query 解析、路由同步、详情请求状态、滚动续载。
+
+入口：
+
+- `apps/portal-web/src/constants/public-modules.ts`
+- `apps/portal-web/src/views/modules/composables/usePortalModuleQuery.ts`
+- `apps/portal-web/src/views/public/composables/usePublicDetailRequestState.ts`
+- `apps/portal-web/src/composables/useAutoLoadSentinel.ts`
+
+规则：
+
+- 稳定模块配置、筛选项、排序项、query 解析集中在 `public-modules.ts`，不散落回 `api/*`。
+- 可共享的查询状态、路由同步、错误状态收进 composable；页面只编排业务视图。
+- 公开模块与公开详情 composable 只保留真实请求、路由同步和错误状态。
+- 图包和其他滚动续载页面复用 `useAutoLoadSentinel.ts`；追加加载失败保留局部重试，并从当前进度继续拉取。
+
+### 7.3 全局组件与状态舞台
+
+命中：公开内容共享组件编排、loading / error / empty / ready 状态切换。
+
+入口：
+
+- `apps/portal-web/src/components/index.ts`
 - `apps/portal-web/src/components/PortalRequestBoundary.vue`
+- `apps/portal-web/src/components/PortalModuleFilterPanel.vue`
+- `apps/portal-web/src/components/PortalSectionHeading.vue`
 
-约定：
+规则：
 
-- 按原子方式使用；谁是真正的状态舞台，`PortalRequestBoundary` 就直接成为谁。
-- 不要在子模块内部已经用了状态壳后，父层再包一层更大的状态壳。
-- 能把原有舞台 class 直接挂到 boundary 根节点上，就不要再套纯布局 `div`。
-- `ready` 内容保持单根舞台，避免和内部 `Transition` 语义冲突。
-- 状态仅包含：`loading`、`error`、`empty`、`ready`。
-- `empty` 只表示请求成功且业务结果为空，不用于接口失败、权限失败或主详情数据缺失。
-- 公开模块、工作台列表、首页精选、首页区块和相关推荐可以在真实空结果时使用 `empty`。
-- 公开详情主请求缺失或失败时仍直接进入真实错误态，不使用 `empty`。
-- 骨架内容统一放在 `#loading` 插槽内，不要在 boundary 外再切一套 loading DOM。
-- 默认错误态使用 `errorCode` 对应插画；整体水平居中，文案和按钮区内部左对齐。
-- 默认空态使用 `PortalEmptyState`，默认文案保持通用精简。
-- `Transition` 固定保留在 boundary 内部；业务自己的 ready 态动画放在业务组件内部。
+- 已在 `components/index.ts` 全局注册的组件，模板内不重复本地导入；只有脚本类型引用或局部逻辑需要时才引入类型。
+- `PortalRequestBoundary` 是原子状态舞台：谁承担真实状态切换，boundary 就直接成为谁。
+- 不在子模块已经有状态壳后，再由父层包一层更大的状态壳。
+- 能把舞台 class 挂到 boundary 根节点，就不要额外套纯布局 `div`。
+- boundary 状态只包含 `loading`、`error`、`empty`、`ready`。
+- `ready` 内容保持单根舞台，避免和内部 `Transition` 冲突。
+- loading 骨架放在 `#loading` 插槽内，不在 boundary 外再切一套 loading DOM。
+- 公开详情主请求失败或缺失用 `error`，不降级为 `empty`；相关推荐可单独失败并显示局部错误态；作者资料等局部失败可轻量降级。
 
-### 骨架屏
+### 7.4 公开模块页面
 
-适用判断：当任务涉及模块或详情的 loading 骨架、骨架结构、shimmer 效果时，遵守本节。
+命中：情报、游戏、书库、图包模块页或公共筛选面板。
 
-- 骨架结构必须和真实布局一一对应。
-- 首页骨架是默认参考实现；公开模块、公开详情、工作台等新骨架，优先沿用首页骨架那套稳定写法，不要各写一套局部语法。
-- 首页骨架稳定写法指：先搭真实结构壳子，再填充 `lines / line / block / pill`；不要直接用几条泛化长条去“估”真实高度。
-- 多行文本骨架（标题、摘要、作者简介等）统一使用“外层 `lines` 容器 + 行容器 + 内层 `block`”的三层写法；外层容器先占真实总高度，单行高度按真实文本 `line-height` 对齐。
-- 标题骨架优先对齐真实标题的 `line-height` 与总行数高度；不要只根据 `block` 自身高度或字号 token 估算两行标题高度。
-- section heading、评论输入 footer、meta 行、作者卡正文等固定高度区域，骨架必须保留对应外层 wrapper / shell；先对齐真实组件的高度、gap、padding，再放内部骨架块。
-- 真实结构中只出现一次的区块，骨架里也只能出现一次；不要靠重复 DOM 或额外过渡层去“拼”出视觉效果。
-- 骨架节奏优先复用共享 rhythm / skeleton tokens。
-- 通用 shimmer 组只负责 shimmer / overflow，`position` 由具体骨架元素自己负责。
-- 情报模块：标题 1 行、摘要 2 行、封面右上主题标签、底部 meta。
-- 游戏模块：标题 1 行、摘要 2 行、顶部 header 标签、底部游戏标签 / 作者 / 时间 + 统计。
-- 书库模块：标题 1 行、摘要 2 行、左侧书册封面、底部作者 / 章节 / 时间与统计。
-- 图包模块：标题最多 2 行、底部 meta。
-- 公开详情的 hero、正文、侧栏、相关推荐都要按真实结构拆分骨架。
-- 不要用泛化长条代替真实详情节奏。
+规则：
 
-### CSS Tokens
+- 上方统一筛选，下方内容区；新增公开模块优先复用 `PortalModuleFilterPanel`。
+- 筛选面板只承担控制职责；结果数量、结果摘要放在结果区，不放在 sticky 筛选面板里。
+- 情报模块：双列分页；标题 1 行；摘要 2 行；底部左时间右统计；统计使用图标 + 数值。
+- 游戏模块：列表分页；主筛选按题材；标题 1 行；摘要 2 行；底部保留游戏标签 / 作者 / 时间与统计。
+- 书库模块：双列分页；标题 1 行；摘要 2 行；左侧保留书册封面；底部保留作者 / 章节 / 时间与统计。
+- 图包模块：瀑布流；标题最多 2 行；追加加载失败保留局部重试。
 
-适用判断：当任务涉及 `portal-web` 的主题 token、业务 token、变量命名、暗色覆盖时，遵守本节。
-入口文件：
+### 7.5 公开详情页面
+
+命中：情报 / 游戏 / 书库 / 图包详情页、相关推荐、评论区。
+
+入口：
+
+- `apps/portal-web/src/views/public/PortalArticleDetailView.vue`
+- `apps/portal-web/src/views/public/PortalTopicDetailView.vue`
+- `apps/portal-web/src/views/public/PortalBookDetailView.vue`
+- `apps/portal-web/src/views/public/PortalGalleryDetailView.vue`
+
+规则：
+
+- 主请求由 `usePublicDetailRequestState` 管理 loading / error / ready。
+- 详情页和模块页统一消费 `errorCode`。
+- 主体内容、侧栏、相关推荐、评论区各自按真实职责处理局部错误，不把局部失败提升为主错误态，除非主数据不可用。
+
+## 8. portal-web 视觉与样式
+
+### 8.1 CSS token 与 adaptive
+
+命中：主题 token、业务 token、暗色覆盖、档位布局变量、全局样式入口。
+
+入口：
 
 - `apps/portal-web/src/styles/index.css`
 - `apps/portal-web/src/styles/tokens/*.css`
 - `apps/portal-web/src/styles/tokens-dark/*.css`
 - `apps/portal-web/src/styles/adaptive/*.css`
 
-约定：
+规则：
 
-- `index.css` 是 `portal-web` 唯一全局样式入口；只负责导入 token 层、adaptive 层、全局 reset 和少量基础交互样式。
-- 全局 token 按职责分层；当前固定分为：`foundation`、`shared-components`、`home`、`public-detail`、`modules`、`workspace`。
-- 分辨率档位样式单独维护在 `styles/adaptive/*`，不要把 `mobile / compact / standard / wide` 的布局常量塞回业务 token 文件。
-- 深色 token 目录按同名镜像维护；亮色与深色必须保持同一语义、同一命名、同一层级归属。
-- 全局 token 只保留稳定的业务语义。
-- 纯尺寸、局部布局、单组件实现细节尽量留在组件内部。
-- 单组件私有变量默认留在组件内；只有跨多个页面 / 组件复用，或确实要供 teleport 到全局层的 UI 消费时，才提升为全局 token。
-- 不要为了复用局部尺寸而创建全局 token；优先接受 feature-local / component-local 变量。
-- 布局档位变量优先放在 adaptive 层，通过根节点 viewport tier 驱动；业务页面只消费变量，不在页面 SFC 内重复声明主档位断点。
-- `compact`、`standard`、`wide` 共用同一批桌面布局变量名；`mobile` 的窄屏覆盖由 `adaptive/mobile.css` 作为入口，分拆在 `adaptive/mobile/*`，保持独立、可移除。
-- 首页与公开模块在同一档位下优先共用同一条 browse stage 基线；确有差异时，只在列数、卡片密度或局部 media 比例层面分化，不重复维护两套舞台宽度 token。
-- adaptive 层变量不要在页面里再包一层无新增语义的中转别名；只有页面真正引入了新的业务语义或局部组合关系，才允许再落 feature-local 变量。
-- token 分组注释要专业、精准，不使用过于泛化的 `family/shared/misc`。
-- token 名称优先表达业务语义，而不是历史实现。
-- 同一个业务语义在浅色和深色主题中保持一致命名。
-- 不保留新的“大总表” token 文件，也不创建 `misc.css` 这类兜底文件。
+- `index.css` 是唯一全局样式入口，只负责导入 token、dark token、adaptive、reset 和少量基础交互样式。
+- 全局 token 固定分层：`foundation`、`shared-components`、`home`、`public-detail`、`modules`、`workspace`。
+- 深色 token 按同名镜像维护，浅色与深色保持同一语义、同一命名、同一层级归属。
+- 全局 token 只保留稳定业务语义；纯尺寸、局部布局、单组件实现细节默认留在组件内部。
+- 不为复用局部尺寸创建全局 token；确有跨页面 / 跨组件复用，或需要供 teleport 到全局层消费时，才提升为全局 token。
+- 分辨率档位变量放在 `styles/adaptive/*`；`mobile` 覆盖由 `adaptive/mobile.css` 聚合，子规则放在 `adaptive/mobile/*`，保持独立可移除。
+- 首页与公开模块在同档位下优先共用 browse stage 基线；确有差异时，只在列数、卡片密度或局部 media 比例层分化。
+- 不新增大总表 token 文件、`misc.css`、无语义中转别名或过度泛化的 `shared/family/misc` 分组。
 
-### 业务主题色
+### 8.2 业务主题色
 
-适用判断：当任务涉及首页、公开模块、公开详情的业务视觉统一时，遵守本节。
+命中：首页、公开模块、公开详情的业务视觉统一。
 
-- 同业务的首页、公开模块、公开详情，主题色必须一致。
-- 当前映射：情报：青蓝系；游戏：冷青紫 / iris 系；图包：mint 系；书库：茶金 / amber 系。
-- 首页 `本周精选`、`推荐版块` 使用站点级标题色，不复用情报 / 游戏业务色。
+- 同业务的首页 / 模块 / 详情主题色必须一致。
+- 当前映射：情报 = 青蓝系；游戏 = 冷青紫 / iris 系；图包 = mint 系；书库 = 茶金 / amber 系。
+- 首页 `本周精选`、`推荐版块` 使用站点级标题色，不复用具体业务色。
 - 通用 tone 色板不能抢业务主题色。
 
-### 公开模块
+### 8.3 骨架屏
 
-适用判断：当任务涉及情报、游戏、书库、图包模块页或公共筛选面板时，遵守本节。
-公共筛选组件：`apps/portal-web/src/components/PortalModuleFilterPanel.vue`
+命中：loading 骨架、shimmer、模块或详情加载态结构。
 
-约定：
+- 骨架结构必须贴真实布局，真实结构只出现一次的区块，骨架中也只出现一次。
+- 优先沿用首页骨架写法：先搭真实结构壳子，再填充 `lines` / `line` / `block` / `pill`；不要用泛化长条估高度。
+- 多行文本骨架使用“外层 `lines` 容器 + 行容器 + 内层 `block`”三层写法；外层先占真实总高度，单行高度对齐真实 `line-height`。
+- 固定高度区域（section heading、评论 footer、meta 行、作者卡正文等）先保留真实 wrapper / shell，再放内部骨架块。
+- 通用 shimmer 只负责 shimmer / overflow；`position` 由具体骨架元素负责。
+- 模块骨架节奏保持：情报 / 游戏 / 书库标题 1 行、摘要 2 行；图包标题最多 2 行；详情页 hero、正文、侧栏、相关推荐按真实结构拆分。
 
-- 上方统一筛选，下方内容区。
-- 后续新增公开模块优先复用统一筛选面板。
-- 筛选面板只承担控制职责；结果数量、结果摘要放在结果区，不放在 sticky 筛选面板里。
-- 情报模块：双列分页；标题单行；摘要两行；底部左时间右统计；统计用图标 + 数值。
-- 游戏模块：列表分页；主筛选按题材；标题单行；摘要两行；底部保留游戏标签 / 作者 / 时间与统计信息。
-- 书库模块：双列分页；标题单行；摘要两行；左侧保留书册封面；底部保留作者 / 章节 / 时间与统计。
-- 图包模块：瀑布流；标题最多两行；追加加载失败保留局部重试，从当前进度继续拉取。
+## 9. 校验矩阵
 
-### 公开详情
+改动后运行与范围匹配的最小有效校验；无法运行时说明原因。
 
-适用判断：当任务涉及情报 / 游戏 / 书库 / 图包详情页或相关推荐区域时，遵守本节。
-入口文件：
+| 改动范围 | 默认校验 |
+| --- | --- |
+| `apps/portal-web` 公开内容域 | `pnpm --filter portal-web typecheck` + `pnpm --filter portal-web build` |
+| `apps/portal-web` 非公开内容 | `pnpm --filter portal-web typecheck`，必要时 build |
+| `apps/admin-web` | `pnpm --filter admin-web typecheck`，必要时 build |
+| `packages/*` | 对应 package 的 `typecheck` / `test` / `build`，按风险选择 |
+| 工程配置、CI、脚本 | 相关脚本或根级 `pnpm lint` / `pnpm typecheck` / `pnpm test`，按影响面选择 |
+| 准备对齐当前 Actions | `pnpm lint` + `pnpm typecheck` + `pnpm test` + `pnpm --filter portal-web build` + `pnpm --filter admin-web build` |
 
-- `PortalArticleDetailView.vue`
-- `PortalTopicDetailView.vue`
-- `PortalGalleryDetailView.vue`
-
-约定：
-
-- 主请求失败时使用 `PortalRequestBoundary`。
-- 相关推荐可单独失败并显示局部错误态。
-- 作者资料等局部失败可轻量降级，不必强行上主错误态。
-- 详情页和模块页统一消费 `errorCode`。
-
-### 公开内容请求结果
-
-适用判断：当任务涉及首页、公开模块或公开详情的数据来源与失败表现时，遵守本节。
-
-- 首页、公开模块与公开详情统一只展示真实请求结果。
-- 首页、公开模块与公开详情不保留额外静态数据常量、额外入口或并行状态分支。
-- 首页、公开模块与公开详情请求失败时直接进入真实错误态，由 `PortalRequestBoundary` 按 `errorCode` 展示。
-
-### 校验命令
-
-适用判断：当任务改动公开内容域前端代码并准备交付时，遵守本节。
-
-默认至少执行：
-
-```bash
-pnpm --filter portal-web typecheck
-pnpm --filter portal-web build
-```
-
-需要完整校验时，再执行：
+公开内容域需要完整校验时，再运行：
 
 ```bash
 pnpm --filter portal-web format:check
 pnpm --filter portal-web lint
 ```
 
-## 何时更新这份文档
+## 10. 何时更新本 spec
 
-出现以下变化时，应同步更新 `docs/spec.md`：
+出现以下变化时，同步更新 `docs/spec.md`：
 
-- 新增共享组件并成为默认方案
-- 调整全局业务 token 分层
-- 修改公开模块的共用筛选、查询或错误态模式
-- 调整业务主题色映射
-- 重新定义骨架屏与真实布局的对应关系
-- 调整共享工程配置、lint / format 规范或提交链路
+- 新增共享组件并成为默认方案。
+- 调整 app / package 职责边界或共享包分层。
+- 修改公开内容请求、错误态、筛选、查询或详情状态模式。
+- 调整 portal-web token 分层、adaptive 档位或业务主题色映射。
+- 重新定义骨架屏与真实布局的对应关系。
+- 调整 lint / format / test / build / deploy 的共享工程规则。

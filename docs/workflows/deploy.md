@@ -1,102 +1,75 @@
 # Deploy Workflow
 
-本文档描述当前前端生产部署链路。仓库统一通过 GitHub Actions tag 工作流发布到阿里云服务器。
+前端生产部署由 GitHub Actions tag 工作流完成，目标服务器路径为 `/www/apps/frontend`。
 
-## 1. 部署目标
-
-前端部署到阿里云服务器：
+## 部署结果
 
 ```text
 /www/apps/frontend
-/www/apps/frontend/releases
-/www/apps/frontend/shared
-/www/apps/frontend/current -> /www/apps/frontend/releases/<tag>
+├─ releases/<tag>
+├─ shared/frontend.tar.gz
+└─ current -> releases/<tag>
 ```
 
-一次部署同时发布两个应用：
+一次发布同时包含：
 
 - `portal-web`：站点根路径 `/`
-- `admin-web`：管理端子路径 `/admin/`
+- `admin-web`：子路径 `/admin/`
 
-当前生产发布包只包含 `portal-web` 与 `admin-web`。
+`ai-console` 当前不进入生产发布包。
 
-## 2. GitHub Actions
+## GitHub Actions
 
-部署入口：
+入口：
 
 ```text
 .github/workflows/deploy-frontend.yml
 ```
 
-触发规则：
+触发：
 
-- 推送 `web-v*` tag 自动触发，例如 `web-v1.0.0`
-- `main` 分支 push 不直接发布生产前端
-- tag 名必须只包含字母、数字、点、下划线和连字符，避免被当作多级目录
+- 推送 `web-v*` tag，例如 `web-v1.0.0`
+- `main` push 不直接发布
+- tag 只能包含字母、数字、点、下划线、连字符
 
-流水线步骤：
+核心步骤：
 
-1. Checkout source code
-2. 提取 tag 名作为 release id
-3. Setup Node.js 20
-4. 启用 `pnpm@10.2.1`
-5. `pnpm install --frozen-lockfile`
-6. `pnpm lint`
-7. `pnpm typecheck`
-8. `pnpm test`
-9. 生成各应用临时 `.env.production.local`
-10. 构建 `portal-web`
-11. 构建 `admin-web`
-12. 打包 `frontend.tar.gz`
-13. 上传到 `/www/apps/frontend/shared`
-14. 解压到 `/www/apps/frontend/releases/<tag>`
-15. 原子切换 `/www/apps/frontend/current`
-16. 清理历史 release，仅保留最近 5 个
+1. Checkout
+2. 设置 Node.js 20 与 `pnpm@10.2.1`
+3. `pnpm install --frozen-lockfile`
+4. `pnpm lint && pnpm typecheck && pnpm test`
+5. `node scripts/prepare-frontend-build-env.mjs`
+6. 构建 `portal-web` 和 `admin-web`
+7. 打包 `frontend.tar.gz`
+8. 上传到 `/www/apps/frontend/shared`
+9. 解压到 `/www/apps/frontend/releases/<tag>`
+10. 原子切换 `/www/apps/frontend/current`
+11. 仅保留最近 5 个 release
 
-## 3. 发布包结构
-
-`frontend.tar.gz` 内部固定为：
+发布包结构：
 
 ```text
-portal/
-admin/
+frontend.tar.gz
+├─ portal/
+└─ admin/
 ```
 
-服务器解压后对应：
+## 构建环境变量
 
-```text
-/www/apps/frontend/current/portal/index.html
-/www/apps/frontend/current/admin/index.html
+生成入口：
+
+```bash
+node scripts/prepare-frontend-build-env.mjs
 ```
 
-## 4. GitHub 配置
+解析顺序：
 
-### 4.1 Secrets
+- `portal-web`：`PORTAL_*` -> `FRONTEND_*` -> `apps/portal-web/.env.production`
+- `admin-web`：`ADMIN_*` -> `FRONTEND_*` -> `apps/admin-web/.env.production`
 
-复用后端同名 secrets：
+每个发布应用必须最终解析出 `VITE_API_BASE_URL`。
 
-- `SERVER_HOST`：例如 `121.41.223.169`
-- `SERVER_USER`
-- `SERVER_PORT`
-- `SERVER_SSH_KEY`
-
-### 4.2 Variables
-
-以下变量会注入 Vite 构建产物，属于公开前端配置。Monorepo 中各应用保留独立环境变量边界，workflow 通过 `scripts/prepare-frontend-build-env.mjs` 先读取各应用自己的 `.env.production`，再把 GitHub Variables 作为部署时覆盖项写入各应用临时 `.env.production.local`。
-
-每个发布应用都必须能解析出 `VITE_API_BASE_URL`，解析顺序为：
-
-- 应用独立 GitHub Variable：`PORTAL_API_BASE_URL` / `ADMIN_API_BASE_URL`
-- 共享 GitHub Variable：`FRONTEND_API_BASE_URL`
-- 应用生产环境文件：`apps/portal-web/.env.production` / `apps/admin-web/.env.production`
-
-当前仓库的两个 `.env.production` 已提供阿里云单机默认值，因此不配置 GitHub Variables 也可以部署。需要临时覆盖生产地址时，优先配置共享默认值：
-
-```text
-FRONTEND_API_BASE_URL=http://121.41.223.169
-```
-
-共享默认值：
+常用共享变量：
 
 - `FRONTEND_API_BASE_URL`
 - `FRONTEND_SSO_BASE_URL`
@@ -106,41 +79,31 @@ FRONTEND_API_BASE_URL=http://121.41.223.169
 - `FRONTEND_API_PREFIX`
 - `FRONTEND_OAUTH_PROVIDER`
 
-应用独立覆盖值：
+应用覆盖变量：
 
-- `PORTAL_API_BASE_URL`
-- `PORTAL_SSO_BASE_URL`
-- `PORTAL_AI_API_BASE_URL`
-- `PORTAL_MONITOR_DSN`
-- `PORTAL_TRACKING_APP_ID`
-- `PORTAL_API_PREFIX`
-- `PORTAL_OAUTH_PROVIDER`
-- `PORTAL_ADMIN_WEB_BASE_URL`
-- `ADMIN_API_BASE_URL`
-- `ADMIN_SSO_BASE_URL`
-- `ADMIN_AI_API_BASE_URL`
-- `ADMIN_MONITOR_DSN`
-- `ADMIN_TRACKING_APP_ID`
-- `ADMIN_API_PREFIX`
-- `ADMIN_OAUTH_PROVIDER`
-- `ADMIN_AI_EXPERIMENT_ENABLED`
-- `ADMIN_TESTAI_API_KEY_ENCRYPTED`
-- `ADMIN_TESTAI_API_BASE_URL`
-- `ADMIN_TESTAI_MODEL`
-- `ADMIN_TESTAI_API_MODEL_COMPOSE`
+- `PORTAL_API_BASE_URL`、`PORTAL_SSO_BASE_URL`、`PORTAL_AI_API_BASE_URL`、`PORTAL_ADMIN_WEB_BASE_URL`
+- `ADMIN_API_BASE_URL`、`ADMIN_SSO_BASE_URL`、`ADMIN_AI_API_BASE_URL`
+- `ADMIN_AI_EXPERIMENT_ENABLED`、`ADMIN_TESTAI_API_BASE_URL`、`ADMIN_TESTAI_MODEL`、`ADMIN_TESTAI_API_MODEL_COMPOSE`
 
-解析顺序：
+默认回退：
 
-- `portal-web`：`PORTAL_*` 优先，其次 `FRONTEND_*`，最后使用 `apps/portal-web/.env.production`。
-- `admin-web`：`ADMIN_*` 优先，其次 `FRONTEND_*`，最后使用 `apps/admin-web/.env.production`。
+- `SSO_BASE_URL`、`AI_API_BASE_URL` 沿用当前应用解析后的 `API_BASE_URL`
+- `MONITOR_DSN=disabled`
+- `TRACKING_APP_ID=portal-web` 或 `admin-web`
+- `API_PREFIX=/api/v1`
+- `OAUTH_PROVIDER=google`
+- `PORTAL_ADMIN_WEB_BASE_URL=/admin/`
 
-`admin-web` 的浏览器 OpenAI 实验链路由 `VITE_ADMIN_AI_EXPERIMENT_ENABLED` 显式开关控制。生产构建时，`scripts/prepare-frontend-build-env.mjs` 会把 `ADMIN_AI_EXPERIMENT_ENABLED`、`ADMIN_TESTAI_API_BASE_URL`、`ADMIN_TESTAI_MODEL`、`ADMIN_TESTAI_API_MODEL_COMPOSE` 写入 `apps/admin-web/.env.production.local`；未配置 GitHub Variables 时回落到 `apps/admin-web/.env.production`。
+## OpenAI 实验链路
 
-OpenAI API key 不允许写入 git，也不要放在 GitHub Variables 明文项里。推荐配置方式：
+`admin-web` 浏览器 OpenAI 实验能力由 `VITE_ADMIN_AI_EXPERIMENT_ENABLED` 控制。
 
-- GitHub Secret：`ADMIN_TESTAI_API_KEY_ENCRYPTION_KEY`
-- GitHub Variable：`ADMIN_TESTAI_API_KEY_ENCRYPTED`
-- 本地生成密文：
+API key 不写入 git，不建议放 GitHub Variables 明文项。推荐：
+
+- Secret：`ADMIN_TESTAI_API_KEY_ENCRYPTION_KEY`
+- Variable：`ADMIN_TESTAI_API_KEY_ENCRYPTED`
+
+本地生成密文：
 
 ```powershell
 $env:ADMIN_TESTAI_API_KEY='sk-...'
@@ -148,31 +111,27 @@ $env:ADMIN_TESTAI_API_KEY_ENCRYPTION_KEY='your-long-random-secret'
 node scripts/encrypt-admin-testai-api-key.mjs
 ```
 
-脚本输出的密文填入 `ADMIN_TESTAI_API_KEY_ENCRYPTED`。如果 CI 中直接配置了 GitHub Secret `ADMIN_TESTAI_API_KEY`，构建脚本也会兼容读取，但优先使用密文 + 解密密钥方案。解密后的 key 会进入 `apps/admin-web/.env.production.local` 并最终进入前端构建产物，属于浏览器运行时可见配置。
+CI 也兼容直接读取 Secret `ADMIN_TESTAI_API_KEY`，但优先使用密文 + 解密密钥。解密后的 key 会进入浏览器构建产物，属于运行时可见配置。
 
-当 GitHub Variables 与应用 `.env.production` 都未提供对应可选变量时，工作流默认：
+## GitHub 配置
 
-- `SSO_BASE_URL`：沿用当前应用解析后的 `API_BASE_URL`
-- `AI_API_BASE_URL`：沿用当前应用解析后的 `API_BASE_URL`
-- `MONITOR_DSN`：`disabled`
-- `TRACKING_APP_ID`：`portal-web` 或 `admin-web`
-- `API_PREFIX`：`/api/v1`
-- `OAUTH_PROVIDER`：`google`
-- `PORTAL_ADMIN_WEB_BASE_URL`：`/admin/`
+Secrets：
 
-### 4.3 服务器目录前置条件
+- `SERVER_HOST`
+- `SERVER_USER`
+- `SERVER_PORT`
+- `SERVER_SSH_KEY`
+- `ADMIN_TESTAI_API_KEY_ENCRYPTION_KEY`
 
-以下目录属于服务器一次性初始化内容，不在每次部署前重复创建：
+服务器一次性初始化：
 
 ```bash
 mkdir -p /www/apps/frontend/releases /www/apps/frontend/shared
 ```
 
-GitHub Actions 默认 `/www/apps/frontend/shared` 已存在，因为上传步骤会直接把 `frontend.tar.gz` 放到该目录。
+## 发版
 
-## 5. 发版命令
-
-推荐从已经合入 `main` 的提交打生产 tag：
+推荐从已合入 `main` 的提交打 tag：
 
 ```bash
 git checkout main
@@ -181,11 +140,19 @@ git tag web-v1.0.0
 git push origin web-v1.0.0
 ```
 
-如需重发同一个版本，优先新建递增 tag，例如 `web-v1.0.1`。工作流会串行执行生产部署，避免多个 tag 同时切换 `/www/apps/frontend/current`。
+重发优先使用递增 tag，例如 `web-v1.0.1`。workflow 串行执行，避免多个 tag 同时切换 `current`。
 
-## 6. Nginx 契约
+## Nginx 契约
 
-建议 Nginx 站点配置满足：
+关键要求：
+
+- `root` 指向 `/www/apps/frontend/current`
+- `/admin` 重定向到 `/admin/`
+- `/admin/` fallback 到 `/admin/index.html`
+- `/api/` 代理到后端
+- 门户 `location /` 使用 `root /www/apps/frontend/current/portal` 并 fallback 到 `/index.html`
+
+参考：
 
 ```nginx
 server {
@@ -218,29 +185,14 @@ server {
 }
 ```
 
-`location /` 必须使用 `root /www/apps/frontend/current/portal` 后 fallback 到 `/index.html`。不要写成 `try_files /portal$uri /portal$uri/ /portal/index.html`，否则 `/favicon.ico`、不存在的静态资源或门户前端路由可能在内部重定向到 `/portal/index.html` 后再次命中 `location /`，形成 rewrite/internal redirection cycle。
+不要把门户 fallback 写成 `/portal/index.html` 形式，否则可能造成内部重定向循环。当前 workflow 不执行 `nginx -t` 或 reload，发布通过 symlink 原子切换生效。
 
-当前 workflow 不在每次发布时执行 `nginx -t` 或 `systemctl reload nginx`。Nginx 只需要固定指向 `/www/apps/frontend/current`，后续发布通过原子切换 symlink 生效；如服务器启用了强文件缓存，可在服务器运维流程里单独 reload。
-
-## 7. 本地验证
+## 本地验证
 
 ```bash
 pnpm lint
 pnpm typecheck
 pnpm test
-```
-
-构建 base path 验证：
-
-```bash
-node scripts/prepare-frontend-build-env.mjs
-pnpm --filter portal-web build
-pnpm --filter admin-web build
-```
-
-Windows PowerShell 可使用：
-
-```powershell
 node scripts/prepare-frontend-build-env.mjs
 pnpm --filter portal-web build
 pnpm --filter admin-web build
@@ -250,5 +202,5 @@ pnpm --filter admin-web build
 
 - `apps/portal-web/dist/index.html` 使用根路径资源。
 - `apps/admin-web/dist/index.html` 使用 `/admin/` 资源。
-- 直接刷新 `/articles/:id` 与 `/admin/home/overview` 不返回 404。
-- 前端请求进入 `/api/v1/...` 并由 Nginx 转发到后端。
+- 刷新 `/articles/:id` 与 `/admin/home/overview` 不返回 404。
+- 前端请求进入 `/api/v1/...` 并由 Nginx 转发。

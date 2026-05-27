@@ -1,0 +1,4 @@
+interface:
+  display_name: "MonoApp Spec Coding"
+  short_description: "按 MonoApp spec 约束完成编码、清理与交付"
+  default_prompt: "Use $monoapp-spec-coding to implement MonoApp changes according to docs/spec.md."
