@@ -23,9 +23,9 @@ withDefaults(
 }
 
 .portal-empty-state :deep(.el-empty) {
-  padding: var(--portal-empty-padding, 24px);
+  padding: var(--portal-empty-padding);
   border: 1px solid var(--portal-empty-border, var(--portal-request-state-border));
-  border-radius: var(--portal-empty-radius, 24px);
+  border-radius: var(--portal-empty-radius);
   background: var(--portal-empty-bg, var(--portal-request-state-bg));
   box-shadow: var(--portal-empty-shadow, var(--portal-request-state-shadow));
 }
@@ -37,7 +37,7 @@ withDefaults(
 .portal-empty-state :deep(.el-empty__description p) {
   margin: 0;
   color: var(--portal-empty-description-ink, var(--portal-muted));
-  font-size: var(--portal-empty-description-size, 12px);
+  font-size: var(--portal-empty-description-size);
   line-height: var(--portal-empty-description-line-height, 1.7);
 }
 </style>

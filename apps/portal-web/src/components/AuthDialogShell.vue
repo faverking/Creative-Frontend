@@ -102,7 +102,7 @@ const closeDialog = async () => {
   z-index: 1;
   display: grid;
   grid-template-columns: minmax(214px, 0.54fr) 1px minmax(384px, 1fr);
-  width: min(820px, calc(100vw - 28px));
+  width: 820px;
   min-height: 452px;
   border: 1px solid var(--portal-border-strong);
   border-radius: 28px;

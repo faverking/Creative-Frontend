@@ -1,6 +1,5 @@
-:root:not([data-viewport-tier]),
-:root[data-viewport-tier='standard'] {
-  --portal-browse-stage-max-width: calc(100vw - clamp(200px, calc(31.25vw - 300px), 600px));
+:root {
+  --portal-browse-stage-max-width: 1620px;
   --home-section-gap-x: 40px;
   --home-section-gap-y: 60px;
   --home-main-col: minmax(0, 2.18fr);

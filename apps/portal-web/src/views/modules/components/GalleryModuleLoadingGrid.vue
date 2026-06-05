@@ -81,8 +81,6 @@ const { columns: loadingColumns } = useGalleryModuleMasonryColumns(loadingItems)
 
 <style scoped>
 .gallery-module-loading-grid {
-  --gallery-module-column-count-local: var(--portal-gallery-module-column-count);
-  --gallery-module-grid-column-gap-local: var(--portal-gallery-module-column-gap);
   --gallery-module-card-gap-local: var(--home-card-gap-tight);
   --gallery-module-card-meta-height-local: 22px;
   --gallery-module-card-meta-width-local: 72px;
@@ -90,8 +88,8 @@ const { columns: loadingColumns } = useGalleryModuleMasonryColumns(loadingItems)
   --gallery-module-card-title-line-height-local: calc(14px * 1.38);
   --gallery-module-card-footer-line-height-local: calc(12px * 1.5);
   display: grid;
-  grid-template-columns: repeat(var(--gallery-module-column-count-local), minmax(0, 1fr));
-  gap: var(--gallery-module-grid-column-gap-local);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 18px;
   align-items: start;
 }
 
@@ -221,12 +219,12 @@ const { columns: loadingColumns } = useGalleryModuleMasonryColumns(loadingItems)
 
 .gallery-module-loading-card__block--title {
   width: 100%;
-  height: var(--home-skeleton-title-16-height);
+  height: var(--home-skeleton-title-sm-height);
 }
 
 .gallery-module-loading-card__block--title-short {
   width: 100%;
-  height: var(--home-skeleton-title-16-height);
+  height: var(--home-skeleton-title-sm-height);
 }
 
 .gallery-module-loading-card__block--stats {

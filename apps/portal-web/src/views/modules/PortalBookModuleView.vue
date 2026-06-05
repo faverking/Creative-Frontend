@@ -188,7 +188,7 @@
                     >
                       <portal-svg-icon
                         :name="metric.iconName"
-                        size="13px"
+                        size="1.3rem"
                         class="portal-book-module-page__metric-icon"
                       />
                       <span>{{ metric.value }}</span>
@@ -363,6 +363,13 @@ function handleCategoryChange(value?: number | string): void {
 .portal-book-module-page {
   --portal-book-module-card-radius-local: 18px;
   --portal-book-module-card-padding-local: var(--home-card-padding-xs);
+  --portal-book-module-author-line-height-local: calc(12px * 1.35);
+  --portal-book-module-title-line-height-local: calc(18px * 1.34);
+  --portal-book-module-summary-line-height-local: calc(13px * 1.68);
+  --portal-book-module-summary-height-local: calc(
+    var(--portal-book-module-summary-line-height-local) * 2
+  );
+  --portal-book-module-meta-line-height-local: calc(12px * 1.35);
   width: min(var(--portal-browse-stage-max-width), 100%);
   margin: 0 auto;
   padding: var(--portal-stage-padding-top) var(--portal-stage-padding-inline)
@@ -406,7 +413,7 @@ function handleCategoryChange(value?: number | string): void {
 
 .portal-book-module-page__grid {
   display: grid;
-  grid-template-columns: repeat(var(--portal-book-module-grid-columns), minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--portal-module-gap);
 }
 
@@ -495,7 +502,7 @@ function handleCategoryChange(value?: number | string): void {
   pointer-events: none;
   display: inline-flex;
   align-items: center;
-  height: 24px;
+  height: var(--home-chip-height-sm);
   max-width: min(42%, 172px);
   padding: 0 11px 0 12px;
   border: 1px solid
@@ -510,7 +517,7 @@ function handleCategoryChange(value?: number | string): void {
   color: color-mix(in srgb, var(--portal-module-card-tag-accent) 82%, var(--home-ink) 18%);
   font-size: 12px;
   font-weight: 700;
-  line-height: 24px;
+  line-height: var(--home-chip-height-sm);
   letter-spacing: 0.02em;
   white-space: nowrap;
   overflow: hidden;
@@ -540,9 +547,10 @@ function handleCategoryChange(value?: number | string): void {
   padding-right: min(154px, 40%);
   box-sizing: border-box;
   color: var(--home-ink);
-  font-size: 18px;
-  line-height: 1.34;
-  letter-spacing: -0.03em;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: var(--portal-book-module-title-line-height-local);
+  letter-spacing: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -552,7 +560,7 @@ function handleCategoryChange(value?: number | string): void {
   color: color-mix(in srgb, var(--home-business-bookshelf-accent) 32%, var(--home-muted) 68%);
   font-size: 12px;
   font-weight: 600;
-  line-height: 1.35;
+  line-height: var(--portal-book-module-author-line-height-local);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -562,9 +570,10 @@ function handleCategoryChange(value?: number | string): void {
   margin: 0;
   color: color-mix(in srgb, var(--home-muted) 82%, transparent);
   font-size: 13px;
-  line-height: 1.68;
+  line-height: var(--portal-book-module-summary-line-height-local);
   display: -webkit-box;
-  min-height: calc(13px * 1.68 * 2);
+  height: var(--portal-book-module-summary-height-local);
+  min-height: var(--portal-book-module-summary-height-local);
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -587,7 +596,7 @@ function handleCategoryChange(value?: number | string): void {
   border: 1px solid transparent;
   border-radius: 999px;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: var(--home-chip-height-sm);
 }
 
@@ -716,6 +725,15 @@ function handleCategoryChange(value?: number | string): void {
   transform: translateX(-100%);
 }
 
+.portal-book-module-page__cover--skeleton::before {
+  content: none;
+}
+
+.portal-book-module-page__cover--skeleton::after {
+  width: auto;
+  height: auto;
+}
+
 .portal-book-module-page__cover--skeleton {
   background: linear-gradient(
     135deg,
@@ -731,7 +749,7 @@ function handleCategoryChange(value?: number | string): void {
   z-index: 2;
   pointer-events: none;
   width: 72px;
-  height: 24px;
+  height: var(--home-chip-height-sm);
   border-radius: 11px 15px 13px 11px;
 }
 
@@ -742,25 +760,37 @@ function handleCategoryChange(value?: number | string): void {
   gap: 0;
 }
 
+.portal-book-module-page__skeleton-title {
+  height: var(--portal-book-module-title-line-height-local);
+}
+
+.portal-book-module-page__skeleton-author {
+  height: var(--portal-book-module-author-line-height-local);
+}
+
+.portal-book-module-page__skeleton-summary {
+  height: var(--portal-book-module-summary-height-local);
+}
+
 .portal-book-module-page__skeleton-line {
   display: flex;
   align-items: center;
 }
 
 .portal-book-module-page__skeleton-line--title {
-  height: calc(18px * 1.34);
+  height: var(--portal-book-module-title-line-height-local);
 }
 
 .portal-book-module-page__skeleton-line--author {
-  height: calc(12px * 1.35);
+  height: var(--portal-book-module-author-line-height-local);
 }
 
 .portal-book-module-page__skeleton-line--summary {
-  height: calc(13px * 1.68);
+  height: var(--portal-book-module-summary-line-height-local);
 }
 
 .portal-book-module-page__skeleton-line--meta {
-  height: calc(12px * 1.35);
+  height: var(--portal-book-module-meta-line-height-local);
 }
 
 .portal-book-module-page__skeleton-divider {
@@ -778,7 +808,7 @@ function handleCategoryChange(value?: number | string): void {
 
 .portal-book-module-page__skeleton-block--title {
   width: 78%;
-  height: var(--home-skeleton-title-18-height);
+  height: var(--home-skeleton-title-md-height);
 }
 
 .portal-book-module-page__skeleton-block--author {

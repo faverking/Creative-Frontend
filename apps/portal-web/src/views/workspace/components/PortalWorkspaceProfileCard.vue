@@ -433,8 +433,8 @@ function handleToggle(): void {
   border-radius: 20px;
   background: var(--workspace-media-bg-current);
   color: var(--portal-ink-strong);
-  font-size: 20px;
-  font-weight: 800;
+  font-size: 18px;
+  font-weight: 700;
   box-shadow: var(--workspace-media-shadow-current);
 }
 
@@ -470,7 +470,7 @@ function handleToggle(): void {
   color: var(--portal-ink-strong);
   font-size: var(--home-font-size-title-md);
   line-height: 1.2;
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .workspace-profile-card__meta,

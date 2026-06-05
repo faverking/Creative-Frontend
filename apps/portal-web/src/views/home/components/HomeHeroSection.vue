@@ -903,7 +903,7 @@ onBeforeUnmount(() => {
   color: var(--home-ink);
   font-size: var(--home-font-size-title-hero);
   line-height: var(--home-line-size-title-hero);
-  letter-spacing: -0.04em;
+  letter-spacing: 0;
   height: var(--home-block-title-hero-2);
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -953,7 +953,7 @@ onBeforeUnmount(() => {
   border: 1px solid transparent;
   border-radius: 999px;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .home-hero__tag--cyan {
@@ -1104,7 +1104,7 @@ onBeforeUnmount(() => {
   color: var(--home-ink);
   font-size: 12px;
   line-height: 1;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.02em;
   white-space: nowrap;
   transition:
@@ -1222,12 +1222,12 @@ onBeforeUnmount(() => {
 
 .home-hero__skeleton-block--title {
   width: 90%;
-  height: var(--home-skeleton-title-22-height);
+  height: var(--home-skeleton-title-hero-height);
 }
 
 .home-hero__skeleton-block--title-short {
   width: 74%;
-  height: var(--home-skeleton-title-22-height);
+  height: var(--home-skeleton-title-hero-height);
 }
 
 .home-hero__skeleton-block--summary {
@@ -1242,7 +1242,7 @@ onBeforeUnmount(() => {
 
 .home-hero__skeleton-block--quick-title {
   width: 54%;
-  height: var(--home-skeleton-title-16-height);
+  height: var(--home-skeleton-title-sm-height);
 }
 
 .home-hero__skeleton-block--quick-copy {

@@ -177,8 +177,6 @@ function bindSentinelRef(element: Element | ComponentPublicInstance | null): voi
 
 <style scoped>
 .gallery-module-page {
-  --gallery-module-column-count-local: var(--portal-gallery-module-column-count);
-  --gallery-module-grid-column-gap-local: var(--portal-gallery-module-column-gap);
   --gallery-module-action-min-height-local: 36px;
   --gallery-module-action-padding-inline-local: 16px;
   width: min(var(--portal-browse-stage-max-width), 100%);
@@ -229,8 +227,8 @@ function bindSentinelRef(element: Element | ComponentPublicInstance | null): voi
 
 .gallery-module-page__masonry {
   display: grid;
-  grid-template-columns: repeat(var(--gallery-module-column-count-local), minmax(0, 1fr));
-  gap: var(--gallery-module-grid-column-gap-local);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 18px;
   align-items: start;
   transition: opacity 180ms ease;
 }

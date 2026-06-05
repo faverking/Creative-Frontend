@@ -107,41 +107,41 @@ const titleLineWidths = computed(() => {
 
 const heroMetaTagWidth = computed(() => {
   if (isTopic.value) {
-    return '92px'
+    return '9.2rem'
   }
 
   if (isGallery.value) {
-    return '88px'
+    return '8.8rem'
   }
 
-  return '84px'
+  return '8.4rem'
 })
 
 const heroMetaLineWidths = computed(() => {
   if (isGallery.value) {
-    return ['88px', '96px']
+    return ['8.8rem', '9.6rem']
   }
 
-  return ['92px', '104px']
+  return ['9.2rem', '10.4rem']
 })
 
 const heroMetricWidths = computed(() => {
   if (isGallery.value) {
-    return ['72px', '68px', '64px']
+    return ['7.2rem', '6.8rem', '6.4rem']
   }
 
-  return ['74px', '70px', '66px']
+  return ['7.4rem', '7rem', '6.6rem']
 })
 
 const heroActionWidths = computed(() => {
   if (isGallery.value) {
-    return ['116px', '106px', '100px']
+    return ['11.6rem', '10.6rem', '10rem']
   }
 
   if (isTopic.value) {
-    return ['118px', '106px', '100px']
+    return ['11.8rem', '10.6rem', '10rem']
   }
 
-  return ['104px', '100px']
+  return ['10.4rem', '10rem']
 })
 </script>

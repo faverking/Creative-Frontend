@@ -15,7 +15,7 @@
       @click="$emit('action', action)"
     >
       <span class="public-detail-action-panel__action-icon">
-        <portal-svg-icon :name="resolvePublicDetailActionIconName(action.key)" size="16px" />
+        <portal-svg-icon :name="resolvePublicDetailActionIconName(action.key)" size="1.6rem" />
       </span>
       <span class="public-detail-action-panel__action-label">{{ action.label }}</span>
     </button>
@@ -177,7 +177,7 @@ defineEmits<{
 
 .public-detail-action-panel__action-label {
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1;
   letter-spacing: 0.02em;
 }

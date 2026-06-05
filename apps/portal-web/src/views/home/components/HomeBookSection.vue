@@ -495,7 +495,7 @@ function resolveBookTags(item: HomeBookshelfSectionResponse['items'][number]) {
   border: 1px solid transparent;
   border-radius: 999px;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .home-book-section__tag--cyan {
@@ -578,7 +578,7 @@ function resolveBookTags(item: HomeBookshelfSectionResponse['items'][number]) {
 
 .home-book-section__skeleton-block--title {
   width: 84%;
-  height: var(--home-skeleton-title-18-height);
+  height: var(--home-skeleton-title-md-height);
 }
 
 .home-book-section__skeleton-block--summary {

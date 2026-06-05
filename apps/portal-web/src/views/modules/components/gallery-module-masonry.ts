@@ -1,6 +1,9 @@
 import { computed, onBeforeUnmount, onMounted, ref, type Ref } from 'vue'
 
-const GALLERY_MODULE_COLUMN_COUNT_VARIABLE = '--portal-gallery-module-column-count'
+import { resolvePortalViewportMode } from '@/utils/viewport-mode'
+
+const GALLERY_MODULE_DESKTOP_COLUMN_COUNT = 5
+const GALLERY_MODULE_MOBILE_COLUMN_COUNT = 2
 
 export interface GalleryModuleMasonryColumnItem<TItem> {
   index: number
@@ -8,17 +11,13 @@ export interface GalleryModuleMasonryColumnItem<TItem> {
 }
 
 function readGalleryModuleColumnCount(): number {
-  if (typeof window === 'undefined' || typeof document === 'undefined') {
-    return 1
+  if (typeof window === 'undefined') {
+    return GALLERY_MODULE_DESKTOP_COLUMN_COUNT
   }
 
-  const rawColumnCount = window
-    .getComputedStyle(document.documentElement)
-    .getPropertyValue(GALLERY_MODULE_COLUMN_COUNT_VARIABLE)
-    .trim()
-  const nextColumnCount = Number.parseInt(rawColumnCount, 10)
-
-  return Number.isFinite(nextColumnCount) && nextColumnCount > 0 ? nextColumnCount : 1
+  return resolvePortalViewportMode(window.innerWidth) === 'mobile'
+    ? GALLERY_MODULE_MOBILE_COLUMN_COUNT
+    : GALLERY_MODULE_DESKTOP_COLUMN_COUNT
 }
 
 export function useGalleryModuleMasonryColumns<TItem>(items: Ref<readonly TItem[]>) {

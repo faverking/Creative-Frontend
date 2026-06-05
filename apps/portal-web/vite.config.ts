@@ -1,6 +1,7 @@
 import { fileURLToPath, URL } from 'node:url'
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import pxtorem from 'postcss-pxtorem'
 
 const appRoot = fileURLToPath(new URL('.', import.meta.url))
 const MONO_REPO_ROOT = fileURLToPath(new URL('../..', import.meta.url)).replaceAll('\\', '/')
@@ -17,6 +18,7 @@ const ELEMENT_PLUS_PREFIXES = [
   '/node_modules/memoize-one/',
   '/node_modules/normalize-wheel-es/'
 ]
+const ELEMENT_PLUS_STYLE_PREFIXES = ['/node_modules/element-plus/', '/node_modules/@element-plus/']
 const FRAMEWORK_PREFIXES = [
   '/node_modules/vue/',
   '/node_modules/@vue/',
@@ -24,6 +26,10 @@ const FRAMEWORK_PREFIXES = [
   '/node_modules/pinia/'
 ]
 const PORTAL_SHARED_PREFIXES = [`${MONO_REPO_ROOT}/packages/`, '/node_modules/@frontend/']
+const PORTAL_PX_TO_REM_EXCLUDE_FRAGMENTS = [
+  '/src/assets/',
+  '/src/styles/adaptive/rem-root.css'
+]
 
 function normalizeModuleId(id: string): string {
   return id.replaceAll('\\', '/')
@@ -31,6 +37,23 @@ function normalizeModuleId(id: string): string {
 
 function includesAny(id: string, fragments: string[]): boolean {
   return fragments.some((fragment) => id.includes(fragment))
+}
+
+function isPortalPxToRemExcluded(filePath?: string): boolean {
+  if (!filePath) {
+    return false
+  }
+
+  const normalizedFilePath = normalizeModuleId(filePath)
+
+  if (includesAny(normalizedFilePath, PORTAL_PX_TO_REM_EXCLUDE_FRAGMENTS)) {
+    return true
+  }
+
+  return (
+    normalizedFilePath.includes('/node_modules/') &&
+    !includesAny(normalizedFilePath, ELEMENT_PLUS_STYLE_PREFIXES)
+  )
 }
 
 function resolvePortalManualChunk(id: string): string | undefined {
@@ -61,6 +84,19 @@ export default defineConfig(({ mode }) => {
   return {
     base: env.VITE_APP_BASE || '/',
     plugins: [vue()],
+    css: {
+      postcss: {
+        plugins: [
+          pxtorem({
+            rootValue: 10,
+            propList: ['*'],
+            mediaQuery: false,
+            minPixelValue: 2,
+            exclude: isPortalPxToRemExcluded
+          })
+        ]
+      }
+    },
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url))

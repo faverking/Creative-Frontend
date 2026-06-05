@@ -17,9 +17,9 @@ type PublicDetailPanelVariant = 'default' | 'main'
 
 const PANEL_PADDING_MAP: Record<PublicDetailPanelPadding, string> = {
   none: '0',
-  sm: '14px',
-  md: '16px',
-  lg: '24px'
+  sm: '1.4rem',
+  md: '1.6rem',
+  lg: '2.4rem'
 }
 
 const props = withDefaults(

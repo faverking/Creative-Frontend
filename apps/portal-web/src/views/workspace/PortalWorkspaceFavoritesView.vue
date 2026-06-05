@@ -126,7 +126,7 @@
                   >
                     <portal-svg-icon
                       :name="metric.iconName"
-                      size="13px"
+                      size="1.3rem"
                       class="workspace-favorite-card__metric-icon"
                     />
                     <span>{{ metric.value }}</span>
@@ -385,7 +385,7 @@ async function handleToggleFavorite(item: WorkspaceFavoriteCard): Promise<void> 
     --workspace-media-shadow,
     var(--workspace-media-base-shadow)
   );
-  --workspace-favorite-title-size: 18px;
+  --workspace-favorite-title-size: 16px;
   --workspace-favorite-title-line-height: 1.34;
   --workspace-favorite-body-size: 13px;
   --workspace-favorite-body-line-height: 1.68;
@@ -406,8 +406,7 @@ async function handleToggleFavorite(item: WorkspaceFavoriteCard): Promise<void> 
 .workspace-favorite-card {
   display: grid;
   grid-template-columns: var(
-    --workspace-favorite-card-columns,
-    208px minmax(0, 1fr) var(--workspace-action-column-width)
+    --workspace-favorite-card-columns
   );
   align-items: start;
   gap: var(--home-card-gap-base);
@@ -420,7 +419,7 @@ async function handleToggleFavorite(item: WorkspaceFavoriteCard): Promise<void> 
 
 .workspace-favorite-card__cover {
   position: relative;
-  width: var(--workspace-favorite-cover-width, 208px);
+  width: var(--workspace-favorite-cover-width);
   height: 124px;
   overflow: hidden;
   border: 1px solid var(--workspace-media-border-current);
@@ -529,9 +528,9 @@ async function handleToggleFavorite(item: WorkspaceFavoriteCard): Promise<void> 
   min-width: 0;
   color: var(--home-ink);
   font-size: var(--workspace-favorite-title-size);
-  font-weight: 800;
+  font-weight: 700;
   line-height: var(--workspace-favorite-title-line-height);
-  letter-spacing: -0.02em;
+  letter-spacing: 0;
 }
 
 .workspace-favorite-card__title-link {
@@ -559,7 +558,7 @@ async function handleToggleFavorite(item: WorkspaceFavoriteCard): Promise<void> 
 
 .workspace-favorite-card__tags.workspace-tag-row {
   flex-wrap: nowrap;
-  min-height: 30px;
+  min-height: calc(var(--home-chip-height-sm) + 2px);
   overflow: hidden;
 }
 
@@ -767,7 +766,7 @@ async function handleToggleFavorite(item: WorkspaceFavoriteCard): Promise<void> 
 
 .workspace-favorite-skeleton__pill {
   width: 52px;
-  height: 24px;
+  height: 22px;
 }
 
 .workspace-favorite-skeleton__pill--metric {
@@ -790,6 +789,6 @@ async function handleToggleFavorite(item: WorkspaceFavoriteCard): Promise<void> 
 
 .workspace-favorite-skeleton__tag {
   width: 56px;
-  height: 28px;
+  height: var(--home-chip-height-sm);
 }
 </style>

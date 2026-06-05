@@ -185,10 +185,10 @@ const summaryLabel = computed(() => props.summary.trim())
 
 .public-detail-related-media-card__title {
   color: var(--home-ink);
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   line-height: 1.46;
-  letter-spacing: -0.018em;
+  letter-spacing: 0;
   transition: color var(--public-detail-related-motion-duration)
     var(--public-detail-related-motion-ease);
 }
@@ -228,7 +228,7 @@ const summaryLabel = computed(() => props.summary.trim())
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 22px;
+  height: 20px;
   padding: 0 8px;
   border: 1px solid color-mix(in srgb, var(--home-feature-tag-soft-border) 80%, transparent);
   border-radius: 999px;
@@ -236,7 +236,7 @@ const summaryLabel = computed(() => props.summary.trim())
   color: color-mix(in srgb, var(--home-feature-tag-soft-ink) 92%, transparent);
   font-size: 12px;
   font-weight: 700;
-  line-height: 22px;
+  line-height: 20px;
   white-space: nowrap;
 }
 

@@ -1,4 +1,4 @@
-:root[data-viewport-tier='mobile'] {
+﻿:root[data-portal-viewport='mobile'] {
   --portal-frame-width: 100%;
   --portal-stage-padding-inline: 12px;
   --portal-stage-padding-top: 12px;
@@ -18,18 +18,10 @@
   --home-article-list-col: minmax(0, 1fr);
   --home-bottom-side-col: minmax(0, 1fr);
   --home-bottom-main-col: minmax(0, 1fr);
-  --home-secondary-grid-columns: 1;
   --home-hero-feature-cover-width: 100%;
   --home-card-padding-xs: 14px;
 
   --portal-module-gap: 12px;
-  --portal-article-module-grid-columns: 1;
-  --portal-book-module-grid-columns: 1;
-  --portal-topic-module-list-columns: 1;
-  --portal-topic-module-media-width: 100%;
-  --portal-topic-module-media-height: 160px;
-  --portal-gallery-module-column-count: 2;
-  --portal-gallery-module-column-gap: 12px;
 
   --portal-detail-stage-gap: 14px;
   --portal-detail-stage-max-width: 100%;
@@ -72,18 +64,18 @@
   --workspace-history-aside-justify-items: start;
 }
 
-html[data-viewport-tier='mobile'],
-html[data-viewport-tier='mobile'] body,
-html[data-viewport-tier='mobile'] #app {
+html[data-portal-viewport='mobile'],
+html[data-portal-viewport='mobile'] body,
+html[data-portal-viewport='mobile'] #app {
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
   overflow-x: clip;
 }
 
-html[data-viewport-tier='mobile'] .portal-app,
-html[data-viewport-tier='mobile'] .portal-app .portal-app__frame,
-html[data-viewport-tier='mobile'] .portal-app .portal-app__content {
+html[data-portal-viewport='mobile'] .portal-app,
+html[data-portal-viewport='mobile'] .portal-app .portal-app__frame,
+html[data-portal-viewport='mobile'] .portal-app .portal-app__content {
   width: 100%;
   max-width: 100%;
   min-width: 0;
@@ -92,13 +84,13 @@ html[data-viewport-tier='mobile'] .portal-app .portal-app__content {
   box-sizing: border-box;
 }
 
-html[data-viewport-tier='mobile'] .portal-app .portal-app__frame {
+html[data-portal-viewport='mobile'] .portal-app .portal-app__frame {
   margin-inline: 0;
   padding-top: 18px;
   padding-bottom: var(--portal-stage-padding-bottom);
 }
 
-html[data-viewport-tier='mobile']
+html[data-portal-viewport='mobile']
   .portal-app
   :is(
     .portal-home-page,
@@ -131,6 +123,6 @@ html[data-viewport-tier='mobile']
   min-width: 0;
 }
 
-html[data-viewport-tier='mobile'] .portal-app :is(img, canvas, video, iframe) {
+html[data-portal-viewport='mobile'] .portal-app :is(img, canvas, video, iframe) {
   max-width: 100%;
 }

@@ -1,25 +1,25 @@
-:root[data-viewport-tier='mobile'] .portal-home-page {
+﻿:root[data-portal-viewport='mobile'] .portal-home-page {
   width: 100%;
   gap: var(--home-section-gap-y);
   padding-bottom: var(--portal-stage-padding-bottom);
 }
 
-:root[data-viewport-tier='mobile'] .portal-home-page__row,
-:root[data-viewport-tier='mobile'] .portal-home-page__row--center,
-:root[data-viewport-tier='mobile'] .portal-home-page__row--bottom,
-:root[data-viewport-tier='mobile'] .home-hero,
-:root[data-viewport-tier='mobile'] .home-article-section__layout {
+:root[data-portal-viewport='mobile'] .portal-home-page__row,
+:root[data-portal-viewport='mobile'] .portal-home-page__row--center,
+:root[data-portal-viewport='mobile'] .portal-home-page__row--bottom,
+:root[data-portal-viewport='mobile'] .home-hero,
+:root[data-portal-viewport='mobile'] .home-article-section__layout {
   grid-template-columns: minmax(0, 1fr);
 }
 
-:root[data-viewport-tier='mobile'] .home-hero__feature-card,
-:root[data-viewport-tier='mobile'] .home-book-card,
-:root[data-viewport-tier='mobile'] .home-article-section__feature-card,
-:root[data-viewport-tier='mobile'] .home-article-section__item {
+:root[data-portal-viewport='mobile'] .home-hero__feature-card,
+:root[data-portal-viewport='mobile'] .home-book-card,
+:root[data-portal-viewport='mobile'] .home-article-section__feature-card,
+:root[data-portal-viewport='mobile'] .home-article-section__item {
   grid-template-columns: minmax(0, 1fr);
 }
 
-:root[data-viewport-tier='mobile'] .home-hero__feature-main {
+:root[data-portal-viewport='mobile'] .home-hero__feature-main {
   grid-template-columns: minmax(0, 1fr);
   align-items: start;
   gap: 14px;
@@ -27,35 +27,35 @@
   padding: 14px;
 }
 
-:root[data-viewport-tier='mobile'] .home-hero__feature-main-stage {
+:root[data-portal-viewport='mobile'] .home-hero__feature-main-stage {
   min-height: 0;
 }
 
-:root[data-viewport-tier='mobile'] .home-hero__feature-cover,
-:root[data-viewport-tier='mobile'] .home-book-card__cover,
-:root[data-viewport-tier='mobile'] .home-article-section__item-cover {
+:root[data-portal-viewport='mobile'] .home-hero__feature-cover,
+:root[data-portal-viewport='mobile'] .home-book-card__cover,
+:root[data-portal-viewport='mobile'] .home-article-section__item-cover {
   width: 100%;
 }
 
-:root[data-viewport-tier='mobile'] .home-hero__cover {
+:root[data-portal-viewport='mobile'] .home-hero__cover {
   width: 100%;
   min-height: 184px;
   height: 184px;
   border-radius: 20px;
 }
 
-:root[data-viewport-tier='mobile'] .home-hero__cover-frame {
+:root[data-portal-viewport='mobile'] .home-hero__cover-frame {
   inset: 12px;
   border-radius: 16px;
 }
 
-:root[data-viewport-tier='mobile'] .home-hero__copy {
+:root[data-portal-viewport='mobile'] .home-hero__copy {
   align-content: start;
   min-height: 0;
   gap: 10px;
 }
 
-:root[data-viewport-tier='mobile'] .home-hero__copy h3 {
+:root[data-portal-viewport='mobile'] .home-hero__copy h3 {
   height: auto;
   font-size: 22px;
   line-height: 1.32;
@@ -64,32 +64,32 @@
   line-clamp: 3;
 }
 
-:root[data-viewport-tier='mobile'] .home-hero__copy p {
+:root[data-portal-viewport='mobile'] .home-hero__copy p {
   height: auto;
   font-size: 13px;
   line-height: 1.62;
 }
 
-:root[data-viewport-tier='mobile'] .home-hero__feature-nav--footer {
+:root[data-portal-viewport='mobile'] .home-hero__feature-nav--footer {
   justify-self: stretch;
   width: auto;
   margin-left: 0;
   padding: 0 14px 14px;
 }
 
-:root[data-viewport-tier='mobile'] .home-hero__quick-item {
+:root[data-portal-viewport='mobile'] .home-hero__quick-item {
   grid-template-columns: var(--home-hero-quick-icon-size) minmax(0, 1fr);
 }
 
-:root[data-viewport-tier='mobile'] .home-hero__quick-side {
+:root[data-portal-viewport='mobile'] .home-hero__quick-side {
   justify-content: flex-start;
 }
 
-:root[data-viewport-tier='mobile'] .home-hero__quick-meta {
+:root[data-portal-viewport='mobile'] .home-hero__quick-meta {
   justify-content: flex-start;
 }
 
-:root[data-viewport-tier='mobile'] .home-column-section__grid,
-:root[data-viewport-tier='mobile'] .home-gallery-section__grid {
-  grid-template-columns: repeat(var(--home-secondary-grid-columns), minmax(0, 1fr));
+:root[data-portal-viewport='mobile'] .home-column-section__grid,
+:root[data-portal-viewport='mobile'] .home-gallery-section__grid {
+  grid-template-columns: minmax(0, 1fr);
 }

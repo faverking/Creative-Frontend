@@ -1,39 +1,39 @@
-:root[data-viewport-tier='mobile'] .portal-toolbar {
+﻿:root[data-portal-viewport='mobile'] .portal-toolbar {
   min-height: 64px;
   max-width: 100%;
   overflow: hidden;
 }
 
-:root[data-viewport-tier='mobile'] .portal-toolbar-shell {
+:root[data-portal-viewport='mobile'] .portal-toolbar-shell {
   max-width: 100%;
   overflow-x: hidden;
   overflow-x: clip;
 }
 
-:root[data-viewport-tier='mobile'] .portal-toolbar__brand-panel {
+:root[data-portal-viewport='mobile'] .portal-toolbar__brand-panel {
   width: 116px;
   height: 64px;
   padding-left: 8px;
   overflow: hidden;
 }
 
-:root[data-viewport-tier='mobile'] .portal-toolbar__brand-panel::before,
-:root[data-viewport-tier='mobile'] .portal-toolbar__brand-panel::after {
+:root[data-portal-viewport='mobile'] .portal-toolbar__brand-panel::before,
+:root[data-portal-viewport='mobile'] .portal-toolbar__brand-panel::after {
   clip-path: none;
   border-radius: 0 0 18px;
 }
 
-:root[data-viewport-tier='mobile'] .portal-toolbar__brand {
+:root[data-portal-viewport='mobile'] .portal-toolbar__brand {
   width: 104px;
   height: 60px;
 }
 
-:root[data-viewport-tier='mobile'] .portal-toolbar__brand-art {
+:root[data-portal-viewport='mobile'] .portal-toolbar__brand-art {
   width: 142px;
   transform: translate(-14px, -50%);
 }
 
-:root[data-viewport-tier='mobile'] .portal-toolbar__nav-panel {
+:root[data-portal-viewport='mobile'] .portal-toolbar__nav-panel {
   min-height: 64px;
   height: auto;
   overflow: hidden;
@@ -41,7 +41,7 @@
   max-width: 100%;
 }
 
-:root[data-viewport-tier='mobile'] .portal-toolbar__nav {
+:root[data-portal-viewport='mobile'] .portal-toolbar__nav {
   align-items: center;
   min-height: 64px;
   height: auto;
@@ -51,102 +51,102 @@
   overflow: hidden;
 }
 
-:root[data-viewport-tier='mobile'] .portal-toolbar__main-nav {
+:root[data-portal-viewport='mobile'] .portal-toolbar__main-nav {
   overflow-x: auto;
   scrollbar-width: none;
 }
 
-:root[data-viewport-tier='mobile'] .portal-toolbar__main-nav::-webkit-scrollbar {
+:root[data-portal-viewport='mobile'] .portal-toolbar__main-nav::-webkit-scrollbar {
   display: none;
 }
 
-:root[data-viewport-tier='mobile'] .portal-toolbar__main-nav {
+:root[data-portal-viewport='mobile'] .portal-toolbar__main-nav {
   flex: 1 1 auto;
   min-width: 0;
 }
 
-:root[data-viewport-tier='mobile'] .portal-toolbar__utility-nav {
+:root[data-portal-viewport='mobile'] .portal-toolbar__utility-nav {
   flex: 0 0 auto;
   gap: 0;
   margin-left: 0;
 }
 
-:root[data-viewport-tier='mobile']
+:root[data-portal-viewport='mobile']
   .portal-toolbar__utility-nav
   .portal-toolbar__utility-group:not(:first-child) {
   display: none;
 }
 
-:root[data-viewport-tier='mobile']
+:root[data-portal-viewport='mobile']
   .portal-toolbar__utility-group
   + .portal-toolbar__utility-group::before {
   display: none;
 }
 
-:root[data-viewport-tier='mobile'] .portal-toolbar__primary-link {
+:root[data-portal-viewport='mobile'] .portal-toolbar__primary-link {
   min-height: 34px;
   padding-inline: 9px;
 }
 
-:root[data-viewport-tier='mobile'] .portal-toolbar__item {
+:root[data-portal-viewport='mobile'] .portal-toolbar__item {
   width: 42px;
   height: 42px;
   border-radius: 16px;
 }
 
-:root[data-viewport-tier='mobile'] .portal-toolbar__primary-text {
+:root[data-portal-viewport='mobile'] .portal-toolbar__primary-text {
   font-size: 12px;
 }
 
-:root[data-viewport-tier='mobile'] .portal-toolbar__label {
+:root[data-portal-viewport='mobile'] .portal-toolbar__label {
   display: none;
 }
 
-:root[data-viewport-tier='mobile'] .portal-request-boundary__state {
+:root[data-portal-viewport='mobile'] .portal-request-boundary__state {
   grid-template-columns: minmax(0, 1fr);
   justify-items: center;
   gap: 16px;
   text-align: center;
 }
 
-:root[data-viewport-tier='mobile'] .portal-request-boundary__copy {
+:root[data-portal-viewport='mobile'] .portal-request-boundary__copy {
   justify-items: center;
 }
 
-:root[data-viewport-tier='mobile'] .portal-request-boundary__actions {
+:root[data-portal-viewport='mobile'] .portal-request-boundary__actions {
   justify-content: center;
 }
 
-:root[data-viewport-tier='mobile'] .portal-module-filter-panel {
+:root[data-portal-viewport='mobile'] .portal-module-filter-panel {
   position: static;
   padding: 14px;
   border-radius: 18px;
 }
 
-:root[data-viewport-tier='mobile'] .portal-module-filter-panel__categories,
-:root[data-viewport-tier='mobile'] .portal-module-filter-panel__toolbar,
-:root[data-viewport-tier='mobile'] .portal-module-filter-panel__search-row {
+:root[data-portal-viewport='mobile'] .portal-module-filter-panel__categories,
+:root[data-portal-viewport='mobile'] .portal-module-filter-panel__toolbar,
+:root[data-portal-viewport='mobile'] .portal-module-filter-panel__search-row {
   grid-template-columns: minmax(0, 1fr);
 }
 
-:root[data-viewport-tier='mobile'] .portal-module-filter-panel__categories,
-:root[data-viewport-tier='mobile'] .portal-module-filter-panel__sorts,
-:root[data-viewport-tier='mobile'] .portal-module-filter-panel__actions {
+:root[data-portal-viewport='mobile'] .portal-module-filter-panel__categories,
+:root[data-portal-viewport='mobile'] .portal-module-filter-panel__sorts,
+:root[data-portal-viewport='mobile'] .portal-module-filter-panel__actions {
   width: 100%;
   overflow-x: auto;
 }
 
-:root[data-viewport-tier='mobile'] .portal-module-filter-panel__category,
-:root[data-viewport-tier='mobile'] .portal-module-filter-panel__sort,
-:root[data-viewport-tier='mobile'] .portal-module-filter-panel__button {
+:root[data-portal-viewport='mobile'] .portal-module-filter-panel__category,
+:root[data-portal-viewport='mobile'] .portal-module-filter-panel__sort,
+:root[data-portal-viewport='mobile'] .portal-module-filter-panel__button {
   flex: 0 0 auto;
 }
 
-:root[data-viewport-tier='mobile'] .portal-module-filter-panel__button {
+:root[data-portal-viewport='mobile'] .portal-module-filter-panel__button {
   min-height: 36px;
 }
 
-:root[data-viewport-tier='mobile'] .portal-module-pagination :where(.el-pagination) {
+:root[data-portal-viewport='mobile'] .portal-module-pagination :where(.el-pagination) {
   justify-content: center;
   flex-wrap: wrap;
   gap: 8px;

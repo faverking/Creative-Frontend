@@ -207,7 +207,7 @@ function resolveTopicLabel(item: HomeColumnSectionResponse['items'][number]) {
 
 .home-column-section__grid {
   display: grid;
-  grid-template-columns: repeat(var(--home-secondary-grid-columns), minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--home-card-gap-loose);
   min-height: 100%;
   height: 100%;
@@ -342,7 +342,7 @@ function resolveTopicLabel(item: HomeColumnSectionResponse['items'][number]) {
   height: var(--home-block-title-md-2);
   overflow: hidden;
   font-size: var(--home-font-size-title-md);
-  font-weight: 800;
+  font-weight: 700;
   line-height: var(--home-line-size-title-md);
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -368,7 +368,7 @@ function resolveTopicLabel(item: HomeColumnSectionResponse['items'][number]) {
   display: flex;
   align-items: center;
   gap: 6px;
-  min-height: 22px;
+  min-height: 20px;
   min-width: 0;
   padding-top: 10px;
 }
@@ -390,7 +390,7 @@ function resolveTopicLabel(item: HomeColumnSectionResponse['items'][number]) {
   color: var(--home-muted);
   font-size: 12px;
   font-weight: 700;
-  line-height: 22px;
+  line-height: 20px;
   letter-spacing: 0.02em;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -418,7 +418,7 @@ function resolveTopicLabel(item: HomeColumnSectionResponse['items'][number]) {
   margin-left: auto;
   color: var(--home-ink);
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   opacity: 0.9;
   text-align: right;
 }
@@ -480,12 +480,12 @@ function resolveTopicLabel(item: HomeColumnSectionResponse['items'][number]) {
 
 .home-column-section__skeleton-block--title {
   width: 90%;
-  height: var(--home-skeleton-title-18-height);
+  height: var(--home-skeleton-title-md-height);
 }
 
 .home-column-section__skeleton-block--title-short {
   width: 72%;
-  height: var(--home-skeleton-title-18-height);
+  height: var(--home-skeleton-title-md-height);
 }
 
 .home-column-section__skeleton-block--summary {
@@ -500,7 +500,7 @@ function resolveTopicLabel(item: HomeColumnSectionResponse['items'][number]) {
 
 .home-column-section__skeleton-pill {
   display: inline-flex;
-  height: 22px;
+  height: 20px;
   border-radius: 999px;
 }
 

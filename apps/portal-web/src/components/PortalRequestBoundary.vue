@@ -160,8 +160,8 @@ const resolvedTitle = computed(() => props.title.trim())
 .portal-request-boundary__state {
   display: grid;
   grid-template-columns:
-    minmax(108px, var(--portal-request-state-art-width, 148px))
-    minmax(0, var(--portal-request-state-copy-width, 28ch));
+    minmax(108px, var(--portal-request-state-art-width))
+    minmax(0, var(--portal-request-state-copy-width));
   align-items: center;
   justify-content: center;
   gap: 18px 24px;
@@ -177,7 +177,7 @@ const resolvedTitle = computed(() => props.title.trim())
 
 .portal-request-boundary__art {
   display: block;
-  width: min(100%, var(--portal-request-state-art-width, 148px));
+  width: min(100%, var(--portal-request-state-art-width));
   max-width: 100%;
   height: auto;
   filter: drop-shadow(0 16px 26px rgba(18, 41, 74, 0.12));

@@ -1,0 +1,15 @@
+html {
+  font-size: calc(100vw / 192);
+}
+
+@media (max-width: 1100px) {
+  html {
+    /* Uppercase PX keeps the mobile root size out of postcss-pxtorem conversion. */
+    font-size: 10PX;
+  }
+}
+
+html[data-portal-viewport='mobile'] {
+  /* Uppercase PX keeps the mobile root size out of postcss-pxtorem conversion. */
+  font-size: 10PX;
+}

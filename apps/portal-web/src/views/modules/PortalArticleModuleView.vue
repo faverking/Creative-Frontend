@@ -154,7 +154,7 @@
                     >
                       <portal-svg-icon
                         :name="metric.iconName"
-                        size="13px"
+                        size="1.3rem"
                         class="portal-article-module-page__metric-icon"
                       />
                       <span>{{ metric.value }}</span>
@@ -323,6 +323,9 @@ function handleCategoryChange(value?: string | number): void {
   --portal-article-module-copy-gap-local: var(--home-copy-gap-base);
   --portal-article-module-title-line-height-local: calc(17px * 1.38);
   --portal-article-module-summary-line-height-local: calc(13px * 1.68);
+  --portal-article-module-summary-height-local: calc(
+    var(--portal-article-module-summary-line-height-local) * 2
+  );
   --portal-article-module-footer-line-height-local: calc(12px * 1.35);
   width: min(var(--portal-browse-stage-max-width), 100%);
   margin: 0 auto;
@@ -372,7 +375,7 @@ function handleCategoryChange(value?: string | number): void {
 
 .portal-article-module-page__grid {
   display: grid;
-  grid-template-columns: repeat(var(--portal-article-module-grid-columns), minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--portal-module-gap);
 }
 
@@ -435,7 +438,7 @@ function handleCategoryChange(value?: string | number): void {
 
 .portal-article-module-page__copy {
   display: grid;
-  grid-template-rows: auto minmax(0, 1fr) auto;
+  grid-template-rows: auto var(--portal-article-module-summary-height-local) auto;
   gap: var(--portal-article-module-copy-gap-local);
   min-width: 0;
 }
@@ -514,9 +517,10 @@ function handleCategoryChange(value?: string | number): void {
   margin: 0;
   min-width: 0;
   color: var(--home-ink);
-  font-size: 17px;
-  line-height: 1.38;
-  letter-spacing: -0.02em;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: var(--portal-article-module-title-line-height-local);
+  letter-spacing: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -526,9 +530,10 @@ function handleCategoryChange(value?: string | number): void {
   margin: 0;
   color: color-mix(in srgb, var(--home-muted) 82%, transparent);
   font-size: 13px;
-  line-height: 1.68;
+  line-height: var(--portal-article-module-summary-line-height-local);
   display: -webkit-box;
-  min-height: calc(13px * 1.68 * 2);
+  height: var(--portal-article-module-summary-height-local);
+  min-height: var(--portal-article-module-summary-height-local);
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -568,7 +573,7 @@ function handleCategoryChange(value?: string | number): void {
   z-index: 2;
   display: inline-flex;
   align-items: center;
-  height: 24px;
+  height: var(--home-chip-height-sm);
   max-width: min(46%, 176px);
   padding: 0 11px 0 12px;
   border: 1px solid
@@ -583,7 +588,7 @@ function handleCategoryChange(value?: string | number): void {
   color: color-mix(in srgb, var(--portal-module-card-tag-accent) 82%, var(--home-ink) 18%);
   font-size: 12px;
   font-weight: 700;
-  line-height: 24px;
+  line-height: var(--home-chip-height-sm);
   letter-spacing: 0.02em;
   white-space: nowrap;
   overflow: hidden;
@@ -609,7 +614,7 @@ function handleCategoryChange(value?: string | number): void {
   align-items: center;
   justify-content: flex-end;
   width: 74px;
-  height: 24px;
+  height: var(--home-chip-height-sm);
   border-radius: 11px 15px 13px 11px;
 }
 
@@ -652,6 +657,10 @@ function handleCategoryChange(value?: string | number): void {
 
 .portal-article-module-page__skeleton-title {
   height: var(--portal-article-module-title-line-height-local);
+}
+
+.portal-article-module-page__skeleton-summary {
+  height: var(--portal-article-module-summary-height-local);
 }
 
 .portal-article-module-page__skeleton-line {
@@ -697,7 +706,7 @@ function handleCategoryChange(value?: string | number): void {
 
 .portal-article-module-page__skeleton-block--title {
   width: 72%;
-  height: var(--home-skeleton-title-18-height);
+  height: var(--home-skeleton-title-md-height);
 }
 
 .portal-article-module-page__skeleton-block--summary {

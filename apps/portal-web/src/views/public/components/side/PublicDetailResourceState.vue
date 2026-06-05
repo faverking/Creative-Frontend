@@ -96,6 +96,62 @@ const actionIconPath = computed(() => {
     var(--home-business-topic-accent) 72%,
     white 28%
   );
+  --public-detail-resource-label-border-local: color-mix(
+    in srgb,
+    var(--public-detail-resource-accent) 24%,
+    var(--home-detail-glass-border) 76%
+  );
+  --public-detail-resource-label-bg-local:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.01)),
+    color-mix(in srgb, var(--public-detail-resource-accent) 14%, var(--home-surface) 86%);
+  --public-detail-resource-label-ink-local: color-mix(
+    in srgb,
+    var(--public-detail-resource-accent) 72%,
+    var(--home-ink) 28%
+  );
+  --public-detail-resource-label-shadow-local: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  --public-detail-resource-control-border-local: color-mix(
+    in srgb,
+    var(--home-detail-button-border) 84%,
+    transparent
+  );
+  --public-detail-resource-control-bg-local: var(--home-detail-button-bg);
+  --public-detail-resource-meta-ink-local: color-mix(in srgb, var(--home-muted) 84%, transparent);
+  --public-detail-resource-action-border-local: color-mix(
+    in srgb,
+    var(--public-detail-resource-accent) 22%,
+    var(--home-detail-button-border) 78%
+  );
+  --public-detail-resource-action-bg-local:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.01)),
+    color-mix(in srgb, var(--public-detail-resource-accent) 10%, var(--home-surface) 90%);
+  --public-detail-resource-action-ink-local: color-mix(
+    in srgb,
+    var(--public-detail-resource-accent) 72%,
+    var(--home-ink) 28%
+  );
+  --public-detail-resource-action-shadow-local:
+    0 8px 16px rgba(18, 41, 74, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  --public-detail-resource-action-hover-border-local: color-mix(
+    in srgb,
+    var(--public-detail-resource-accent) 30%,
+    var(--home-detail-button-border) 70%
+  );
+  --public-detail-resource-action-hover-shadow-local:
+    0 10px 18px rgba(18, 41, 74, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  --public-detail-resource-locked-border-local: color-mix(
+    in srgb,
+    var(--home-feature-tag-amber-ink) 24%,
+    var(--home-detail-button-border) 76%
+  );
+  --public-detail-resource-locked-bg-local:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.01)),
+    color-mix(in srgb, var(--home-feature-tag-amber-bg) 24%, var(--home-surface) 76%);
+  --public-detail-resource-locked-ink-local: color-mix(
+    in srgb,
+    var(--home-feature-tag-amber-ink) 72%,
+    var(--home-ink) 28%
+  );
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -107,7 +163,7 @@ const actionIconPath = computed(() => {
   border-radius: 24px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.01)),
-    color-mix(in srgb, var(--home-detail-glass-bg) 68%, var(--home-surface) 32%);
+    var(--home-detail-glass-bg);
   box-shadow:
     0 10px 18px rgba(18, 41, 74, 0.04),
     inset 0 1px 0 rgba(255, 255, 255, 0.12);
@@ -177,7 +233,7 @@ const actionIconPath = computed(() => {
 .public-detail-resource-state__meta-tag {
   display: inline-flex;
   align-items: center;
-  min-height: 24px;
+  min-height: 22px;
   padding: 0 10px;
   border-radius: 999px;
   font-size: 12px;
@@ -187,24 +243,24 @@ const actionIconPath = computed(() => {
 }
 
 .public-detail-resource-state__label-pill {
-  border: 1px solid color-mix(in srgb, var(--public-detail-resource-accent) 18%, transparent);
-  background: color-mix(in srgb, var(--public-detail-resource-accent) 12%, white 88%);
-  color: color-mix(in srgb, var(--public-detail-resource-accent) 82%, var(--home-ink) 18%);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--public-detail-resource-label-border-local);
+  background: var(--public-detail-resource-label-bg-local);
+  color: var(--public-detail-resource-label-ink-local);
+  box-shadow: var(--public-detail-resource-label-shadow-local);
 }
 
 .public-detail-resource-state__meta-tag {
-  border: 1px solid color-mix(in srgb, var(--home-detail-button-border) 84%, transparent);
-  background: color-mix(in srgb, var(--home-detail-button-bg) 90%, white 10%);
-  color: color-mix(in srgb, var(--home-muted) 84%, transparent);
+  border: 1px solid var(--public-detail-resource-control-border-local);
+  background: var(--public-detail-resource-control-bg-local);
+  color: var(--public-detail-resource-meta-ink-local);
 }
 
 .public-detail-resource-state__title {
   color: color-mix(in srgb, var(--home-ink) 92%, transparent);
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   line-height: 1.35;
-  letter-spacing: -0.018em;
+  letter-spacing: 0;
 }
 
 .public-detail-resource-state__detail {
@@ -230,13 +286,11 @@ const actionIconPath = computed(() => {
   width: 100%;
   min-height: 40px;
   padding: 0 16px;
-  border: 1px solid color-mix(in srgb, var(--public-detail-resource-accent) 18%, transparent);
+  border: 1px solid var(--public-detail-resource-action-border-local);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--public-detail-resource-accent) 10%, white 90%);
-  color: color-mix(in srgb, var(--public-detail-resource-accent) 82%, var(--home-ink) 18%);
-  box-shadow:
-    0 8px 16px rgba(18, 41, 74, 0.05),
-    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  background: var(--public-detail-resource-action-bg-local);
+  color: var(--public-detail-resource-action-ink-local);
+  box-shadow: var(--public-detail-resource-action-shadow-local);
   font: inherit;
   font-size: 12px;
   font-weight: 700;
@@ -252,10 +306,8 @@ const actionIconPath = computed(() => {
 
 .public-detail-resource-state__action:hover {
   transform: translateY(-1px);
-  border-color: color-mix(in srgb, var(--public-detail-resource-accent) 26%, transparent);
-  box-shadow:
-    0 10px 18px rgba(18, 41, 74, 0.07),
-    inset 0 1px 0 rgba(255, 255, 255, 0.26);
+  border-color: var(--public-detail-resource-action-hover-border-local);
+  box-shadow: var(--public-detail-resource-action-hover-shadow-local);
 }
 
 .public-detail-resource-state__action:focus-visible {
@@ -271,9 +323,9 @@ const actionIconPath = computed(() => {
 
 .public-detail-resource-state--locked .public-detail-resource-state__meta-tag,
 .public-detail-resource-state--locked .public-detail-resource-state__action {
-  border-color: color-mix(in srgb, var(--home-feature-tag-amber-ink) 20%, transparent);
-  background: color-mix(in srgb, var(--home-feature-tag-amber-bg) 72%, white 28%);
-  color: color-mix(in srgb, var(--home-feature-tag-amber-ink) 88%, var(--home-ink) 12%);
+  border-color: var(--public-detail-resource-locked-border-local);
+  background: var(--public-detail-resource-locked-bg-local);
+  color: var(--public-detail-resource-locked-ink-local);
 }
 
 .public-detail-resource-state--empty {

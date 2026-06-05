@@ -573,7 +573,7 @@ function handleToolbarAction(key: string): void {
   display: inline-flex;
   align-items: center;
   justify-self: start;
-  min-height: 24px;
+  min-height: 22px;
   padding: 0 10px;
   max-width: 100%;
   border: 1px solid transparent;
@@ -694,8 +694,8 @@ function handleToolbarAction(key: string): void {
 :deep(.workspace-tag) {
   display: inline-flex;
   align-items: center;
-  min-height: 28px;
-  padding: 0 10px;
+  min-height: var(--home-chip-height-sm);
+  padding: 0 8px;
   border: 1px solid var(--workspace-chip-border);
   border-radius: 999px;
   background: var(--workspace-chip-bg);

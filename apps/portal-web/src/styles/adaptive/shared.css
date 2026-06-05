@@ -7,13 +7,6 @@
   --portal-home-stage-padding-inline: 0px;
 
   --portal-module-gap: 16px;
-  --portal-article-module-grid-columns: 2;
-  --portal-book-module-grid-columns: 2;
-  --portal-topic-module-list-columns: 1;
-  --portal-topic-module-media-width: 212px;
-  --portal-topic-module-media-height: 152px;
-  --portal-gallery-module-column-count: 5;
-  --portal-gallery-module-column-gap: 18px;
 
   --portal-detail-stage-gap: 18px;
   --portal-detail-stage-max-width: 1360px;

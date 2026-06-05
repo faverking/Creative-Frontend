@@ -56,6 +56,11 @@
   --workspace-action-column-min-height: 58px;
   --workspace-action-button-height: 32px;
   --workspace-action-button-padding-x: 12px;
+  --workspace-favorite-card-columns: 208px minmax(0, 1fr) var(--workspace-action-column-width);
+  --workspace-favorite-cover-width: 208px;
+  --workspace-history-group-columns: 112px minmax(0, 1fr);
+  --workspace-history-track-padding-left: 28px;
+  --workspace-history-card-columns: 116px minmax(0, 1fr) var(--workspace-action-column-width);
   --workspace-stage-top-space: var(--home-copy-gap-base);
   --workspace-meta-divider: color-mix(in srgb, var(--home-line) 78%, transparent);
   --workspace-meta-divider-gap: 10px;

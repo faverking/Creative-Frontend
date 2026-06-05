@@ -147,7 +147,7 @@
                           >
                             <portal-svg-icon
                               :name="metric.iconName"
-                              size="13px"
+                              size="1.3rem"
                               class="workspace-history-card__metric-icon"
                             />
                             <span>{{ metric.value }}</span>
@@ -493,9 +493,9 @@ async function clearHistory(): Promise<void> {
     var(--workspace-media-base-shadow)
   );
   --workspace-media-ring-current: var(--workspace-media-ring, var(--workspace-media-base-ring));
-  --workspace-history-date-size: 22px;
+  --workspace-history-date-size: 18px;
   --workspace-history-date-line-height: 1.1;
-  --workspace-history-title-size: 18px;
+  --workspace-history-title-size: 16px;
   --workspace-history-title-line-height: 1.34;
   --workspace-history-body-size: 13px;
   --workspace-history-body-line-height: 1.68;
@@ -581,7 +581,7 @@ async function clearHistory(): Promise<void> {
 
 .workspace-history-group {
   display: grid;
-  grid-template-columns: var(--workspace-history-group-columns, 112px minmax(0, 1fr));
+  grid-template-columns: var(--workspace-history-group-columns);
   gap: 18px;
 }
 
@@ -590,7 +590,7 @@ async function clearHistory(): Promise<void> {
   top: var(--portal-workspace-sidebar-top);
   align-self: start;
   display: grid;
-  gap: 4px;
+  gap: 6px;
 }
 
 .workspace-history-group__date,
@@ -601,9 +601,9 @@ async function clearHistory(): Promise<void> {
 .workspace-history-group__date {
   color: var(--portal-ink-strong);
   font-size: var(--workspace-history-date-size);
-  font-weight: 800;
+  font-weight: 700;
   line-height: var(--workspace-history-date-line-height);
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
 }
 
 .workspace-history-group__count {
@@ -615,7 +615,7 @@ async function clearHistory(): Promise<void> {
 
 .workspace-history-group__track {
   position: relative;
-  padding-left: var(--workspace-history-track-padding-left, 28px);
+  padding-left: var(--workspace-history-track-padding-left);
 }
 
 .workspace-history-group__track::before {
@@ -638,8 +638,7 @@ async function clearHistory(): Promise<void> {
   position: relative;
   display: grid;
   grid-template-columns: var(
-    --workspace-history-card-columns,
-    116px minmax(0, 1fr) var(--workspace-action-column-width)
+    --workspace-history-card-columns
   );
   align-items: start;
   gap: var(--home-card-gap-base);
@@ -654,11 +653,11 @@ async function clearHistory(): Promise<void> {
   content: '';
   position: absolute;
   display: var(--workspace-history-card-marker-display, block);
-  left: -27px;
-  top: 28px;
-  width: 12px;
-  height: 12px;
-  border: 3px solid var(--workspace-media-ring-current);
+  left: -25px;
+  top: 30px;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--workspace-media-ring-current);
   border-radius: 999px;
   background: var(--workspace-accent-current);
   box-shadow: 0 5px 12px
@@ -776,7 +775,7 @@ async function clearHistory(): Promise<void> {
   min-width: 0;
   color: var(--home-ink);
   font-size: var(--workspace-history-title-size);
-  font-weight: 800;
+  font-weight: 700;
   line-height: var(--workspace-history-title-line-height);
 }
 
@@ -977,7 +976,7 @@ async function clearHistory(): Promise<void> {
 }
 
 .workspace-history-skeleton__line--date {
-  width: 72px;
+  width: 64px;
   height: calc(var(--workspace-history-date-size) * var(--workspace-history-date-line-height));
 }
 
@@ -1026,7 +1025,7 @@ async function clearHistory(): Promise<void> {
 
 .workspace-history-skeleton__pill {
   width: 52px;
-  height: 24px;
+  height: 22px;
 }
 
 .workspace-history-skeleton__pill--metric {

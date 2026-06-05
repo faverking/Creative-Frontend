@@ -71,7 +71,7 @@
                     class="portal-gallery-detail-page__preview-expand"
                     @click="openLightbox()"
                   >
-                    <portal-svg-icon name="detail-preview" size="15px" />
+                    <portal-svg-icon name="detail-preview" size="1.5rem" />
                     <span>全屏查看</span>
                   </button>
 
@@ -735,7 +735,7 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
 
 .portal-gallery-detail-page__viewer {
   --portal-gallery-detail-section-gap: 22px;
-  --public-detail-comments-gap-before: 0px;
+  --public-detail-comments-gap-before: 0;
   --public-detail-comments-divider-gap: var(--home-detail-comments-divider-gap);
   --public-detail-panel-padding-override: var(--home-detail-main-panel-padding-top)
     var(--home-detail-main-panel-padding-inline) var(--home-detail-main-panel-padding-bottom);
@@ -778,7 +778,7 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
 
 .portal-gallery-detail-page__preview {
   position: relative;
-  height: clamp(380px, 44vw, 540px);
+  height: 540px;
   border: 2px solid var(--home-detail-preview-frame-border);
   border-radius: 24px;
   background:
@@ -889,7 +889,7 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
   background: var(--home-detail-button-bg);
   color: var(--home-ink);
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.03em;
   box-shadow: var(--home-detail-button-shadow);
   backdrop-filter: blur(calc(var(--home-panel-blur) * 0.66));
@@ -962,7 +962,7 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
   background: color-mix(in srgb, var(--home-detail-preview-label-bg) 86%, white 14%);
   color: var(--home-ink);
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.03em;
   font-variant-numeric: tabular-nums;
   box-shadow:

@@ -65,7 +65,7 @@
 }
 
 .public-detail-loading-state__hero-cover {
-  min-height: clamp(88px, 10vw, 116px);
+  min-height: 116px;
   aspect-ratio: 16 / 3.2;
   border: 1px solid color-mix(in srgb, var(--home-detail-card-border) 90%, transparent);
   border-radius: 24px;
@@ -103,11 +103,12 @@
 
 .public-detail-loading-state__pill--hero-tag {
   justify-self: end;
+  height: 20px;
 }
 
 .public-detail-loading-state__hero-metric {
   display: inline-flex;
-  height: 24px;
+  height: 20px;
   border: 1px solid var(--home-skeleton-border);
   border-radius: 999px;
   background: linear-gradient(
@@ -367,13 +368,13 @@
 }
 
 .public-detail-loading-state__pill--book-primary-tag {
-  height: 30px;
+  height: 26px;
   border-color: color-mix(in srgb, var(--home-business-bookshelf-tag-border) 88%, transparent);
   background: color-mix(in srgb, var(--home-business-bookshelf-tag-bg) 92%, transparent);
 }
 
 .public-detail-loading-state__pill--book-style-tag {
-  height: 30px;
+  height: 26px;
   border-color: color-mix(in srgb, var(--home-feature-tag-soft-border) 88%, transparent);
   background: color-mix(in srgb, var(--home-feature-tag-soft-bg) 96%, transparent);
 }
@@ -456,7 +457,7 @@
 
 .public-detail-loading-state__preview {
   position: relative;
-  height: clamp(380px, 44vw, 540px);
+  height: 540px;
   border: 2px solid var(--home-detail-preview-frame-border);
   border-radius: 24px;
   background: var(--home-gallery-tile-bg);
@@ -768,17 +769,17 @@
 }
 
 .public-detail-loading-state__pill {
-  height: 24px;
+  height: 22px;
   border-radius: 999px;
 }
 
 .public-detail-loading-state__pill--author-tag {
-  height: 28px;
+  height: 26px;
 }
 
 .public-detail-loading-state__pill--comment-summary {
   width: 84px;
-  height: 24px;
+  height: 22px;
 }
 
 .public-detail-loading-state__pill--comment-action {
@@ -792,7 +793,7 @@
 }
 
 .public-detail-loading-state__block--title {
-  height: var(--home-skeleton-title-22-height);
+  height: var(--home-skeleton-title-hero-height);
 }
 
 .public-detail-loading-state__block--summary,
@@ -807,7 +808,7 @@
 .public-detail-loading-state__block--side-title,
 .public-detail-loading-state__block--related-title,
 .public-detail-loading-state__block--author-name {
-  height: var(--home-skeleton-title-16-height);
+  height: var(--home-skeleton-title-sm-height);
 }
 
 .public-detail-loading-state__block--comment-author {
@@ -898,7 +899,7 @@
 
 .public-detail-loading-state__block--related-card-title {
   width: 88%;
-  height: var(--home-skeleton-title-16-height);
+  height: var(--home-skeleton-title-sm-height);
 }
 
 .public-detail-loading-state__block--related-summary {
@@ -926,7 +927,7 @@
 }
 
 .public-detail-loading-state__pill--resource-badge {
-  height: 24px;
+  height: 22px;
 }
 
 .public-detail-loading-state__pill--resource-action {
@@ -936,7 +937,7 @@
 
 .public-detail-loading-state__block--resource-title {
   width: 72%;
-  height: var(--home-skeleton-title-16-height);
+  height: var(--home-skeleton-title-sm-height);
 }
 
 .public-detail-loading-state__block--resource-detail {

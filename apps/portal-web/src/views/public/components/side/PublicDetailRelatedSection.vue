@@ -53,7 +53,7 @@ defineEmits<{
 }>()
 
 const sectionStyle = computed(() => ({
-  '--public-detail-related-section-gap': `${props.contentGap}px`
+  '--public-detail-related-section-gap': `${props.contentGap / 10}rem`
 }))
 </script>
 

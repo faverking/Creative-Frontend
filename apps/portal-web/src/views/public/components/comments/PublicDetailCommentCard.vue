@@ -285,8 +285,8 @@ function handleReplyDraftInput(event: Event): void {
     var(--home-detail-card-bg)
   );
   color: color-mix(in srgb, var(--public-detail-comment-card-accent) 82%, var(--home-ink));
-  font-size: 14px;
-  font-weight: 800;
+  font-size: 13px;
+  font-weight: 700;
   line-height: 1;
   overflow: hidden;
 }
@@ -314,7 +314,7 @@ function handleReplyDraftInput(event: Event): void {
 .public-detail-comment-card__author {
   color: var(--home-ink);
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.4;
 }
 
@@ -438,7 +438,7 @@ function handleReplyDraftInput(event: Event): void {
 .public-detail-comment-card__reply-meta strong {
   color: var(--home-ink);
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.4;
 }
 

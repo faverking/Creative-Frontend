@@ -37,7 +37,7 @@
         aria-label="查看上一张"
         @click="showPrevious"
       >
-        <portal-svg-icon name="big-prev" size="20px" />
+        <portal-svg-icon name="big-prev" size="2rem" />
       </button>
 
       <div
@@ -75,7 +75,7 @@
         aria-label="查看下一张"
         @click="showNext"
       >
-        <portal-svg-icon name="big-next" size="20px" />
+        <portal-svg-icon name="big-next" size="2rem" />
       </button>
 
       <div class="public-detail-gallery-lightbox__hint">
@@ -425,7 +425,7 @@ function handleKeydown(event: KeyboardEvent) {
 }
 
 .public-detail-gallery-lightbox__meta strong {
-  font-size: clamp(16px, 1.2vw, 18px);
+  font-size: 18px;
   font-weight: 700;
   line-height: 1.2;
 }

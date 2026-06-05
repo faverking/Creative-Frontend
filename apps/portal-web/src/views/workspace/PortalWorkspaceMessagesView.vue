@@ -613,9 +613,9 @@ async function handleMarkRead(notificationId: string): Promise<void> {
     var(--workspace-media-base-shadow)
   );
   --workspace-media-ring-current: var(--workspace-media-ring, var(--workspace-media-base-ring));
-  --workspace-message-actionline-size: 14px;
+  --workspace-message-actionline-size: 13px;
   --workspace-message-actionline-line-height: 1.65;
-  --workspace-message-title-size: 16px;
+  --workspace-message-title-size: 15px;
   --workspace-message-title-line-height: 1.34;
   --workspace-message-body-size: 13px;
   --workspace-message-body-line-height: 1.68;
@@ -662,8 +662,8 @@ async function handleMarkRead(notificationId: string): Promise<void> {
   border-radius: 16px;
   background: var(--workspace-media-bg-current);
   color: var(--portal-ink-strong);
-  font-size: 16px;
-  font-weight: 800;
+  font-size: 15px;
+  font-weight: 700;
   box-shadow: var(--workspace-media-shadow-current);
 }
 
@@ -719,7 +719,7 @@ async function handleMarkRead(notificationId: string): Promise<void> {
 }
 
 .workspace-message-card__actionline strong {
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .workspace-message-card__time {
@@ -786,7 +786,7 @@ async function handleMarkRead(notificationId: string): Promise<void> {
   min-width: 0;
   color: var(--home-ink);
   font-size: var(--workspace-message-title-size);
-  font-weight: 800;
+  font-weight: 700;
   line-height: var(--workspace-message-title-line-height);
 }
 
@@ -1038,7 +1038,7 @@ async function handleMarkRead(notificationId: string): Promise<void> {
 
 .workspace-message-skeleton__pill {
   width: 52px;
-  height: 24px;
+  height: 22px;
 }
 
 .workspace-message-skeleton__button {

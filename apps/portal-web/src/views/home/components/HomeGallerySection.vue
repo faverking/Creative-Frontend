@@ -182,7 +182,7 @@ function resolveGalleryBadge(item: HomeGalleryItemResponse): string {
 
 .home-gallery-section__grid {
   display: grid;
-  grid-template-columns: repeat(var(--home-secondary-grid-columns), minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--home-card-gap-loose);
   min-height: 100%;
   height: 100%;
@@ -402,7 +402,7 @@ function resolveGalleryBadge(item: HomeGalleryItemResponse): string {
 
 .home-gallery-section__skeleton-block--title {
   width: 86%;
-  height: var(--home-skeleton-title-18-height);
+  height: var(--home-skeleton-title-md-height);
 }
 
 .home-gallery-section__skeleton-block--meta {

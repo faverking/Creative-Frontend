@@ -63,7 +63,7 @@
                 :name="stat.iconName"
                 class="public-detail-hero__metric-icon"
                 aria-hidden="true"
-                size="18px"
+                size="1.8rem"
               />
               <strong class="public-detail-hero__metric-value">{{ stat.value }}</strong>
             </span>
@@ -244,7 +244,7 @@ const normalizedActions = computed(() =>
 .public-detail-hero__cover-frame {
   position: relative;
   width: 100%;
-  min-height: clamp(88px, 10vw, 116px);
+  min-height: 116px;
   aspect-ratio: 16 / 3.2;
   border: 1px solid color-mix(in srgb, var(--home-detail-card-border) 90%, transparent);
   border-radius: 24px;
@@ -289,9 +289,9 @@ const normalizedActions = computed(() =>
   margin: 0;
   overflow: hidden;
   color: var(--home-ink);
-  font-size: clamp(22px, 2vw, 28px);
+  font-size: 28px;
   line-height: 1.14;
-  letter-spacing: -0.034em;
+  letter-spacing: 0;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   line-clamp: 2;
@@ -379,7 +379,7 @@ const normalizedActions = computed(() =>
 .public-detail-hero__pill {
   display: inline-flex;
   align-items: center;
-  min-height: 22px;
+  min-height: 20px;
   padding: 0 11px;
   border: 1px solid var(--home-feature-tag-soft-border);
   border-radius: 999px;
@@ -437,10 +437,10 @@ const normalizedActions = computed(() =>
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  min-height: 22px;
+  min-height: 20px;
   color: color-mix(in srgb, var(--home-muted) 90%, transparent);
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1;
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
@@ -455,7 +455,7 @@ const normalizedActions = computed(() =>
 .public-detail-hero__metric-value {
   color: color-mix(in srgb, var(--home-ink) 96%, transparent);
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1;
 }
 

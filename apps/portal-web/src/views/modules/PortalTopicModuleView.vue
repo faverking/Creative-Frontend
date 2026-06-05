@@ -88,6 +88,14 @@
                   </span>
                   <span class="portal-topic-module-page__skeleton-divider" />
                   <span
+                    class="portal-topic-module-page__skeleton-line portal-topic-module-page__skeleton-line--author"
+                  >
+                    <span
+                      class="portal-topic-module-page__skeleton-block portal-topic-module-page__skeleton-block--author"
+                    />
+                  </span>
+                  <span class="portal-topic-module-page__skeleton-divider" />
+                  <span
                     class="portal-topic-module-page__skeleton-line portal-topic-module-page__skeleton-line--time"
                   >
                     <span
@@ -168,7 +176,7 @@
                     >
                       <portal-svg-icon
                         :name="metric.iconName"
-                        size="13px"
+                        size="1.3rem"
                         class="portal-topic-module-page__metric-icon"
                       />
                       <span>{{ metric.value }}</span>
@@ -345,10 +353,11 @@ function handleCategoryChange(value?: string | number): void {
 .portal-topic-module-page {
   --portal-topic-module-card-radius-local: 18px;
   --portal-topic-module-card-padding-local: var(--home-card-padding-xs);
-  --portal-topic-module-media-width-local: var(--portal-topic-module-media-width);
-  --portal-topic-module-media-height-local: var(--portal-topic-module-media-height);
   --portal-topic-module-title-line-height-local: calc(18px * 1.34);
   --portal-topic-module-summary-line-height-local: calc(13px * 1.68);
+  --portal-topic-module-summary-height-local: calc(
+    var(--portal-topic-module-summary-line-height-local) * 2
+  );
   --portal-topic-module-meta-line-height-local: calc(12px * 1.35);
   width: min(var(--portal-browse-stage-max-width), 100%);
   margin: 0 auto;
@@ -398,14 +407,14 @@ function handleCategoryChange(value?: string | number): void {
 
 .portal-topic-module-page__list {
   display: grid;
-  grid-template-columns: repeat(var(--portal-topic-module-list-columns), minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--portal-module-gap);
 }
 
 .portal-topic-module-page__card {
   position: relative;
   display: grid;
-  grid-template-columns: var(--portal-topic-module-media-width-local) minmax(0, 1fr);
+  grid-template-columns: 212px minmax(0, 1fr);
   gap: 12px;
   align-items: stretch;
   padding: var(--portal-topic-module-card-padding-local);
@@ -438,7 +447,7 @@ function handleCategoryChange(value?: string | number): void {
 
 .portal-topic-module-page__media {
   position: relative;
-  min-height: var(--portal-topic-module-media-height-local);
+  min-height: 152px;
   border: 1px solid var(--home-media-panel-border);
   border-radius: 16px;
   overflow: hidden;
@@ -461,7 +470,7 @@ function handleCategoryChange(value?: string | number): void {
 
 .portal-topic-module-page__copy {
   display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  grid-template-rows: auto auto var(--portal-topic-module-summary-height-local) auto;
   align-content: start;
   gap: 8px;
   min-width: 0;
@@ -579,9 +588,10 @@ function handleCategoryChange(value?: string | number): void {
   margin: 0;
   min-width: 0;
   color: var(--home-ink);
-  font-size: 18px;
-  line-height: 1.34;
-  letter-spacing: -0.03em;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: var(--portal-topic-module-title-line-height-local);
+  letter-spacing: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -591,9 +601,10 @@ function handleCategoryChange(value?: string | number): void {
   margin: 0;
   color: color-mix(in srgb, var(--home-muted) 82%, transparent);
   font-size: 13px;
-  line-height: 1.68;
+  line-height: var(--portal-topic-module-summary-line-height-local);
   display: -webkit-box;
-  min-height: calc(13px * 1.68 * 2);
+  height: var(--portal-topic-module-summary-height-local);
+  min-height: var(--portal-topic-module-summary-height-local);
   overflow: hidden;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -660,6 +671,7 @@ function handleCategoryChange(value?: string | number): void {
 }
 
 .portal-topic-module-page__media--skeleton,
+.portal-topic-module-page__theme-tag-skeleton,
 .portal-topic-module-page__skeleton-block,
 .portal-topic-module-page__skeleton-pill {
   position: relative;
@@ -700,6 +712,10 @@ function handleCategoryChange(value?: string | number): void {
   height: var(--portal-topic-module-title-line-height-local);
 }
 
+.portal-topic-module-page__skeleton-summary {
+  height: var(--portal-topic-module-summary-height-local);
+}
+
 .portal-topic-module-page__theme-tag-skeleton {
   flex: 0 0 auto;
   margin-left: auto;
@@ -733,6 +749,7 @@ function handleCategoryChange(value?: string | number): void {
   height: var(--portal-topic-module-meta-line-height-local);
 }
 
+.portal-topic-module-page__skeleton-line--author,
 .portal-topic-module-page__skeleton-line--time {
   height: var(--portal-topic-module-meta-line-height-local);
 }
@@ -744,7 +761,7 @@ function handleCategoryChange(value?: string | number): void {
 
 .portal-topic-module-page__skeleton-block--title {
   width: 82%;
-  height: var(--home-skeleton-title-18-height);
+  height: var(--home-skeleton-title-md-height);
 }
 
 .portal-topic-module-page__skeleton-block--summary {
@@ -764,6 +781,11 @@ function handleCategoryChange(value?: string | number): void {
 
 .portal-topic-module-page__skeleton-block--meta-feature {
   width: 74px;
+  height: var(--home-skeleton-copy-12-height);
+}
+
+.portal-topic-module-page__skeleton-block--author {
+  width: 56px;
   height: var(--home-skeleton-copy-12-height);
 }
 

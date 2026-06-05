@@ -1,64 +1,64 @@
-:root[data-viewport-tier='mobile'] .workspace-page {
+﻿:root[data-portal-viewport='mobile'] .workspace-page {
   width: 100%;
 }
 
-:root[data-viewport-tier='mobile'] .workspace-page__toolbar {
+:root[data-portal-viewport='mobile'] .workspace-page__toolbar {
   position: static;
 }
 
-:root[data-viewport-tier='mobile'] .workspace-page__toolbar-side,
-:root[data-viewport-tier='mobile'] .workspace-page__section-head,
-:root[data-viewport-tier='mobile'] .workspace-message-card,
-:root[data-viewport-tier='mobile'] .workspace-message-card__reference {
+:root[data-portal-viewport='mobile'] .workspace-page__toolbar-side,
+:root[data-portal-viewport='mobile'] .workspace-page__section-head,
+:root[data-portal-viewport='mobile'] .workspace-message-card,
+:root[data-portal-viewport='mobile'] .workspace-message-card__reference {
   grid-template-columns: minmax(0, 1fr);
 }
 
-:root[data-viewport-tier='mobile'] .workspace-page__tabs,
-:root[data-viewport-tier='mobile'] .workspace-page__section-pills,
-:root[data-viewport-tier='mobile'] .workspace-tag-row,
-:root[data-viewport-tier='mobile'] .workspace-favorite-card__meta,
-:root[data-viewport-tier='mobile'] .workspace-favorite-card__metrics,
-:root[data-viewport-tier='mobile'] .workspace-history-card__meta,
-:root[data-viewport-tier='mobile'] .workspace-history-card__metrics {
+:root[data-portal-viewport='mobile'] .workspace-page__tabs,
+:root[data-portal-viewport='mobile'] .workspace-page__section-pills,
+:root[data-portal-viewport='mobile'] .workspace-tag-row,
+:root[data-portal-viewport='mobile'] .workspace-favorite-card__meta,
+:root[data-portal-viewport='mobile'] .workspace-favorite-card__metrics,
+:root[data-portal-viewport='mobile'] .workspace-history-card__meta,
+:root[data-portal-viewport='mobile'] .workspace-history-card__metrics {
   overflow-x: auto;
   flex-wrap: nowrap;
 }
 
-:root[data-viewport-tier='mobile'] .workspace-favorite-card__footer,
-:root[data-viewport-tier='mobile'] .workspace-history-card__footer,
-:root[data-viewport-tier='mobile'] .workspace-message-card__top {
+:root[data-portal-viewport='mobile'] .workspace-favorite-card__footer,
+:root[data-portal-viewport='mobile'] .workspace-history-card__footer,
+:root[data-portal-viewport='mobile'] .workspace-message-card__top {
   align-items: flex-start;
   gap: 10px;
 }
 
-:root[data-viewport-tier='mobile'] .workspace-favorite-card__aside,
-:root[data-viewport-tier='mobile'] .workspace-history-card__aside {
+:root[data-portal-viewport='mobile'] .workspace-favorite-card__aside,
+:root[data-portal-viewport='mobile'] .workspace-history-card__aside {
   width: 100%;
 }
 
-:root[data-viewport-tier='mobile'] .workspace-action-button {
+:root[data-portal-viewport='mobile'] .workspace-action-button {
   width: 100%;
 }
 
-:root[data-viewport-tier='mobile'] .workspace-message-card__avatar-rail {
+:root[data-portal-viewport='mobile'] .workspace-message-card__avatar-rail {
   display: none;
 }
 
-:root[data-viewport-tier='mobile'] .workspace-message-card__actionline {
+:root[data-portal-viewport='mobile'] .workspace-message-card__actionline {
   white-space: normal;
 }
 
-:root[data-viewport-tier='mobile'] .workspace-message-card__context,
-:root[data-viewport-tier='mobile'] .workspace-message-card__reference {
+:root[data-portal-viewport='mobile'] .workspace-message-card__context,
+:root[data-portal-viewport='mobile'] .workspace-message-card__reference {
   padding-left: 0;
   border-left: 0;
 }
 
-:root[data-viewport-tier='mobile'] .workspace-forbidden {
+:root[data-portal-viewport='mobile'] .workspace-forbidden {
   width: min(100%, 360px);
   padding: 22px 18px;
 }
 
-:root[data-viewport-tier='mobile'] .workspace-forbidden__illustration {
+:root[data-portal-viewport='mobile'] .workspace-forbidden__illustration {
   width: min(100%, 220px);
 }

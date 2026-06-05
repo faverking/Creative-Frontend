@@ -164,17 +164,17 @@
 
 <script setup lang="ts">
 const titleLineWidths = ['52%', '78%'] as const
-const bookMetaLabelWidth = '26px'
-const bookStatusLabelWidth = '26px'
-const bookIntroLabelWidth = '28px'
+const bookMetaLabelWidth = '2.6rem'
+const bookStatusLabelWidth = '2.6rem'
+const bookIntroLabelWidth = '2.8rem'
 const bookAuthorWidth = '40%'
-const bookStatusLineWidth = '236px'
-const bookStatWidths = ['74px', '68px', '70px'] as const
-const bookPartTagWidths = ['64px'] as const
-const bookAreaTagWidths = ['68px'] as const
-const bookStyleTagWidths = ['62px', '58px'] as const
-const bookActionWidths = ['116px', '100px'] as const
-const bookChapterGroupWidths = ['92px', '102px', '96px'] as const
+const bookStatusLineWidth = '23.6rem'
+const bookStatWidths = ['7.4rem', '6.8rem', '7rem'] as const
+const bookPartTagWidths = ['6.4rem'] as const
+const bookAreaTagWidths = ['6.8rem'] as const
+const bookStyleTagWidths = ['6.2rem', '5.8rem'] as const
+const bookActionWidths = ['11.6rem', '10rem'] as const
+const bookChapterGroupWidths = ['9.2rem', '10.2rem', '9.6rem'] as const
 const bookIntroLineWidths = ['100%', '95%', '78%'] as const
 const bookChapterSkeletons = [
   '88%',

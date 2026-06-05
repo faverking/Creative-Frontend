@@ -649,7 +649,7 @@ async function handleLogout(): Promise<void> {
 }
 
 .portal-toolbar__item--tone-cta .portal-toolbar__label {
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .portal-toolbar__item--account-authenticated {

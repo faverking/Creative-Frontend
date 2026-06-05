@@ -39,13 +39,21 @@ const iconDefinition = computed(
   () => portalIconDefinitions[resolvedName.value as PortalIconName] ?? null
 )
 
+function resolveIconSize(size: number | string): string {
+  if (typeof size === 'number') {
+    return `${size / 10}rem`
+  }
+
+  return size
+}
+
 const iconStyle = computed(() => {
   if (props.size === undefined) {
     return undefined
   }
 
   return {
-    '--portal-icon-size': typeof props.size === 'number' ? `${props.size}px` : props.size
+    '--portal-icon-size': resolveIconSize(props.size)
   }
 })
 </script>

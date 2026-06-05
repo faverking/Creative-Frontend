@@ -9,17 +9,11 @@ html.dark {
   --portal-danger: #ff8a93;
   --portal-border: rgba(182, 224, 255, 0.14);
   --portal-border-strong: rgba(182, 224, 255, 0.24);
-  --portal-panel-bg:
-    linear-gradient(160deg, rgba(15, 31, 57, 0.82), rgba(11, 22, 43, 0.76)),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 100%);
-  --portal-panel-subtle-bg: linear-gradient(180deg, rgba(20, 39, 72, 0.78), rgba(12, 25, 49, 0.82));
-  --portal-card-bg: linear-gradient(180deg, rgba(18, 37, 69, 0.84), rgba(13, 27, 50, 0.8));
   --portal-button-secondary-bg: linear-gradient(
     135deg,
     rgba(20, 39, 72, 0.72),
     rgba(12, 25, 49, 0.84)
   );
-  --portal-button-ghost-bg: rgba(164, 216, 255, 0.08);
   --portal-button-primary-bg: linear-gradient(135deg, #79e1ff 0%, #6ccbff 42%, #7a84f6 100%);
   --portal-button-primary-ink: #082038;
   --portal-button-primary-shadow:
@@ -45,10 +39,7 @@ html.dark {
   --portal-overlay:
     radial-gradient(circle at 18% 8%, rgba(121, 225, 255, 0.16), transparent 24%),
     linear-gradient(180deg, rgba(3, 9, 20, 0.64), rgba(5, 12, 24, 0.8));
-  --portal-shadow: 0 18px 36px rgba(0, 0, 0, 0.3);
-  --portal-shadow-soft: 0 12px 28px rgba(0, 0, 0, 0.24);
   --portal-dialog-shadow: 0 28px 72px rgba(0, 0, 0, 0.42);
-  --portal-chip: rgba(164, 216, 255, 0.08);
   --portal-focus-ring: rgba(121, 225, 255, 0.16);
   --portal-scrollbar-track-solid: rgba(16, 33, 58, 0.86);
   --portal-scrollbar-track-bg: linear-gradient(

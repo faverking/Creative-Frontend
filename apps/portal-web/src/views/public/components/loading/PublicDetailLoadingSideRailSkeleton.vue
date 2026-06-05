@@ -161,9 +161,9 @@ const props = defineProps<{
 const isTopic = computed(() => props.variant === 'topic')
 const showAuthorCard = computed(() => props.variant !== 'book')
 
-const authorMetaWidths = ['74px', '86px'] as const
+const authorMetaWidths = ['7.4rem', '8.6rem'] as const
 const authorLineWidths = ['78%', '92%'] as const
-const resourceBadgeWidths = ['92px', '76px'] as const
+const resourceBadgeWidths = ['9.2rem', '7.6rem'] as const
 const resourceDetailWidth = '82%'
 
 const relatedCardSkeletons = computed(() =>

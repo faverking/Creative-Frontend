@@ -78,14 +78,11 @@
 
 命中：任何 `apps/portal-web` 改动。
 
-- 显式 `font-size` 不得低于 `12px`。
+- 显式字号按 1920 设计稿语义书写，源码 `font-size` 不得低于 `12px` 或等价 `1.2rem`。
 - 默认桌面优先，不主动新增手机适配。
-- 分辨率档位只维护：
-  - `mobile`：`1100` 及以下，独立窄屏适配层，可整体移除
-  - `compact`：`1101 - 1599`
-  - `standard`：`1600 - 2239`，以 `1920` 为主设计锚点
-  - `wide`：`2240+`
-- 不在页面 SFC 中重复声明主档位断点；布局档位变量由 adaptive 层驱动。
+- 桌面端只维护 `1920px` 一个设计锚点，通过 rem 等比缩放：`1920px` 下 `1rem = 10px`，其他桌面宽度由根字号按 `100vw / 192` 缩放。
+- 移动端只维护 `1100px` 及以下独立窄屏层，通过 `data-portal-viewport="mobile"` 命中，可整体移除。
+- 不再维护多套桌面分辨率档位，不在页面 SFC 中重复声明主断点。
 
 ## 7. portal-web 公开内容域
 
@@ -193,6 +190,7 @@
 - `apps/portal-web/src/styles/tokens/*.css`
 - `apps/portal-web/src/styles/tokens-dark/*.css`
 - `apps/portal-web/src/styles/adaptive/*.css`
+- `apps/portal-web/vite.config.ts`
 
 规则：
 
@@ -201,8 +199,11 @@
 - 深色 token 按同名镜像维护，浅色与深色保持同一语义、同一命名、同一层级归属。
 - 全局 token 只保留稳定业务语义；纯尺寸、局部布局、单组件实现细节默认留在组件内部。
 - 不为复用局部尺寸创建全局 token；确有跨页面 / 跨组件复用，或需要供 teleport 到全局层消费时，才提升为全局 token。
-- 分辨率档位变量放在 `styles/adaptive/*`；`mobile` 覆盖由 `adaptive/mobile.css` 聚合，子规则放在 `adaptive/mobile/*`，保持独立可移除。
-- 首页与公开模块在同档位下优先共用 browse stage 基线；确有差异时，只在列数、卡片密度或局部 media 比例层分化。
+- 桌面 adaptive 只保留 `rem-root.css`、`shared.css`、`desktop.css` 三层：根字号、共享基线、桌面布局变量。
+- `mobile` 覆盖由 `adaptive/mobile.css` 聚合，子规则放在 `adaptive/mobile/*`，保持独立可移除。
+- `px -> rem` 由 portal-web 构建期 PostCSS 插件处理；源码按 1920 设计稿语义书写，内联 style / JS 字符串尺寸需手动写成 rem 或走局部转换函数。
+- `portal-web` 的 app 源码与 Element Plus 样式都进入 `px -> rem`；其它 `node_modules` 样式默认排除，避免无关第三方 CSS 被缩放。
+- 首页与公开模块优先共用 browse stage 基线；确有差异时，只在列数、卡片密度或局部 media 比例层分化。
 - 不新增大总表 token 文件、`misc.css`、无语义中转别名或过度泛化的 `shared/family/misc` 分组。
 
 ### 8.2 业务主题色
@@ -253,5 +254,6 @@ pnpm --filter portal-web lint
 - 调整 app / package 职责边界或共享包分层。
 - 修改公开内容请求、错误态、筛选、查询或详情状态模式。
 - 调整 portal-web token 分层、adaptive 档位或业务主题色映射。
+- 调整 portal-web rem 缩放、移动端边界或 px-to-rem 构建规则。
 - 重新定义骨架屏与真实布局的对应关系。
 - 调整 lint / format / test / build / deploy 的共享工程规则。

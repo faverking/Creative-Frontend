@@ -319,7 +319,7 @@ const cardAriaLabel = computed(
   color: var(--home-ink);
   font-size: 14px;
   line-height: 1.38;
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;

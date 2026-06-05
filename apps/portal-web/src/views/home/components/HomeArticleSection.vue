@@ -439,7 +439,7 @@ function resolveCoverUrl(cover: HomeArticleFeaturedResponse['cover']) {
   border: 1px solid transparent;
   border-radius: 999px;
   font-size: 12px;
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1;
 }
 
@@ -659,12 +659,12 @@ function resolveCoverUrl(cover: HomeArticleFeaturedResponse['cover']) {
 
 .home-article-section__skeleton-block--title {
   width: 92%;
-  height: var(--home-skeleton-title-20-height);
+  height: var(--home-skeleton-title-lg-height);
 }
 
 .home-article-section__skeleton-block--title-short {
   width: 76%;
-  height: var(--home-skeleton-title-20-height);
+  height: var(--home-skeleton-title-lg-height);
 }
 
 .home-article-section__skeleton-block--summary {
@@ -679,7 +679,7 @@ function resolveCoverUrl(cover: HomeArticleFeaturedResponse['cover']) {
 
 .home-article-section__skeleton-block--item-title {
   width: 82%;
-  height: var(--home-skeleton-title-16-height);
+  height: var(--home-skeleton-title-sm-height);
 }
 
 .home-article-section__skeleton-block--item-summary {

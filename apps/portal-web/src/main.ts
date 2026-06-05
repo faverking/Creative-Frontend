@@ -21,7 +21,7 @@ import { createTrackingPlugin } from '@frontend/tracking-sdk'
 import FrontendUi from '@frontend/ui'
 
 import App from './App.vue'
-import { setupPortalViewportTierSync } from './utils/viewport-tier'
+import { setupPortalViewportModeSync } from './utils/viewport-mode'
 import { getHttpClient, setupHttpClient } from './api'
 import { setupAuthRuntime } from './auth/runtime'
 import { PORTAL_PUBLIC_PERMISSIONS } from './permission'
@@ -29,7 +29,7 @@ import PortalComponentsPlugin from './components'
 import router from './router'
 
 async function bootstrap(): Promise<void> {
-  setupPortalViewportTierSync()
+  setupPortalViewportModeSync()
 
   const app = createApp(App)
   const pinia = createPinia()

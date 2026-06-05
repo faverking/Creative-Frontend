@@ -319,7 +319,7 @@ const readerSkeletonParagraphWidths = [
   '97%',
   '84%'
 ]
-const readerSkeletonComicPageHeights = ['560px', '620px', '520px']
+const readerSkeletonComicPageHeights = ['56rem', '62rem', '52rem']
 const bookId = computed(() => (typeof route.params.id === 'string' ? route.params.id.trim() : ''))
 const chapterId = computed(() =>
   typeof route.params.chapterId === 'string' ? route.params.chapterId.trim() : ''
@@ -367,7 +367,7 @@ const readingProgressLabel = computed(() => {
 const isComicReader = computed(() => readerData.value?.source.mode === 'comic')
 const isReaderSkeletonComic = computed(() => pendingReaderMode.value === 'comic')
 const readerStyle = computed(() =>
-  isComicReader.value ? {} : { '--portal-book-reader-font-size': `${readerFontSize.value}px` }
+  isComicReader.value ? {} : { '--portal-book-reader-font-size': `${readerFontSize.value / 10}rem` }
 )
 const readerFontSizeLabel = computed(() => `${readerFontSize.value}px`)
 const canDecreaseFont = computed(() => readerFontSize.value > READER_FONT_SIZE_MIN)
@@ -609,6 +609,7 @@ function updateReadingProgress(): void {
 <style scoped>
 .portal-book-reader-page {
   --portal-book-reader-accent: var(--home-business-bookshelf-accent);
+  --portal-book-reader-font-size: 22px;
   --portal-book-reader-tool-bg: color-mix(in srgb, var(--home-detail-panel-bg) 86%, transparent);
   --portal-book-reader-border: color-mix(
     in srgb,
@@ -816,7 +817,7 @@ function updateReadingProgress(): void {
 
 .portal-book-reader-page__paper {
   display: grid;
-  gap: calc(var(--portal-book-reader-font-size, 22px) * 0.98);
+  gap: calc(var(--portal-book-reader-font-size) * 0.98);
   width: 100%;
   min-height: 560px;
   padding: 40px var(--portal-book-reader-paper-padding-inline) 50px;
@@ -868,7 +869,7 @@ function updateReadingProgress(): void {
 }
 
 .portal-book-reader-page__paper p {
-  font-size: var(--portal-book-reader-font-size, 22px);
+  font-size: var(--portal-book-reader-font-size);
   line-height: 1.96;
   overflow-wrap: anywhere;
   text-align: justify;
@@ -1063,7 +1064,7 @@ function updateReadingProgress(): void {
 
 .portal-book-reader-page__progress-panel strong {
   color: color-mix(in srgb, var(--portal-book-reader-accent) 72%, var(--home-ink));
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .portal-book-reader-page__nav-action {
@@ -1168,7 +1169,7 @@ function updateReadingProgress(): void {
   display: grid;
   justify-self: center;
   justify-items: center;
-  gap: calc(var(--portal-book-reader-font-size, 22px) * 0.76);
+  gap: calc(var(--portal-book-reader-font-size) * 0.76);
   width: min(100%, 760px);
   padding-inline: 2em;
 }

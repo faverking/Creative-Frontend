@@ -557,8 +557,8 @@ async function handleExpandReplies(commentId: string): Promise<void> {
 .public-detail-comments-section {
   --public-detail-comments-accent: var(--home-business-article-accent);
   width: 100%;
-  margin-top: var(--public-detail-comments-gap-before, 0px);
-  padding-top: var(--public-detail-comments-divider-gap, 18px);
+  margin-top: var(--public-detail-comments-gap-before, 0);
+  padding-top: var(--public-detail-comments-divider-gap, var(--home-detail-comments-divider-gap));
   border-top: 1px solid var(--home-line);
 }
 
@@ -721,7 +721,7 @@ async function handleExpandReplies(commentId: string): Promise<void> {
 
 .public-detail-comments-section__skeleton-pill--heading {
   width: 118px;
-  height: var(--home-skeleton-title-16-height);
+  height: var(--home-skeleton-title-sm-height);
 }
 
 .public-detail-comments-section__skeleton-pill--summary {

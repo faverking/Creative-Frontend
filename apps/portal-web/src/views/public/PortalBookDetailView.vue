@@ -137,7 +137,7 @@
                     :aria-label="`${stat.label} ${stat.value}`"
                     :title="`${stat.label} ${stat.value}`"
                   >
-                    <portal-svg-icon :name="stat.iconName" size="16px" aria-hidden="true" />
+                    <portal-svg-icon :name="stat.iconName" size="1.6rem" aria-hidden="true" />
                     <strong>{{ stat.value }}</strong>
                   </span>
                 </div>
@@ -663,7 +663,7 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
 .portal-book-detail-page__body-panel {
   --portal-book-detail-shell-width: 936px;
   --portal-book-detail-section-gap: 24px;
-  --public-detail-comments-gap-before: 0px;
+  --public-detail-comments-gap-before: 0;
   --public-detail-comments-divider-gap: var(--home-detail-comments-divider-gap);
   --public-detail-panel-padding-override: var(--home-detail-main-panel-padding-top)
     var(--home-detail-main-panel-padding-inline) var(--home-detail-main-panel-padding-bottom);
@@ -785,15 +785,15 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
   align-items: center;
   justify-content: center;
   width: fit-content;
-  height: 28px;
+  height: 26px;
   padding: 0 12px;
   border: 1px solid color-mix(in srgb, var(--home-bookshelf-cover-mark-border) 88%, transparent);
   border-radius: 999px;
   background: color-mix(in srgb, var(--home-bookshelf-cover-mark-bg) 88%, transparent);
   color: var(--home-detail-glass-ink);
   font-size: 12px;
-  font-weight: 800;
-  line-height: 28px;
+  font-weight: 700;
+  line-height: 26px;
   letter-spacing: 0.08em;
 }
 
@@ -815,9 +815,9 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
 .portal-book-detail-page__showcase-title {
   margin: 0;
   color: var(--home-ink);
-  font-size: clamp(22px, 2vw, 28px);
+  font-size: 28px;
   line-height: 1.14;
-  letter-spacing: -0.03em;
+  letter-spacing: 0;
 }
 
 .portal-book-detail-page__showcase-author {
