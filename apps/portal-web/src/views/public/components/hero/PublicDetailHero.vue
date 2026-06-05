@@ -247,7 +247,7 @@ const normalizedActions = computed(() =>
   min-height: 116px;
   aspect-ratio: 16 / 3.2;
   border: 1px solid color-mix(in srgb, var(--home-detail-card-border) 90%, transparent);
-  border-radius: 24px;
+  border-radius: var(--home-detail-card-radius);
   background:
     linear-gradient(
       180deg,
@@ -255,7 +255,7 @@ const normalizedActions = computed(() =>
       rgba(255, 255, 255, 0) 42%
     ),
     var(--home-detail-card-bg);
-  box-shadow: var(--home-card-shadow);
+  box-shadow: var(--home-detail-card-shadow);
   overflow: hidden;
 }
 

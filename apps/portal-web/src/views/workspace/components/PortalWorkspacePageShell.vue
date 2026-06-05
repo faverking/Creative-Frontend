@@ -155,18 +155,16 @@ function handleToolbarAction(key: string): void {
   --workspace-surface-bg:
     linear-gradient(
       118deg,
-      color-mix(in srgb, var(--workspace-accent) 10%, transparent) 0%,
-      transparent 72%
+      color-mix(in srgb, var(--workspace-accent) 3%, transparent) 0%,
+      transparent 76%
     ),
     var(--workspace-surface-base-bg);
   --workspace-surface-border: color-mix(
     in srgb,
-    var(--workspace-accent) 10%,
-    var(--workspace-surface-base-border) 90%
+    var(--workspace-accent) 4%,
+    var(--workspace-surface-base-border) 96%
   );
-  --workspace-surface-shadow:
-    0 4px 8px color-mix(in srgb, var(--workspace-accent) 3%, rgba(18, 41, 74, 0.05)),
-    var(--workspace-surface-base-shadow);
+  --workspace-surface-shadow: var(--workspace-surface-base-shadow);
   --workspace-card-bg:
     linear-gradient(
       180deg,
@@ -248,8 +246,8 @@ function handleToolbarAction(key: string): void {
     color-mix(in srgb, var(--workspace-tag-bg) 90%, var(--workspace-chip-base-surface));
   --workspace-chip-active-border: color-mix(in srgb, var(--workspace-tag-border) 74%, transparent);
   --workspace-chip-active-ink: var(--portal-ink-strong);
-  --workspace-tab-line: color-mix(in srgb, var(--workspace-accent) 10%, var(--home-line) 90%);
-  --workspace-tab-track: color-mix(in srgb, var(--workspace-accent) 64%, transparent);
+  --workspace-tab-line: color-mix(in srgb, var(--workspace-accent) 5%, var(--home-line) 95%);
+  --workspace-tab-track: color-mix(in srgb, var(--workspace-accent) 42%, transparent);
   width: min(var(--portal-workspace-stage-max-width), 100%);
   margin: 0 auto;
   padding: var(--portal-stage-padding-top) var(--portal-stage-padding-inline)
@@ -286,11 +284,11 @@ function handleToolbarAction(key: string): void {
   gap: 18px;
   padding: var(--portal-workspace-toolbar-padding);
   border: 1px solid var(--workspace-surface-border);
-  border-radius: 20px;
+  border-radius: var(--workspace-surface-radius);
   background: var(--workspace-surface-bg);
   box-shadow: var(--workspace-surface-shadow);
-  backdrop-filter: blur(calc(var(--home-panel-blur) * 0.92)) saturate(1);
-  -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.92)) saturate(1);
+  backdrop-filter: blur(calc(var(--home-panel-blur) * 0.64)) saturate(1);
+  -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.64)) saturate(1);
 }
 
 .workspace-page__tabs {
@@ -405,14 +403,14 @@ function handleToolbarAction(key: string): void {
 }
 
 .workspace-page__section-pill {
-  border: 1px solid var(--workspace-chip-border);
-  background: var(--workspace-chip-bg);
-  color: var(--workspace-chip-ink);
+  border: 1px solid color-mix(in srgb, var(--workspace-accent) 10%, transparent);
+  background: color-mix(in srgb, var(--workspace-accent-soft) 5%, transparent);
+  color: color-mix(in srgb, var(--workspace-chip-ink) 78%, var(--portal-muted) 22%);
 }
 
 .workspace-page__section-pill.is-active {
-  border-color: var(--workspace-chip-active-border);
-  background: var(--workspace-chip-active-bg);
+  border-color: color-mix(in srgb, var(--workspace-accent) 18%, transparent);
+  background: color-mix(in srgb, var(--workspace-accent-soft) 10%, transparent);
   color: var(--workspace-chip-active-ink);
 }
 
@@ -424,36 +422,36 @@ function handleToolbarAction(key: string): void {
 .workspace-page__tab-label {
   --workspace-tab-accent: var(--workspace-messages-accent);
   --workspace-tab-accent-soft: var(--workspace-messages-accent-soft);
-  --workspace-tab-icon-bg: var(--workspace-media-bg);
+  --workspace-tab-icon-bg: color-mix(in srgb, var(--workspace-tab-accent-soft) 7%, transparent);
   --workspace-tab-icon-border: color-mix(
     in srgb,
-    var(--workspace-tab-accent) 10%,
-    var(--workspace-media-border) 88%
+    var(--workspace-tab-accent) 8%,
+    transparent
   );
   --workspace-tab-icon-hover-bg: color-mix(
     in srgb,
-    var(--workspace-tab-accent-soft) 18%,
-    var(--workspace-media-bg) 82%
+    var(--workspace-tab-accent-soft) 10%,
+    transparent
   );
   --workspace-tab-icon-hover-border: color-mix(
     in srgb,
-    var(--workspace-tab-accent) 14%,
-    var(--workspace-media-border) 86%
+    var(--workspace-tab-accent) 12%,
+    transparent
   );
   --workspace-tab-icon-active-bg: color-mix(
     in srgb,
-    var(--workspace-tab-accent-soft) 18%,
-    var(--workspace-media-bg) 82%
+    var(--workspace-tab-accent-soft) 12%,
+    transparent
   );
   --workspace-tab-icon-active-border: color-mix(
     in srgb,
-    var(--workspace-tab-accent) 13%,
-    var(--workspace-media-border) 87%
+    var(--workspace-tab-accent) 16%,
+    transparent
   );
   --workspace-tab-icon-ink: color-mix(
     in srgb,
-    var(--workspace-tab-accent) 84%,
-    var(--portal-ink-strong) 16%
+    var(--workspace-tab-accent) 70%,
+    var(--portal-muted) 30%
   );
   display: inline-flex;
   align-items: center;
@@ -555,7 +553,7 @@ function handleToolbarAction(key: string): void {
 }
 
 :deep(.workspace-page__tabs .el-tabs__item.is-active .workspace-page__tab-text) {
-  font-weight: 700;
+  font-weight: 600;
 }
 
 :deep(.workspace-page__tabs .el-tabs__item.is-active .workspace-page__tab-icon-surface) {
@@ -564,7 +562,7 @@ function handleToolbarAction(key: string): void {
 }
 
 :deep(.workspace-page__tabs .el-tabs__active-bar) {
-  height: 2px;
+  height: 1px;
   border-radius: 999px;
   background: var(--workspace-tab-track);
 }

@@ -32,25 +32,25 @@ html.dark {
   --home-gallery-badge-ink: color-mix(in srgb, var(--home-business-gallery-accent) 88%, white 12%);
   /* Public Module Control Tokens */
   --portal-module-filter-bg:
-    linear-gradient(180deg, rgba(23, 45, 76, 0.5), rgba(10, 22, 42, 0.34)),
-    color-mix(in srgb, var(--home-detail-panel-bg) 86%, rgba(9, 18, 34, 0.94) 14%);
+    linear-gradient(180deg, rgba(23, 45, 76, 0.38), rgba(10, 22, 42, 0.24)),
+    color-mix(in srgb, var(--home-detail-panel-bg) 88%, rgba(9, 18, 34, 0.94) 12%);
   --portal-module-filter-border: color-mix(
     in srgb,
-    var(--home-detail-panel-border) 84%,
-    rgba(182, 224, 255, 0.08) 16%
+    var(--home-detail-panel-border) 88%,
+    rgba(182, 224, 255, 0.08) 12%
   );
   --portal-module-filter-shadow:
-    0 8px 14px rgba(0, 0, 0, 0.12), 0 3px 6px rgba(0, 0, 0, 0.08),
+    0 4px 10px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05),
     inset 0 1px 0 rgba(255, 255, 255, 0.04);
   --portal-module-filter-search-bg: color-mix(
     in srgb,
-    var(--home-detail-card-bg) 74%,
-    rgba(11, 24, 46, 0.36) 26%
+    var(--home-detail-card-bg) 82%,
+    rgba(11, 24, 46, 0.28) 18%
   );
   --portal-module-filter-search-border: color-mix(
     in srgb,
-    var(--home-detail-card-border) 78%,
-    rgba(182, 224, 255, 0.08) 22%
+    var(--home-detail-card-border) 84%,
+    rgba(182, 224, 255, 0.08) 16%
   );
   --portal-module-filter-input-bg: rgba(14, 30, 53, 0.74);
   --portal-module-filter-input-border: color-mix(
@@ -69,11 +69,11 @@ html.dark {
   --portal-module-filter-button-primary-border: var(--home-feature-ribbon-border);
   --portal-module-filter-sort-ink: color-mix(in srgb, var(--home-muted) 88%, transparent);
   --portal-module-filter-category-shadow:
-    0 3px 6px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    0 2px 5px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   --portal-module-filter-category-hover-shadow:
-    0 6px 10px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    0 3px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   --portal-module-filter-category-active-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 8px 12px rgba(0, 0, 0, 0.14);
+    inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 4px 10px rgba(0, 0, 0, 0.1);
   --portal-module-filter-category-neutral-bg: rgba(42, 62, 84, 0.84);
   --portal-module-filter-category-neutral-border: rgba(138, 176, 207, 0.42);
   --portal-module-filter-category-neutral-accent: rgba(182, 219, 245, 0.84);
@@ -118,6 +118,9 @@ html.dark {
   --portal-module-filter-star-fill-highlight: rgba(255, 255, 255, 0.9);
   --portal-module-filter-star-shadow: 0 8px 16px
     color-mix(in srgb, var(--portal-accent-cyan) 22%, transparent);
+  /* Public Browse Card Tokens */
+  --portal-browse-feature-shadow: var(--portal-browse-card-shadow);
+  --portal-browse-media-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
   /* Gallery Listing Tokens */
   /* Page State */
   --gallery-module-page-refreshing-opacity: 0.72;

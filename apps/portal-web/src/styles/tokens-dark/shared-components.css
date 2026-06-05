@@ -156,7 +156,10 @@ html.dark {
     linear-gradient(180deg, rgba(18, 37, 69, 0.8), rgba(12, 25, 49, 0.84));
   --portal-request-state-border: rgba(182, 224, 255, 0.14);
   --portal-request-state-shadow:
-    0 18px 32px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    0 6px 14px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --portal-request-state-radius: 18px;
+  --portal-request-state-padding: 24px;
   --portal-request-state-message-ink: #d6ebff;
   --portal-request-state-message-size: 14px;
   --portal-request-state-message-weight: 600;
@@ -175,8 +178,8 @@ html.dark {
   --portal-empty-bg: var(--portal-request-state-bg);
   --portal-empty-border: var(--portal-request-state-border);
   --portal-empty-shadow: var(--portal-request-state-shadow);
-  --portal-empty-radius: 24px;
-  --portal-empty-padding: 24px;
+  --portal-empty-radius: var(--portal-request-state-radius);
+  --portal-empty-padding: var(--portal-request-state-padding);
   --portal-empty-description-ink: var(--portal-muted);
   --portal-empty-description-size: 12px;
   --portal-empty-description-line-height: 1.7;

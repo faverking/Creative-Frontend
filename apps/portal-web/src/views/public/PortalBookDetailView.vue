@@ -642,7 +642,7 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
       var(--portal-request-boundary-accent) 14%,
       var(--portal-request-state-border)
     );
-  border-radius: 24px;
+  border-radius: var(--home-detail-panel-radius);
   background:
     linear-gradient(
       180deg,
@@ -650,7 +650,7 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
       transparent 74%
     ),
     var(--portal-request-state-bg);
-  box-shadow: var(--portal-request-state-shadow);
+  box-shadow: var(--home-detail-panel-shadow);
 }
 
 .portal-book-detail-page__layout {
@@ -1061,7 +1061,7 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02)),
     color-mix(in srgb, var(--home-detail-card-bg) 96%, transparent);
-  box-shadow: 0 6px 12px rgba(18, 41, 74, 0.03);
+  box-shadow: var(--home-detail-info-row-shadow);
   color: inherit;
   text-decoration: none;
   transition:
@@ -1078,14 +1078,14 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04)),
     color-mix(in srgb, var(--home-business-bookshelf-tag-bg) 42%, var(--home-detail-card-bg));
-  box-shadow: 0 10px 20px rgba(18, 41, 74, 0.06);
+  box-shadow: var(--home-detail-card-shadow);
 }
 
 .portal-book-detail-page__chapter:focus-visible {
   outline: none;
   box-shadow:
     0 0 0 3px var(--portal-focus-ring),
-    0 10px 20px rgba(18, 41, 74, 0.06);
+    var(--home-detail-card-shadow);
 }
 
 .portal-book-detail-page__chapter strong {

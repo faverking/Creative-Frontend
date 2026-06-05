@@ -7,21 +7,23 @@
   --workspace-history-accent: var(--home-business-topic-accent);
   --workspace-history-accent-soft: var(--home-business-topic-accent-soft);
   --workspace-surface-base-bg:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.4), rgba(248, 251, 255, 0.18)),
-    color-mix(in srgb, var(--home-detail-panel-bg) 84%, white 16%);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(248, 251, 255, 0.08)),
+    color-mix(in srgb, var(--home-detail-panel-bg) 90%, white 10%);
   --workspace-surface-base-border: color-mix(
     in srgb,
-    var(--home-detail-panel-border) 82%,
-    white 18%
+    var(--home-detail-panel-border) 88%,
+    white 12%
   );
   --workspace-surface-base-shadow:
-    0 4px 8px rgba(18, 41, 74, 0.024), 0 1px 3px rgba(18, 41, 74, 0.014),
-    inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    0 1px 3px rgba(18, 41, 74, 0.012), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  --workspace-surface-radius: 16px;
   --workspace-card-base-bg:
     linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.03)),
     color-mix(in srgb, var(--home-detail-card-bg) 96%, white 4%);
   --workspace-card-base-border: var(--portal-module-filter-border);
-  --workspace-card-base-shadow: var(--home-card-shadow);
+  --workspace-card-base-shadow:
+    0 4px 10px rgba(18, 41, 74, 0.032), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  --workspace-card-radius: 18px;
   --workspace-card-subtle-base-bg:
     linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
     color-mix(in srgb, var(--home-detail-card-bg) 72%, white 28%);
@@ -30,7 +32,8 @@
     rgba(244, 249, 255, 0.78);
   --workspace-media-base-border: rgba(122, 160, 199, 0.14);
   --workspace-media-base-shadow:
-    0 8px 16px rgba(18, 41, 74, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.24);
+    0 4px 10px rgba(18, 41, 74, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  --workspace-media-radius: 16px;
   --workspace-media-base-ring: rgba(250, 252, 255, 0.92);
   --workspace-chip-base-surface: rgba(255, 255, 255, 0.74);
   --workspace-chip-active-gloss: linear-gradient(

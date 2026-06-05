@@ -493,14 +493,17 @@ async function clearHistory(): Promise<void> {
     var(--workspace-media-base-shadow)
   );
   --workspace-media-ring-current: var(--workspace-media-ring, var(--workspace-media-base-ring));
-  --workspace-history-date-size: 18px;
-  --workspace-history-date-line-height: 1.1;
+  --workspace-history-date-size: 14px;
+  --workspace-history-date-line-height: 1.25;
   --workspace-history-title-size: 16px;
   --workspace-history-title-line-height: 1.34;
   --workspace-history-body-size: 13px;
   --workspace-history-body-line-height: 1.68;
   --workspace-history-meta-size: 12px;
   --workspace-history-meta-line-height: 1.35;
+  --workspace-history-time-size: 12px;
+  --workspace-history-time-line-height: 1.25;
+  --workspace-history-time-weight: 600;
   --workspace-history-list-gap: var(--home-card-gap-base);
   --workspace-history-stack-gap: var(--home-card-gap-tight);
   --workspace-history-content-min-height: 80px;
@@ -553,7 +556,7 @@ async function clearHistory(): Promise<void> {
 .workspace-history-stage__footer-button:hover:not(:disabled) {
   transform: translateY(-1px);
   border-color: color-mix(in srgb, var(--workspace-accent-current) 24%, transparent);
-  box-shadow: 0 12px 24px color-mix(in srgb, var(--workspace-accent-current) 12%, transparent);
+  box-shadow: 0 4px 10px color-mix(in srgb, var(--workspace-accent-current) 8%, transparent);
 }
 
 .workspace-history-stage__footer-button:focus-visible {
@@ -601,7 +604,7 @@ async function clearHistory(): Promise<void> {
 .workspace-history-group__date {
   color: var(--portal-ink-strong);
   font-size: var(--workspace-history-date-size);
-  font-weight: 700;
+  font-weight: 600;
   line-height: var(--workspace-history-date-line-height);
   letter-spacing: 0;
 }
@@ -609,7 +612,7 @@ async function clearHistory(): Promise<void> {
 .workspace-history-group__count {
   color: var(--portal-muted);
   font-size: var(--workspace-history-meta-size);
-  font-weight: 600;
+  font-weight: 500;
   line-height: var(--workspace-history-meta-line-height);
 }
 
@@ -644,7 +647,7 @@ async function clearHistory(): Promise<void> {
   gap: var(--home-card-gap-base);
   padding: var(--workspace-card-padding);
   border: 1px solid var(--workspace-card-border-current);
-  border-radius: 20px;
+  border-radius: var(--workspace-card-radius);
   background: var(--workspace-card-bg-current);
   box-shadow: var(--workspace-card-shadow-current);
 }
@@ -670,7 +673,7 @@ async function clearHistory(): Promise<void> {
   height: 80px;
   overflow: hidden;
   border: 1px solid var(--workspace-media-border-current);
-  border-radius: 16px;
+  border-radius: var(--workspace-media-radius);
   background:
     linear-gradient(
       135deg,
@@ -822,8 +825,7 @@ async function clearHistory(): Promise<void> {
 }
 
 .workspace-history-card__meta,
-.workspace-history-card__metrics,
-.workspace-history-card__time {
+.workspace-history-card__metrics {
   color: color-mix(in srgb, var(--home-muted) 84%, var(--home-detail-glass-ink) 16%);
   font-size: var(--workspace-history-meta-size);
   font-weight: 600;
@@ -831,6 +833,10 @@ async function clearHistory(): Promise<void> {
 }
 
 .workspace-history-card__time {
+  color: color-mix(in srgb, var(--home-muted) 88%, transparent);
+  font-size: var(--workspace-history-time-size);
+  font-weight: var(--workspace-history-time-weight);
+  line-height: var(--workspace-history-time-line-height);
   justify-self: end;
 }
 
@@ -966,7 +972,7 @@ async function clearHistory(): Promise<void> {
 }
 
 .workspace-history-skeleton__block--thumb {
-  border-radius: 16px;
+  border-radius: var(--workspace-media-radius);
 }
 
 .workspace-history-skeleton__line {
@@ -1019,7 +1025,7 @@ async function clearHistory(): Promise<void> {
 
 .workspace-history-skeleton__line--time {
   width: 52px;
-  height: calc(var(--workspace-history-meta-size) * var(--workspace-history-meta-line-height));
+  height: calc(var(--workspace-history-time-size) * var(--workspace-history-time-line-height));
   justify-self: end;
 }
 

@@ -162,18 +162,18 @@ function resolveGalleryBadge(item: HomeGalleryItemResponse): string {
 .home-gallery-section__stage :deep(.portal-request-boundary__state) {
   --portal-request-boundary-accent: var(--home-business-gallery-accent);
   min-height: 256px;
-  padding: 18px;
+  padding: var(--portal-browse-state-padding);
   border: 1px solid
     color-mix(
       in srgb,
       var(--portal-request-boundary-accent) 14%,
       var(--portal-request-state-border)
     );
-  border-radius: 24px;
-  background: var(--home-card-sheen), var(--home-panel-deep);
-  box-shadow: var(--home-card-shadow);
-  backdrop-filter: blur(calc(var(--home-panel-blur) * 0.72));
-  -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.72));
+  border-radius: var(--portal-browse-feature-radius);
+  background: var(--portal-browse-state-surface);
+  box-shadow: var(--portal-browse-feature-shadow);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .home-gallery-section__stage > * {
@@ -194,19 +194,19 @@ function resolveGalleryBadge(item: HomeGalleryItemResponse): string {
   display: grid;
   grid-template-rows: auto var(--home-block-title-md-1) var(--home-block-body-md-1);
   gap: var(--home-card-gap-loose);
-  padding: var(--home-card-padding-sm);
-  border: 1px solid var(--home-line);
-  border-radius: 24px;
-  background: var(--home-card-sheen), var(--home-panel-deep);
-  box-shadow: var(--home-card-shadow);
-  backdrop-filter: blur(calc(var(--home-panel-blur) * 0.72));
-  -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.72));
+  padding: var(--portal-browse-card-padding);
+  border: 1px solid var(--portal-browse-card-border);
+  border-radius: var(--portal-browse-card-radius);
+  background: var(--portal-browse-card-surface);
+  box-shadow: var(--portal-browse-card-shadow);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .home-gallery-section__card--link {
-  --portal-interactive-hover-border: var(--home-feature-ribbon-border);
-  --portal-interactive-hover-shadow: var(--home-card-hover-shadow);
-  --portal-interactive-hover-filter: var(--home-card-hover-filter);
+  --portal-interactive-hover-background: var(--portal-browse-card-hover-surface);
+  --portal-interactive-hover-border: var(--home-column-module-divider-strong);
+  --portal-interactive-hover-shadow: var(--portal-browse-card-hover-shadow);
 }
 
 .home-gallery-section__link-layer {
@@ -257,7 +257,7 @@ function resolveGalleryBadge(item: HomeGalleryItemResponse): string {
   border: 1px solid var(--home-media-panel-border);
   border-radius: 14px;
   background: linear-gradient(145deg, rgba(96, 129, 168, 0.24), rgba(18, 24, 35, 0.52));
-  box-shadow: var(--home-card-shadow);
+  box-shadow: var(--portal-browse-media-shadow);
 }
 
 .home-gallery-section__tile--skeleton {

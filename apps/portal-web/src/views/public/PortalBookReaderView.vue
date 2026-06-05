@@ -611,6 +611,10 @@ function updateReadingProgress(): void {
   --portal-book-reader-accent: var(--home-business-bookshelf-accent);
   --portal-book-reader-font-size: 22px;
   --portal-book-reader-tool-bg: color-mix(in srgb, var(--home-detail-panel-bg) 86%, transparent);
+  --portal-book-reader-hover-shadow: 0 4px 10px
+    color-mix(in srgb, var(--portal-book-reader-accent) 8%, transparent);
+  --portal-book-reader-panel-shadow: var(--home-detail-panel-shadow);
+  --portal-book-reader-card-shadow: var(--home-detail-card-shadow);
   --portal-book-reader-border: color-mix(
     in srgb,
     var(--home-business-bookshelf-tag-border) 54%,
@@ -623,6 +627,11 @@ function updateReadingProgress(): void {
 
 .portal-book-reader-page :deep(.portal-request-boundary__state) {
   min-height: 520px;
+  padding: var(--portal-boundary-panel-padding-block) var(--portal-boundary-panel-padding-inline);
+  border: 1px solid color-mix(in srgb, var(--portal-book-reader-border) 78%, transparent);
+  border-radius: var(--home-detail-panel-radius);
+  background: var(--home-detail-panel-bg);
+  box-shadow: var(--portal-book-reader-panel-shadow);
 }
 
 .portal-book-reader-page__stage {
@@ -730,7 +739,7 @@ function updateReadingProgress(): void {
   transform: translateY(-1px);
   border-color: color-mix(in srgb, var(--portal-book-reader-accent) 38%, transparent);
   background: color-mix(in srgb, var(--home-business-bookshelf-tag-bg) 72%, white);
-  box-shadow: 0 8px 18px color-mix(in srgb, var(--portal-book-reader-accent) 9%, transparent);
+  box-shadow: var(--portal-book-reader-hover-shadow);
 }
 
 .portal-book-reader-page__breadcrumb-link:focus-visible,
@@ -768,7 +777,7 @@ function updateReadingProgress(): void {
   border: 1px solid color-mix(in srgb, var(--portal-book-reader-border) 68%, transparent);
   border-radius: var(--home-detail-panel-radius);
   background: var(--portal-book-reader-tool-bg);
-  box-shadow: 0 12px 24px rgba(18, 41, 74, 0.06);
+  box-shadow: var(--portal-book-reader-card-shadow);
   backdrop-filter: blur(calc(var(--home-panel-blur) * 0.58));
   -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.58));
 }
@@ -800,7 +809,7 @@ function updateReadingProgress(): void {
   min-height: 38px;
   border-radius: var(--home-detail-panel-radius);
   background: var(--portal-book-reader-tool-bg);
-  box-shadow: 0 12px 24px rgba(18, 41, 74, 0.06);
+  box-shadow: var(--portal-book-reader-card-shadow);
   backdrop-filter: blur(calc(var(--home-panel-blur) * 0.58));
   -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.58));
 }
@@ -830,9 +839,7 @@ function updateReadingProgress(): void {
       color-mix(in srgb, var(--home-business-bookshelf-accent-soft) 4%, transparent)
     ),
     color-mix(in srgb, var(--home-detail-panel-bg) 92%, white);
-  box-shadow:
-    0 14px 30px rgba(18, 41, 74, 0.055),
-    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  box-shadow: var(--portal-book-reader-panel-shadow);
   color: var(--home-ink);
 }
 
@@ -887,9 +894,9 @@ function updateReadingProgress(): void {
   justify-items: center;
   width: min(100%, 760px);
   border: 1px solid color-mix(in srgb, var(--portal-book-reader-border) 64%, transparent);
-  border-radius: 14px;
+  border-radius: var(--home-detail-card-radius);
   background: color-mix(in srgb, var(--home-detail-card-bg) 72%, transparent);
-  box-shadow: 0 14px 28px rgba(18, 41, 74, 0.08);
+  box-shadow: var(--portal-book-reader-card-shadow);
 }
 
 .portal-book-reader-page__content-image :deep(.portal-image__img) {
@@ -931,7 +938,7 @@ function updateReadingProgress(): void {
   background:
     linear-gradient(180deg, color-mix(in srgb, white 12%, transparent), transparent),
     color-mix(in srgb, var(--home-detail-panel-bg) 92%, transparent);
-  box-shadow: 0 18px 36px rgba(18, 41, 74, 0.11);
+  box-shadow: var(--portal-book-reader-panel-shadow);
   backdrop-filter: blur(calc(var(--home-panel-blur) * 0.62));
   -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.62));
 }
@@ -1043,7 +1050,7 @@ function updateReadingProgress(): void {
   background: color-mix(in srgb, var(--home-detail-panel-bg) 72%, transparent);
   color: color-mix(in srgb, var(--home-muted) 86%, var(--home-ink));
   text-align: center;
-  box-shadow: 0 10px 20px rgba(18, 41, 74, 0.045);
+  box-shadow: var(--portal-book-reader-card-shadow);
   backdrop-filter: blur(calc(var(--home-panel-blur) * 0.5));
   -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.5));
 }

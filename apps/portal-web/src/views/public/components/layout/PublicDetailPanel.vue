@@ -49,8 +49,8 @@ const panelStyle = computed(() => ({
   border-radius: var(--home-detail-panel-radius);
   background: var(--home-detail-panel-bg);
   box-shadow: var(--home-detail-panel-shadow);
-  backdrop-filter: blur(calc(var(--home-panel-blur) * 0.64));
-  -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.64));
+  backdrop-filter: blur(calc(var(--home-panel-blur) * 0.46));
+  -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.46));
   isolation: isolate;
 }
 

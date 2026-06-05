@@ -160,7 +160,7 @@ const { columns: loadingColumns } = useGalleryModuleMasonryColumns(loadingItems)
 }
 
 .gallery-module-loading-card__cover {
-  box-shadow: var(--home-card-shadow);
+  box-shadow: var(--portal-browse-media-shadow);
 }
 
 .gallery-module-loading-card__copy {

@@ -287,9 +287,9 @@ withDefaults(
   align-items: start;
   overflow: hidden;
   border: 1px solid var(--home-detail-card-border);
-  border-radius: 22px;
+  border-radius: var(--home-detail-card-radius);
   background: var(--home-detail-card-bg);
-  box-shadow: var(--home-card-shadow);
+  box-shadow: var(--home-detail-card-shadow);
 }
 
 .public-detail-rich-text :deep(figure > a) {
@@ -325,9 +325,9 @@ withDefaults(
   aspect-ratio: 16 / 9;
   min-height: 420px;
   border: 1px solid var(--home-detail-card-border);
-  border-radius: 22px;
+  border-radius: var(--home-detail-card-radius);
   background: color-mix(in srgb, var(--home-detail-card-bg) 86%, rgba(8, 18, 38, 0.14));
-  box-shadow: var(--home-card-shadow);
+  box-shadow: var(--home-detail-card-shadow);
   overflow: hidden;
 }
 

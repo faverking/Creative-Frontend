@@ -100,9 +100,7 @@ defineEmits<{
     linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04)),
     var(--public-detail-action-secondary-bg);
   color: var(--home-ink);
-  box-shadow:
-    0 10px 18px color-mix(in srgb, var(--public-detail-action-primary-border) 8%, transparent),
-    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  box-shadow: var(--home-detail-button-shadow);
   cursor: pointer;
   transition:
     border-color 180ms ease,
@@ -118,9 +116,7 @@ defineEmits<{
     var(--public-detail-action-primary-border) 54%,
     var(--home-detail-button-border)
   );
-  box-shadow:
-    0 12px 22px color-mix(in srgb, var(--public-detail-action-primary-border) 12%, transparent),
-    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  box-shadow: var(--home-detail-button-shadow);
 }
 
 .public-detail-action-panel__action.is-active {
@@ -142,9 +138,7 @@ defineEmits<{
     ),
     var(--home-detail-card-primary-bg);
   color: var(--public-detail-action-primary-ink);
-  box-shadow:
-    0 10px 18px color-mix(in srgb, var(--public-detail-action-primary-border) 12%, transparent),
-    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  box-shadow: var(--home-detail-button-shadow);
 }
 
 .public-detail-action-panel__action--secondary {

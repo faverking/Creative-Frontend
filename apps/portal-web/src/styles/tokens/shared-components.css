@@ -5,7 +5,10 @@
     linear-gradient(180deg, rgba(244, 249, 255, 0.82), rgba(231, 240, 249, 0.74));
   --portal-request-state-border: rgba(122, 160, 199, 0.18);
   --portal-request-state-shadow:
-    0 14px 28px rgba(18, 41, 74, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.36);
+    0 6px 14px rgba(18, 41, 74, 0.032), 0 2px 6px rgba(18, 41, 74, 0.018),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+  --portal-request-state-radius: 18px;
+  --portal-request-state-padding: 24px;
   --portal-request-state-message-ink: #4b6784;
   --portal-request-state-message-size: 14px;
   --portal-request-state-message-weight: 600;
@@ -26,8 +29,8 @@
   --portal-empty-bg: var(--portal-request-state-bg);
   --portal-empty-border: var(--portal-request-state-border);
   --portal-empty-shadow: var(--portal-request-state-shadow);
-  --portal-empty-radius: 24px;
-  --portal-empty-padding: 24px;
+  --portal-empty-radius: var(--portal-request-state-radius);
+  --portal-empty-padding: var(--portal-request-state-padding);
   --portal-empty-description-ink: var(--portal-muted);
   --portal-empty-description-size: 12px;
   --portal-empty-description-line-height: 1.7;

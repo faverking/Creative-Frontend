@@ -511,7 +511,7 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
       var(--portal-request-boundary-accent) 14%,
       var(--portal-request-state-border)
     );
-  border-radius: 24px;
+  border-radius: var(--home-detail-panel-radius);
   background:
     linear-gradient(
       180deg,
@@ -519,7 +519,7 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
       transparent 74%
     ),
     var(--portal-request-state-bg);
-  box-shadow: var(--portal-request-state-shadow);
+  box-shadow: var(--home-detail-panel-shadow);
 }
 
 .portal-topic-detail-page__layout {

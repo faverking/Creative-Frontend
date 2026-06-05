@@ -24,10 +24,7 @@ withDefaults(
   display: grid;
   gap: 0;
   border-color: color-mix(in srgb, var(--home-detail-panel-border) 82%, transparent);
-  box-shadow:
-    0 10px 20px rgba(18, 41, 74, 0.045),
-    0 4px 10px rgba(18, 41, 74, 0.025),
-    inset 0 1px 0 rgba(255, 255, 255, 0.26);
+  box-shadow: var(--home-detail-panel-shadow);
 }
 
 .public-detail-side-rail::before {

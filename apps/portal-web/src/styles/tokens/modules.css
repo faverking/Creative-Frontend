@@ -49,25 +49,25 @@
   );
   /* Public Module Control Tokens */
   --portal-module-filter-bg:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(248, 251, 255, 0.2)),
-    color-mix(in srgb, var(--home-detail-panel-bg) 86%, white 14%);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(248, 251, 255, 0.12)),
+    color-mix(in srgb, var(--home-detail-panel-bg) 88%, white 12%);
   --portal-module-filter-border: color-mix(
     in srgb,
-    var(--home-detail-panel-border) 82%,
-    white 18%
+    var(--home-detail-panel-border) 86%,
+    white 14%
   );
   --portal-module-filter-shadow:
-    0 6px 10px rgba(18, 41, 74, 0.024), 0 2px 4px rgba(18, 41, 74, 0.014),
-    inset 0 1px 0 rgba(255, 255, 255, 0.24);
+    0 3px 8px rgba(18, 41, 74, 0.016), 0 1px 2px rgba(18, 41, 74, 0.01),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
   --portal-module-filter-search-bg: color-mix(
     in srgb,
-    var(--home-detail-card-bg) 74%,
-    rgba(255, 255, 255, 0.58) 26%
+    var(--home-detail-card-bg) 82%,
+    rgba(255, 255, 255, 0.4) 18%
   );
   --portal-module-filter-search-border: color-mix(
     in srgb,
-    var(--home-detail-card-border) 74%,
-    white 26%
+    var(--home-detail-card-border) 82%,
+    white 18%
   );
   --portal-module-filter-input-bg: rgba(255, 255, 255, 0.7);
   --portal-module-filter-input-border: color-mix(
@@ -90,11 +90,11 @@
   --portal-module-filter-button-primary-border: var(--home-feature-ribbon-border);
   --portal-module-filter-sort-ink: color-mix(in srgb, var(--home-muted) 84%, transparent);
   --portal-module-filter-category-shadow:
-    0 2px 6px rgba(18, 41, 74, 0.016), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    0 1px 4px rgba(18, 41, 74, 0.012), inset 0 1px 0 rgba(255, 255, 255, 0.14);
   --portal-module-filter-category-hover-shadow:
-    0 4px 8px rgba(18, 41, 74, 0.022), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+    0 2px 6px rgba(18, 41, 74, 0.016), inset 0 1px 0 rgba(255, 255, 255, 0.16);
   --portal-module-filter-category-active-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 5px 10px rgba(18, 41, 74, 0.028);
+    inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 3px 8px rgba(18, 41, 74, 0.022);
   --portal-module-filter-category-neutral-bg: rgba(238, 245, 249, 0.92);
   --portal-module-filter-category-neutral-border: rgba(170, 188, 203, 0.52);
   --portal-module-filter-category-neutral-accent: rgba(116, 142, 166, 0.86);
@@ -147,6 +147,34 @@
   --portal-module-filter-star-fill-highlight: rgba(255, 255, 255, 0.84);
   --portal-module-filter-star-shadow: 0 8px 14px
     color-mix(in srgb, var(--portal-accent-cyan) 18%, transparent);
+  /* Public Browse Card Tokens */
+  --portal-browse-card-radius: 18px;
+  --portal-browse-feature-radius: 20px;
+  --portal-browse-feature-media-radius: 18px;
+  --portal-browse-card-padding: var(--home-card-padding-xs);
+  --portal-browse-feature-padding: var(--home-card-padding-sm);
+  --portal-browse-state-padding: var(--home-card-padding-sm);
+  --portal-browse-card-surface: var(--home-column-module-surface);
+  --portal-browse-card-border: var(--home-column-module-border);
+  --portal-browse-article-card-surface: var(--home-article-module-surface);
+  --portal-browse-article-card-border: var(--home-article-module-border);
+  --portal-browse-state-surface:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--portal-request-boundary-accent) 8%, transparent),
+      transparent 72%
+    ),
+    var(--portal-browse-card-surface);
+  --portal-browse-card-shadow: var(--home-article-item-inset-shadow);
+  --portal-browse-feature-shadow: var(--portal-browse-card-shadow);
+  --portal-browse-media-shadow: 0 4px 10px rgba(18, 41, 74, 0.04);
+  --portal-browse-card-hover-shadow: var(--portal-browse-card-shadow);
+  --portal-browse-card-hover-surface:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)),
+    var(--portal-browse-card-surface);
+  --portal-browse-article-card-hover-surface:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)),
+    var(--portal-browse-article-card-surface);
   /* Gallery Listing Tokens */
   /* Page State */
   --gallery-module-page-refreshing-opacity: 0.72;

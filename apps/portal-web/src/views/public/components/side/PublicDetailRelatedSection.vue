@@ -73,6 +73,11 @@ const sectionStyle = computed(() => ({
 .public-detail-related-section__boundary :deep(.portal-request-boundary__state) {
   --portal-request-state-art-width: 110px;
   gap: 12px 18px;
+  padding: var(--portal-boundary-panel-padding-block) var(--portal-boundary-panel-padding-inline);
+  border: 1px solid var(--home-detail-card-border);
+  border-radius: var(--home-detail-card-radius);
+  background: var(--home-detail-card-bg);
+  box-shadow: var(--home-detail-card-shadow);
 }
 
 .public-detail-related-section__boundary :deep(.portal-request-boundary__art) {

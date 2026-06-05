@@ -1,7 +1,8 @@
 :root {
   /* Public Detail Surface Tokens */
   --home-surface: rgba(239, 246, 252, 0.96);
-  --home-detail-panel-radius: 20px;
+  --home-detail-panel-radius: 18px;
+  --home-detail-card-radius: 18px;
   --home-detail-panel-border: rgba(122, 160, 199, 0.2);
   --home-detail-divider: color-mix(in srgb, var(--home-detail-panel-border) 82%, transparent);
   --home-detail-panel-bg: linear-gradient(
@@ -10,8 +11,8 @@
     rgba(228, 237, 246, 0.74)
   );
   --home-detail-panel-shadow:
-    0 12px 24px rgba(18, 41, 74, 0.06), 0 4px 10px rgba(18, 41, 74, 0.035),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    0 6px 14px rgba(18, 41, 74, 0.032), 0 2px 6px rgba(18, 41, 74, 0.018),
+    inset 0 1px 0 rgba(255, 255, 255, 0.24);
   --home-detail-main-panel-padding-top: 20px;
   --home-detail-main-panel-padding-inline: 28px;
   --home-detail-main-panel-padding-bottom: 24px;
@@ -39,6 +40,8 @@
     rgba(152, 164, 255, 0.14)
   );
   --home-detail-card-border: rgba(122, 160, 199, 0.18);
+  --home-detail-card-shadow:
+    0 4px 10px rgba(18, 41, 74, 0.032), inset 0 1px 0 rgba(255, 255, 255, 0.22);
   --home-detail-glass-bg: linear-gradient(
     180deg,
     rgba(248, 253, 255, 0.88),
@@ -52,7 +55,7 @@
   );
   --home-detail-glass-border-emphasis: rgba(136, 175, 211, 0.34);
   --home-detail-glass-shadow-emphasis:
-    0 14px 28px rgba(18, 41, 74, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    0 6px 14px rgba(18, 41, 74, 0.045), inset 0 1px 0 rgba(255, 255, 255, 0.38);
   --home-detail-glass-gloss: linear-gradient(
     180deg,
     var(--portal-surface-top-soft),
@@ -67,7 +70,7 @@
   );
   --home-detail-button-border: rgba(136, 175, 226, 0.28);
   --home-detail-button-shadow:
-    0 14px 28px rgba(18, 41, 74, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.48);
+    0 6px 12px rgba(18, 41, 74, 0.055), inset 0 1px 0 rgba(255, 255, 255, 0.34);
   /* Public Detail Heading Tokens */
   --home-detail-heading-accent-neutral: color-mix(in srgb, var(--home-muted) 48%, var(--home-line));
   /* Public Detail Info Row Tokens */
@@ -80,7 +83,7 @@
     linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02)),
     color-mix(in srgb, var(--home-detail-glass-bg-emphasis) 84%, transparent);
   --home-detail-info-row-shadow:
-    0 8px 15px rgba(18, 41, 74, 0.035), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    0 4px 10px rgba(18, 41, 74, 0.024), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   --home-detail-info-row-label-ink: color-mix(in srgb, var(--home-muted) 90%, transparent);
   /* Public Detail Author Card Tokens */
   --home-detail-author-avatar-tone-article: linear-gradient(
@@ -124,7 +127,7 @@
   );
   --home-detail-preview-label-border: rgba(144, 176, 209, 0.22);
   --home-detail-preview-label-shadow:
-    0 12px 24px rgba(18, 41, 74, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.38);
+    0 6px 12px rgba(18, 41, 74, 0.055), inset 0 1px 0 rgba(255, 255, 255, 0.28);
   --home-detail-preview-overlay: linear-gradient(
     180deg,
     rgba(8, 18, 38, 0.08),

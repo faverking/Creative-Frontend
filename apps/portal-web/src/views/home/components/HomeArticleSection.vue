@@ -260,18 +260,18 @@ function resolveCoverUrl(cover: HomeArticleFeaturedResponse['cover']) {
 .home-article-section__stage :deep(.portal-request-boundary__state) {
   --portal-request-boundary-accent: var(--home-business-article-accent);
   min-height: 296px;
-  padding: 18px;
+  padding: var(--portal-browse-state-padding);
   border: 1px solid
     color-mix(
       in srgb,
       var(--portal-request-boundary-accent) 14%,
       var(--portal-request-state-border)
     );
-  border-radius: 24px;
-  background: var(--home-card-sheen), var(--home-panel-deep);
-  box-shadow: var(--home-card-shadow);
-  backdrop-filter: blur(calc(var(--home-panel-blur) * 0.72));
-  -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.72));
+  border-radius: var(--portal-browse-feature-radius);
+  background: var(--portal-browse-state-surface);
+  box-shadow: var(--portal-browse-feature-shadow);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .home-article-section__stage > * {
@@ -289,24 +289,25 @@ function resolveCoverUrl(cover: HomeArticleFeaturedResponse['cover']) {
 
 .home-article-section__feature,
 .home-article-section__list {
-  border: 1px solid var(--home-line);
-  background: var(--home-card-sheen), var(--home-panel-deep);
-  box-shadow: var(--home-card-shadow);
-  backdrop-filter: blur(calc(var(--home-panel-blur) * 0.72));
-  -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.72));
+  border: 1px solid var(--portal-browse-article-card-border);
+  background: var(--portal-browse-article-card-surface);
+  box-shadow: var(--portal-browse-card-shadow);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .home-article-section__feature {
   position: relative;
   display: grid;
   gap: var(--home-card-gap-base);
-  padding: var(--home-card-padding-md);
-  border-radius: 24px;
+  padding: var(--portal-browse-feature-padding);
+  border-radius: var(--portal-browse-card-radius);
 }
 
 .home-article-section__feature--link {
-  --portal-interactive-hover-shadow: var(--home-card-hover-shadow);
-  --portal-interactive-hover-filter: var(--home-card-hover-filter);
+  --portal-interactive-hover-background: var(--portal-browse-article-card-hover-surface);
+  --portal-interactive-hover-border: var(--home-article-module-divider-strong);
+  --portal-interactive-hover-shadow: var(--portal-browse-card-hover-shadow);
 }
 
 .home-article-section__link-layer {
@@ -314,13 +315,13 @@ function resolveCoverUrl(cover: HomeArticleFeaturedResponse['cover']) {
 }
 
 .home-article-section__item {
-  --portal-interactive-hover-filter: var(--home-card-hover-filter);
-  --portal-interactive-hover-background: rgba(255, 255, 255, 0.12);
+  --portal-interactive-hover-background: var(--portal-browse-article-card-hover-surface);
+  --portal-interactive-hover-shadow: var(--portal-browse-card-hover-shadow);
 }
 
 .home-article-section__feature--link:hover .home-article-section__feature-cover,
 .home-article-section__feature--link:focus-within .home-article-section__feature-cover {
-  box-shadow: var(--home-media-hover-shadow-strong);
+  box-shadow: var(--portal-browse-media-shadow);
 }
 
 .home-article-section__feature-cover {
@@ -474,7 +475,7 @@ function resolveCoverUrl(cover: HomeArticleFeaturedResponse['cover']) {
   min-height: 100%;
   height: 100%;
   padding: 6px;
-  border-radius: 24px;
+  border-radius: var(--portal-browse-card-radius);
   background: var(--home-article-list-surface);
 }
 
@@ -483,7 +484,7 @@ function resolveCoverUrl(cover: HomeArticleFeaturedResponse['cover']) {
   display: grid;
   grid-template-columns: 96px minmax(0, 1fr);
   gap: var(--home-card-gap-base);
-  padding: var(--home-card-padding-sm);
+  padding: var(--portal-browse-card-padding);
   border-radius: 18px;
   box-shadow: var(--home-article-item-inset-shadow);
 }
@@ -513,7 +514,7 @@ function resolveCoverUrl(cover: HomeArticleFeaturedResponse['cover']) {
   border: 1px solid var(--home-media-panel-border);
   border-radius: 16px;
   background: linear-gradient(145deg, rgba(94, 123, 158, 0.24), rgba(18, 24, 35, 0.5));
-  box-shadow: var(--home-card-shadow);
+  box-shadow: var(--portal-browse-media-shadow);
   overflow: hidden;
 }
 

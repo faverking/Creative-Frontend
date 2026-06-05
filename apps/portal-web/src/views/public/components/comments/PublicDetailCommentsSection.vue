@@ -793,7 +793,7 @@ async function handleExpandReplies(commentId: string): Promise<void> {
   padding: var(--portal-boundary-panel-padding-block) var(--portal-boundary-panel-padding-inline);
   border: 1px solid
     color-mix(in srgb, var(--public-detail-comments-accent) 14%, var(--portal-request-state-border));
-  border-radius: 24px;
+  border-radius: var(--home-detail-panel-radius);
   background:
     linear-gradient(
       180deg,
@@ -801,6 +801,6 @@ async function handleExpandReplies(commentId: string): Promise<void> {
       transparent 74%
     ),
     var(--portal-request-state-bg);
-  box-shadow: var(--portal-request-state-shadow);
+  box-shadow: var(--home-detail-panel-shadow);
 }
 </style>

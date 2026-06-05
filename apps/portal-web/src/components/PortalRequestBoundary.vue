@@ -166,6 +166,11 @@ const resolvedTitle = computed(() => props.title.trim())
   justify-content: center;
   gap: 18px 24px;
   min-height: inherit;
+  padding: var(--portal-request-state-padding);
+  border: 1px solid var(--portal-request-state-border);
+  border-radius: var(--portal-request-state-radius);
+  background: var(--portal-request-state-bg);
+  box-shadow: var(--portal-request-state-shadow);
   text-align: left;
 }
 

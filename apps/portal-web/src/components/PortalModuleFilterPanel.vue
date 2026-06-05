@@ -198,7 +198,7 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
   --portal-module-filter-category-min-height-local: 44px;
   --portal-module-filter-category-gap-local: 4px;
   --portal-module-filter-category-padding-local: 7px 12px;
-  --portal-module-filter-category-radius-local: 20px;
+  --portal-module-filter-category-radius-local: 18px;
   --portal-module-filter-toolbar-gap-local: 12px;
   --portal-module-filter-search-row-padding-local: 6px;
   --portal-module-filter-search-row-radius-local: 14px;
@@ -232,10 +232,10 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
   border-radius: var(--portal-module-filter-radius-local);
   box-shadow:
     0 3px 6px
-      color-mix(in srgb, var(--portal-module-filter-current-accent) 2.5%, rgba(18, 41, 74, 0.04)),
+      color-mix(in srgb, var(--portal-module-filter-current-accent) 1.6%, rgba(18, 41, 74, 0.024)),
     var(--portal-module-filter-shadow);
-  backdrop-filter: blur(calc(var(--home-panel-blur) * 0.92)) saturate(1);
-  -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.92)) saturate(1);
+  backdrop-filter: blur(calc(var(--home-panel-blur) * 0.64)) saturate(1);
+  -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.64)) saturate(1);
   overflow: visible;
 }
 
@@ -259,7 +259,7 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
   color: var(--portal-module-filter-star-ink);
   pointer-events: none;
   user-select: none;
-  opacity: 0.58;
+  opacity: 0.5;
   filter: drop-shadow(var(--portal-module-filter-star-shadow));
   transform: rotate(12deg);
 }
@@ -385,7 +385,7 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
   border: 1px solid var(--portal-module-filter-search-border);
   border-radius: var(--portal-module-filter-search-row-radius-local);
   background: var(--portal-module-filter-search-bg);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .portal-module-filter-panel__field {
@@ -461,7 +461,7 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
 
 .portal-module-filter-panel__button:hover {
   border-color: var(--home-feature-ribbon-border);
-  box-shadow: 0 3px 8px rgba(18, 41, 74, 0.03);
+  box-shadow: 0 2px 5px rgba(18, 41, 74, 0.02);
 }
 
 .portal-module-filter-panel__button--primary {
@@ -539,8 +539,8 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
     color-mix(in srgb, var(--portal-module-filter-current-accent) 70%, transparent) 0%,
     color-mix(in srgb, var(--home-feature-ribbon-ink) 92%, transparent) 100%
   );
-  box-shadow: 0 3px 10px
-    color-mix(in srgb, var(--portal-module-filter-current-accent) 14%, transparent);
+  box-shadow: 0 2px 6px
+    color-mix(in srgb, var(--portal-module-filter-current-accent) 10%, transparent);
   opacity: 0;
   transform: translateX(-50%) scaleX(0.72);
   transition: opacity 180ms ease;

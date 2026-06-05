@@ -131,14 +131,14 @@ const actionIconPath = computed(() => {
     var(--home-ink) 28%
   );
   --public-detail-resource-action-shadow-local:
-    0 8px 16px rgba(18, 41, 74, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+    var(--home-detail-button-shadow);
   --public-detail-resource-action-hover-border-local: color-mix(
     in srgb,
     var(--public-detail-resource-accent) 30%,
     var(--home-detail-button-border) 70%
   );
   --public-detail-resource-action-hover-shadow-local:
-    0 10px 18px rgba(18, 41, 74, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+    var(--home-detail-button-shadow);
   --public-detail-resource-locked-border-local: color-mix(
     in srgb,
     var(--home-feature-tag-amber-ink) 24%,
@@ -160,13 +160,11 @@ const actionIconPath = computed(() => {
   width: 100%;
   padding: 18px 20px;
   border: 1px solid color-mix(in srgb, var(--home-detail-glass-border) 68%, transparent);
-  border-radius: 24px;
+  border-radius: var(--home-detail-card-radius);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.01)),
     var(--home-detail-glass-bg);
-  box-shadow:
-    0 10px 18px rgba(18, 41, 74, 0.04),
-    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  box-shadow: var(--home-detail-card-shadow);
   overflow: hidden;
 }
 

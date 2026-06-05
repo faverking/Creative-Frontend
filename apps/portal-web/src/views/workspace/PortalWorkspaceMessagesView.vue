@@ -638,7 +638,7 @@ async function handleMarkRead(notificationId: string): Promise<void> {
   gap: var(--home-card-gap-base);
   padding: var(--workspace-card-padding);
   border: 1px solid var(--workspace-card-border-current);
-  border-radius: 20px;
+  border-radius: var(--workspace-card-radius);
   background: var(--workspace-card-bg-current);
   box-shadow: var(--workspace-card-shadow-current);
 }
@@ -659,7 +659,7 @@ async function handleMarkRead(notificationId: string): Promise<void> {
   height: 48px;
   overflow: hidden;
   border: 1px solid var(--workspace-media-border-current);
-  border-radius: 16px;
+  border-radius: var(--workspace-media-radius);
   background: var(--workspace-media-bg-current);
   color: var(--portal-ink-strong);
   font-size: 15px;
@@ -995,7 +995,7 @@ async function handleMarkRead(notificationId: string): Promise<void> {
 .workspace-message-skeleton__block--avatar {
   width: 48px;
   height: 48px;
-  border-radius: 16px;
+  border-radius: var(--workspace-media-radius);
 }
 
 .workspace-message-skeleton__line {

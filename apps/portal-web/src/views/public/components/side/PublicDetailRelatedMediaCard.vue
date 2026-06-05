@@ -151,7 +151,7 @@ const summaryLabel = computed(() => props.summary.trim())
   border: 1px solid color-mix(in srgb, var(--home-media-panel-border) 88%, transparent);
   border-radius: 16px;
   background: var(--home-media-overlay-soft), var(--home-media-placeholder-surface);
-  box-shadow: 0 8px 16px rgba(18, 41, 74, 0.045);
+  box-shadow: var(--home-detail-card-shadow);
   overflow: hidden;
   transition:
     border-color var(--public-detail-related-motion-duration)
@@ -266,7 +266,7 @@ const summaryLabel = computed(() => props.summary.trim())
     var(--public-detail-related-accent) 22%,
     var(--home-media-panel-border)
   );
-  box-shadow: 0 10px 18px rgba(18, 41, 74, 0.06);
+  box-shadow: var(--home-detail-card-shadow);
 }
 
 .public-detail-related-media-card:hover .public-detail-related-media-card__cover-image,

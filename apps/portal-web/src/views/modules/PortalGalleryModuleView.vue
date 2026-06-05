@@ -214,7 +214,7 @@ function bindSentinelRef(element: Element | ComponentPublicInstance | null): voi
       var(--portal-request-boundary-accent) 14%,
       var(--portal-request-state-border)
     );
-  border-radius: 24px;
+  border-radius: var(--portal-request-state-radius);
   background:
     linear-gradient(
       180deg,

@@ -394,7 +394,7 @@ function handleCategoryChange(value?: string | number): void {
       var(--portal-request-boundary-accent) 14%,
       var(--portal-request-state-border)
     );
-  border-radius: 24px;
+  border-radius: var(--portal-request-state-radius);
   background:
     linear-gradient(
       180deg,

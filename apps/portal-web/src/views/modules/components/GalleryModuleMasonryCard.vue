@@ -255,7 +255,7 @@ const cardAriaLabel = computed(
   overflow: hidden;
   border: 1px solid var(--home-media-panel-border);
   background: var(--home-gallery-tile-bg);
-  box-shadow: var(--home-card-shadow);
+  box-shadow: var(--portal-browse-media-shadow);
   transition:
     border-color 180ms ease,
     box-shadow 180ms ease,
@@ -265,7 +265,7 @@ const cardAriaLabel = computed(
 .gallery-module-card:hover .gallery-module-card__cover-shell,
 .gallery-module-card:focus-within .gallery-module-card__cover-shell {
   border-color: var(--home-feature-ribbon-border);
-  box-shadow: var(--home-card-hover-shadow);
+  box-shadow: var(--portal-browse-media-shadow);
   filter: var(--home-card-hover-filter);
 }
 
@@ -273,7 +273,7 @@ const cardAriaLabel = computed(
   border-color: var(--home-feature-ribbon-border);
   box-shadow:
     0 0 0 4px var(--portal-focus-ring),
-    var(--home-card-hover-shadow);
+    var(--portal-browse-media-shadow);
 }
 
 .gallery-module-card__cover-shell::before {

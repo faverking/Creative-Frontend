@@ -412,7 +412,7 @@ async function handleToggleFavorite(item: WorkspaceFavoriteCard): Promise<void> 
   gap: var(--home-card-gap-base);
   padding: var(--workspace-card-padding);
   border: 1px solid var(--workspace-card-border-current);
-  border-radius: 20px;
+  border-radius: var(--workspace-card-radius);
   background: var(--workspace-card-bg-current);
   box-shadow: var(--workspace-card-shadow-current);
 }
@@ -423,7 +423,7 @@ async function handleToggleFavorite(item: WorkspaceFavoriteCard): Promise<void> 
   height: 124px;
   overflow: hidden;
   border: 1px solid var(--workspace-media-border-current);
-  border-radius: 18px;
+  border-radius: var(--workspace-media-radius);
   background:
     linear-gradient(
       135deg,
@@ -719,7 +719,7 @@ async function handleToggleFavorite(item: WorkspaceFavoriteCard): Promise<void> 
 }
 
 .workspace-favorite-skeleton__block--cover {
-  border-radius: 18px;
+  border-radius: var(--workspace-media-radius);
 }
 
 .workspace-favorite-skeleton__line {

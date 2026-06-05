@@ -393,7 +393,7 @@ function handleToggle(): void {
   gap: var(--workspace-profile-section-gap);
   padding: 16px 14px;
   border: 1px solid var(--workspace-card-border-current);
-  border-radius: 20px;
+  border-radius: var(--workspace-card-radius);
   background: var(--workspace-profile-card-bg-current);
   box-shadow: var(--workspace-card-shadow-current);
 }
@@ -430,7 +430,7 @@ function handleToggle(): void {
   height: 64px;
   overflow: hidden;
   border: 1px solid var(--workspace-media-border-current);
-  border-radius: 20px;
+  border-radius: var(--workspace-media-radius);
   background: var(--workspace-media-bg-current);
   color: var(--portal-ink-strong);
   font-size: 18px;
@@ -772,7 +772,7 @@ function handleToggle(): void {
 .workspace-profile-card__skeleton--avatar {
   width: 64px;
   height: 64px;
-  border-radius: 20px;
+  border-radius: var(--workspace-media-radius);
 }
 
 .workspace-profile-card__skeleton--eyebrow {

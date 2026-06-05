@@ -715,7 +715,7 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
       var(--portal-request-boundary-accent) 14%,
       var(--portal-request-state-border)
     );
-  border-radius: 24px;
+  border-radius: var(--home-detail-panel-radius);
   background:
     linear-gradient(
       180deg,
@@ -723,7 +723,7 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
       transparent 74%
     ),
     var(--portal-request-state-bg);
-  box-shadow: var(--portal-request-state-shadow);
+  box-shadow: var(--home-detail-panel-shadow);
 }
 
 .portal-gallery-detail-page__layout {
@@ -931,7 +931,7 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
 
 .portal-gallery-detail-page__preview :deep(.el-carousel__arrow:hover) {
   border-color: var(--home-feature-ribbon-border);
-  box-shadow: var(--home-card-shadow);
+  box-shadow: var(--home-detail-button-shadow);
   transform: translateY(-50%) scale(1.02);
 }
 
@@ -976,7 +976,7 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
   position: relative;
   padding: 12px 12px 8px;
   border: 1px solid var(--home-detail-card-border);
-  border-radius: 20px;
+  border-radius: var(--home-detail-card-radius);
   background: linear-gradient(
     180deg,
     color-mix(in srgb, var(--home-detail-card-bg) 92%, white 8%),
