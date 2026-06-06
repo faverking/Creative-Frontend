@@ -12,7 +12,7 @@
     var(--home-article-list-surface);
   --home-article-module-border: color-mix(
     in srgb,
-    var(--home-detail-card-border) 62%,
+    var(--home-detail-card-border) 72%,
     transparent
   );
   --home-article-module-divider: color-mix(in srgb, var(--home-line) 78%, transparent);
@@ -259,7 +259,7 @@
     var(--home-article-list-surface);
   --home-column-module-border: color-mix(
     in srgb,
-    var(--home-detail-card-border) 64%,
+    var(--home-detail-card-border) 74%,
     transparent
   );
   --home-column-module-divider: color-mix(in srgb, var(--home-line) 84%, transparent);

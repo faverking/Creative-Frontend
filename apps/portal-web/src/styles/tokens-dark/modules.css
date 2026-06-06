@@ -10,7 +10,7 @@ html.dark {
   --home-article-module-surface:
     linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.008)),
     var(--home-article-list-surface);
-  --home-article-module-border: rgba(182, 224, 255, 0.1);
+  --home-article-module-border: rgba(182, 224, 255, 0.13);
   --home-article-module-divider: rgba(182, 224, 255, 0.14);
   --home-article-module-divider-strong: rgba(121, 225, 255, 0.2);
   --home-article-module-meta-icon-ink: color-mix(
@@ -166,7 +166,7 @@ html.dark {
   --home-column-module-surface:
     linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.008)),
     var(--home-article-list-surface);
-  --home-column-module-border: rgba(182, 224, 255, 0.11);
+  --home-column-module-border: rgba(182, 224, 255, 0.14);
   --home-column-module-divider: rgba(182, 224, 255, 0.15);
   --home-column-module-divider-strong: color-mix(
     in srgb,
