@@ -61,7 +61,7 @@ export function setupAppHttpClient(
   // createHttpClient 负责通用拦截器，这里负责把应用所需回调和登录能力接进去。
   const client = createHttpClient({
     baseURL: createApiBaseUrl(env),
-    getToken: () => loginSdk.getToken(),
+    getToken: () => loginSdk.getFreshToken(),
     refreshToken: () => loginSdk.refreshToken(),
     onTraceResolved: options.onTraceResolved,
     onUnauthorized: options.onUnauthorized,

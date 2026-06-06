@@ -114,10 +114,31 @@ export class LoginSdk {
     return Boolean(this.getToken())
   }
 
+  isAccessTokenExpired(referenceTime = Date.now()): boolean {
+    return this.tokenManager.isAccessTokenExpired(referenceTime)
+  }
+
+  async getFreshToken(): Promise<string | undefined> {
+    const accessToken = this.getToken()
+    if (!accessToken) {
+      return undefined
+    }
+
+    if (!this.isAccessTokenExpired()) {
+      return accessToken
+    }
+
+    try {
+      return await this.refreshToken()
+    } catch {
+      return undefined
+    }
+  }
+
   async refreshToken(): Promise<string | undefined> {
     const refreshToken = this.tokenManager.getRefreshToken()
     if (!refreshToken || !this.adapter.refreshToken) {
-      return this.getToken()
+      return undefined
     }
 
     const next = await this.adapter.refreshToken(refreshToken)

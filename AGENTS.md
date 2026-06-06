@@ -31,5 +31,6 @@
 - If PowerShell output shows Chinese mojibake, verify with explicit UTF-8 reads and build/typecheck results before judging the encoding state.
 - Keep responsibilities and boundaries clear: `apps/*` handles app-specific pages, API wiring, permissions, and bootstrapping; reusable cross-app capabilities go into `packages/*`.
 - Add abstractions or layers only when they reduce real complexity, reduce meaningful duplication, or fit existing boundaries.
+- Fix defects at the owning boundary after identifying the root cause; do not hide them with call-site workarounds, local patches, duplicated guards, or extra fallbacks unless the dependency is external and the fallback is explicitly scoped.
 - Unless the user explicitly asks for a migration window, do not keep compatibility leftovers.
 - During behavior migrations, clean unused imports, dead constants, fallback static data, redundant wrappers, old aliases, and deprecated state branches.

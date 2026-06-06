@@ -4,6 +4,22 @@ import { normalizeStoredAuthTokens } from './token-payload'
 const DEFAULT_STORAGE_KEY = 'monoapp-auth-tokens'
 const REFRESH_SKEW_MS = 30_000
 
+function isAccessTokenExpiredSnapshot(
+  tokens: AuthTokens | null,
+  referenceTime = Date.now()
+): boolean {
+  if (!tokens?.accessToken) {
+    return true
+  }
+
+  if (typeof tokens.expiresAt !== 'number' || !Number.isFinite(tokens.expiresAt)) {
+    return false
+  }
+
+  // 提前 30 秒进入“即将过期”窗口，给刷新请求留出网络缓冲。
+  return tokens.expiresAt <= referenceTime + REFRESH_SKEW_MS
+}
+
 // 负责 token 的内存态 + localStorage 双写，同时提供同步会话快照读取入口。
 export class TokenManager {
   private tokens: AuthTokens | null
@@ -39,16 +55,7 @@ export class TokenManager {
     storageKey: string = DEFAULT_STORAGE_KEY
   ): boolean {
     const tokens = TokenManager.readStoredTokens(storageKey)
-    if (!tokens?.accessToken) {
-      return true
-    }
-
-    if (typeof tokens.expiresAt !== 'number' || !Number.isFinite(tokens.expiresAt)) {
-      return false
-    }
-
-    // 提前 30 秒进入“即将过期”窗口，给刷新请求留出网络缓冲。
-    return tokens.expiresAt <= referenceTime + REFRESH_SKEW_MS
+    return isAccessTokenExpiredSnapshot(tokens, referenceTime)
   }
 
   static hasValidAccessToken(storageKey: string = DEFAULT_STORAGE_KEY): boolean {
@@ -68,6 +75,10 @@ export class TokenManager {
 
   getTokens(): AuthTokens | null {
     return this.tokens ? { ...this.tokens } : null
+  }
+
+  isAccessTokenExpired(referenceTime = Date.now()): boolean {
+    return isAccessTokenExpiredSnapshot(this.tokens, referenceTime)
   }
 
   setTokens(tokens: AuthTokens): void {

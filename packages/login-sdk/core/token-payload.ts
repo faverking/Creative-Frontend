@@ -82,6 +82,37 @@ function resolveExpiresAt(source: Record<string, unknown>): number | undefined {
   return typeof durationMs === 'number' ? Date.now() + Math.max(0, durationMs) : undefined
 }
 
+function decodeBase64UrlJson(segment: string): unknown {
+  if (typeof atob !== 'function') {
+    return null
+  }
+
+  try {
+    const normalized = segment.replace(/-/g, '+').replace(/_/g, '/')
+    const padded = normalized.padEnd(Math.ceil(normalized.length / 4) * 4, '=')
+    const binary = atob(padded)
+    const bytes = Uint8Array.from(binary, (char) => char.charCodeAt(0))
+    return JSON.parse(new TextDecoder().decode(bytes))
+  } catch {
+    return null
+  }
+}
+
+function resolveJwtExpiresAt(accessToken: string): number | undefined {
+  const [, payloadSegment] = accessToken.split('.')
+  if (!payloadSegment) {
+    return undefined
+  }
+
+  const payload = decodeBase64UrlJson(payloadSegment)
+  if (!isRecord(payload)) {
+    return undefined
+  }
+
+  const exp = asNumber(payload.exp)
+  return typeof exp === 'number' && exp > 0 ? exp * 1000 : undefined
+}
+
 export function normalizeAuthTokensPayload(payload: unknown): AuthTokens {
   const source = resolveTokenSource(payload)
   if (!source) {
@@ -95,7 +126,7 @@ export function normalizeAuthTokensPayload(payload: unknown): AuthTokens {
   }
 
   const refreshToken = asString(source.refreshToken) ?? asString(source.refresh_token)
-  const expiresAt = resolveExpiresAt(source)
+  const expiresAt = resolveExpiresAt(source) ?? resolveJwtExpiresAt(accessToken)
   const expiresInSeconds = asNumber(source.expiresIn) ?? asNumber(source.expires_in)
 
   return {
@@ -117,11 +148,13 @@ export function normalizeStoredAuthTokens(payload: unknown): AuthTokens | null {
     return null
   }
 
+  const expiresAt = resolveExpiresAt(payload) ?? resolveJwtExpiresAt(accessToken)
+
   return {
     accessToken,
     refreshToken: asString(payload.refreshToken),
     expiresIn: asNumber(payload.expiresIn),
-    expiresAt: resolveExpiresAt(payload),
+    expiresAt,
     tokenType: asString(payload.tokenType) ?? 'Bearer'
   }
 }
