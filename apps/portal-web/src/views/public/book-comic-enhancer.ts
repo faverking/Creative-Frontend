@@ -1,6 +1,7 @@
 import type picaFactory from 'pica'
 
 export const BOOK_COMIC_ENHANCEMENT_MAX_CSS_WIDTH = 1080
+export const BOOK_COMIC_ENHANCEMENT_MAX_RASTER_SCALE = 2
 export const BOOK_COMIC_ENHANCEMENT_UNSHARP_AMOUNT = 190
 export const BOOK_COMIC_ENHANCEMENT_UNSHARP_RADIUS = 0.68
 export const BOOK_COMIC_ENHANCEMENT_UNSHARP_THRESHOLD = 1
@@ -68,9 +69,13 @@ export function resolveBookComicEnhancementTarget({
   const safeMaxCssWidth = Math.max(1, Math.floor(maxCssWidth))
   const safeContainerWidth = Math.max(1, Math.floor(containerWidth || safeMaxCssWidth))
   const safeDpr = Math.max(1, Math.min(devicePixelRatio || 1, 3))
-  const cssWidth = Math.min(safeContainerWidth, safeMaxCssWidth, safeSourceWidth)
+  const cssWidth = Math.min(safeContainerWidth, safeMaxCssWidth)
   const desiredPixelWidth = Math.max(1, Math.round(cssWidth * safeDpr))
-  const pixelWidth = Math.min(safeSourceWidth, desiredPixelWidth)
+  const maxRasterWidth = Math.max(
+    safeSourceWidth,
+    Math.round(safeSourceWidth * BOOK_COMIC_ENHANCEMENT_MAX_RASTER_SCALE)
+  )
+  const pixelWidth = Math.min(maxRasterWidth, desiredPixelWidth)
   const pixelHeight = Math.max(1, Math.round((safeSourceHeight * pixelWidth) / safeSourceWidth))
 
   return {

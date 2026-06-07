@@ -62,7 +62,7 @@ describe('BookComicEnhancedImage', () => {
     expect(wrapper.find('img').exists()).toBe(false)
     expect(wrapper.text()).not.toContain('图片增强失败')
     expect(wrapper.find('canvas').attributes('aria-label')).toBe('漫画第 1 页')
-    expect((wrapper.find('canvas').element as HTMLCanvasElement).style.width).toBe('160px')
+    expect((wrapper.find('canvas').element as HTMLCanvasElement).style.width).toBe('')
   })
 
   it('shows an enhancement failure state without rendering an original image fallback', async () => {

@@ -118,7 +118,7 @@ async function scheduleEnhancement(): Promise<void> {
   enhancementErrorText.value = '图片增强失败'
 
   try {
-    const result = await enhanceBookComicImage({
+    await enhanceBookComicImage({
       canvas,
       containerWidth: resolveContainerWidth(),
       maxCssWidth: props.maxCssWidth,
@@ -130,8 +130,8 @@ async function scheduleEnhancement(): Promise<void> {
       return
     }
 
-    canvas.style.width = `${result.cssWidth}px`
-    canvas.style.height = 'auto'
+    canvas.style.removeProperty('width')
+    canvas.style.removeProperty('height')
     enhancementState.value = 'enhanced'
   } catch (error) {
     if (runId !== enhancementRunId) {
@@ -230,6 +230,7 @@ function isBookComicEnhancementAbortError(error: unknown): boolean {
 
 .book-comic-enhanced-image__canvas {
   display: block;
+  width: 100%;
   max-width: 100%;
   height: auto;
   user-select: none;

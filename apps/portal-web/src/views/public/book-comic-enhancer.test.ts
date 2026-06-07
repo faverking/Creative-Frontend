@@ -28,7 +28,7 @@ afterEach(() => {
 })
 
 describe('book comic enhancement target', () => {
-  it('keeps target pixels within the source width while using container width and dpr', () => {
+  it('uses container width and dpr while allowing bounded raster upscaling', () => {
     expect(
       resolveBookComicEnhancementTarget({
         containerWidth: 960,
@@ -38,12 +38,12 @@ describe('book comic enhancement target', () => {
       })
     ).toEqual({
       cssWidth: 960,
-      pixelHeight: 2400,
-      pixelWidth: 1600
+      pixelHeight: 2880,
+      pixelWidth: 1920
     })
   })
 
-  it('does not upscale low-resolution source images past their original width', () => {
+  it('allows low-resolution source images to fill the reader width while capping raster scale', () => {
     expect(
       resolveBookComicEnhancementTarget({
         containerWidth: 960,
@@ -52,9 +52,24 @@ describe('book comic enhancement target', () => {
         sourceWidth: 720
       })
     ).toEqual({
-      cssWidth: 720,
-      pixelHeight: 1080,
-      pixelWidth: 720
+      cssWidth: 960,
+      pixelHeight: 2160,
+      pixelWidth: 1440
+    })
+  })
+
+  it('does not keep 800-wide comic sources fixed at an 800 css width', () => {
+    expect(
+      resolveBookComicEnhancementTarget({
+        containerWidth: 1080,
+        devicePixelRatio: 2,
+        sourceHeight: 1600,
+        sourceWidth: 800
+      })
+    ).toEqual({
+      cssWidth: 1080,
+      pixelHeight: 3200,
+      pixelWidth: 1600
     })
   })
 
