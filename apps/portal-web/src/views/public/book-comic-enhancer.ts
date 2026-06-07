@@ -19,6 +19,7 @@ export interface BookComicEnhancementTargetInput {
 }
 
 export interface BookComicEnhancementTarget {
+  cssHeight: number
   cssWidth: number
   pixelHeight: number
   pixelWidth: number
@@ -77,8 +78,10 @@ export function resolveBookComicEnhancementTarget({
   )
   const pixelWidth = Math.min(maxRasterWidth, desiredPixelWidth)
   const pixelHeight = Math.max(1, Math.round((safeSourceHeight * pixelWidth) / safeSourceWidth))
+  const cssHeight = Math.max(1, Math.round((safeSourceHeight * cssWidth) / safeSourceWidth))
 
   return {
+    cssHeight,
     cssWidth,
     pixelHeight,
     pixelWidth

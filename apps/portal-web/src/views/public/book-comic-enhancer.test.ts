@@ -37,6 +37,7 @@ describe('book comic enhancement target', () => {
         sourceWidth: 1600
       })
     ).toEqual({
+      cssHeight: 1440,
       cssWidth: 960,
       pixelHeight: 2880,
       pixelWidth: 1920
@@ -52,6 +53,7 @@ describe('book comic enhancement target', () => {
         sourceWidth: 720
       })
     ).toEqual({
+      cssHeight: 1440,
       cssWidth: 960,
       pixelHeight: 2160,
       pixelWidth: 1440
@@ -67,6 +69,7 @@ describe('book comic enhancement target', () => {
         sourceWidth: 800
       })
     ).toEqual({
+      cssHeight: 2160,
       cssWidth: 1080,
       pixelHeight: 3200,
       pixelWidth: 1600
@@ -179,6 +182,7 @@ describe('enhanceBookComicImage', () => {
     expect(drawImage).toHaveBeenCalledWith(bitmap, 0, 0)
     expect(bitmap.close).toHaveBeenCalledTimes(1)
     expect(result).toEqual({
+      cssHeight: 750,
       cssWidth: 500,
       pixelHeight: 1500,
       pixelWidth: 1000,

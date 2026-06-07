@@ -19,6 +19,7 @@ vi.mock('@/views/public/book-comic-enhancer', async (importOriginal) => {
 const enhanceBookComicImageMock = vi.mocked(enhanceBookComicImage)
 
 beforeEach(() => {
+  document.documentElement.style.fontSize = '8px'
   vi.stubGlobal(
     'ResizeObserver',
     class {
@@ -29,6 +30,7 @@ beforeEach(() => {
 })
 
 afterEach(() => {
+  document.documentElement.style.fontSize = ''
   enhanceBookComicImageMock.mockReset()
   vi.unstubAllGlobals()
   vi.restoreAllMocks()
@@ -40,6 +42,7 @@ describe('BookComicEnhancedImage', () => {
       canvas.width = 320
       canvas.height = 640
       return {
+        cssHeight: 320,
         cssWidth: 160,
         pixelHeight: 640,
         pixelWidth: 320,
@@ -63,6 +66,21 @@ describe('BookComicEnhancedImage', () => {
     expect(wrapper.text()).not.toContain('图片增强失败')
     expect(wrapper.find('canvas').attributes('aria-label')).toBe('漫画第 1 页')
     expect((wrapper.find('canvas').element as HTMLCanvasElement).style.width).toBe('')
+    expect(
+      (wrapper.find('canvas').element as HTMLCanvasElement).style.getPropertyValue(
+        '--book-comic-enhanced-canvas-width'
+      )
+    ).toBe('20rem')
+    expect(
+      (wrapper.find('canvas').element as HTMLCanvasElement).style.getPropertyValue(
+        '--book-comic-enhanced-canvas-height'
+      )
+    ).toBe('40rem')
+    expect(
+      (wrapper.find('canvas').element as HTMLCanvasElement).style.getPropertyValue(
+        '--book-comic-enhanced-canvas-aspect-ratio'
+      )
+    ).toBe('160 / 320')
   })
 
   it('shows an enhancement failure state without rendering an original image fallback', async () => {

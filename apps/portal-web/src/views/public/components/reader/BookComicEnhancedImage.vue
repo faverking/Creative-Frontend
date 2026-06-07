@@ -38,6 +38,7 @@ import { computed, nextTick, onBeforeUnmount, onMounted, ref, useAttrs, watch } 
 import {
   BOOK_COMIC_ENHANCEMENT_MAX_CSS_WIDTH,
   BookComicEnhancementError,
+  type EnhanceBookComicImageResult,
   enhanceBookComicImage
 } from '@/views/public/book-comic-enhancer'
 
@@ -70,6 +71,7 @@ let abortController: AbortController | null = null
 let intersectionObserver: IntersectionObserver | null = null
 let resizeObserver: ResizeObserver | null = null
 let enhancementRunId = 0
+const PORTAL_FALLBACK_ROOT_FONT_SIZE = 10
 
 const normalizedSrc = computed(() => props.src.trim())
 
@@ -116,9 +118,10 @@ async function scheduleEnhancement(): Promise<void> {
   abortController = new AbortController()
   enhancementState.value = 'loading'
   enhancementErrorText.value = '图片增强失败'
+  resetCanvasPresentation(canvas)
 
   try {
-    await enhanceBookComicImage({
+    const result = await enhanceBookComicImage({
       canvas,
       containerWidth: resolveContainerWidth(),
       maxCssWidth: props.maxCssWidth,
@@ -130,8 +133,7 @@ async function scheduleEnhancement(): Promise<void> {
       return
     }
 
-    canvas.style.removeProperty('width')
-    canvas.style.removeProperty('height')
+    applyCanvasPresentation(canvas, result)
     enhancementState.value = 'enhanced'
   } catch (error) {
     if (runId !== enhancementRunId) {
@@ -207,6 +209,10 @@ function resolveContainerWidth(): number {
 function resetEnhancementState(): void {
   enhancementRunId += 1
   abortCurrentEnhancement()
+  const canvas = canvasRef.value
+  if (canvas) {
+    resetCanvasPresentation(canvas)
+  }
   enhancementState.value = 'idle'
 }
 
@@ -217,6 +223,41 @@ function abortCurrentEnhancement(): void {
 
 function isBookComicEnhancementAbortError(error: unknown): boolean {
   return error instanceof DOMException && error.name === 'AbortError'
+}
+
+function applyCanvasPresentation(
+  canvas: HTMLCanvasElement,
+  result: EnhanceBookComicImageResult
+): void {
+  canvas.style.setProperty('--book-comic-enhanced-canvas-width', toCurrentRootRem(result.cssWidth))
+  canvas.style.setProperty(
+    '--book-comic-enhanced-canvas-height',
+    toCurrentRootRem(result.cssHeight)
+  )
+  canvas.style.setProperty(
+    '--book-comic-enhanced-canvas-aspect-ratio',
+    `${result.cssWidth} / ${result.cssHeight}`
+  )
+}
+
+function resetCanvasPresentation(canvas: HTMLCanvasElement): void {
+  canvas.style.removeProperty('--book-comic-enhanced-canvas-width')
+  canvas.style.removeProperty('--book-comic-enhanced-canvas-height')
+  canvas.style.removeProperty('--book-comic-enhanced-canvas-aspect-ratio')
+}
+
+function toCurrentRootRem(px: number): string {
+  const remValue = px / resolveCurrentRootFontSize()
+  return `${roundCssNumber(remValue)}rem`
+}
+
+function resolveCurrentRootFontSize(): number {
+  const fontSize = Number.parseFloat(window.getComputedStyle(document.documentElement).fontSize)
+  return Number.isFinite(fontSize) && fontSize > 0 ? fontSize : PORTAL_FALLBACK_ROOT_FONT_SIZE
+}
+
+function roundCssNumber(value: number): number {
+  return Math.round(value * 10000) / 10000
 }
 </script>
 
@@ -230,9 +271,10 @@ function isBookComicEnhancementAbortError(error: unknown): boolean {
 
 .book-comic-enhanced-image__canvas {
   display: block;
-  width: 100%;
+  width: min(100%, var(--book-comic-enhanced-canvas-width, 100%));
   max-width: 100%;
   height: auto;
+  aspect-ratio: var(--book-comic-enhanced-canvas-aspect-ratio, auto);
   user-select: none;
 }
 
