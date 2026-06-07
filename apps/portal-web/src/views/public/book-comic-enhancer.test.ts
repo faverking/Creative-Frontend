@@ -121,7 +121,7 @@ describe('enhanceBookComicImage', () => {
     } as unknown as ImageBitmap
     const drawImage = vi.fn()
     const fetchImage = vi.fn(async () => response)
-    const decodeImage = vi.fn(async () => bitmap)
+    const decodeImage = vi.fn(async (_blob: Blob) => bitmap)
 
     vi.stubGlobal('fetch', fetchImage)
     vi.stubGlobal('createImageBitmap', decodeImage)
@@ -144,7 +144,8 @@ describe('enhanceBookComicImage', () => {
         referrerPolicy: 'no-referrer'
       })
     )
-    expect(decodeImage).toHaveBeenCalledWith(expect.any(Blob))
+    expect(decodeImage).toHaveBeenCalledTimes(1)
+    expect(decodeImage.mock.calls[0]?.[0].type).toBe('image/png')
     expect(canvas.width).toBe(1000)
     expect(canvas.height).toBe(1500)
     expect(picaResizeMock).toHaveBeenCalledWith(
