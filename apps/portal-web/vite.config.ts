@@ -25,11 +25,15 @@ const FRAMEWORK_PREFIXES = [
   '/node_modules/vue-router/',
   '/node_modules/pinia/'
 ]
-const PORTAL_SHARED_PREFIXES = [`${MONO_REPO_ROOT}/packages/`, '/node_modules/@frontend/']
-const PORTAL_PX_TO_REM_EXCLUDE_FRAGMENTS = [
-  '/src/assets/',
-  '/src/styles/adaptive/rem-root.css'
+const IMAGE_PROCESSING_PREFIXES = [
+  '/node_modules/pica/',
+  '/node_modules/glur/',
+  '/node_modules/multimath/',
+  '/node_modules/object-assign/',
+  '/node_modules/webworkify/'
 ]
+const PORTAL_SHARED_PREFIXES = [`${MONO_REPO_ROOT}/packages/`, '/node_modules/@frontend/']
+const PORTAL_PX_TO_REM_EXCLUDE_FRAGMENTS = ['/src/assets/', '/src/styles/adaptive/rem-root.css']
 
 function normalizeModuleId(id: string): string {
   return id.replaceAll('\\', '/')
@@ -65,6 +69,10 @@ function resolvePortalManualChunk(id: string): string | undefined {
 
   if (includesAny(normalizedId, ELEMENT_PLUS_PREFIXES)) {
     return 'element-plus'
+  }
+
+  if (includesAny(normalizedId, IMAGE_PROCESSING_PREFIXES)) {
+    return 'image-processing'
   }
 
   if (normalizedId.includes('/node_modules/')) {

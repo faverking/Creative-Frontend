@@ -137,7 +137,15 @@
               {{ item.text }}
             </p>
             <figure v-else-if="item.type === 'image'" class="portal-book-reader-page__image-block">
+              <book-comic-enhanced-image
+                v-if="isComicReader"
+                :src="item.src"
+                :alt="item.alt"
+                :loading="item.loading"
+                class="portal-book-reader-page__content-image"
+              />
               <portal-image
+                v-else
                 :src="item.src"
                 :alt="item.alt"
                 :fill="false"
@@ -272,6 +280,7 @@ import {
   type BookReaderMode,
   type BookReaderSourceResolution
 } from '@/views/public/book-reader'
+import BookComicEnhancedImage from '@/views/public/components/reader/BookComicEnhancedImage.vue'
 import { useDocumentTitle } from '@/composables/useDocumentTitle'
 import { usePublicDetailRequestState } from '@/views/public/composables/usePublicDetailRequestState'
 
@@ -911,7 +920,7 @@ function updateReadingProgress(): void {
 }
 
 .portal-book-reader-page__paper--comic .portal-book-reader-page__content-image {
-  width: min(100%, 960px);
+  width: min(100%, 1080px);
   border: 0;
   border-radius: 0;
   background: transparent;
