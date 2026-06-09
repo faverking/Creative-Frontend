@@ -201,7 +201,12 @@
         </div>
       </aside>
 
-      <aside v-if="catalogExpanded" class="portal-book-reader-page__catalog" aria-label="章节目录">
+      <aside
+        v-if="catalogExpanded"
+        ref="catalogPanelRef"
+        class="portal-book-reader-page__catalog"
+        aria-label="章节目录"
+      >
         <div class="portal-book-reader-page__catalog-head">
           <strong>章节目录</strong>
           <span>{{ readerData.chapters.length }} 章</span>
@@ -305,9 +310,11 @@ const cachedBookDetail = ref<{ bookId: string; detail: PublicBookDetailResponse 
 const chapterContentCache = new Map<string, BookReaderChapterContent>()
 const readerErrorTitle = ref('章节正文暂时无法加载，请稍后再试。')
 const catalogExpanded = ref(false)
+const catalogPanelRef = ref<HTMLElement | null>(null)
 const paperRef = ref<HTMLElement | null>(null)
 const readingProgressPercent = ref(0)
 const readerFontSize = ref(READER_FONT_SIZE_DEFAULT)
+let catalogScrollFrame = 0
 const {
   boundaryMode: readerBoundaryMode,
   beginLoad: beginReaderLoad,
@@ -413,12 +420,35 @@ watch(
   { immediate: true }
 )
 
+watch(
+  catalogExpanded,
+  (isExpanded) => {
+    if (isExpanded) {
+      scheduleActiveCatalogChapterScroll()
+    }
+  },
+  { flush: 'post' }
+)
+
+watch(
+  () => readerData.value?.chapter.id,
+  () => {
+    if (catalogExpanded.value) {
+      scheduleActiveCatalogChapterScroll()
+    }
+  },
+  { flush: 'post' }
+)
+
 onMounted(() => {
   window.addEventListener('scroll', updateReadingProgress, { passive: true })
   window.addEventListener('resize', updateReadingProgress)
 })
 
 onBeforeUnmount(() => {
+  if (catalogScrollFrame) {
+    window.cancelAnimationFrame(catalogScrollFrame)
+  }
   window.removeEventListener('scroll', updateReadingProgress)
   window.removeEventListener('resize', updateReadingProgress)
 })
@@ -591,6 +621,34 @@ function handleReaderRetry(): void {
 
 async function goBackToBook(): Promise<void> {
   await router.push(bookDetailLocation.value)
+}
+
+function scheduleActiveCatalogChapterScroll(): void {
+  void nextTick(() => {
+    if (catalogScrollFrame) {
+      window.cancelAnimationFrame(catalogScrollFrame)
+    }
+
+    catalogScrollFrame = window.requestAnimationFrame(() => {
+      catalogScrollFrame = 0
+      scrollActiveCatalogChapterIntoView()
+    })
+  })
+}
+
+function scrollActiveCatalogChapterIntoView(): void {
+  const panel = catalogPanelRef.value
+  if (!panel) {
+    return
+  }
+
+  const activeItem = panel.querySelector<HTMLElement>(
+    '.portal-book-reader-page__catalog-item.is-active'
+  )
+  activeItem?.scrollIntoView({
+    block: 'center',
+    inline: 'nearest'
+  })
 }
 
 function updateReadingProgress(): void {

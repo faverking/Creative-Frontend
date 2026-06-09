@@ -53,13 +53,32 @@ import type {
   PortalRequestBoundaryMode
 } from '@/components/PortalRequestBoundary.vue'
 import { portalContentApi, type HomeResponse, type SearchFeaturedResponse } from '@/api/content'
+import { useStaleWhileRevalidateCache } from '@/composables/useStaleWhileRevalidateCache'
 
 type HomeSectionMode = 'error' | 'live'
 
-const featuredData = ref<SearchFeaturedResponse>(createEmptyFeaturedResponse())
-const homeData = ref<HomeResponse>(createEmptyHomeResponse())
-const featuredLoading = ref(true)
-const homeSectionsLoading = ref(true)
+const HOME_CACHE_FRESH_TTL_MS = 2 * 60_000
+const HOME_CACHE_STALE_WHILE_REVALIDATE_TTL_MS = 10 * 60_000
+
+const featuredCache = useStaleWhileRevalidateCache<SearchFeaturedResponse>({
+  freshTtlMs: HOME_CACHE_FRESH_TTL_MS,
+  key: 'portal-home:featured',
+  staleWhileRevalidateTtlMs: HOME_CACHE_STALE_WHILE_REVALIDATE_TTL_MS
+})
+const homeSectionsCache = useStaleWhileRevalidateCache<HomeResponse>({
+  freshTtlMs: HOME_CACHE_FRESH_TTL_MS,
+  key: 'portal-home:sections',
+  staleWhileRevalidateTtlMs: HOME_CACHE_STALE_WHILE_REVALIDATE_TTL_MS
+})
+const initialFeaturedSnapshot = featuredCache.readSnapshot()
+const initialHomeSectionsSnapshot = homeSectionsCache.readSnapshot()
+
+const featuredData = ref<SearchFeaturedResponse>(
+  initialFeaturedSnapshot?.data ?? createEmptyFeaturedResponse()
+)
+const homeData = ref<HomeResponse>(initialHomeSectionsSnapshot?.data ?? createEmptyHomeResponse())
+const featuredLoading = ref(!initialFeaturedSnapshot)
+const homeSectionsLoading = ref(!initialHomeSectionsSnapshot)
 const featuredMode = ref<HomeSectionMode>('live')
 const homeSectionsMode = ref<HomeSectionMode>('live')
 const featuredErrorCode = ref<PortalRequestBoundaryErrorCode>(500)
@@ -97,44 +116,32 @@ const gallerySectionBoundaryMode = computed<PortalRequestBoundaryMode>(() =>
   )
 )
 
-async function loadFeaturedSection() {
-  featuredLoading.value = true
-  try {
-    const result = await portalContentApi.getFeaturedItems()
-    const featuredResponse = resolveFeaturedResponse(result.data)
-
-    if (featuredResponse) {
-      featuredData.value = featuredResponse
-      featuredMode.value = 'live'
-      featuredErrorCode.value = 500
-      return
-    }
-
-    featuredMode.value = 'error'
-    featuredErrorCode.value = result.errorCode ?? 500
-  } finally {
+async function loadFeaturedSection(options: { force?: boolean } = {}) {
+  const snapshot = options.force ? null : featuredCache.readSnapshot()
+  if (snapshot) {
+    applyFeaturedResponse(snapshot.data)
     featuredLoading.value = false
+    if (snapshot.state === 'stale') {
+      void refreshFeaturedSection({ silent: true })
+    }
+    return
   }
+
+  await refreshFeaturedSection()
 }
 
-async function loadHomeSections() {
-  homeSectionsLoading.value = true
-  try {
-    const result = await portalContentApi.getHomePage()
-    const homeResponse = resolveHomeResponse(result.data)
-
-    if (homeResponse) {
-      homeData.value = homeResponse
-      homeSectionsMode.value = 'live'
-      homeSectionsErrorCode.value = 500
-      return
-    }
-
-    homeSectionsMode.value = 'error'
-    homeSectionsErrorCode.value = result.errorCode ?? 500
-  } finally {
+async function loadHomeSections(options: { force?: boolean } = {}) {
+  const snapshot = options.force ? null : homeSectionsCache.readSnapshot()
+  if (snapshot) {
+    applyHomeResponse(snapshot.data)
     homeSectionsLoading.value = false
+    if (snapshot.state === 'stale') {
+      void refreshHomeSections({ silent: true })
+    }
+    return
   }
+
+  await refreshHomeSections()
 }
 
 async function loadHomePage() {
@@ -165,11 +172,75 @@ function resolveSectionBoundaryMode(
 }
 
 function handleFeaturedRetry(): void {
-  void loadFeaturedSection()
+  void loadFeaturedSection({ force: true })
 }
 
 function handleHomeSectionsRetry(): void {
-  void loadHomeSections()
+  void loadHomeSections({ force: true })
+}
+
+async function refreshFeaturedSection(options: { silent?: boolean } = {}): Promise<void> {
+  if (!options.silent) {
+    featuredLoading.value = true
+  }
+
+  try {
+    const result = await portalContentApi.getFeaturedItems()
+    const featuredResponse = resolveFeaturedResponse(result.data)
+
+    if (featuredResponse) {
+      featuredCache.write(featuredResponse)
+      applyFeaturedResponse(featuredResponse)
+      return
+    }
+
+    if (!options.silent) {
+      featuredMode.value = 'error'
+      featuredErrorCode.value = result.errorCode ?? 500
+    }
+  } finally {
+    if (!options.silent) {
+      featuredLoading.value = false
+    }
+  }
+}
+
+async function refreshHomeSections(options: { silent?: boolean } = {}): Promise<void> {
+  if (!options.silent) {
+    homeSectionsLoading.value = true
+  }
+
+  try {
+    const result = await portalContentApi.getHomePage()
+    const homeResponse = resolveHomeResponse(result.data)
+
+    if (homeResponse) {
+      homeSectionsCache.write(homeResponse)
+      applyHomeResponse(homeResponse)
+      return
+    }
+
+    if (!options.silent) {
+      homeSectionsMode.value = 'error'
+      homeSectionsErrorCode.value = result.errorCode ?? 500
+    }
+  } finally {
+    if (!options.silent) {
+      homeSectionsLoading.value = false
+    }
+  }
+}
+
+function applyFeaturedResponse(response: SearchFeaturedResponse): void {
+  featuredData.value = response
+  featuredMode.value = 'live'
+  featuredErrorCode.value = 500
+}
+
+function applyHomeResponse(response: HomeResponse): void {
+  homeData.value = response
+  homeSectionsMode.value = 'live'
+  homeSectionsErrorCode.value = 500
 }
 
 function resolveFeaturedResponse(
