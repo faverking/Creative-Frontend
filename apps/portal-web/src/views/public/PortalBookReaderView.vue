@@ -301,6 +301,7 @@ interface BookReaderPageData {
 const READER_FONT_SIZE_MIN = 18
 const READER_FONT_SIZE_MAX = 28
 const READER_FONT_SIZE_DEFAULT = 22
+const CATALOG_ACTIVE_ITEM_VISIBLE_PADDING = 12
 
 const route = useRoute()
 const router = useRouter()
@@ -442,7 +443,7 @@ watch(
 
 onMounted(() => {
   window.addEventListener('scroll', updateReadingProgress, { passive: true })
-  window.addEventListener('resize', updateReadingProgress)
+  window.addEventListener('resize', handleReaderViewportResize)
 })
 
 onBeforeUnmount(() => {
@@ -450,7 +451,7 @@ onBeforeUnmount(() => {
     window.cancelAnimationFrame(catalogScrollFrame)
   }
   window.removeEventListener('scroll', updateReadingProgress)
-  window.removeEventListener('resize', updateReadingProgress)
+  window.removeEventListener('resize', handleReaderViewportResize)
 })
 
 async function loadReader(): Promise<void> {
@@ -623,6 +624,13 @@ async function goBackToBook(): Promise<void> {
   await router.push(bookDetailLocation.value)
 }
 
+function handleReaderViewportResize(): void {
+  updateReadingProgress()
+  if (catalogExpanded.value) {
+    scheduleActiveCatalogChapterScroll()
+  }
+}
+
 function scheduleActiveCatalogChapterScroll(): void {
   void nextTick(() => {
     if (catalogScrollFrame) {
@@ -630,25 +638,54 @@ function scheduleActiveCatalogChapterScroll(): void {
     }
 
     catalogScrollFrame = window.requestAnimationFrame(() => {
-      catalogScrollFrame = 0
-      scrollActiveCatalogChapterIntoView()
+      if (scrollActiveCatalogChapterIntoView() || !catalogExpanded.value) {
+        catalogScrollFrame = 0
+        return
+      }
+
+      catalogScrollFrame = window.requestAnimationFrame(() => {
+        catalogScrollFrame = 0
+        scrollActiveCatalogChapterIntoView()
+      })
     })
   })
 }
 
-function scrollActiveCatalogChapterIntoView(): void {
+function scrollActiveCatalogChapterIntoView(): boolean {
   const panel = catalogPanelRef.value
   if (!panel) {
-    return
+    return false
   }
 
   const activeItem = panel.querySelector<HTMLElement>(
     '.portal-book-reader-page__catalog-item.is-active'
   )
-  activeItem?.scrollIntoView({
-    block: 'center',
-    inline: 'nearest'
+  const scrollWrap = panel.querySelector<HTMLElement>(
+    '.portal-book-reader-page__catalog-scrollbar .el-scrollbar__wrap'
+  )
+  if (!activeItem || !scrollWrap) {
+    return false
+  }
+
+  const activeRect = activeItem.getBoundingClientRect()
+  const wrapRect = scrollWrap.getBoundingClientRect()
+  const isFullyVisible =
+    activeRect.top >= wrapRect.top + CATALOG_ACTIVE_ITEM_VISIBLE_PADDING &&
+    activeRect.bottom <= wrapRect.bottom - CATALOG_ACTIVE_ITEM_VISIBLE_PADDING
+  if (isFullyVisible) {
+    return true
+  }
+
+  const centeredScrollTop =
+    scrollWrap.scrollTop +
+    activeRect.top -
+    wrapRect.top -
+    (scrollWrap.clientHeight - activeRect.height) / 2
+  const maxScrollTop = Math.max(scrollWrap.scrollHeight - scrollWrap.clientHeight, 0)
+  scrollWrap.scrollTo({
+    top: Math.min(Math.max(centeredScrollTop, 0), maxScrollTop)
   })
+  return true
 }
 
 function updateReadingProgress(): void {
