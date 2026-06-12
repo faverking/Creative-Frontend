@@ -4,15 +4,18 @@
   --home-stage-transition-blur: 6px;
   --home-stage-transition-offset-y: 10px;
   --home-stage-transition-scale: 0.992;
-  --home-featured-stage-duration: 360ms;
-  --home-featured-stage-easing: cubic-bezier(0.22, 1, 0.36, 1);
-  --home-featured-stage-blur: 10px;
-  --home-featured-stage-offset-x: 28px;
-  --home-featured-stage-offset-y: 12px;
-  --home-featured-stage-scale: 0.985;
-  --home-featured-cover-drift: 14px;
+  --home-featured-stage-duration: 520ms;
+  --home-featured-stage-leave-duration: 340ms;
+  --home-featured-stage-easing: cubic-bezier(0.33, 1, 0.68, 1);
+  --home-featured-stage-blur: 3px;
+  --home-featured-stage-offset-x: 8px;
+  --home-featured-stage-offset-y: 0;
+  --home-featured-stage-scale: 0.998;
+  --home-featured-cover-drift: 10px;
   --home-featured-cover-idle-duration: 13s;
-  --home-featured-copy-delay: 70ms;
+  --home-featured-cover-delay: 40ms;
+  --home-featured-detail-delay: 70ms;
+  --home-featured-copy-delay: 90ms;
 }
 
 @keyframes home-skeleton-wave {
@@ -34,8 +37,7 @@
 .home-section-stage-leave-to {
   opacity: 0;
   filter: blur(var(--home-stage-transition-blur));
-  transform:
-    translateY(var(--home-stage-transition-offset-y))
+  transform: translateY(var(--home-stage-transition-offset-y))
     scale(var(--home-stage-transition-scale));
 }
 
@@ -50,10 +52,34 @@
   }
 }
 
-.home-featured-stage-forward-enter-active,
-.home-featured-stage-forward-leave-active,
-.home-featured-stage-backward-enter-active,
-.home-featured-stage-backward-leave-active {
+.home-hero__feature-main-stage {
+  --home-featured-slide-enter-x: var(--home-featured-stage-offset-x);
+  --home-featured-slide-leave-x: calc(var(--home-featured-stage-offset-x) * -0.5);
+  --home-featured-cover-enter-x: var(--home-featured-cover-drift);
+  --home-featured-cover-leave-x: calc(var(--home-featured-cover-drift) * -0.5);
+  --home-featured-detail-enter-x: 6px;
+  --home-featured-detail-leave-x: -6px;
+  --home-featured-detail-enter-y: 10px;
+  --home-featured-detail-leave-y: -4px;
+  isolation: isolate;
+}
+
+.home-hero__feature-main-stage--backward {
+  --home-featured-slide-enter-x: calc(var(--home-featured-stage-offset-x) * -1);
+  --home-featured-slide-leave-x: calc(var(--home-featured-stage-offset-x) * 0.5);
+  --home-featured-cover-enter-x: calc(var(--home-featured-cover-drift) * -1);
+  --home-featured-cover-leave-x: calc(var(--home-featured-cover-drift) * 0.5);
+  --home-featured-detail-enter-x: -6px;
+  --home-featured-detail-leave-x: 6px;
+}
+
+.home-hero__feature-main-stage .home-hero__feature-main {
+  z-index: 0;
+  opacity: 0;
+  filter: blur(var(--home-featured-stage-blur));
+  pointer-events: none;
+  transform: translate3d(var(--home-featured-slide-enter-x), var(--home-featured-stage-offset-y), 0)
+    scale(var(--home-featured-stage-scale));
   transition:
     opacity var(--home-featured-stage-duration) var(--home-featured-stage-easing),
     transform var(--home-featured-stage-duration) var(--home-featured-stage-easing),
@@ -61,180 +87,137 @@
   will-change: opacity, transform, filter;
 }
 
-.home-featured-stage-forward-enter-active .home-hero__cover,
-.home-featured-stage-forward-leave-active .home-hero__cover,
-.home-featured-stage-backward-enter-active .home-hero__cover,
-.home-featured-stage-backward-leave-active .home-hero__cover,
-.home-featured-stage-forward-enter-active .home-hero__cover-frame,
-.home-featured-stage-forward-leave-active .home-hero__cover-frame,
-.home-featured-stage-backward-enter-active .home-hero__cover-frame,
-.home-featured-stage-backward-leave-active .home-hero__cover-frame,
-.home-featured-stage-forward-enter-active .home-hero__feature-stamp,
-.home-featured-stage-forward-leave-active .home-hero__feature-stamp,
-.home-featured-stage-backward-enter-active .home-hero__feature-stamp,
-.home-featured-stage-backward-leave-active .home-hero__feature-stamp,
-.home-featured-stage-forward-enter-active .home-hero__copy,
-.home-featured-stage-forward-leave-active .home-hero__copy,
-.home-featured-stage-backward-enter-active .home-hero__copy,
-.home-featured-stage-backward-leave-active .home-hero__copy {
+.home-hero__feature-main-stage .home-hero__feature-main.is-active {
+  z-index: 2;
+  opacity: 1;
+  filter: none;
+  pointer-events: auto;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.home-hero__feature-main-stage .home-hero__feature-main.is-leaving {
+  z-index: 1;
+  opacity: 0;
+  filter: blur(var(--home-featured-stage-blur));
+  transform: translate3d(var(--home-featured-slide-leave-x), 0, 0) scale(1);
+  transition-duration: var(--home-featured-stage-leave-duration);
+  transition-delay: 0ms;
+}
+
+.home-hero__feature-main-stage .home-hero__feature-main .home-hero__cover {
+  transition:
+    opacity calc(var(--home-featured-stage-duration) + 80ms) var(--home-featured-stage-easing)
+      var(--home-featured-cover-delay),
+    transform calc(var(--home-featured-stage-duration) + 120ms) var(--home-featured-stage-easing)
+      var(--home-featured-cover-delay),
+    filter calc(var(--home-featured-stage-duration) + 120ms) var(--home-featured-stage-easing)
+      var(--home-featured-cover-delay);
   will-change: opacity, transform, filter;
 }
 
-.home-featured-stage-forward-enter-active .home-hero__cover,
-.home-featured-stage-forward-leave-active .home-hero__cover,
-.home-featured-stage-backward-enter-active .home-hero__cover,
-.home-featured-stage-backward-leave-active .home-hero__cover,
-.home-featured-stage-forward-enter-active .home-hero__cover-frame,
-.home-featured-stage-forward-leave-active .home-hero__cover-frame,
-.home-featured-stage-backward-enter-active .home-hero__cover-frame,
-.home-featured-stage-backward-leave-active .home-hero__cover-frame,
-.home-featured-stage-forward-enter-active .home-hero__feature-stamp,
-.home-featured-stage-forward-leave-active .home-hero__feature-stamp,
-.home-featured-stage-backward-enter-active .home-hero__feature-stamp,
-.home-featured-stage-backward-leave-active .home-hero__feature-stamp {
+.home-hero__feature-main-stage .home-hero__feature-main .home-hero__cover-frame,
+.home-hero__feature-main-stage .home-hero__feature-main .home-hero__feature-stamp {
   transition:
-    opacity calc(var(--home-featured-stage-duration) + 40ms)
-      var(--home-featured-stage-easing),
-    transform calc(var(--home-featured-stage-duration) + 60ms)
-      var(--home-featured-stage-easing),
-    filter calc(var(--home-featured-stage-duration) + 60ms)
-      var(--home-featured-stage-easing);
+    opacity calc(var(--home-featured-stage-duration) - 40ms) var(--home-featured-stage-easing)
+      var(--home-featured-detail-delay),
+    transform calc(var(--home-featured-stage-duration) - 20ms) var(--home-featured-stage-easing)
+      var(--home-featured-detail-delay),
+    filter calc(var(--home-featured-stage-duration) - 20ms) var(--home-featured-stage-easing)
+      var(--home-featured-detail-delay);
+  will-change: opacity, transform, filter;
 }
 
-.home-featured-stage-forward-enter-active .home-hero__copy,
-.home-featured-stage-forward-leave-active .home-hero__copy,
-.home-featured-stage-backward-enter-active .home-hero__copy,
-.home-featured-stage-backward-leave-active .home-hero__copy {
+.home-hero__feature-main-stage .home-hero__feature-main .home-hero__copy {
   transition:
-    opacity calc(var(--home-featured-stage-duration) - 20ms)
-      var(--home-featured-stage-easing) var(--home-featured-copy-delay),
-    transform calc(var(--home-featured-stage-duration) - 20ms)
-      var(--home-featured-stage-easing) var(--home-featured-copy-delay),
-    filter calc(var(--home-featured-stage-duration) - 20ms)
-      var(--home-featured-stage-easing) var(--home-featured-copy-delay);
+    opacity calc(var(--home-featured-stage-duration) - 20ms) var(--home-featured-stage-easing)
+      var(--home-featured-copy-delay),
+    transform calc(var(--home-featured-stage-duration) - 20ms) var(--home-featured-stage-easing)
+      var(--home-featured-copy-delay),
+    filter calc(var(--home-featured-stage-duration) - 20ms) var(--home-featured-stage-easing)
+      var(--home-featured-copy-delay);
+  will-change: opacity, transform, filter;
 }
 
-.home-featured-stage-forward-enter-from {
+.home-hero__feature-main-stage .home-hero__feature-main:not(.is-active) .home-hero__cover {
+  transform: translate3d(var(--home-featured-cover-enter-x), 0, 0) scale(1.04);
+  filter: saturate(0.96) brightness(0.99);
+}
+
+.home-hero__feature-main-stage .home-hero__feature-main.is-leaving .home-hero__cover {
+  transform: translate3d(var(--home-featured-cover-leave-x), 0, 0) scale(1.02);
+  filter: saturate(0.96) brightness(0.98);
+  transition-duration: var(--home-featured-stage-leave-duration);
+  transition-delay: 0ms;
+}
+
+.home-hero__feature-main-stage .home-hero__feature-main.is-active .home-hero__cover,
+.home-hero__feature-main-stage .home-hero__feature-main.is-active .home-hero__cover-frame,
+.home-hero__feature-main-stage .home-hero__feature-main.is-active .home-hero__feature-stamp,
+.home-hero__feature-main-stage .home-hero__feature-main.is-active .home-hero__copy {
+  opacity: 1;
+  filter: none;
+  transform: translate3d(0, 0, 0);
+}
+
+.home-hero__feature-main-stage .home-hero__feature-main:not(.is-active) .home-hero__cover-frame,
+.home-hero__feature-main-stage .home-hero__feature-main:not(.is-active) .home-hero__feature-stamp,
+.home-hero__feature-main-stage .home-hero__feature-main:not(.is-active) .home-hero__copy {
   opacity: 0;
-  filter: blur(var(--home-featured-stage-blur));
-  transform:
-    translate3d(var(--home-featured-stage-offset-x), var(--home-featured-stage-offset-y), 0)
-    scale(var(--home-featured-stage-scale));
+  transform: translate3d(
+    var(--home-featured-detail-enter-x),
+    var(--home-featured-detail-enter-y),
+    0
+  );
+  filter: blur(3px);
 }
 
-.home-featured-stage-forward-leave-to {
+.home-hero__feature-main-stage .home-hero__feature-main.is-leaving .home-hero__cover-frame,
+.home-hero__feature-main-stage .home-hero__feature-main.is-leaving .home-hero__feature-stamp,
+.home-hero__feature-main-stage .home-hero__feature-main.is-leaving .home-hero__copy {
   opacity: 0;
-  filter: blur(calc(var(--home-featured-stage-blur) - 2px));
-  transform: translate3d(calc(var(--home-featured-stage-offset-x) * -0.68), -6px, 0) scale(1.01);
+  transform: translate3d(
+    var(--home-featured-detail-leave-x),
+    var(--home-featured-detail-leave-y),
+    0
+  );
+  filter: blur(3px);
+  transition-duration: var(--home-featured-stage-leave-duration);
+  transition-delay: 0ms;
 }
 
-.home-featured-stage-backward-enter-from {
-  opacity: 0;
-  filter: blur(var(--home-featured-stage-blur));
-  transform:
-    translate3d(calc(var(--home-featured-stage-offset-x) * -1), var(--home-featured-stage-offset-y), 0)
-    scale(var(--home-featured-stage-scale));
-}
-
-.home-featured-stage-backward-leave-to {
-  opacity: 0;
-  filter: blur(calc(var(--home-featured-stage-blur) - 2px));
-  transform: translate3d(calc(var(--home-featured-stage-offset-x) * 0.68), -6px, 0) scale(1.01);
-}
-
-.home-featured-stage-forward-enter-from .home-hero__cover {
-  transform: translate3d(var(--home-featured-cover-drift), 0, 0) scale(1.06);
-  filter: saturate(0.92) brightness(0.98);
-}
-
-.home-featured-stage-forward-leave-to .home-hero__cover {
-  transform: translate3d(calc(var(--home-featured-cover-drift) * -0.7), 0, 0) scale(1.02);
-  filter: saturate(0.94) brightness(0.96);
-}
-
-.home-featured-stage-backward-enter-from .home-hero__cover {
-  transform: translate3d(calc(var(--home-featured-cover-drift) * -1), 0, 0) scale(1.06);
-  filter: saturate(0.92) brightness(0.98);
-}
-
-.home-featured-stage-backward-leave-to .home-hero__cover {
-  transform: translate3d(calc(var(--home-featured-cover-drift) * 0.7), 0, 0) scale(1.02);
-  filter: saturate(0.94) brightness(0.96);
-}
-
-.home-featured-stage-forward-enter-from .home-hero__cover-frame,
-.home-featured-stage-forward-enter-from .home-hero__feature-stamp,
-.home-featured-stage-forward-enter-from .home-hero__copy {
-  opacity: 0;
-  transform: translate3d(18px, 8px, 0);
-  filter: blur(8px);
-}
-
-.home-featured-stage-forward-leave-to .home-hero__cover-frame,
-.home-featured-stage-forward-leave-to .home-hero__feature-stamp,
-.home-featured-stage-forward-leave-to .home-hero__copy {
-  opacity: 0;
-  transform: translate3d(-12px, -4px, 0);
-  filter: blur(6px);
-}
-
-.home-featured-stage-backward-enter-from .home-hero__cover-frame,
-.home-featured-stage-backward-enter-from .home-hero__feature-stamp,
-.home-featured-stage-backward-enter-from .home-hero__copy {
-  opacity: 0;
-  transform: translate3d(-18px, 8px, 0);
-  filter: blur(8px);
-}
-
-.home-featured-stage-backward-leave-to .home-hero__cover-frame,
-.home-featured-stage-backward-leave-to .home-hero__feature-stamp,
-.home-featured-stage-backward-leave-to .home-hero__copy {
-  opacity: 0;
-  transform: translate3d(12px, -4px, 0);
-  filter: blur(6px);
-}
-
-.home-hero__feature-card:not(.is-featured-paused) .home-hero__cover-image .portal-image__img {
+.home-hero__feature-card:not(.is-featured-paused)
+  .home-hero__feature-main.is-active
+  .home-hero__cover-image
+  .portal-image__img {
   animation: home-featured-cover-float var(--home-featured-cover-idle-duration) ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .home-section-stage-enter-active,
   .home-section-stage-leave-active,
-  .home-featured-stage-forward-enter-active,
-  .home-featured-stage-forward-leave-active,
-  .home-featured-stage-backward-enter-active,
-  .home-featured-stage-backward-leave-active {
+  .home-hero__feature-main-stage .home-hero__feature-main,
+  .home-hero__feature-main-stage .home-hero__feature-main .home-hero__cover,
+  .home-hero__feature-main-stage .home-hero__feature-main .home-hero__cover-frame,
+  .home-hero__feature-main-stage .home-hero__feature-main .home-hero__feature-stamp,
+  .home-hero__feature-main-stage .home-hero__feature-main .home-hero__copy {
     transition-duration: 1ms;
   }
 
   .home-section-stage-enter-from,
   .home-section-stage-leave-to,
-  .home-featured-stage-forward-enter-from,
-  .home-featured-stage-forward-leave-to,
-  .home-featured-stage-backward-enter-from,
-  .home-featured-stage-backward-leave-to,
-  .home-featured-stage-forward-enter-from .home-hero__cover,
-  .home-featured-stage-forward-leave-to .home-hero__cover,
-  .home-featured-stage-backward-enter-from .home-hero__cover,
-  .home-featured-stage-backward-leave-to .home-hero__cover,
-  .home-featured-stage-forward-enter-from .home-hero__cover-frame,
-  .home-featured-stage-forward-enter-from .home-hero__feature-stamp,
-  .home-featured-stage-forward-enter-from .home-hero__copy,
-  .home-featured-stage-forward-leave-to .home-hero__cover-frame,
-  .home-featured-stage-forward-leave-to .home-hero__feature-stamp,
-  .home-featured-stage-forward-leave-to .home-hero__copy,
-  .home-featured-stage-backward-enter-from .home-hero__cover-frame,
-  .home-featured-stage-backward-enter-from .home-hero__feature-stamp,
-  .home-featured-stage-backward-enter-from .home-hero__copy,
-  .home-featured-stage-backward-leave-to .home-hero__cover-frame,
-  .home-featured-stage-backward-leave-to .home-hero__feature-stamp,
-  .home-featured-stage-backward-leave-to .home-hero__copy {
+  .home-hero__feature-main-stage .home-hero__feature-main,
+  .home-hero__feature-main-stage .home-hero__feature-main .home-hero__cover,
+  .home-hero__feature-main-stage .home-hero__feature-main .home-hero__cover-frame,
+  .home-hero__feature-main-stage .home-hero__feature-main .home-hero__feature-stamp,
+  .home-hero__feature-main-stage .home-hero__feature-main .home-hero__copy {
     filter: none;
     transform: none;
   }
 
-  .home-hero__feature-card:not(.is-featured-paused) .home-hero__cover-image .portal-image__img {
+  .home-hero__feature-card:not(.is-featured-paused)
+    .home-hero__feature-main.is-active
+    .home-hero__cover-image
+    .portal-image__img {
     animation: none;
   }
 }

@@ -84,60 +84,67 @@
           @focusin="handleFeaturedFocusIn"
           @focusout="handleFeaturedFocusOut"
         >
-          <div class="home-hero__feature-main-stage">
-            <transition :name="featuredTransitionName" mode="out-in">
-              <div
-                :key="activeFeatured.id"
-                class="home-hero__feature-main portal-interactive-surface"
-              >
-                <router-link
-                  class="home-hero__feature-link-layer portal-link-layer"
-                  :to="resolvePortalContentDetailLocation(activeFeatured.type, activeFeatured.id)"
-                  :aria-label="`查看${activeFeatured.title}详情`"
-                  :title="activeFeatured.title"
+          <div
+            class="home-hero__feature-main-stage"
+            :class="`home-hero__feature-main-stage--${featuredTransitionDirection}`"
+          >
+            <div
+              v-for="(item, index) in featuredItems"
+              :key="item.id"
+              class="home-hero__feature-main portal-interactive-surface"
+              :class="{
+                'is-active': index === activeFeaturedIndex,
+                'is-leaving': index === previousFeaturedIndex && index !== activeFeaturedIndex
+              }"
+              :aria-hidden="index !== activeFeaturedIndex"
+            >
+              <router-link
+                v-if="index === activeFeaturedIndex"
+                class="home-hero__feature-link-layer portal-link-layer"
+                :to="resolvePortalContentDetailLocation(item.type, item.id)"
+                :aria-label="`查看${item.title}详情`"
+                :title="item.title"
+              />
+
+              <div class="home-hero__feature-stamp" aria-hidden="true">
+                <span class="home-hero__feature-stamp-text">
+                  {{ formatPublishTimeLabel(item.publishTime) }}
+                </span>
+              </div>
+
+              <div class="home-hero__cover">
+                <portal-image
+                  :src="resolveFeaturedCoverUrl(item)"
+                  class="home-hero__cover-image"
+                  loading="eager"
+                  position="center"
                 />
+                <div class="home-hero__cover-frame" />
+              </div>
 
-                <div class="home-hero__feature-stamp" aria-hidden="true">
-                  <span class="home-hero__feature-stamp-text">
-                    {{ formatPublishTimeLabel(activeFeatured.publishTime) }}
-                  </span>
-                </div>
+              <div class="home-hero__copy">
+                <span
+                  class="home-hero__copy-kicker"
+                  :class="`home-hero__copy-kicker--${item.type}`"
+                >
+                  {{ formatFeaturedMetaLabel(item.type, item.recommendLabel) }}
+                </span>
+                <h3>{{ item.title }}</h3>
+                <p>
+                  {{ formatFeaturedDescription(item.kicker, item.summary) }}
+                </p>
 
-                <div class="home-hero__cover">
-                  <portal-image
-                    :src="activeFeaturedCoverUrl"
-                    class="home-hero__cover-image"
-                    position="center"
-                  />
-                  <div class="home-hero__cover-frame" />
-                </div>
-
-                <div class="home-hero__copy">
+                <div class="home-hero__tags">
                   <span
-                    class="home-hero__copy-kicker"
-                    :class="`home-hero__copy-kicker--${activeFeatured.type}`"
+                    v-for="tag in resolveFeaturedTags(item)"
+                    :key="tag.label"
+                    :class="`home-hero__tag home-hero__tag--${tag.tone}`"
                   >
-                    {{
-                      formatFeaturedMetaLabel(activeFeatured.type, activeFeatured.recommendLabel)
-                    }}
+                    {{ tag.label }}
                   </span>
-                  <h3>{{ activeFeatured.title }}</h3>
-                  <p>
-                    {{ formatFeaturedDescription(activeFeatured.kicker, activeFeatured.summary) }}
-                  </p>
-
-                  <div class="home-hero__tags">
-                    <span
-                      v-for="tag in activeFeaturedTags"
-                      :key="tag.label"
-                      :class="`home-hero__tag home-hero__tag--${tag.tone}`"
-                    >
-                      {{ tag.label }}
-                    </span>
-                  </div>
                 </div>
               </div>
-            </transition>
+            </div>
           </div>
 
           <div
@@ -298,6 +305,7 @@ const props = withDefaults(
 )
 
 const activeFeaturedIndex = ref(0)
+const previousFeaturedIndex = ref<number | null>(null)
 const featuredHoverPaused = ref(false)
 const featuredFocusPaused = ref(false)
 const featuredDocumentHidden = ref(false)
@@ -330,15 +338,8 @@ const quickEntries = computed(() =>
     }
   })
 )
-const activeFeatured = computed(
-  () => featuredItems.value[activeFeaturedIndex.value] ?? featuredItems.value[0]
-)
 const featureBoundaryMode = computed<PortalRequestBoundaryMode>(() =>
   props.mode === 'ready' && featuredItems.value.length === 0 ? 'empty' : props.mode
-)
-const activeFeaturedCoverUrl = computed(() => resolveHomeMediaUrl(activeFeatured.value?.cover))
-const activeFeaturedTags = computed(() =>
-  createToneTagList(activeFeatured.value?.tags ?? [], HOME_TAG_TONES, HOME_FEATURED_TAG_LIMIT)
 )
 const featuredAutoplayPaused = computed(
   () =>
@@ -346,9 +347,6 @@ const featuredAutoplayPaused = computed(
     featuredFocusPaused.value ||
     featuredDocumentHidden.value ||
     featuredReducedMotion.value
-)
-const featuredTransitionName = computed(
-  () => `home-featured-stage-${featuredTransitionDirection.value}`
 )
 const featuredMotionStyle = computed(() => ({
   '--home-featured-progress-duration': `${HOME_FEATURED_AUTOPLAY_MS}ms`
@@ -369,8 +367,11 @@ function stepFeatured(offset: number) {
   if (total <= 1) {
     return
   }
-  featuredTransitionDirection.value = offset >= 0 ? 'forward' : 'backward'
-  activeFeaturedIndex.value = (activeFeaturedIndex.value + offset + total) % total
+
+  setActiveFeaturedIndex(
+    (activeFeaturedIndex.value + offset + total) % total,
+    offset >= 0 ? 'forward' : 'backward'
+  )
 }
 
 function syncFeaturedAutoplay() {
@@ -392,9 +393,22 @@ function selectFeatured(index: number) {
     return
   }
 
-  featuredTransitionDirection.value = index > activeFeaturedIndex.value ? 'forward' : 'backward'
-  activeFeaturedIndex.value = index
+  setActiveFeaturedIndex(index, index > activeFeaturedIndex.value ? 'forward' : 'backward')
   syncFeaturedAutoplay()
+}
+
+function setActiveFeaturedIndex(index: number, direction: FeaturedTransitionDirection) {
+  previousFeaturedIndex.value = activeFeaturedIndex.value
+  featuredTransitionDirection.value = direction
+  activeFeaturedIndex.value = index
+}
+
+function resolveFeaturedCoverUrl(item: HomeFeaturedResponse) {
+  return resolveHomeMediaUrl(item.cover)
+}
+
+function resolveFeaturedTags(item: HomeFeaturedResponse) {
+  return createToneTagList(item.tags, HOME_TAG_TONES, HOME_FEATURED_TAG_LIMIT)
 }
 
 function pauseFeaturedAutoplay() {
@@ -433,12 +447,18 @@ watch(
   (items) => {
     if (items.length === 0) {
       activeFeaturedIndex.value = 0
+      previousFeaturedIndex.value = null
       clearFeaturedAutoplay()
       return
     }
 
     if (activeFeaturedIndex.value >= items.length) {
       activeFeaturedIndex.value = 0
+      previousFeaturedIndex.value = null
+    }
+
+    if (previousFeaturedIndex.value !== null && previousFeaturedIndex.value >= items.length) {
+      previousFeaturedIndex.value = null
     }
 
     syncFeaturedAutoplay()
