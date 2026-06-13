@@ -9,6 +9,7 @@ export interface AiRequester {
 type MaybePromise<T> = T | Promise<T>
 
 type FetchLike = typeof globalThis.fetch
+export type AiStreamAuthMode = 'bearer' | 'none'
 
 export interface AiClientOptions {
   endpoint: string
@@ -16,6 +17,7 @@ export interface AiClientOptions {
   getAccessToken?: () => MaybePromise<string | undefined>
   ensureFreshAccessToken?: () => Promise<boolean>
   streamFetch?: FetchLike
+  streamAuth?: AiStreamAuthMode
 }
 
 function trimTrailingSlash(value: string): string {
@@ -47,6 +49,10 @@ export class AiClient {
 
   async ensureFreshAccessToken(): Promise<boolean> {
     return (await this.options.ensureFreshAccessToken?.()) ?? true
+  }
+
+  resolveStreamAuth(): AiStreamAuthMode {
+    return this.options.streamAuth ?? 'bearer'
   }
 
   resolveStreamFetch(): FetchLike {

@@ -21,14 +21,12 @@ const appConfigs = [
     defaultAppTitle: 'admin-web',
     defaultTrackingAppId: 'admin-web',
     extraKeys: {
-      VITE_ADMIN_AI_EXPERIMENT_ENABLED: ['ADMIN_AI_EXPERIMENT_ENABLED', undefined, 'false'],
-      VITE_TESTAI_API_BASE_URL: [
-        'ADMIN_TESTAI_API_BASE_URL',
+      VITE_ADMIN_DEEPSEEK_API_BASE_URL: [
+        'ADMIN_DEEPSEEK_API_BASE_URL',
         undefined,
-        'https://api.openai.com/v1'
+        'https://api.deepseek.com'
       ],
-      VITE_TESTAI_MODEL: ['ADMIN_TESTAI_MODEL', undefined, ''],
-      VITE_TESTAI_API_MODEL_COMPOSE: ['ADMIN_TESTAI_API_MODEL_COMPOSE', undefined, '']
+      VITE_ADMIN_DEEPSEEK_MODEL: ['ADMIN_DEEPSEEK_MODEL', undefined, 'deepseek-v4-flash']
     }
   }
 ]
@@ -102,24 +100,24 @@ function resolveValue(appConfig, envFile, viteKey, fallback) {
   )
 }
 
-function resolveAdminTestAiApiKey(envFile) {
-  const plainTextKey = pick(process.env.ADMIN_TESTAI_API_KEY, envFile.VITE_TESTAI_API_KEY)
+function resolveAdminDeepSeekApiKey(envFile) {
+  const plainTextKey = pick(process.env.ADMIN_DEEPSEEK_API_KEY, envFile.VITE_ADMIN_DEEPSEEK_API_KEY)
   if (plainTextKey) {
     return plainTextKey
   }
 
   const encryptedKey = pick(
-    process.env.ADMIN_TESTAI_API_KEY_ENCRYPTED,
-    envFile.VITE_TESTAI_API_KEY_ENCRYPTED
+    process.env.ADMIN_DEEPSEEK_API_KEY_ENCRYPTED,
+    envFile.VITE_ADMIN_DEEPSEEK_API_KEY_ENCRYPTED
   )
   if (!encryptedKey) {
     return ''
   }
 
-  const encryptionKey = pick(process.env.ADMIN_TESTAI_API_KEY_ENCRYPTION_KEY)
+  const encryptionKey = pick(process.env.ADMIN_DEEPSEEK_API_KEY_ENCRYPTION_KEY)
   if (!encryptionKey) {
     throw new Error(
-      'Missing ADMIN_TESTAI_API_KEY_ENCRYPTION_KEY. Set it to decrypt ADMIN_TESTAI_API_KEY_ENCRYPTED or VITE_TESTAI_API_KEY_ENCRYPTED.'
+      'Missing ADMIN_DEEPSEEK_API_KEY_ENCRYPTION_KEY. Set it to decrypt ADMIN_DEEPSEEK_API_KEY_ENCRYPTED or VITE_ADMIN_DEEPSEEK_API_KEY_ENCRYPTED.'
     )
   }
 
@@ -172,7 +170,7 @@ for (const appConfig of appConfigs) {
   }
 
   if (appConfig.name === 'admin-web') {
-    resolved.VITE_TESTAI_API_KEY = resolveAdminTestAiApiKey(sourceEnv)
+    resolved.VITE_ADMIN_DEEPSEEK_API_KEY = resolveAdminDeepSeekApiKey(sourceEnv)
   }
 
   writeEnvFile(targetFile, resolved)

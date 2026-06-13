@@ -73,7 +73,7 @@
 - 仓库级 hooks、lint-staged、commitlint 放根目录，不在单个 app 复制。
 - 可复用格式化配置、构建 preset、脚手架能力、通用工程脚本优先沉淀到 `packages/*` 或 `scripts/*`。
 - 前端生产发布只从 `.github/workflows/deploy-frontend.yml` 进入，由 `web-v*` tag 触发；新增 base path、部署环境变量或打包结构时，必须同时验证 `portal-web` 与 `admin-web`。
-- 生产构建环境由 `scripts/prepare-frontend-build-env.mjs` 生成；`FRONTEND_*` 是共享覆盖，`PORTAL_*` / `ADMIN_*` 是单应用覆盖；OpenAI key 不写入 git，优先使用加密变量注入。
+- 生产构建环境由 `scripts/prepare-frontend-build-env.mjs` 生成；`FRONTEND_*` 是共享覆盖，`PORTAL_*` / `ADMIN_*` 是单应用覆盖；DeepSeek key 不写入 git，优先使用加密变量注入。
 
 ## 6. portal-web 通用边界
 
@@ -231,14 +231,14 @@
 
 改动后运行与范围匹配的最小有效校验；无法运行时说明原因。
 
-| 改动范围 | 默认校验 |
-| --- | --- |
-| `apps/portal-web` 公开内容域 | `pnpm --filter portal-web typecheck` + `pnpm --filter portal-web build` |
-| `apps/portal-web` 非公开内容 | `pnpm --filter portal-web typecheck`，必要时 build |
-| `apps/admin-web` | `pnpm --filter admin-web typecheck`，必要时 build |
-| `packages/*` | 对应 package 的 `typecheck` / `test` / `build`，按风险选择 |
-| 工程配置、CI、脚本 | 相关脚本或根级 `pnpm lint` / `pnpm typecheck` / `pnpm test`，按影响面选择 |
-| 准备对齐当前 Actions | `pnpm lint` + `pnpm typecheck` + `pnpm test` + `pnpm --filter portal-web build` + `pnpm --filter admin-web build` |
+| 改动范围                     | 默认校验                                                                                                          |
+| ---------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `apps/portal-web` 公开内容域 | `pnpm --filter portal-web typecheck` + `pnpm --filter portal-web build`                                           |
+| `apps/portal-web` 非公开内容 | `pnpm --filter portal-web typecheck`，必要时 build                                                                |
+| `apps/admin-web`             | `pnpm --filter admin-web typecheck`，必要时 build                                                                 |
+| `packages/*`                 | 对应 package 的 `typecheck` / `test` / `build`，按风险选择                                                        |
+| 工程配置、CI、脚本           | 相关脚本或根级 `pnpm lint` / `pnpm typecheck` / `pnpm test`，按影响面选择                                         |
+| 准备对齐当前 Actions         | `pnpm lint` + `pnpm typecheck` + `pnpm test` + `pnpm --filter portal-web build` + `pnpm --filter admin-web build` |
 
 公开内容域需要完整校验时，再运行：
 

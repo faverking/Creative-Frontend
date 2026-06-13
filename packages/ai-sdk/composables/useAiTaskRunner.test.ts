@@ -10,7 +10,7 @@ function createCompletedResponse(): AdminComposeResponse {
   return {
     task: 'generate-summary',
     contentType: 'article',
-    model: 'gpt-5.4-mini',
+    model: 'deepseek-v4-flash',
     promptVersion: 'article-v1',
     traceId: 'trace-1',
     result: {

@@ -91,7 +91,7 @@ describe('extractContentSuggestionText', () => {
     const response = {
       task: 'rewrite-selection',
       contentType: 'article',
-      model: 'gpt-5.4-mini',
+      model: 'deepseek-v4-flash',
       promptVersion: 'article-v2',
       traceId: 'trace-preview',
       result: {

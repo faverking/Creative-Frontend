@@ -83,7 +83,7 @@ node scripts/prepare-frontend-build-env.mjs
 
 - `PORTAL_API_BASE_URL`、`PORTAL_SSO_BASE_URL`、`PORTAL_AI_API_BASE_URL`、`PORTAL_ADMIN_WEB_BASE_URL`
 - `ADMIN_API_BASE_URL`、`ADMIN_SSO_BASE_URL`、`ADMIN_AI_API_BASE_URL`
-- `ADMIN_AI_EXPERIMENT_ENABLED`、`ADMIN_TESTAI_API_BASE_URL`、`ADMIN_TESTAI_MODEL`、`ADMIN_TESTAI_API_MODEL_COMPOSE`
+- `ADMIN_DEEPSEEK_API_BASE_URL`、`ADMIN_DEEPSEEK_MODEL`
 
 默认回退：
 
@@ -94,24 +94,24 @@ node scripts/prepare-frontend-build-env.mjs
 - `OAUTH_PROVIDER=google`
 - `PORTAL_ADMIN_WEB_BASE_URL=/admin/`
 
-## OpenAI 实验链路
+## DeepSeek 浏览器直连链路
 
-`admin-web` 浏览器 OpenAI 实验能力由 `VITE_ADMIN_AI_EXPERIMENT_ENABLED` 控制。
+`admin-web` 辅助编辑直连 DeepSeek Chat Completions API，默认模型为 `deepseek-v4-flash`。
 
 API key 不写入 git，不建议放 GitHub Variables 明文项。推荐：
 
-- Secret：`ADMIN_TESTAI_API_KEY_ENCRYPTION_KEY`
-- Variable：`ADMIN_TESTAI_API_KEY_ENCRYPTED`
+- Secret：`ADMIN_DEEPSEEK_API_KEY_ENCRYPTION_KEY`
+- Variable：`ADMIN_DEEPSEEK_API_KEY_ENCRYPTED`
 
 本地生成密文：
 
 ```powershell
-$env:ADMIN_TESTAI_API_KEY='sk-...'
-$env:ADMIN_TESTAI_API_KEY_ENCRYPTION_KEY='your-long-random-secret'
-node scripts/encrypt-admin-testai-api-key.mjs
+$env:ADMIN_DEEPSEEK_API_KEY='sk-...'
+$env:ADMIN_DEEPSEEK_API_KEY_ENCRYPTION_KEY='your-long-random-secret'
+node scripts/encrypt-admin-deepseek-api-key.mjs
 ```
 
-CI 也兼容直接读取 Secret `ADMIN_TESTAI_API_KEY`，但优先使用密文 + 解密密钥。解密后的 key 会进入浏览器构建产物，属于运行时可见配置。
+CI 也兼容直接读取 Secret `ADMIN_DEEPSEEK_API_KEY`，但优先使用密文 + 解密密钥。解密后的 key 会进入浏览器构建产物，属于运行时可见配置。
 
 ## GitHub 配置
 
@@ -121,7 +121,7 @@ Secrets：
 - `SERVER_USER`
 - `SERVER_PORT`
 - `SERVER_SSH_KEY`
-- `ADMIN_TESTAI_API_KEY_ENCRYPTION_KEY`
+- `ADMIN_DEEPSEEK_API_KEY_ENCRYPTION_KEY`
 
 服务器一次性初始化：
 

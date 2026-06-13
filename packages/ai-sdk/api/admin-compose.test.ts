@@ -32,7 +32,7 @@ function createCompletedResponse(task: AdminComposeRequest['task']): AdminCompos
   return {
     task,
     contentType: 'article',
-    model: 'gpt-5.4-mini',
+    model: 'deepseek-v4-flash',
     promptVersion: 'article-v1',
     traceId: 'trace-1',
     result: {
@@ -123,5 +123,41 @@ describe('streamAdminComposeTask', () => {
     })
 
     await expect(streamAdminComposeTask(client, baseRequest)).rejects.toThrow('模型服务暂时不可用')
+  })
+
+  it('supports stream requests without bearer auth', async () => {
+    const completedResponse = createCompletedResponse('generate-summary')
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValue(
+        createSseResponse([
+          'event: delta\ndata: {"text":"预览"}\n\n',
+          `event: completed\ndata: ${JSON.stringify(completedResponse)}\n\n`
+        ])
+      )
+    const ensureFreshAccessToken = vi.fn()
+    const getAccessToken = vi.fn()
+
+    const client = createAiClient({
+      endpoint: '/admin/deepseek',
+      requester: {
+        post: vi.fn()
+      },
+      streamFetch: fetchMock as typeof globalThis.fetch,
+      ensureFreshAccessToken,
+      getAccessToken,
+      streamAuth: 'none'
+    })
+
+    await expect(streamAdminComposeTask(client, baseRequest)).resolves.toEqual(completedResponse)
+
+    expect(ensureFreshAccessToken).not.toHaveBeenCalled()
+    expect(getAccessToken).not.toHaveBeenCalled()
+
+    const [, init] = fetchMock.mock.calls[0] as [string, RequestInit]
+    expect(init.headers).toEqual({
+      Accept: 'text/event-stream',
+      'Content-Type': 'application/json'
+    })
   })
 })

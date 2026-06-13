@@ -264,24 +264,29 @@ export async function streamAdminComposeTask(
 ): Promise<AdminComposeResponse> {
   // 流式接口需要自定义 POST body、Authorization 和 SSE 读取过程，
   // 这类能力超出了当前普通 HttpClient.post 的返回模型，所以这里单独走 fetch。
-  const hasFreshAccessToken = await client.ensureFreshAccessToken()
-  // 开流前先刷新一次 token，避免 SSE 建链后才因 401 中断，导致前端只能拿到半段预览文本。
-  if (!hasFreshAccessToken) {
-    throw new Error('登录状态已失效，请重新登录后再试。')
+  const headers: Record<string, string> = {
+    Accept: 'text/event-stream',
+    'Content-Type': 'application/json'
   }
 
-  const accessToken = await client.getAccessToken()
-  if (!accessToken) {
-    throw new Error('缺少访问令牌，无法发起 AI 请求。')
+  if (client.resolveStreamAuth() === 'bearer') {
+    const hasFreshAccessToken = await client.ensureFreshAccessToken()
+    // 开流前先刷新一次 token，避免 SSE 建链后才因 401 中断，导致前端只能拿到半段预览文本。
+    if (!hasFreshAccessToken) {
+      throw new Error('登录状态已失效，请重新登录后再试。')
+    }
+
+    const accessToken = await client.getAccessToken()
+    if (!accessToken) {
+      throw new Error('缺少访问令牌，无法发起 AI 请求。')
+    }
+
+    headers.Authorization = `Bearer ${accessToken}`
   }
 
   const response = await client.resolveStreamFetch()(client.resolveUrl('/compose/stream'), {
     method: 'POST',
-    headers: {
-      Accept: 'text/event-stream',
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`
-    },
+    headers,
     body: JSON.stringify(request),
     signal: options.signal
   })

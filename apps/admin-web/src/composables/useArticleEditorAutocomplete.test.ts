@@ -21,7 +21,7 @@ function createCompletedResponse(
   return {
     task,
     contentType: 'article',
-    model: 'gpt-5.4-mini',
+    model: 'deepseek-v4-flash',
     promptVersion: 'article-v2',
     traceId: 'trace-editor',
     result
