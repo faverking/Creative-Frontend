@@ -19,7 +19,7 @@ import {
   createBookComicEnhancementQueue,
   enhanceBookComicImage,
   resolveBookComicEnhancementTarget
-} from './book-comic-enhancer'
+} from './comic-enhancer'
 
 afterEach(() => {
   picaResizeMock.mockClear()

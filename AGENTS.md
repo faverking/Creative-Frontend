@@ -102,6 +102,18 @@ not in this file.
 - Comic chapter image enhancement is scoped to the book comic reader path. Do
   not generalize it to `PortalImage`, book details, galleries, or novel reader
   images unless the user asks.
+- Book reader feature-local runtime, source adapters, catalog helpers, and
+  reader-only components belong under `apps/portal-web/src/views/public/book-reader`.
+- When the book reader catalog is open, chapter navigation must keep the active
+  catalog item visible through the owning `el-scrollbar` API after `readerData`
+  is assigned, the catalog DOM has settled, and the DOM active item matches the
+  new chapter. Use a short-lived DOM observer for catalog readiness rather than
+  fixed frame retries. Route-changing clicks only start navigation; they must
+  not scroll the old catalog before loading begins.
+- Book reader progress labels must distinguish reading progress from chapter
+  position. Comic progress uses the current visible page and total page count,
+  not dynamic scroll height, because lazy image layout changes can make height
+  based progress move backward.
 
 ## Validation
 

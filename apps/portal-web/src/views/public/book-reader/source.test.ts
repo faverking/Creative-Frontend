@@ -1,10 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import {
-  fetchKomiicComicChapter,
-  resolveBookReaderSource,
-  resolveKomiicChapterId
-} from './book-reader'
+import { fetchKomiicComicChapter, resolveBookReaderSource, resolveKomiicChapterId } from './source'
 import type { PublicBookChapterItemResponse, PublicBookDetailResponse } from '@/api/public-detail'
 
 afterEach(() => {

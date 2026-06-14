@@ -40,7 +40,7 @@ import {
   BookComicEnhancementError,
   type EnhanceBookComicImageResult,
   enhanceBookComicImage
-} from '@/views/public/book-comic-enhancer'
+} from '../comic-enhancer'
 
 defineOptions({
   inheritAttrs: false
@@ -57,7 +57,8 @@ const props = withDefaults(
   {
     alt: '',
     loading: 'lazy',
-    maxCssWidth: BOOK_COMIC_ENHANCEMENT_MAX_CSS_WIDTH
+    maxCssWidth: BOOK_COMIC_ENHANCEMENT_MAX_CSS_WIDTH,
+    requestHeaders: () => ({})
   }
 )
 

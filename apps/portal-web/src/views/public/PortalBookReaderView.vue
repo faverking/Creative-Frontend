@@ -196,9 +196,20 @@
           目录
         </button>
 
-        <div class="portal-book-reader-page__progress-panel">
-          <span>{{ chapterIndexLabel }}</span>
-          <strong>{{ readingProgressLabel }}</strong>
+        <div class="portal-book-reader-page__progress-panel" :style="progressPanelStyle">
+          <span class="portal-book-reader-page__progress-label">阅读进度</span>
+          <strong class="portal-book-reader-page__progress-value">{{
+            readingProgressLabel
+          }}</strong>
+          <span class="portal-book-reader-page__progress-track" aria-hidden="true">
+            <span class="portal-book-reader-page__progress-bar" />
+          </span>
+          <span class="portal-book-reader-page__progress-meta-row">
+            <span class="portal-book-reader-page__progress-meta">{{ chapterIndexLabel }}</span>
+            <span v-if="isComicReader" class="portal-book-reader-page__progress-meta">
+              {{ comicPageIndexLabel }}
+            </span>
+          </span>
         </div>
       </aside>
 
@@ -213,11 +224,12 @@
           <span>{{ readerData.chapters.length }} 章</span>
         </div>
 
-        <el-scrollbar class="portal-book-reader-page__catalog-scrollbar">
+        <el-scrollbar ref="catalogScrollbarRef" class="portal-book-reader-page__catalog-scrollbar">
           <nav class="portal-book-reader-page__catalog-list">
             <router-link
               v-for="(chapter, index) in readerData.chapters"
               :key="chapter.id"
+              :data-reader-catalog-chapter-id="String(chapter.id)"
               class="portal-book-reader-page__catalog-item"
               :class="{ 'is-active': isActiveChapter(chapter) }"
               :to="resolveChapterLocation(chapter)"
@@ -286,8 +298,8 @@ import {
   type BookReaderChapterContent,
   type BookReaderMode,
   type BookReaderSourceResolution
-} from '@/views/public/book-reader'
-import BookComicEnhancedImage from '@/views/public/components/reader/BookComicEnhancedImage.vue'
+} from '@/views/public/book-reader/source'
+import BookComicEnhancedImage from '@/views/public/book-reader/components/BookComicEnhancedImage.vue'
 import { useDocumentTitle } from '@/composables/useDocumentTitle'
 import { usePublicDetailRequestState } from '@/views/public/composables/usePublicDetailRequestState'
 
@@ -303,7 +315,19 @@ interface BookReaderPageData {
 const READER_FONT_SIZE_MIN = 18
 const READER_FONT_SIZE_MAX = 28
 const READER_FONT_SIZE_DEFAULT = 22
-const CATALOG_ACTIVE_ITEM_VISIBLE_PADDING = 12
+const CATALOG_SCROLL_OBSERVER_TIMEOUT_MS = 3000
+
+interface BookReaderCatalogScrollbarExpose {
+  setScrollTop: (value: number) => void
+  update?: () => void
+  wrapRef?: HTMLElement | null
+}
+
+interface BookReaderCatalogScrollElements {
+  scrollWrap: HTMLElement
+  scrollbar: BookReaderCatalogScrollbarExpose
+  targetItem: HTMLElement
+}
 
 const route = useRoute()
 const router = useRouter()
@@ -314,10 +338,16 @@ const chapterContentCache = new Map<string, BookReaderChapterContent>()
 const readerErrorTitle = ref('章节正文暂时无法加载，请稍后再试。')
 const catalogExpanded = ref(false)
 const catalogPanelRef = ref<HTMLElement | null>(null)
+const catalogScrollbarRef = ref<BookReaderCatalogScrollbarExpose | null>(null)
 const paperRef = ref<HTMLElement | null>(null)
+const currentComicPageIndex = ref(1)
 const readingProgressPercent = ref(0)
 const readerFontSize = ref(READER_FONT_SIZE_DEFAULT)
+let catalogScrollRequestToken = 0
+let catalogScrollObserver: MutationObserver | null = null
 let catalogScrollFrame = 0
+let catalogScrollTimeout = 0
+let lastReadingProgressScrollY = 0
 const {
   boundaryMode: readerBoundaryMode,
   beginLoad: beginReaderLoad,
@@ -370,14 +400,14 @@ const chapterProgressLabel = computed(() => {
     return ''
   }
 
-  return `第 ${readerData.value.chapterIndex + 1} / ${readerData.value.chapters.length} 章`
+  return `章节 ${readerData.value.chapterIndex + 1} / ${readerData.value.chapters.length}`
 })
 const chapterIndexLabel = computed(() => {
   if (!readerData.value) {
-    return '- / -'
+    return '章 -/-'
   }
 
-  return `${readerData.value.chapterIndex + 1} / ${readerData.value.chapters.length}`
+  return `章 ${readerData.value.chapterIndex + 1}/${readerData.value.chapters.length}`
 })
 const readingProgressLabel = computed(() => {
   const progress = readingProgressPercent.value
@@ -385,6 +415,22 @@ const readingProgressLabel = computed(() => {
 })
 const isComicReader = computed(() => readerData.value?.source.mode === 'comic')
 const isReaderSkeletonComic = computed(() => pendingReaderMode.value === 'comic')
+const comicPageCount = computed(
+  () => readerData.value?.content.items.filter((item) => item.type === 'image').length ?? 0
+)
+const comicPageIndexLabel = computed(() => {
+  const pageCount = comicPageCount.value
+  if (pageCount <= 0) {
+    return '页 -/-'
+  }
+
+  return `页 ${Math.min(currentComicPageIndex.value, pageCount)}/${pageCount}`
+})
+const progressPanelStyle = computed(() => ({
+  '--portal-book-reader-progress-ratio': String(
+    Math.min(Math.max(readingProgressPercent.value, 0), 100) / 100
+  )
+}))
 const readerStyle = computed(() =>
   isComicReader.value ? {} : { '--portal-book-reader-font-size': `${readerFontSize.value / 10}rem` }
 )
@@ -433,25 +479,15 @@ watch(
   { flush: 'post' }
 )
 
-watch(
-  () => readerData.value?.chapter.id,
-  () => {
-    if (catalogExpanded.value) {
-      scheduleActiveCatalogChapterScroll()
-    }
-  },
-  { flush: 'post' }
-)
-
 onMounted(() => {
   window.addEventListener('scroll', updateReadingProgress, { passive: true })
   window.addEventListener('resize', handleReaderViewportResize)
+  scheduleActiveCatalogChapterScroll()
 })
 
 onBeforeUnmount(() => {
-  if (catalogScrollFrame) {
-    window.cancelAnimationFrame(catalogScrollFrame)
-  }
+  catalogScrollRequestToken += 1
+  stopCatalogScrollObservation()
   window.removeEventListener('scroll', updateReadingProgress)
   window.removeEventListener('resize', handleReaderViewportResize)
 })
@@ -460,6 +496,8 @@ async function loadReader(): Promise<void> {
   const loadToken = beginReaderLoad()
   readerData.value = null
   pendingReaderMode.value = null
+  currentComicPageIndex.value = 1
+  lastReadingProgressScrollY = window.scrollY
   readingProgressPercent.value = 0
   readerErrorTitle.value = '章节正文暂时无法加载，请稍后再试。'
 
@@ -513,7 +551,11 @@ async function loadReader(): Promise<void> {
     }
     setReaderLiveMode()
     await nextTick()
+    if (!isLatestReaderLoad(loadToken)) {
+      return
+    }
     updateReadingProgress()
+    scrollActiveCatalogChapterAfterReaderDataSet(chapter, loadToken)
   } catch {
     if (!isLatestReaderLoad(loadToken)) {
       return
@@ -645,81 +687,279 @@ function handleReaderViewportResize(): void {
 }
 
 function scheduleActiveCatalogChapterScroll(): void {
+  const scrollToken = beginCatalogScrollRequest()
+  observeAndScrollCatalogChapter(readerData.value?.chapter ?? null, scrollToken)
+}
+
+function scrollActiveCatalogChapterAfterReaderDataSet(
+  chapter: PublicBookChapterItemResponse,
+  loadToken: number
+): void {
+  const scrollToken = beginCatalogScrollRequest()
+  if (!catalogExpanded.value || !isLatestReaderLoad(loadToken)) {
+    return
+  }
+
+  observeAndScrollCatalogChapter(chapter, scrollToken, () => isLatestReaderLoad(loadToken))
+}
+
+function beginCatalogScrollRequest(): number {
+  catalogScrollRequestToken += 1
+  stopCatalogScrollObservation()
+  return catalogScrollRequestToken
+}
+
+function observeAndScrollCatalogChapter(
+  chapter: PublicBookChapterItemResponse | null,
+  scrollToken: number,
+  isStillCurrent: () => boolean = () => true
+): void {
+  const targetChapterId = resolveCatalogTargetChapterId(chapter)
+  if (!targetChapterId || !catalogExpanded.value) {
+    return
+  }
+
   void nextTick(() => {
-    if (catalogScrollFrame) {
-      window.cancelAnimationFrame(catalogScrollFrame)
+    if (!isCatalogScrollRequestActive(scrollToken, isStillCurrent)) {
+      return
     }
 
-    catalogScrollFrame = window.requestAnimationFrame(() => {
-      if (scrollActiveCatalogChapterIntoView() || !catalogExpanded.value) {
-        catalogScrollFrame = 0
-        return
-      }
-
-      catalogScrollFrame = window.requestAnimationFrame(() => {
-        catalogScrollFrame = 0
-        scrollActiveCatalogChapterIntoView()
+    if (typeof MutationObserver !== 'undefined') {
+      catalogScrollObserver = new MutationObserver(() => {
+        requestCatalogScrollCheck(targetChapterId, scrollToken, isStillCurrent)
       })
-    })
+      catalogScrollObserver.observe(document.body, {
+        attributeFilter: ['class', 'style'],
+        attributes: true,
+        childList: true,
+        subtree: true
+      })
+      catalogScrollTimeout = window.setTimeout(() => {
+        if (scrollToken === catalogScrollRequestToken) {
+          stopCatalogScrollObservation()
+        }
+      }, CATALOG_SCROLL_OBSERVER_TIMEOUT_MS)
+    }
+
+    requestCatalogScrollCheck(targetChapterId, scrollToken, isStillCurrent)
   })
 }
 
-function scrollActiveCatalogChapterIntoView(): boolean {
-  const panel = catalogPanelRef.value
-  if (!panel) {
+function requestCatalogScrollCheck(
+  targetChapterId: string,
+  scrollToken: number,
+  isStillCurrent: () => boolean
+): void {
+  if (catalogScrollFrame) {
+    return
+  }
+
+  catalogScrollFrame = requestNextFrame(() => {
+    catalogScrollFrame = 0
+    if (!isCatalogScrollRequestActive(scrollToken, isStillCurrent)) {
+      stopCatalogScrollObservation()
+      return
+    }
+
+    catalogScrollbarRef.value?.update?.()
+    if (scrollCatalogChapterIntoView(targetChapterId)) {
+      stopCatalogScrollObservation()
+    }
+  })
+}
+
+function isCatalogScrollRequestActive(scrollToken: number, isStillCurrent: () => boolean): boolean {
+  return scrollToken === catalogScrollRequestToken && catalogExpanded.value && isStillCurrent()
+}
+
+function stopCatalogScrollObservation(): void {
+  if (catalogScrollFrame) {
+    cancelNextFrame(catalogScrollFrame)
+    catalogScrollFrame = 0
+  }
+
+  if (catalogScrollTimeout) {
+    window.clearTimeout(catalogScrollTimeout)
+    catalogScrollTimeout = 0
+  }
+
+  catalogScrollObserver?.disconnect()
+  catalogScrollObserver = null
+}
+
+function resolveCatalogTargetChapterId(
+  chapter: PublicBookChapterItemResponse | null
+): string | null {
+  const targetChapterId = String(chapter?.id ?? readerData.value?.chapter.id ?? chapterId.value)
+  return targetChapterId.trim() || null
+}
+
+function requestNextFrame(callback: (timestamp: number) => void): number {
+  if (window.requestAnimationFrame) {
+    return window.requestAnimationFrame(callback)
+  }
+
+  return window.setTimeout(() => {
+    callback(window.performance.now())
+  }, 0)
+}
+
+function cancelNextFrame(frameId: number): void {
+  window.cancelAnimationFrame?.(frameId)
+  window.clearTimeout(frameId)
+}
+
+function scrollCatalogChapterIntoView(targetChapterId: string): boolean {
+  const elements = resolveActiveCatalogScrollElements(targetChapterId)
+  if (!elements) {
     return false
   }
 
-  const activeItem = panel.querySelector<HTMLElement>(
+  const { scrollWrap, scrollbar, targetItem } = elements
+  const itemRect = targetItem.getBoundingClientRect()
+  const wrapRect = scrollWrap.getBoundingClientRect()
+  const centeredTop =
+    scrollWrap.scrollTop +
+    itemRect.top -
+    wrapRect.top -
+    (scrollWrap.clientHeight - itemRect.height) / 2
+  const maxTop = Math.max(scrollWrap.scrollHeight - scrollWrap.clientHeight, 0)
+  const nextTop = Math.min(Math.max(centeredTop, 0), maxTop)
+
+  scrollbar.setScrollTop(nextTop)
+  scrollbar.update?.()
+  return true
+}
+
+function resolveActiveCatalogScrollElements(
+  targetChapterId: string
+): BookReaderCatalogScrollElements | null {
+  const panel = catalogPanelRef.value
+  const scrollbar = catalogScrollbarRef.value
+  if (!catalogExpanded.value || !panel || !scrollbar) {
+    return null
+  }
+
+  const targetItem = panel.querySelector<HTMLElement>(
     '.portal-book-reader-page__catalog-item.is-active'
   )
-  const scrollWrap = panel.querySelector<HTMLElement>(
-    '.portal-book-reader-page__catalog-scrollbar .el-scrollbar__wrap'
-  )
-  if (!activeItem || !scrollWrap) {
-    return false
+  if (targetItem?.dataset.readerCatalogChapterId !== targetChapterId) {
+    return null
   }
 
-  const activeRect = activeItem.getBoundingClientRect()
-  const wrapRect = scrollWrap.getBoundingClientRect()
-  const isFullyVisible =
-    activeRect.top >= wrapRect.top + CATALOG_ACTIVE_ITEM_VISIBLE_PADDING &&
-    activeRect.bottom <= wrapRect.bottom - CATALOG_ACTIVE_ITEM_VISIBLE_PADDING
-  if (isFullyVisible) {
-    return true
+  const scrollWrap =
+    scrollbar.wrapRef ??
+    panel.querySelector<HTMLElement>(
+      '.portal-book-reader-page__catalog-scrollbar .el-scrollbar__wrap'
+    )
+  if (!scrollWrap || scrollWrap.clientHeight <= 0 || !targetItem.isConnected) {
+    return null
   }
 
-  const centeredScrollTop =
-    scrollWrap.scrollTop +
-    activeRect.top -
-    wrapRect.top -
-    (scrollWrap.clientHeight - activeRect.height) / 2
-  const maxScrollTop = Math.max(scrollWrap.scrollHeight - scrollWrap.clientHeight, 0)
-  scrollWrap.scrollTo({
-    top: Math.min(Math.max(centeredScrollTop, 0), maxScrollTop)
-  })
-  return true
+  return {
+    scrollWrap,
+    scrollbar,
+    targetItem
+  }
 }
 
 function updateReadingProgress(): void {
   const paper = paperRef.value
   if (!paper) {
+    currentComicPageIndex.value = 1
     readingProgressPercent.value = 0
     return
   }
 
+  if (isComicReader.value) {
+    updateComicReadingProgress(paper)
+    return
+  }
+
+  updateNovelReadingProgress(paper)
+}
+
+function updateNovelReadingProgress(paper: HTMLElement): void {
   const paperTop = paper.getBoundingClientRect().top + window.scrollY
   const viewportBottom = window.scrollY + window.innerHeight
   const paperBottom = paperTop + paper.scrollHeight
   if (viewportBottom >= paperBottom - 2) {
     readingProgressPercent.value = 100
+    lastReadingProgressScrollY = window.scrollY
     return
   }
 
   const readableHeight = Math.max(paper.scrollHeight - window.innerHeight * 0.72, 1)
   const currentOffset = window.scrollY - paperTop
   const nextProgress = Math.min(Math.max((currentOffset / readableHeight) * 100, 0), 100)
-  readingProgressPercent.value = nextProgress
+  const isScrollingForward = window.scrollY >= lastReadingProgressScrollY
+  readingProgressPercent.value = isScrollingForward
+    ? Math.max(readingProgressPercent.value, nextProgress)
+    : nextProgress
+  lastReadingProgressScrollY = window.scrollY
+}
+
+function updateComicReadingProgress(paper: HTMLElement): void {
+  const pageCount = comicPageCount.value
+  if (pageCount <= 0) {
+    currentComicPageIndex.value = 1
+    readingProgressPercent.value = 0
+    lastReadingProgressScrollY = window.scrollY
+    return
+  }
+
+  const paperTop = paper.getBoundingClientRect().top + window.scrollY
+  const paperBottom = paperTop + paper.scrollHeight
+  const viewportBottom = window.scrollY + window.innerHeight
+  if (viewportBottom >= paperBottom - 2) {
+    currentComicPageIndex.value = pageCount
+    readingProgressPercent.value = 100
+    lastReadingProgressScrollY = window.scrollY
+    return
+  }
+
+  const nextPageIndex = resolveVisibleComicPageIndex(paper)
+  const isScrollingForward = window.scrollY >= lastReadingProgressScrollY
+  currentComicPageIndex.value = isScrollingForward
+    ? Math.max(currentComicPageIndex.value, nextPageIndex)
+    : nextPageIndex
+
+  const progressBase = Math.max(pageCount - 1, 1)
+  readingProgressPercent.value =
+    pageCount === 1 ? 0 : ((currentComicPageIndex.value - 1) / progressBase) * 100
+  lastReadingProgressScrollY = window.scrollY
+}
+
+function resolveVisibleComicPageIndex(paper: HTMLElement): number {
+  const pageBlocks = Array.from(
+    paper.querySelectorAll<HTMLElement>('.portal-book-reader-page__image-block')
+  )
+  if (pageBlocks.length === 0) {
+    return 1
+  }
+
+  const viewportAnchor = window.innerHeight * 0.44
+  let closestPageIndex = 1
+  let closestDistance = Number.POSITIVE_INFINITY
+  pageBlocks.forEach((pageBlock, index) => {
+    const rect = pageBlock.getBoundingClientRect()
+    if (rect.top <= viewportAnchor && rect.bottom >= viewportAnchor) {
+      closestPageIndex = index + 1
+      closestDistance = 0
+      return
+    }
+
+    const distance = Math.min(
+      Math.abs(rect.top - viewportAnchor),
+      Math.abs(rect.bottom - viewportAnchor)
+    )
+    if (distance < closestDistance) {
+      closestDistance = distance
+      closestPageIndex = index + 1
+    }
+  })
+
+  return Math.min(Math.max(closestPageIndex, 1), Math.max(comicPageCount.value, 1))
 }
 </script>
 
@@ -1159,12 +1399,18 @@ function updateReadingProgress(): void {
 
 .portal-book-reader-page__progress-panel {
   display: grid;
-  gap: 5px;
+  gap: 8px;
   margin-top: auto;
-  padding: 9px;
-  border: 1px solid color-mix(in srgb, var(--portal-book-reader-border) 58%, transparent);
+  padding: 9px 8px;
+  border: 1px solid color-mix(in srgb, var(--portal-book-reader-border) 62%, transparent);
   border-radius: var(--home-detail-panel-radius);
-  background: color-mix(in srgb, var(--home-detail-panel-bg) 72%, transparent);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--home-business-bookshelf-tag-bg) 42%, transparent),
+      transparent 54%
+    ),
+    color-mix(in srgb, var(--home-detail-panel-bg) 78%, transparent);
   color: color-mix(in srgb, var(--home-muted) 86%, var(--home-ink));
   text-align: center;
   box-shadow: var(--portal-book-reader-card-shadow);
@@ -1176,19 +1422,60 @@ function updateReadingProgress(): void {
   margin-top: 0;
 }
 
-.portal-book-reader-page__progress-panel span,
-.portal-book-reader-page__progress-panel strong {
+.portal-book-reader-page__progress-label,
+.portal-book-reader-page__progress-meta {
   font-size: 12px;
-  line-height: 1.2;
 }
 
-.portal-book-reader-page__progress-panel span {
-  font-weight: 700;
+.portal-book-reader-page__progress-label {
+  color: color-mix(in srgb, var(--home-muted) 88%, var(--home-ink));
+  font-weight: 600;
+  line-height: 1.7;
 }
 
-.portal-book-reader-page__progress-panel strong {
-  color: color-mix(in srgb, var(--portal-book-reader-accent) 72%, var(--home-ink));
+.portal-book-reader-page__progress-value {
+  color: color-mix(in srgb, var(--portal-book-reader-accent) 78%, var(--home-ink));
+  font-size: 13px;
   font-weight: 700;
+  line-height: 1.35;
+}
+
+.portal-book-reader-page__progress-track {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 4px;
+  margin: 2px 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--portal-book-reader-border) 42%, transparent);
+}
+
+.portal-book-reader-page__progress-bar {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--portal-book-reader-accent) 56%, white),
+    color-mix(in srgb, var(--portal-book-reader-accent) 84%, var(--home-ink))
+  );
+  transform: scaleX(var(--portal-book-reader-progress-ratio, 0));
+  transform-origin: left center;
+  transition: transform 180ms ease;
+}
+
+.portal-book-reader-page__progress-meta-row {
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  min-width: 0;
+}
+
+.portal-book-reader-page__progress-meta {
+  color: color-mix(in srgb, var(--home-muted) 82%, var(--home-ink));
+  font-weight: 600;
+  line-height: 1.7;
+  white-space: nowrap;
 }
 
 .portal-book-reader-page__nav-action {
@@ -1340,7 +1627,7 @@ function updateReadingProgress(): void {
 
 .portal-book-reader-page__skeleton-line--progress-panel {
   width: 100%;
-  height: 54px;
+  height: 66px;
   margin-top: auto;
   border-radius: var(--home-detail-panel-radius);
 }

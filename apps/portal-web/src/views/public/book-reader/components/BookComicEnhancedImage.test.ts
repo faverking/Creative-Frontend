@@ -1,14 +1,11 @@
 import { flushPromises, mount } from '@vue/test-utils'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
+import { BookComicEnhancementError, enhanceBookComicImage } from '../comic-enhancer'
 import BookComicEnhancedImage from './BookComicEnhancedImage.vue'
-import {
-  BookComicEnhancementError,
-  enhanceBookComicImage
-} from '@/views/public/book-comic-enhancer'
 
-vi.mock('@/views/public/book-comic-enhancer', async (importOriginal) => {
-  const actual = await importOriginal<typeof import('@/views/public/book-comic-enhancer')>()
+vi.mock('../comic-enhancer', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('../comic-enhancer')>()
 
   return {
     ...actual,
