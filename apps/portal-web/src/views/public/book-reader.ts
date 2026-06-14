@@ -1,7 +1,7 @@
 import type { PublicBookChapterItemResponse, PublicBookDetailResponse } from '@/api/public-detail'
 
 export type BookReaderMode = 'comic' | 'novel'
-export type BookReaderSourceType = 'unsupported' | 'wenku8Novel' | 'wmanhuaComic'
+export type BookReaderSourceType = 'unsupported' | 'wenku8Novel' | 'wmanhuaComic' | 'komiicComic'
 
 export interface BookReaderSourceResolution {
   mode: BookReaderMode
@@ -24,6 +24,7 @@ export type BookReaderChapterContentItem =
   | {
       alt: string
       loading: 'lazy'
+      requestHeaders?: Record<string, string>
       src: string
       type: 'image'
     }
@@ -34,6 +35,9 @@ const WENKU8_PROXY_PREFIX = '/proxy/wenku8'
 const WMANHUA_PATH_PATTERN = /^\/chapter\/(\d+)-(\d+)\.html$/i
 const WMANHUA_RULE_PATTERN = /(?:^|;\s*)wmanhuaPath=([^;]+)/i
 const WMANHUA_PROXY_PREFIX = '/proxy/wmanhua'
+const KOMIIC_CHAPTER_ID_PATTERN = /^[A-Za-z0-9_-]+$/
+const KOMIIC_CHAPTER_ID_RULE_PATTERN = /(?:^|;\s*)komiicChapterId=([^;]+)/i
+const KOMIIC_QUERY_PROXY_URL = '/proxy/komiic/api/query'
 
 export function resolveBookReaderSource(
   detail: PublicBookDetailResponse,
@@ -59,7 +63,26 @@ export function resolveBookReaderSource(
     }
   }
 
+  const komiicChapterId = resolveKomiicChapterId(chapter.rule)
+  if (komiicChapterId) {
+    return {
+      mode: 'comic',
+      proxyUrl: resolveKomiicQueryProxyUrl(),
+      sourcePath: komiicChapterId,
+      sourceType: 'komiicComic'
+    }
+  }
+
   const origin = detail.origin?.trim().toLocaleLowerCase() ?? ''
+  if (origin.includes('komiic')) {
+    return {
+      mode: 'comic',
+      proxyUrl: '',
+      sourcePath: '',
+      sourceType: 'komiicComic'
+    }
+  }
+
   if (origin.includes('wmanhua')) {
     return {
       mode: 'comic',
@@ -152,6 +175,30 @@ export function resolveWmanhuaChapterProxyUrl(path: string): string {
   return `${WMANHUA_PROXY_PREFIX}${path}`
 }
 
+export function resolveKomiicChapterId(rule: string | undefined): string {
+  if (!rule?.trim()) {
+    return ''
+  }
+
+  const rawChapterId = rule.match(KOMIIC_CHAPTER_ID_RULE_PATTERN)?.[1]?.trim() ?? ''
+  if (!rawChapterId) {
+    return ''
+  }
+
+  let chapterId = rawChapterId
+  try {
+    chapterId = decodeURIComponent(rawChapterId)
+  } catch {
+    chapterId = rawChapterId
+  }
+
+  return KOMIIC_CHAPTER_ID_PATTERN.test(chapterId) ? chapterId : ''
+}
+
+export function resolveKomiicQueryProxyUrl(): string {
+  return KOMIIC_QUERY_PROXY_URL
+}
+
 export async function fetchWenku8NovelChapter(proxyUrl: string): Promise<BookReaderChapterContent> {
   const response = await fetch(proxyUrl, {
     method: 'GET',
@@ -186,6 +233,59 @@ export async function fetchWmanhuaComicChapter(
   const content = extractWmanhuaComicChapterContent(await response.text())
   if (content.items.length === 0) {
     throw new Error('WManhua chapter content is empty')
+  }
+
+  return content
+}
+
+export async function fetchKomiicComicChapter(
+  proxyUrl: string,
+  chapterId: string
+): Promise<BookReaderChapterContent> {
+  const normalizedChapterId = chapterId.trim()
+  if (!normalizedChapterId) {
+    throw new Error('Komiic chapter id is required')
+  }
+
+  const imagesResponse = await fetch(proxyUrl, {
+    method: 'POST',
+    credentials: 'omit',
+    headers: {
+      accept: 'application/json',
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify(createKomiicImagesPayload(normalizedChapterId))
+  })
+
+  if (!imagesResponse.ok) {
+    throw new Error(`Komiic chapter images request failed: ${imagesResponse.status}`)
+  }
+
+  const images = extractKomiicChapterImages(await imagesResponse.json())
+  if (images.length === 0) {
+    throw new Error('Komiic chapter images are empty')
+  }
+
+  const ticketsResponse = await fetch(proxyUrl, {
+    method: 'POST',
+    credentials: 'omit',
+    headers: {
+      accept: 'application/json',
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify(createKomiicImageTicketsPayload(images.map((image) => image.kid)))
+  })
+
+  if (!ticketsResponse.ok) {
+    throw new Error(`Komiic image tickets request failed: ${ticketsResponse.status}`)
+  }
+
+  const content = buildKomiicComicChapterContent(
+    images,
+    extractKomiicImageTickets(await ticketsResponse.json())
+  )
+  if (content.items.length === 0) {
+    throw new Error('Komiic chapter content is empty')
   }
 
   return content
@@ -258,6 +358,174 @@ export function extractWmanhuaComicChapterContent(html: string): BookReaderChapt
   }
 }
 
+interface KomiicChapterImageEntry {
+  height: number
+  id: string
+  kid: string
+  width: number
+}
+
+interface KomiicImageTicketEntry {
+  height: number
+  kid: string
+  ticket: string
+  url: string
+  width: number
+}
+
+function createKomiicImagesPayload(chapterId: string): Record<string, unknown> {
+  return {
+    operationName: 'imagesByChapterId',
+    variables: {
+      chapterId
+    },
+    query:
+      'query imagesByChapterId($chapterId: ID!) {\n  imagesByChapterId(chapterId: $chapterId) {\n    id\n    kid\n    height\n    width\n    __typename\n  }\n}'
+  }
+}
+
+function createKomiicImageTicketsPayload(kids: string[]): Record<string, unknown> {
+  return {
+    operationName: 'getImageTickets',
+    variables: {
+      kids
+    },
+    query:
+      'query getImageTickets($kids: [String!]!) {\n  getImageTickets(kids: $kids) {\n    ...ImageTicketFields\n    __typename\n  }\n}\n\nfragment ImageTicketFields on ImageTicket {\n  url\n  ticket\n  kid\n  width\n  height\n  expiresAt\n  __typename\n}'
+  }
+}
+
+function extractKomiicChapterImages(payload: unknown): KomiicChapterImageEntry[] {
+  if (!isRecord(payload) || !isRecord(payload.data)) {
+    return []
+  }
+
+  const rawImages = payload.data.imagesByChapterId
+  if (!Array.isArray(rawImages)) {
+    return []
+  }
+
+  return rawImages
+    .map(normalizeKomiicChapterImage)
+    .filter((image): image is KomiicChapterImageEntry => Boolean(image))
+}
+
+function normalizeKomiicChapterImage(value: unknown): KomiicChapterImageEntry | null {
+  if (!isRecord(value)) {
+    return null
+  }
+
+  const id = String(value.id ?? '').trim()
+  const kid = String(value.kid ?? '').trim()
+  const height = Number(value.height ?? 0)
+  const width = Number(value.width ?? 0)
+
+  if (!id || !kid || !Number.isFinite(height) || !Number.isFinite(width)) {
+    return null
+  }
+
+  return {
+    height: Math.max(0, Math.floor(height)),
+    id,
+    kid,
+    width: Math.max(0, Math.floor(width))
+  }
+}
+
+function extractKomiicImageTickets(payload: unknown): Map<string, KomiicImageTicketEntry> {
+  const tickets = new Map<string, KomiicImageTicketEntry>()
+  if (!isRecord(payload) || !isRecord(payload.data)) {
+    return tickets
+  }
+
+  const rawTickets = payload.data.getImageTickets
+  if (!Array.isArray(rawTickets)) {
+    return tickets
+  }
+
+  rawTickets.forEach((rawTicket) => {
+    const ticket = normalizeKomiicImageTicket(rawTicket)
+    if (ticket) {
+      tickets.set(ticket.kid, ticket)
+    }
+  })
+
+  return tickets
+}
+
+function normalizeKomiicImageTicket(value: unknown): KomiicImageTicketEntry | null {
+  if (!isRecord(value)) {
+    return null
+  }
+
+  const kid = String(value.kid ?? '').trim()
+  const ticket = String(value.ticket ?? '').trim()
+  const url = normalizeKomiicImageUrl(String(value.url ?? ''))
+  const height = Number(value.height ?? 0)
+  const width = Number(value.width ?? 0)
+
+  if (!kid || !ticket || !url || !Number.isFinite(height) || !Number.isFinite(width)) {
+    return null
+  }
+
+  return {
+    height: Math.max(0, Math.floor(height)),
+    kid,
+    ticket,
+    url,
+    width: Math.max(0, Math.floor(width))
+  }
+}
+
+function buildKomiicComicChapterContent(
+  images: KomiicChapterImageEntry[],
+  tickets: Map<string, KomiicImageTicketEntry>
+): BookReaderChapterContent {
+  const items = images.flatMap((image, index): BookReaderChapterContentItem[] => {
+    const ticket = tickets.get(image.kid)
+    if (!ticket) {
+      return []
+    }
+
+    const pageNumber = index + 1
+    return [
+      {
+        alt: `Komiic 漫画第 ${pageNumber} 页`,
+        loading: 'lazy',
+        requestHeaders: {
+          'x-image-ticket': ticket.ticket
+        },
+        src: ticket.url,
+        type: 'image'
+      }
+    ]
+  })
+
+  return {
+    items,
+    paragraphs: [],
+    title: ''
+  }
+}
+
+function normalizeKomiicImageUrl(value: string): string {
+  const normalizedUrl = value.trim()
+  if (!normalizedUrl) {
+    return ''
+  }
+
+  try {
+    const url = new URL(normalizedUrl)
+    return /^https?:$/.test(url.protocol) ? url.toString() : ''
+  } catch {
+    return ''
+  }
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null
+}
+
 function createTextDecoder(encoding: string): TextDecoder {
   try {
     return new TextDecoder(encoding)
@@ -287,10 +555,7 @@ function extractWmanhuaDocumentTitle(document: Document): string {
 }
 
 function extractWmanhuaImageBase(html: string): string {
-  const rawBase =
-    html
-      .match(/\bvar\s+pasd\s*=\s*(["'])(.*?)\1/i)?.[2]
-      ?.trim() ?? ''
+  const rawBase = html.match(/\bvar\s+pasd\s*=\s*(["'])(.*?)\1/i)?.[2]?.trim() ?? ''
   if (!rawBase) {
     return ''
   }

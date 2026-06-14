@@ -83,6 +83,16 @@ not in this file.
 - Public content requests must use the existing public request/result patterns;
   pages should render true loading, error, empty, and ready states rather than
   fallback static data.
+- For public content return/navigation smoothness, prefer a data-layer
+  TTL/stale-while-revalidate cache over route-level `KeepAlive` unless the user
+  explicitly asks to preserve the whole component instance. Cache only validated
+  successful responses; stale background refresh failures must leave existing
+  ready data in place.
+- Keep shared cache primitives small and mechanical, such as
+  `readSnapshot`/`write`/`invalidate`. The owning page or composable should keep
+  direct fetch calls, response validation, loading/error state, and retry
+  behavior rather than wrapping API results in extra cache-specific result
+  shapes.
 - `PortalRequestBoundary` is the atomic state stage. The component that owns the
   real state transition should own the boundary directly; avoid extra wrapper
   shells around an already owned state boundary.

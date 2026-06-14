@@ -191,6 +191,53 @@ describe('enhanceBookComicImage', () => {
     })
   })
 
+  it('passes image ticket headers and decodes octet-stream image responses', async () => {
+    const canvas = document.createElement('canvas')
+    const imageBlob = new Blob(['comic'], { type: 'application/octet-stream' })
+    const response = new Response(imageBlob, {
+      headers: {
+        'Content-Type': 'application/octet-stream'
+      },
+      status: 200
+    })
+    const bitmap = {
+      close: vi.fn(),
+      height: 1800,
+      width: 1200
+    } as unknown as ImageBitmap
+    const drawImage = vi.fn()
+    const fetchImage = vi.fn(async () => response)
+    const decodeImage = vi.fn(async (_blob: Blob) => bitmap)
+
+    vi.stubGlobal('fetch', fetchImage)
+    vi.stubGlobal('createImageBitmap', decodeImage)
+    vi.spyOn(window, 'devicePixelRatio', 'get').mockReturnValue(1)
+    vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue({
+      drawImage
+    } as unknown as CanvasRenderingContext2D)
+
+    await enhanceBookComicImage({
+      canvas,
+      containerWidth: 500,
+      requestHeaders: {
+        'x-image-ticket': 'ticket-1'
+      },
+      src: 'https://cdn.example.test/page-1'
+    })
+
+    expect(fetchImage).toHaveBeenCalledWith(
+      'https://cdn.example.test/page-1',
+      expect.objectContaining({
+        headers: {
+          'x-image-ticket': 'ticket-1'
+        }
+      })
+    )
+    expect(decodeImage).toHaveBeenCalledTimes(1)
+    expect(decodeImage.mock.calls[0]?.[0].type).toBe('application/octet-stream')
+    expect(drawImage).toHaveBeenCalledWith(bitmap, 0, 0)
+  })
+
   it('calls default browser image APIs with the global receiver', async () => {
     const canvas = document.createElement('canvas')
     const imageBlob = new Blob(['comic'], { type: 'image/png' })

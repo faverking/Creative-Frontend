@@ -33,6 +33,7 @@ export interface EnhanceBookComicImageOptions {
   canvas: HTMLCanvasElement
   containerWidth: number
   maxCssWidth?: number
+  requestHeaders?: Record<string, string>
   signal?: AbortSignal
   src: string
 }
@@ -107,6 +108,7 @@ export async function enhanceBookComicImage({
   canvas,
   containerWidth,
   maxCssWidth,
+  requestHeaders,
   signal,
   src
 }: EnhanceBookComicImageOptions): Promise<EnhanceBookComicImageResult> {
@@ -117,6 +119,7 @@ export async function enhanceBookComicImage({
   const response = await runBookComicEnhancementStage('request', '漫画图片请求失败。', () =>
     globalThis.fetch(src, {
       credentials: 'omit',
+      headers: requestHeaders,
       mode: 'cors',
       referrerPolicy: 'no-referrer',
       signal
@@ -130,7 +133,7 @@ export async function enhanceBookComicImage({
   const blob = await runBookComicEnhancementStage('blob', '漫画图片数据读取失败。', () =>
     response.blob()
   )
-  if (blob.type && !blob.type.toLocaleLowerCase().startsWith('image/')) {
+  if (!isDecodableBookComicBlobType(blob.type)) {
     throw new BookComicEnhancementError('decode', `漫画图片类型无法解码：${blob.type}。`)
   }
 
@@ -258,6 +261,15 @@ function createBookComicEnhancementCancelToken(signal?: AbortSignal): Promise<ne
 
 function createBookComicEnhancementAbortError(): DOMException {
   return new DOMException('Comic image enhancement was aborted.', 'AbortError')
+}
+
+function isDecodableBookComicBlobType(type: string): boolean {
+  const normalizedType = type.toLocaleLowerCase()
+  return (
+    !normalizedType ||
+    normalizedType.startsWith('image/') ||
+    normalizedType === 'application/octet-stream'
+  )
 }
 
 function isBookComicEnhancementAbortError(error: unknown): boolean {

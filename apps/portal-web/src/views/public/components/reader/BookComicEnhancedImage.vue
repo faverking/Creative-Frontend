@@ -51,6 +51,7 @@ const props = withDefaults(
     alt?: string
     loading?: 'eager' | 'lazy'
     maxCssWidth?: number
+    requestHeaders?: Record<string, string>
     src: string
   }>(),
   {
@@ -74,9 +75,10 @@ let enhancementRunId = 0
 const PORTAL_FALLBACK_ROOT_FONT_SIZE = 10
 
 const normalizedSrc = computed(() => props.src.trim())
+const normalizedRequestHeaders = computed(() => normalizeRequestHeaders(props.requestHeaders))
 
 watch(
-  () => [normalizedSrc.value, props.maxCssWidth] as const,
+  () => [normalizedSrc.value, props.maxCssWidth, normalizedRequestHeaders.value] as const,
   () => {
     resetEnhancementState()
     void scheduleEnhancement()
@@ -125,6 +127,7 @@ async function scheduleEnhancement(): Promise<void> {
       canvas,
       containerWidth: resolveContainerWidth(),
       maxCssWidth: props.maxCssWidth,
+      requestHeaders: normalizedRequestHeaders.value,
       signal: abortController.signal,
       src: normalizedSrc.value
     })
@@ -204,6 +207,22 @@ function setupResizeObserver(): void {
 function resolveContainerWidth(): number {
   const rootWidth = rootRef.value?.getBoundingClientRect().width ?? 0
   return measuredWidth.value || rootWidth || props.maxCssWidth
+}
+
+function normalizeRequestHeaders(
+  headers: Record<string, string> | undefined
+): Record<string, string> | undefined {
+  if (!headers) {
+    return undefined
+  }
+
+  const normalizedHeaders = Object.fromEntries(
+    Object.entries(headers)
+      .map(([name, value]) => [name.trim(), value.trim()] as const)
+      .filter(([name, value]) => name.length > 0 && value.length > 0)
+  )
+
+  return Object.keys(normalizedHeaders).length > 0 ? normalizedHeaders : undefined
 }
 
 function resetEnhancementState(): void {

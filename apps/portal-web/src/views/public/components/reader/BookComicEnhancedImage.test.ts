@@ -83,6 +83,43 @@ describe('BookComicEnhancedImage', () => {
     ).toBe('160 / 320')
   })
 
+  it('passes request headers to the image enhancement fetch path', async () => {
+    enhanceBookComicImageMock.mockImplementation(async ({ canvas }) => {
+      canvas.width = 320
+      canvas.height = 640
+      return {
+        cssHeight: 320,
+        cssWidth: 160,
+        pixelHeight: 640,
+        pixelWidth: 320,
+        sourceHeight: 640,
+        sourceWidth: 320
+      }
+    })
+
+    mount(BookComicEnhancedImage, {
+      props: {
+        alt: 'Komiic 漫画第 1 页',
+        loading: 'eager',
+        requestHeaders: {
+          'x-image-ticket': 'ticket-1'
+        },
+        src: 'https://cdn.example.test/page-1.webp'
+      }
+    })
+
+    await flushPromises()
+
+    expect(enhanceBookComicImageMock).toHaveBeenCalledWith(
+      expect.objectContaining({
+        requestHeaders: {
+          'x-image-ticket': 'ticket-1'
+        },
+        src: 'https://cdn.example.test/page-1.webp'
+      })
+    )
+  })
+
   it('shows an enhancement failure state without rendering an original image fallback', async () => {
     const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {})
     enhanceBookComicImageMock.mockRejectedValue(

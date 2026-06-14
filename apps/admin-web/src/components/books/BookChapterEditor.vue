@@ -289,6 +289,10 @@ const sourceOriginPlaceholder = computed(() => {
     return '例如：https://www.wenku8.net/book/2542.htm'
   }
 
+  if (currentSourcePreset.value === 'komiicComic') {
+    return '例如：https://komiic.com/comic/400'
+  }
+
   return TEXT.source.originPlaceholder
 })
 const activeSourceIdLabel = computed(() => {
@@ -301,6 +305,10 @@ const activeSourceIdLabel = computed(() => {
 const activeSourceIdPlaceholder = computed(() => {
   if (currentSourcePreset.value === 'wmanhuaComic') {
     return '例如：1155'
+  }
+
+  if (currentSourcePreset.value === 'komiicComic') {
+    return '例如：400'
   }
 
   return TEXT.source.novelPlaceholder
@@ -328,7 +336,7 @@ const selectedSourcePreset = computed<BookChapterSourcePreset>({
 })
 
 function syncSourceFieldsToPreset(preset = currentSourcePreset.value): void {
-  if (preset === 'wmanhuaComic') {
+  if (preset === 'wmanhuaComic' || preset === 'komiicComic') {
     source.value.novelId = ''
     source.value.otherId = ''
     return

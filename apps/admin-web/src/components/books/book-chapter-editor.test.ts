@@ -17,15 +17,15 @@ describe('book chapter source config', () => {
     expect(BOOK_CHAPTER_SOURCE_OPTIONS.map((option) => option.value)).toEqual([
       'manual',
       'wenku8Novel',
-      'wmanhuaComic'
+      'wmanhuaComic',
+      'komiicComic'
     ])
   })
 
   it('infers source presets from source addresses', () => {
     expect(inferBookChapterSourcePreset('www.wenku8.net/book/123.htm')).toBe('wenku8Novel')
-    expect(inferBookChapterSourcePreset('https://www.wmanhua.com/comic/1155')).toBe(
-      'wmanhuaComic'
-    )
+    expect(inferBookChapterSourcePreset('https://www.wmanhua.com/comic/1155')).toBe('wmanhuaComic')
+    expect(inferBookChapterSourcePreset('https://komiic.com/comic/400')).toBe('komiicComic')
     expect(inferBookChapterSourcePreset('https://example.com/books/1')).toBe('manual')
   })
 
@@ -57,6 +57,20 @@ describe('book chapter source config', () => {
       novelId: '',
       otherId: ''
     })
+
+    expect(
+      normalizeBookChapterSourceConfig({
+        origin: 'https://komiic.com/comic/400',
+        comicId: '400',
+        novelId: 'novel-1',
+        otherId: 'other-1'
+      })
+    ).toEqual({
+      origin: 'https://komiic.com/comic/400',
+      comicId: '400',
+      novelId: '',
+      otherId: ''
+    })
   })
 
   it('resolves source domains from configured origins', () => {
@@ -83,14 +97,11 @@ describe('book chapter source config', () => {
     const fetchMock = vi
       .fn()
       .mockResolvedValueOnce(
-        new Response(
-          '<html><body><a href="/novel/2/2542/index.htm">小说目录</a></body></html>',
-          {
-            headers: {
-              'content-type': 'text/html; charset=utf-8'
-            }
+        new Response('<html><body><a href="/novel/2/2542/index.htm">小说目录</a></body></html>', {
+          headers: {
+            'content-type': 'text/html; charset=utf-8'
           }
-        )
+        })
       )
       .mockResolvedValueOnce(
         new Response(
@@ -128,14 +139,10 @@ describe('book chapter source config', () => {
       method: 'GET',
       credentials: 'omit'
     })
-    expect(fetchMock).toHaveBeenNthCalledWith(
-      2,
-      '/proxy/wenku8/novel/2/2542/index.htm',
-      {
-        method: 'GET',
-        credentials: 'omit'
-      }
-    )
+    expect(fetchMock).toHaveBeenNthCalledWith(2, '/proxy/wenku8/novel/2/2542/index.htm', {
+      method: 'GET',
+      credentials: 'omit'
+    })
     expect(chapters.map((chapter) => chapter.title)).toEqual([
       '第一卷 白日梦 第一章 开始',
       '第一卷 白日梦 第二章 继续',
@@ -191,6 +198,88 @@ describe('book chapter source config', () => {
     expect(chapters.map((chapter) => chapter.rule)).toEqual([
       'wmanhuaPath=/chapter/1155-845383.html',
       'wmanhuaPath=/chapter/1155-845604.html'
+    ])
+  })
+
+  it('builds Komiic comic chapters from the GraphQL chapter list', async () => {
+    const fetchMock = vi.fn().mockResolvedValueOnce(
+      Response.json({
+        data: {
+          chaptersByComicId: [
+            {
+              id: 'volume-1',
+              serial: '1',
+              type: 'book',
+              size: 0
+            },
+            {
+              id: '6160',
+              serial: '1',
+              type: 'main',
+              size: 21
+            },
+            {
+              id: '6161',
+              serial: '2',
+              type: 'main',
+              size: 23
+            },
+            {
+              id: 'volume-2',
+              serial: '2',
+              type: 'book',
+              size: 0
+            },
+            {
+              id: '6162',
+              serial: '3',
+              type: 'main',
+              size: 25
+            }
+          ]
+        }
+      })
+    )
+
+    vi.stubGlobal('fetch', fetchMock)
+
+    const chapters = await buildBookChaptersFromSource({
+      origin: 'https://komiic.com',
+      comicId: '400',
+      novelId: '',
+      otherId: ''
+    })
+
+    const requestInit = fetchMock.mock.calls[0]?.[1] as RequestInit
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      1,
+      '/proxy/komiic/api/query',
+      expect.objectContaining({
+        method: 'POST',
+        credentials: 'omit'
+      })
+    )
+    expect(JSON.parse(String(requestInit.body))).toMatchObject({
+      operationName: 'chapterByComicId',
+      variables: {
+        comicId: '400'
+      }
+    })
+    expect(fetchMock).toHaveBeenCalledTimes(1)
+    expect(chapters.map((chapter) => chapter.title)).toEqual([
+      '第 1 卷',
+      '第 1 话',
+      '第 2 话',
+      '第 2 卷',
+      '第 3 话'
+    ])
+    expect(chapters.map((chapter) => chapter.size)).toEqual([0, 21, 23, 0, 25])
+    expect(chapters.map((chapter) => chapter.rule)).toEqual([
+      'komiicChapterId=volume-1',
+      'komiicChapterId=6160',
+      'komiicChapterId=6161',
+      'komiicChapterId=volume-2',
+      'komiicChapterId=6162'
     ])
   })
 })

@@ -142,6 +142,7 @@
                 :src="item.src"
                 :alt="item.alt"
                 :loading="item.loading"
+                :request-headers="item.requestHeaders"
                 class="portal-book-reader-page__content-image"
               />
               <portal-image
@@ -278,6 +279,7 @@ import {
   type PublicBookDetailResponse
 } from '@/api/public-detail'
 import {
+  fetchKomiicComicChapter,
   fetchWmanhuaComicChapter,
   fetchWenku8NovelChapter,
   resolveBookReaderSource,
@@ -560,16 +562,27 @@ async function resolveReaderChapterContent(
     return cachedContent
   }
 
-  const content =
-    source.sourceType === 'wmanhuaComic'
-      ? await fetchWmanhuaComicChapter(source.proxyUrl)
-      : await fetchWenku8NovelChapter(source.proxyUrl)
+  const content = await fetchReaderSourceContent(source)
   if (!isLatestReaderLoad(loadToken)) {
     return null
   }
 
   chapterContentCache.set(cacheKey, content)
   return content
+}
+
+async function fetchReaderSourceContent(
+  source: BookReaderSourceResolution
+): Promise<BookReaderChapterContent> {
+  if (source.sourceType === 'wmanhuaComic') {
+    return fetchWmanhuaComicChapter(source.proxyUrl)
+  }
+
+  if (source.sourceType === 'komiicComic') {
+    return fetchKomiicComicChapter(source.proxyUrl, source.sourcePath)
+  }
+
+  return fetchWenku8NovelChapter(source.proxyUrl)
 }
 
 function resolveSortedChapters(

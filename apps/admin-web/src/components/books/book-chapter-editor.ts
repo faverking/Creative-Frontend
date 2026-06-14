@@ -11,10 +11,7 @@ export interface BookChapterSourceConfig {
   otherId: string
 }
 
-export type BookChapterSourcePreset =
-  | 'manual'
-  | 'wenku8Novel'
-  | 'wmanhuaComic'
+export type BookChapterSourcePreset = 'manual' | 'wenku8Novel' | 'wmanhuaComic' | 'komiicComic'
 
 export interface BookChapterSourceOption {
   value: BookChapterSourcePreset
@@ -48,12 +45,21 @@ export const BOOK_CHAPTER_SOURCE_OPTIONS: BookChapterSourceOption[] = [
     defaultOrigin: 'https://www.wmanhua.com',
     defaultTitleTemplate: '第 {n} 话',
     preferredIdField: 'comicId'
+  },
+  {
+    value: 'komiicComic',
+    label: 'Komiic 漫画',
+    description: '来源标识填写 Komiic 漫画页面地址或域名，并只维护漫画 comicId。',
+    defaultOrigin: 'https://komiic.com',
+    defaultTitleTemplate: '第 {n} 话',
+    preferredIdField: 'comicId'
   }
 ]
 
 const BOOK_CHAPTER_SOURCE_PROXY_TARGETS: Partial<Record<BookChapterSourcePreset, string>> = {
   wenku8Novel: 'wenku8',
-  wmanhuaComic: 'wmanhua'
+  wmanhuaComic: 'wmanhua',
+  komiicComic: 'komiic'
 }
 
 export function createBookChapterSourceConfig(): BookChapterSourceConfig {
@@ -83,7 +89,7 @@ export function normalizeBookChapterSourceConfig(
   const origin = nextSource.origin.trim()
   const preset = inferBookChapterSourcePreset(origin)
 
-  if (preset === 'wmanhuaComic') {
+  if (preset === 'wmanhuaComic' || preset === 'komiicComic') {
     return {
       origin,
       comicId: nextSource.comicId.trim(),
@@ -149,6 +155,10 @@ export function inferBookChapterSourcePreset(origin: string): BookChapterSourceP
 
   if (normalizedOrigin.includes('wmanhua')) {
     return 'wmanhuaComic'
+  }
+
+  if (normalizedOrigin.includes('komiic')) {
+    return 'komiicComic'
   }
 
   return 'manual'
@@ -267,6 +277,10 @@ export async function buildBookChaptersFromSource(
     return buildWmanhuaBookChaptersFromSource(source)
   }
 
+  if (preset === 'komiicComic') {
+    return buildKomiicBookChaptersFromSource(source)
+  }
+
   return []
 }
 
@@ -349,10 +363,46 @@ async function buildWmanhuaBookChaptersFromSource(
   })
 }
 
-function resolveBookChapterRequestUrl(
-  sourceUrl: string,
-  preset: BookChapterSourcePreset
-): string {
+async function buildKomiicBookChaptersFromSource(
+  source: BookChapterSourceConfig
+): Promise<EditableBookChapter[]> {
+  const normalizedSource = normalizeBookChapterSourceConfig(source)
+  const comicId = normalizedSource.comicId.trim()
+  if (!comicId) {
+    return []
+  }
+
+  const queryUrl = resolveKomiicQueryUrl(normalizedSource)
+  const requestUrl = resolveBookChapterRequestUrl(queryUrl, 'komiicComic')
+  const response = await fetch(requestUrl, {
+    method: 'POST',
+    credentials: 'omit',
+    headers: {
+      accept: 'application/json',
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify(createKomiicChaptersPayload(comicId))
+  })
+
+  if (!response.ok) {
+    throw new Error(`Komiic chapters request failed: ${response.status}`)
+  }
+
+  return extractKomiicChapters(await response.json()).map((chapter, index) => {
+    const order = index + 1
+
+    return {
+      uid: createChapterUid(),
+      id: order,
+      order,
+      size: chapter.size,
+      title: resolveKomiicChapterTitle(chapter, order),
+      rule: `komiicChapterId=${chapter.id}`
+    }
+  })
+}
+
+function resolveBookChapterRequestUrl(sourceUrl: string, preset: BookChapterSourcePreset): string {
   if (!sourceUrl) {
     return ''
   }
@@ -376,7 +426,10 @@ async function decodeSourceHtml(
 
   const buffer = await response.arrayBuffer()
   const contentType = response.headers.get('content-type')?.toLowerCase() ?? ''
-  const charset = contentType.match(/charset=([^;]+)/)?.[1]?.trim().replace(/^"|"$/g, '')
+  const charset = contentType
+    .match(/charset=([^;]+)/)?.[1]
+    ?.trim()
+    .replace(/^"|"$/g, '')
   const decoder = new TextDecoder(charset || 'gb18030')
   return decoder.decode(buffer)
 }
@@ -399,6 +452,15 @@ function resolveWmanhuaComicUrl(source: BookChapterSourceConfig): string {
   }
 
   return new URL(`/comic/${comicId}`, sourceUrl).toString()
+}
+
+function resolveKomiicQueryUrl(source: BookChapterSourceConfig): string {
+  const sourceUrl = resolveBookChapterSourceUrl(source)
+  if (!sourceUrl) {
+    return ''
+  }
+
+  return new URL('/api/query', sourceUrl).toString()
 }
 
 function resolveWmanhuaChapterPath(source: BookChapterSourceConfig, chapterId: string): string {
@@ -508,6 +570,13 @@ interface WmanhuaChapterEntry {
   id: string
 }
 
+interface KomiicChapterEntry {
+  id: string
+  serial: string
+  size: number
+  type: string
+}
+
 function extractWmanhuaChapters(payload: unknown): WmanhuaChapterEntry[] {
   if (!isRecord(payload) || Number(payload.code) !== 0 || !isRecord(payload.data)) {
     return []
@@ -542,6 +611,61 @@ function normalizeWmanhuaChapterEntry(value: unknown): WmanhuaChapterEntry | nul
     chapterNum: Math.max(0, Math.floor(chapterNum)),
     id
   }
+}
+
+function createKomiicChaptersPayload(comicId: string): Record<string, unknown> {
+  return {
+    operationName: 'chapterByComicId',
+    variables: {
+      comicId
+    },
+    query:
+      'query chapterByComicId($comicId: ID!) {\n  chaptersByComicId(comicId: $comicId) {\n    id\n    serial\n    type\n    dateCreated\n    dateUpdated\n    size\n    __typename\n  }\n}'
+  }
+}
+
+function extractKomiicChapters(payload: unknown): KomiicChapterEntry[] {
+  if (!isRecord(payload) || !isRecord(payload.data)) {
+    return []
+  }
+
+  const rawChapters = payload.data.chaptersByComicId
+  if (!Array.isArray(rawChapters)) {
+    return []
+  }
+
+  return rawChapters
+    .map(normalizeKomiicChapterEntry)
+    .filter((chapter): chapter is KomiicChapterEntry => Boolean(chapter))
+}
+
+function normalizeKomiicChapterEntry(value: unknown): KomiicChapterEntry | null {
+  if (!isRecord(value)) {
+    return null
+  }
+
+  const id = String(value.id ?? '').trim()
+  const serial = String(value.serial ?? '').trim()
+  const size = Number(value.size ?? 0)
+  const type = String(value.type ?? '')
+    .trim()
+    .toLowerCase()
+
+  if (!id || !Number.isFinite(size)) {
+    return null
+  }
+
+  return {
+    id,
+    serial,
+    size: Math.max(0, Math.floor(size)),
+    type
+  }
+}
+
+function resolveKomiicChapterTitle(chapter: KomiicChapterEntry, order: number): string {
+  const suffix = chapter.type === 'book' ? '卷' : '话'
+  return chapter.serial ? `第 ${chapter.serial} ${suffix}` : `第 ${order} ${suffix}`
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
