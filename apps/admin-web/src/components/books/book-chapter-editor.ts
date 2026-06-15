@@ -764,27 +764,24 @@ async function decryptMangaCopyAesJson(encryptedValue: string, key: string): Pro
       iv: new TextEncoder().encode(iv)
     },
     cryptoKey,
-    toArrayBuffer(hexToUint8Array(cipherHex))
+    hexToUint8Array(cipherHex)
   )
 
   return JSON.parse(new TextDecoder().decode(decryptedBuffer))
 }
 
-function hexToUint8Array(value: string): Uint8Array {
+function hexToUint8Array(value: string): Uint8Array<ArrayBuffer> {
   const normalizedValue = value.trim()
   if (normalizedValue.length % 2 !== 0 || !/^[\da-f]+$/i.test(normalizedValue)) {
     throw new Error('MangaCopy encrypted payload must be hex encoded')
   }
 
-  return new Uint8Array(
-    Array.from({ length: normalizedValue.length / 2 }, (_, index) =>
-      Number.parseInt(normalizedValue.slice(index * 2, index * 2 + 2), 16)
-    )
-  )
-}
+  const bytes = new Uint8Array(normalizedValue.length / 2) as Uint8Array<ArrayBuffer>
+  for (let index = 0; index < bytes.length; index += 1) {
+    bytes[index] = Number.parseInt(normalizedValue.slice(index * 2, index * 2 + 2), 16)
+  }
 
-function toArrayBuffer(bytes: Uint8Array): ArrayBuffer {
-  return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer
+  return bytes
 }
 
 function escapeRegExp(value: string): string {
