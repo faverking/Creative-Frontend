@@ -138,7 +138,7 @@
             </p>
             <figure v-else-if="item.type === 'image'" class="portal-book-reader-page__image-block">
               <book-comic-enhanced-image
-                v-if="isComicReader"
+                v-if="isComicReader && item.enhance !== false"
                 :src="item.src"
                 :alt="item.alt"
                 :loading="item.loading"
@@ -291,7 +291,7 @@ import {
   type PublicBookDetailResponse
 } from '@/api/public-detail'
 import {
-  fetchKomiicComicChapter,
+  fetchMangaCopyComicChapter,
   fetchWmanhuaComicChapter,
   fetchWenku8NovelChapter,
   resolveBookReaderSource,
@@ -620,8 +620,8 @@ async function fetchReaderSourceContent(
     return fetchWmanhuaComicChapter(source.proxyUrl)
   }
 
-  if (source.sourceType === 'komiicComic') {
-    return fetchKomiicComicChapter(source.proxyUrl, source.sourcePath)
+  if (source.sourceType === 'mangaCopyComic') {
+    return fetchMangaCopyComicChapter(source.proxyUrl)
   }
 
   return fetchWenku8NovelChapter(source.proxyUrl)

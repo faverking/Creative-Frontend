@@ -11,7 +11,7 @@ export interface BookChapterSourceConfig {
   otherId: string
 }
 
-export type BookChapterSourcePreset = 'manual' | 'wenku8Novel' | 'wmanhuaComic' | 'komiicComic'
+export type BookChapterSourcePreset = 'manual' | 'wenku8Novel' | 'wmanhuaComic' | 'mangaCopyComic'
 
 export interface BookChapterSourceOption {
   value: BookChapterSourcePreset
@@ -47,10 +47,10 @@ export const BOOK_CHAPTER_SOURCE_OPTIONS: BookChapterSourceOption[] = [
     preferredIdField: 'comicId'
   },
   {
-    value: 'komiicComic',
-    label: 'Komiic 漫画',
-    description: '来源标识填写 Komiic 漫画页面地址或域名，并只维护漫画 comicId。',
-    defaultOrigin: 'https://komiic.com',
+    value: 'mangaCopyComic',
+    label: 'MangaCopy 漫画',
+    description: '来源标识填写 MangaCopy 漫画页面地址或域名，并只维护漫画路径 ID。',
+    defaultOrigin: 'https://www.mangacopy.com',
     defaultTitleTemplate: '第 {n} 话',
     preferredIdField: 'comicId'
   }
@@ -59,7 +59,7 @@ export const BOOK_CHAPTER_SOURCE_OPTIONS: BookChapterSourceOption[] = [
 const BOOK_CHAPTER_SOURCE_PROXY_TARGETS: Partial<Record<BookChapterSourcePreset, string>> = {
   wenku8Novel: 'wenku8',
   wmanhuaComic: 'wmanhua',
-  komiicComic: 'komiic'
+  mangaCopyComic: 'mangacopy'
 }
 
 export function createBookChapterSourceConfig(): BookChapterSourceConfig {
@@ -89,7 +89,7 @@ export function normalizeBookChapterSourceConfig(
   const origin = nextSource.origin.trim()
   const preset = inferBookChapterSourcePreset(origin)
 
-  if (preset === 'wmanhuaComic' || preset === 'komiicComic') {
+  if (preset === 'wmanhuaComic' || preset === 'mangaCopyComic') {
     return {
       origin,
       comicId: nextSource.comicId.trim(),
@@ -157,8 +157,8 @@ export function inferBookChapterSourcePreset(origin: string): BookChapterSourceP
     return 'wmanhuaComic'
   }
 
-  if (normalizedOrigin.includes('komiic')) {
-    return 'komiicComic'
+  if (normalizedOrigin.includes('mangacopy')) {
+    return 'mangaCopyComic'
   }
 
   return 'manual'
@@ -277,8 +277,8 @@ export async function buildBookChaptersFromSource(
     return buildWmanhuaBookChaptersFromSource(source)
   }
 
-  if (preset === 'komiicComic') {
-    return buildKomiicBookChaptersFromSource(source)
+  if (preset === 'mangaCopyComic') {
+    return buildMangaCopyBookChaptersFromSource(source)
   }
 
   return []
@@ -363,7 +363,7 @@ async function buildWmanhuaBookChaptersFromSource(
   })
 }
 
-async function buildKomiicBookChaptersFromSource(
+async function buildMangaCopyBookChaptersFromSource(
   source: BookChapterSourceConfig
 ): Promise<EditableBookChapter[]> {
   const normalizedSource = normalizeBookChapterSourceConfig(source)
@@ -372,23 +372,45 @@ async function buildKomiicBookChaptersFromSource(
     return []
   }
 
-  const queryUrl = resolveKomiicQueryUrl(normalizedSource)
-  const requestUrl = resolveBookChapterRequestUrl(queryUrl, 'komiicComic')
-  const response = await fetch(requestUrl, {
-    method: 'POST',
-    credentials: 'omit',
-    headers: {
-      accept: 'application/json',
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify(createKomiicChaptersPayload(comicId))
+  const comicUrl = resolveMangaCopyComicUrl(normalizedSource)
+  const comicRequestUrl = resolveBookChapterRequestUrl(comicUrl, 'mangaCopyComic')
+  const comicResponse = await fetch(comicRequestUrl, {
+    method: 'GET',
+    credentials: 'omit'
   })
 
-  if (!response.ok) {
-    throw new Error(`Komiic chapters request failed: ${response.status}`)
+  if (!comicResponse.ok) {
+    throw new Error(`MangaCopy comic request failed: ${comicResponse.status}`)
   }
 
-  return extractKomiicChapters(await response.json()).map((chapter, index) => {
+  const comicHtml = await comicResponse.text()
+  const aesKey = extractMangaCopyInlineVariable(comicHtml, 'ccz')
+  const dnts = extractMangaCopyDnts(comicHtml)
+  if (!aesKey || !dnts) {
+    return []
+  }
+
+  const chaptersUrl = resolveMangaCopyChaptersUrl(normalizedSource)
+  const chaptersRequestUrl = resolveBookChapterRequestUrl(chaptersUrl, 'mangaCopyComic')
+  const chaptersResponse = await fetch(chaptersRequestUrl, {
+    method: 'GET',
+    credentials: 'omit',
+    headers: {
+      dnts
+    }
+  })
+
+  if (!chaptersResponse.ok) {
+    throw new Error(`MangaCopy chapters request failed: ${chaptersResponse.status}`)
+  }
+
+  const encryptedResults = extractMangaCopyEncryptedResults(await chaptersResponse.json())
+  if (!encryptedResults) {
+    return []
+  }
+
+  const decryptedPayload = await decryptMangaCopyAesJson(encryptedResults, aesKey)
+  return extractMangaCopyChapters(decryptedPayload).map((chapter, index) => {
     const order = index + 1
 
     return {
@@ -396,8 +418,8 @@ async function buildKomiicBookChaptersFromSource(
       id: order,
       order,
       size: chapter.size,
-      title: resolveKomiicChapterTitle(chapter, order),
-      rule: `komiicChapterId=${chapter.id}`
+      title: chapter.title,
+      rule: `mangaCopyComicId=${comicId}; mangaCopyChapterId=${chapter.id}`
     }
   })
 }
@@ -454,13 +476,24 @@ function resolveWmanhuaComicUrl(source: BookChapterSourceConfig): string {
   return new URL(`/comic/${comicId}`, sourceUrl).toString()
 }
 
-function resolveKomiicQueryUrl(source: BookChapterSourceConfig): string {
+function resolveMangaCopyComicUrl(source: BookChapterSourceConfig): string {
   const sourceUrl = resolveBookChapterSourceUrl(source)
-  if (!sourceUrl) {
+  const comicId = source.comicId.trim()
+  if (!sourceUrl || !comicId) {
     return ''
   }
 
-  return new URL('/api/query', sourceUrl).toString()
+  return new URL(`/comic/${comicId}`, sourceUrl).toString()
+}
+
+function resolveMangaCopyChaptersUrl(source: BookChapterSourceConfig): string {
+  const sourceUrl = resolveBookChapterSourceUrl(source)
+  const comicId = source.comicId.trim()
+  if (!sourceUrl || !comicId) {
+    return ''
+  }
+
+  return new URL(`/comicdetail/${comicId}/chapters`, sourceUrl).toString()
 }
 
 function resolveWmanhuaChapterPath(source: BookChapterSourceConfig, chapterId: string): string {
@@ -570,11 +603,10 @@ interface WmanhuaChapterEntry {
   id: string
 }
 
-interface KomiicChapterEntry {
+interface MangaCopyChapterEntry {
   id: string
-  serial: string
   size: number
-  type: string
+  title: string
 }
 
 function extractWmanhuaChapters(payload: unknown): WmanhuaChapterEntry[] {
@@ -591,6 +623,16 @@ function extractWmanhuaChapters(payload: unknown): WmanhuaChapterEntry[] {
     .map(normalizeWmanhuaChapterEntry)
     .filter((chapter): chapter is WmanhuaChapterEntry => Boolean(chapter))
     .sort((current, next) => Number(current.id) - Number(next.id))
+    .map((chapter, index) => ({ chapter, index }))
+    .sort((current, next) =>
+      compareComicChapterVolumeFirst(
+        current.chapter.chapterName,
+        next.chapter.chapterName,
+        current.index,
+        next.index
+      )
+    )
+    .map((entry) => entry.chapter)
 }
 
 function normalizeWmanhuaChapterEntry(value: unknown): WmanhuaChapterEntry | null {
@@ -613,59 +655,140 @@ function normalizeWmanhuaChapterEntry(value: unknown): WmanhuaChapterEntry | nul
   }
 }
 
-function createKomiicChaptersPayload(comicId: string): Record<string, unknown> {
-  return {
-    operationName: 'chapterByComicId',
-    variables: {
-      comicId
-    },
-    query:
-      'query chapterByComicId($comicId: ID!) {\n  chaptersByComicId(comicId: $comicId) {\n    id\n    serial\n    type\n    dateCreated\n    dateUpdated\n    size\n    __typename\n  }\n}'
-  }
-}
-
-function extractKomiicChapters(payload: unknown): KomiicChapterEntry[] {
-  if (!isRecord(payload) || !isRecord(payload.data)) {
+function extractMangaCopyChapters(payload: unknown): MangaCopyChapterEntry[] {
+  if (!isRecord(payload) || !isRecord(payload.groups)) {
     return []
   }
 
-  const rawChapters = payload.data.chaptersByComicId
-  if (!Array.isArray(rawChapters)) {
+  const defaultGroup = payload.groups.default
+  if (!isRecord(defaultGroup) || !Array.isArray(defaultGroup.chapters)) {
     return []
   }
 
-  return rawChapters
-    .map(normalizeKomiicChapterEntry)
-    .filter((chapter): chapter is KomiicChapterEntry => Boolean(chapter))
+  return defaultGroup.chapters
+    .map(normalizeMangaCopyChapterEntry)
+    .filter((chapter): chapter is MangaCopyChapterEntry => Boolean(chapter))
+    .map((chapter, index) => ({ chapter, index }))
+    .sort((current, next) =>
+      compareComicChapterVolumeFirst(
+        current.chapter.title,
+        next.chapter.title,
+        current.index,
+        next.index
+      )
+    )
+    .map((entry) => entry.chapter)
 }
 
-function normalizeKomiicChapterEntry(value: unknown): KomiicChapterEntry | null {
+function normalizeMangaCopyChapterEntry(value: unknown): MangaCopyChapterEntry | null {
   if (!isRecord(value)) {
     return null
   }
 
   const id = String(value.id ?? '').trim()
-  const serial = String(value.serial ?? '').trim()
-  const size = Number(value.size ?? 0)
-  const type = String(value.type ?? '')
-    .trim()
-    .toLowerCase()
+  const title = normalizeChapterTitle(String(value.name ?? value.title ?? ''))
+  const size = Number(value.size ?? value.chapterNum ?? 0)
 
-  if (!id || !Number.isFinite(size)) {
+  if (!id || !title) {
     return null
   }
 
   return {
     id,
-    serial,
-    size: Math.max(0, Math.floor(size)),
-    type
+    size: Number.isFinite(size) ? Math.max(0, Math.floor(size)) : 0,
+    title
   }
 }
 
-function resolveKomiicChapterTitle(chapter: KomiicChapterEntry, order: number): string {
-  const suffix = chapter.type === 'book' ? '卷' : '话'
-  return chapter.serial ? `第 ${chapter.serial} ${suffix}` : `第 ${order} ${suffix}`
+function compareComicChapterVolumeFirst(
+  leftTitle: string,
+  rightTitle: string,
+  leftIndex: number,
+  rightIndex: number
+): number {
+  const leftVolume = isComicVolumeTitle(leftTitle)
+  const rightVolume = isComicVolumeTitle(rightTitle)
+  if (leftVolume !== rightVolume) {
+    return leftVolume ? -1 : 1
+  }
+
+  return leftIndex - rightIndex
+}
+
+function isComicVolumeTitle(title: string): boolean {
+  return title.includes('卷')
+}
+
+function extractMangaCopyInlineVariable(html: string, variableName: string): string {
+  const match = html.match(
+    new RegExp(`\\bvar\\s+${escapeRegExp(variableName)}\\s*=\\s*['"]?([^'";\\s]+)['"]?`)
+  )
+  return match?.[1]?.trim() ?? ''
+}
+
+function extractMangaCopyDnts(html: string): string {
+  const document = new DOMParser().parseFromString(html, 'text/html')
+  return document.getElementById('dnt')?.getAttribute('value')?.trim() ?? ''
+}
+
+function extractMangaCopyEncryptedResults(payload: unknown): string {
+  if (!isRecord(payload)) {
+    return ''
+  }
+
+  return String(payload.results ?? '').trim()
+}
+
+async function decryptMangaCopyAesJson(encryptedValue: string, key: string): Promise<unknown> {
+  const subtle = globalThis.crypto?.subtle
+  if (!subtle) {
+    throw new Error('MangaCopy AES decrypt is not available')
+  }
+
+  const iv = encryptedValue.slice(0, 16)
+  const cipherHex = encryptedValue.slice(16)
+  if (!iv || !cipherHex) {
+    throw new Error('MangaCopy encrypted payload is invalid')
+  }
+
+  const cryptoKey = await subtle.importKey(
+    'raw',
+    new TextEncoder().encode(key),
+    { name: 'AES-CBC' },
+    false,
+    ['decrypt']
+  )
+  const decryptedBuffer = await subtle.decrypt(
+    {
+      name: 'AES-CBC',
+      iv: new TextEncoder().encode(iv)
+    },
+    cryptoKey,
+    toArrayBuffer(hexToUint8Array(cipherHex))
+  )
+
+  return JSON.parse(new TextDecoder().decode(decryptedBuffer))
+}
+
+function hexToUint8Array(value: string): Uint8Array {
+  const normalizedValue = value.trim()
+  if (normalizedValue.length % 2 !== 0 || !/^[\da-f]+$/i.test(normalizedValue)) {
+    throw new Error('MangaCopy encrypted payload must be hex encoded')
+  }
+
+  return new Uint8Array(
+    Array.from({ length: normalizedValue.length / 2 }, (_, index) =>
+      Number.parseInt(normalizedValue.slice(index * 2, index * 2 + 2), 16)
+    )
+  )
+}
+
+function toArrayBuffer(bytes: Uint8Array): ArrayBuffer {
+  return bytes.buffer.slice(bytes.byteOffset, bytes.byteOffset + bytes.byteLength) as ArrayBuffer
+}
+
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

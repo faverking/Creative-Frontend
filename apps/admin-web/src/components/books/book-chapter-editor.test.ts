@@ -18,14 +18,16 @@ describe('book chapter source config', () => {
       'manual',
       'wenku8Novel',
       'wmanhuaComic',
-      'komiicComic'
+      'mangaCopyComic'
     ])
   })
 
   it('infers source presets from source addresses', () => {
     expect(inferBookChapterSourcePreset('www.wenku8.net/book/123.htm')).toBe('wenku8Novel')
     expect(inferBookChapterSourcePreset('https://www.wmanhua.com/comic/1155')).toBe('wmanhuaComic')
-    expect(inferBookChapterSourcePreset('https://komiic.com/comic/400')).toBe('komiicComic')
+    expect(inferBookChapterSourcePreset('https://mangacopy.com/comic/example')).toBe(
+      'mangaCopyComic'
+    )
     expect(inferBookChapterSourcePreset('https://example.com/books/1')).toBe('manual')
   })
 
@@ -60,14 +62,14 @@ describe('book chapter source config', () => {
 
     expect(
       normalizeBookChapterSourceConfig({
-        origin: 'https://komiic.com/comic/400',
-        comicId: '400',
+        origin: 'https://www.mangacopy.com/comic/example',
+        comicId: 'example',
         novelId: 'novel-1',
         otherId: 'other-1'
       })
     ).toEqual({
-      origin: 'https://komiic.com/comic/400',
-      comicId: '400',
+      origin: 'https://www.mangacopy.com/comic/example',
+      comicId: 'example',
       novelId: '',
       otherId: ''
     })
@@ -169,6 +171,12 @@ describe('book chapter source config', () => {
               chapterNum: 10
             },
             {
+              id: 945383,
+              contentId: 1155,
+              chapterName: '第02卷',
+              chapterNum: 164
+            },
+            {
               id: 845383,
               contentId: 1155,
               chapterName: '第01卷',
@@ -193,93 +201,137 @@ describe('book chapter source config', () => {
       credentials: 'omit'
     })
     expect(fetchMock).toHaveBeenCalledTimes(1)
-    expect(chapters.map((chapter) => chapter.title)).toEqual(['第01卷', '第188话'])
-    expect(chapters.map((chapter) => chapter.size)).toEqual([158, 10])
+    expect(chapters.map((chapter) => chapter.title)).toEqual(['第01卷', '第02卷', '第188话'])
+    expect(chapters.map((chapter) => chapter.size)).toEqual([158, 164, 10])
     expect(chapters.map((chapter) => chapter.rule)).toEqual([
       'wmanhuaPath=/chapter/1155-845383.html',
+      'wmanhuaPath=/chapter/1155-945383.html',
       'wmanhuaPath=/chapter/1155-845604.html'
     ])
   })
 
-  it('builds Komiic comic chapters from the GraphQL chapter list', async () => {
-    const fetchMock = vi.fn().mockResolvedValueOnce(
-      Response.json({
-        data: {
-          chaptersByComicId: [
+  it('builds MangaCopy comic chapters from the encrypted chapter list', async () => {
+    const aesKey = '1234567890abcdef'
+    const encryptedResults = await encryptMangaCopyFixture(
+      {
+        build: {
+          type: [
             {
-              id: 'volume-1',
-              serial: '1',
-              type: 'book',
-              size: 0
+              id: '1',
+              name: '話'
             },
             {
-              id: '6160',
-              serial: '1',
-              type: 'main',
-              size: 21
+              id: '2',
+              name: '卷'
             },
             {
-              id: '6161',
-              serial: '2',
-              type: 'main',
-              size: 23
-            },
-            {
-              id: 'volume-2',
-              serial: '2',
-              type: 'book',
-              size: 0
-            },
-            {
-              id: '6162',
-              serial: '3',
-              type: 'main',
-              size: 25
+              id: '3',
+              name: '番外篇'
             }
           ]
+        },
+        groups: {
+          default: {
+            chapters: [
+              {
+                id: 'official-logbook',
+                name: '官方日志簿',
+                type: 3
+              },
+              {
+                id: 'volume-two',
+                name: '2卷',
+                type: 2
+              }
+            ]
+          },
+          other_honyakuchimu: {
+            chapters: [
+              {
+                id: 'chapter-preview',
+                name: '第103.5话试看',
+                type: 1
+              }
+            ]
+          },
+          other_group: {
+            chapters: [
+              {
+                id: 'extra-one',
+                name: '番外01',
+                type: 1
+              }
+            ]
+          }
         }
-      })
+      },
+      aesKey
     )
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(
+        new Response(
+          `<html><body><input id="dnt" value="dnt-token"><script>var ccz = '${aesKey}';</script></body></html>`
+        )
+      )
+      .mockResolvedValueOnce(
+        Response.json({
+          results: encryptedResults
+        })
+      )
 
     vi.stubGlobal('fetch', fetchMock)
 
     const chapters = await buildBookChaptersFromSource({
-      origin: 'https://komiic.com',
-      comicId: '400',
+      origin: 'https://www.mangacopy.com',
+      comicId: 'example-comic',
       novelId: '',
       otherId: ''
     })
 
-    const requestInit = fetchMock.mock.calls[0]?.[1] as RequestInit
-    expect(fetchMock).toHaveBeenNthCalledWith(
-      1,
-      '/proxy/komiic/api/query',
-      expect.objectContaining({
-        method: 'POST',
-        credentials: 'omit'
-      })
-    )
-    expect(JSON.parse(String(requestInit.body))).toMatchObject({
-      operationName: 'chapterByComicId',
-      variables: {
-        comicId: '400'
-      }
+    expect(fetchMock).toHaveBeenNthCalledWith(1, '/proxy/mangacopy/comic/example-comic', {
+      method: 'GET',
+      credentials: 'omit'
     })
-    expect(fetchMock).toHaveBeenCalledTimes(1)
-    expect(chapters.map((chapter) => chapter.title)).toEqual([
-      '第 1 卷',
-      '第 1 话',
-      '第 2 话',
-      '第 2 卷',
-      '第 3 话'
-    ])
-    expect(chapters.map((chapter) => chapter.size)).toEqual([0, 21, 23, 0, 25])
+    expect(fetchMock).toHaveBeenNthCalledWith(
+      2,
+      '/proxy/mangacopy/comicdetail/example-comic/chapters',
+      {
+        method: 'GET',
+        credentials: 'omit',
+        headers: {
+          dnts: 'dnt-token'
+        }
+      }
+    )
+    expect(chapters.map((chapter) => chapter.title)).toEqual(['2卷', '官方日志簿'])
+    expect(chapters.map((chapter) => chapter.size)).toEqual([0, 0])
     expect(chapters.map((chapter) => chapter.rule)).toEqual([
-      'komiicChapterId=volume-1',
-      'komiicChapterId=6160',
-      'komiicChapterId=6161',
-      'komiicChapterId=volume-2',
-      'komiicChapterId=6162'
+      'mangaCopyComicId=example-comic; mangaCopyChapterId=volume-two',
+      'mangaCopyComicId=example-comic; mangaCopyChapterId=official-logbook'
     ])
   })
 })
+
+async function encryptMangaCopyFixture(payload: unknown, key: string): Promise<string> {
+  const iv = 'abcdef1234567890'
+  const cryptoKey = await crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode(key),
+    { name: 'AES-CBC' },
+    false,
+    ['encrypt']
+  )
+  const encryptedBuffer = await crypto.subtle.encrypt(
+    {
+      name: 'AES-CBC',
+      iv: new TextEncoder().encode(iv)
+    },
+    cryptoKey,
+    new TextEncoder().encode(JSON.stringify(payload))
+  )
+
+  return `${iv}${Array.from(new Uint8Array(encryptedBuffer))
+    .map((value) => value.toString(16).padStart(2, '0'))
+    .join('')}`
+}

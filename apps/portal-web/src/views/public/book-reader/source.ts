@@ -1,7 +1,7 @@
 import type { PublicBookChapterItemResponse, PublicBookDetailResponse } from '@/api/public-detail'
 
 export type BookReaderMode = 'comic' | 'novel'
-export type BookReaderSourceType = 'unsupported' | 'wenku8Novel' | 'wmanhuaComic' | 'komiicComic'
+export type BookReaderSourceType = 'unsupported' | 'wenku8Novel' | 'wmanhuaComic' | 'mangaCopyComic'
 
 export interface BookReaderSourceResolution {
   mode: BookReaderMode
@@ -23,6 +23,7 @@ export type BookReaderChapterContentItem =
     }
   | {
       alt: string
+      enhance?: boolean
       loading: 'lazy'
       requestHeaders?: Record<string, string>
       src: string
@@ -35,9 +36,11 @@ const WENKU8_PROXY_PREFIX = '/proxy/wenku8'
 const WMANHUA_PATH_PATTERN = /^\/chapter\/(\d+)-(\d+)\.html$/i
 const WMANHUA_RULE_PATTERN = /(?:^|;\s*)wmanhuaPath=([^;]+)/i
 const WMANHUA_PROXY_PREFIX = '/proxy/wmanhua'
-const KOMIIC_CHAPTER_ID_PATTERN = /^[A-Za-z0-9_-]+$/
-const KOMIIC_CHAPTER_ID_RULE_PATTERN = /(?:^|;\s*)komiicChapterId=([^;]+)/i
-const KOMIIC_QUERY_PROXY_URL = '/proxy/komiic/api/query'
+const MANGA_COPY_CHAPTER_ID_PATTERN = /^[A-Za-z0-9_-]+$/
+const MANGA_COPY_CHAPTER_ID_RULE_PATTERN = /(?:^|;\s*)mangaCopyChapterId=([^;]+)/i
+const MANGA_COPY_COMIC_ID_RULE_PATTERN = /(?:^|;\s*)mangaCopyComicId=([^;]+)/i
+const MANGA_COPY_API_PROXY_PREFIX = '/proxy/mangacopy-api'
+const MANGA_COPY_API_VERSION = '2025.08.08'
 
 export function resolveBookReaderSource(
   detail: PublicBookDetailResponse,
@@ -63,23 +66,23 @@ export function resolveBookReaderSource(
     }
   }
 
-  const komiicChapterId = resolveKomiicChapterId(chapter.rule)
-  if (komiicChapterId) {
+  const mangaCopyChapter = resolveMangaCopyChapterIdentity(chapter.rule, detail.comicId)
+  if (mangaCopyChapter) {
     return {
       mode: 'comic',
-      proxyUrl: resolveKomiicQueryProxyUrl(),
-      sourcePath: komiicChapterId,
-      sourceType: 'komiicComic'
+      proxyUrl: resolveMangaCopyChapterProxyUrl(mangaCopyChapter),
+      sourcePath: `${mangaCopyChapter.comicId}/${mangaCopyChapter.chapterId}`,
+      sourceType: 'mangaCopyComic'
     }
   }
 
   const origin = detail.origin?.trim().toLocaleLowerCase() ?? ''
-  if (origin.includes('komiic')) {
+  if (origin.includes('mangacopy')) {
     return {
       mode: 'comic',
       proxyUrl: '',
       sourcePath: '',
-      sourceType: 'komiicComic'
+      sourceType: 'mangaCopyComic'
     }
   }
 
@@ -175,28 +178,38 @@ export function resolveWmanhuaChapterProxyUrl(path: string): string {
   return `${WMANHUA_PROXY_PREFIX}${path}`
 }
 
-export function resolveKomiicChapterId(rule: string | undefined): string {
-  if (!rule?.trim()) {
-    return ''
-  }
-
-  const rawChapterId = rule.match(KOMIIC_CHAPTER_ID_RULE_PATTERN)?.[1]?.trim() ?? ''
-  if (!rawChapterId) {
-    return ''
-  }
-
-  let chapterId = rawChapterId
-  try {
-    chapterId = decodeURIComponent(rawChapterId)
-  } catch {
-    chapterId = rawChapterId
-  }
-
-  return KOMIIC_CHAPTER_ID_PATTERN.test(chapterId) ? chapterId : ''
+export interface MangaCopyChapterIdentity {
+  chapterId: string
+  comicId: string
 }
 
-export function resolveKomiicQueryProxyUrl(): string {
-  return KOMIIC_QUERY_PROXY_URL
+export function resolveMangaCopyChapterIdentity(
+  rule: string | undefined,
+  fallbackComicId: string | undefined
+): MangaCopyChapterIdentity | null {
+  if (!rule?.trim()) {
+    return null
+  }
+
+  const chapterId = decodeRuleValue(rule.match(MANGA_COPY_CHAPTER_ID_RULE_PATTERN)?.[1] ?? '')
+  const comicId = decodeRuleValue(
+    rule.match(MANGA_COPY_COMIC_ID_RULE_PATTERN)?.[1] ?? fallbackComicId ?? ''
+  )
+
+  if (!MANGA_COPY_CHAPTER_ID_PATTERN.test(chapterId) || !comicId) {
+    return null
+  }
+
+  return {
+    chapterId,
+    comicId
+  }
+}
+
+export function resolveMangaCopyChapterProxyUrl(identity: MangaCopyChapterIdentity): string {
+  return `${MANGA_COPY_API_PROXY_PREFIX}/api/v3/comic/${encodeURIComponent(
+    identity.comicId
+  )}/chapter/${encodeURIComponent(identity.chapterId)}`
 }
 
 export async function fetchWenku8NovelChapter(proxyUrl: string): Promise<BookReaderChapterContent> {
@@ -238,54 +251,26 @@ export async function fetchWmanhuaComicChapter(
   return content
 }
 
-export async function fetchKomiicComicChapter(
-  proxyUrl: string,
-  chapterId: string
+export async function fetchMangaCopyComicChapter(
+  proxyUrl: string
 ): Promise<BookReaderChapterContent> {
-  const normalizedChapterId = chapterId.trim()
-  if (!normalizedChapterId) {
-    throw new Error('Komiic chapter id is required')
-  }
-
-  const imagesResponse = await fetch(proxyUrl, {
-    method: 'POST',
+  const response = await fetch(proxyUrl, {
+    method: 'GET',
     credentials: 'omit',
     headers: {
       accept: 'application/json',
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify(createKomiicImagesPayload(normalizedChapterId))
+      platform: '1',
+      version: MANGA_COPY_API_VERSION
+    }
   })
 
-  if (!imagesResponse.ok) {
-    throw new Error(`Komiic chapter images request failed: ${imagesResponse.status}`)
+  if (!response.ok) {
+    throw new Error(`MangaCopy chapter request failed: ${response.status}`)
   }
 
-  const images = extractKomiicChapterImages(await imagesResponse.json())
-  if (images.length === 0) {
-    throw new Error('Komiic chapter images are empty')
-  }
-
-  const ticketsResponse = await fetch(proxyUrl, {
-    method: 'POST',
-    credentials: 'omit',
-    headers: {
-      accept: 'application/json',
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify(createKomiicImageTicketsPayload(images.map((image) => image.kid)))
-  })
-
-  if (!ticketsResponse.ok) {
-    throw new Error(`Komiic image tickets request failed: ${ticketsResponse.status}`)
-  }
-
-  const content = buildKomiicComicChapterContent(
-    images,
-    extractKomiicImageTickets(await ticketsResponse.json())
-  )
+  const content = extractMangaCopyComicChapterContent(await response.json())
   if (content.items.length === 0) {
-    throw new Error('Komiic chapter content is empty')
+    throw new Error('MangaCopy chapter content is empty')
   }
 
   return content
@@ -358,158 +343,63 @@ export function extractWmanhuaComicChapterContent(html: string): BookReaderChapt
   }
 }
 
-interface KomiicChapterImageEntry {
-  height: number
-  id: string
-  kid: string
-  width: number
-}
-
-interface KomiicImageTicketEntry {
-  height: number
-  kid: string
-  ticket: string
+interface MangaCopyImageEntry {
   url: string
-  width: number
 }
 
-function createKomiicImagesPayload(chapterId: string): Record<string, unknown> {
-  return {
-    operationName: 'imagesByChapterId',
-    variables: {
-      chapterId
-    },
-    query:
-      'query imagesByChapterId($chapterId: ID!) {\n  imagesByChapterId(chapterId: $chapterId) {\n    id\n    kid\n    height\n    width\n    __typename\n  }\n}'
-  }
-}
-
-function createKomiicImageTicketsPayload(kids: string[]): Record<string, unknown> {
-  return {
-    operationName: 'getImageTickets',
-    variables: {
-      kids
-    },
-    query:
-      'query getImageTickets($kids: [String!]!) {\n  getImageTickets(kids: $kids) {\n    ...ImageTicketFields\n    __typename\n  }\n}\n\nfragment ImageTicketFields on ImageTicket {\n  url\n  ticket\n  kid\n  width\n  height\n  expiresAt\n  __typename\n}'
-  }
-}
-
-function extractKomiicChapterImages(payload: unknown): KomiicChapterImageEntry[] {
-  if (!isRecord(payload) || !isRecord(payload.data)) {
-    return []
+function extractMangaCopyComicChapterContent(payload: unknown): BookReaderChapterContent {
+  const emptyContent = {
+    items: [],
+    paragraphs: [],
+    title: ''
   }
 
-  const rawImages = payload.data.imagesByChapterId
-  if (!Array.isArray(rawImages)) {
-    return []
+  if (!isRecord(payload) || !isRecord(payload.results) || !isRecord(payload.results.chapter)) {
+    return emptyContent
   }
 
-  return rawImages
-    .map(normalizeKomiicChapterImage)
-    .filter((image): image is KomiicChapterImageEntry => Boolean(image))
-}
-
-function normalizeKomiicChapterImage(value: unknown): KomiicChapterImageEntry | null {
-  if (!isRecord(value)) {
-    return null
-  }
-
-  const id = String(value.id ?? '').trim()
-  const kid = String(value.kid ?? '').trim()
-  const height = Number(value.height ?? 0)
-  const width = Number(value.width ?? 0)
-
-  if (!id || !kid || !Number.isFinite(height) || !Number.isFinite(width)) {
-    return null
-  }
-
-  return {
-    height: Math.max(0, Math.floor(height)),
-    id,
-    kid,
-    width: Math.max(0, Math.floor(width))
-  }
-}
-
-function extractKomiicImageTickets(payload: unknown): Map<string, KomiicImageTicketEntry> {
-  const tickets = new Map<string, KomiicImageTicketEntry>()
-  if (!isRecord(payload) || !isRecord(payload.data)) {
-    return tickets
-  }
-
-  const rawTickets = payload.data.getImageTickets
-  if (!Array.isArray(rawTickets)) {
-    return tickets
-  }
-
-  rawTickets.forEach((rawTicket) => {
-    const ticket = normalizeKomiicImageTicket(rawTicket)
-    if (ticket) {
-      tickets.set(ticket.kid, ticket)
+  const title = normalizeWenku8Line(String(payload.results.chapter.name ?? ''))
+  const rawContents = payload.results.chapter.contents
+  if (!Array.isArray(rawContents)) {
+    return {
+      ...emptyContent,
+      title
     }
-  })
-
-  return tickets
-}
-
-function normalizeKomiicImageTicket(value: unknown): KomiicImageTicketEntry | null {
-  if (!isRecord(value)) {
-    return null
   }
 
-  const kid = String(value.kid ?? '').trim()
-  const ticket = String(value.ticket ?? '').trim()
-  const url = normalizeKomiicImageUrl(String(value.url ?? ''))
-  const height = Number(value.height ?? 0)
-  const width = Number(value.width ?? 0)
-
-  if (!kid || !ticket || !url || !Number.isFinite(height) || !Number.isFinite(width)) {
-    return null
-  }
-
-  return {
-    height: Math.max(0, Math.floor(height)),
-    kid,
-    ticket,
-    url,
-    width: Math.max(0, Math.floor(width))
-  }
-}
-
-function buildKomiicComicChapterContent(
-  images: KomiicChapterImageEntry[],
-  tickets: Map<string, KomiicImageTicketEntry>
-): BookReaderChapterContent {
-  const items = images.flatMap((image, index): BookReaderChapterContentItem[] => {
-    const ticket = tickets.get(image.kid)
-    if (!ticket) {
-      return []
-    }
-
+  const images = rawContents
+    .map(normalizeMangaCopyImageEntry)
+    .filter((image): image is MangaCopyImageEntry => Boolean(image))
+  const items = images.map((image, index): BookReaderChapterContentItem => {
     const pageNumber = index + 1
-    return [
-      {
-        alt: `Komiic 漫画第 ${pageNumber} 页`,
-        loading: 'lazy',
-        requestHeaders: {
-          'x-image-ticket': ticket.ticket
-        },
-        src: ticket.url,
-        type: 'image'
-      }
-    ]
+
+    return {
+      alt: title ? `${title} 第 ${pageNumber} 页` : `MangaCopy 漫画第 ${pageNumber} 页`,
+      enhance: false,
+      loading: 'lazy',
+      src: image.url,
+      type: 'image'
+    }
   })
 
   return {
     items,
     paragraphs: [],
-    title: ''
+    title
   }
 }
 
-function normalizeKomiicImageUrl(value: string): string {
-  const normalizedUrl = value.trim()
+function normalizeMangaCopyImageEntry(value: unknown): MangaCopyImageEntry | null {
+  if (!isRecord(value)) {
+    return null
+  }
+
+  const url = normalizeMangaCopyImageUrl(String(value.url ?? ''))
+  return url ? { url } : null
+}
+
+function normalizeMangaCopyImageUrl(value: string): string {
+  const normalizedUrl = value.trim().replace('c800x.jpg', 'c1500x.jpg')
   if (!normalizedUrl) {
     return ''
   }
@@ -519,6 +409,19 @@ function normalizeKomiicImageUrl(value: string): string {
     return /^https?:$/.test(url.protocol) ? url.toString() : ''
   } catch {
     return ''
+  }
+}
+
+function decodeRuleValue(value: string): string {
+  const rawValue = value.trim()
+  if (!rawValue) {
+    return ''
+  }
+
+  try {
+    return decodeURIComponent(rawValue).trim()
+  } catch {
+    return rawValue
   }
 }
 

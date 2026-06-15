@@ -1,132 +1,109 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 
-import { fetchKomiicComicChapter, resolveBookReaderSource, resolveKomiicChapterId } from './source'
+import {
+  fetchMangaCopyComicChapter,
+  resolveBookReaderSource,
+  resolveMangaCopyChapterIdentity
+} from './source'
 import type { PublicBookChapterItemResponse, PublicBookDetailResponse } from '@/api/public-detail'
 
 afterEach(() => {
   vi.unstubAllGlobals()
 })
 
-describe('book reader Komiic source', () => {
-  it('resolves Komiic chapter rules to the shared query proxy', () => {
+describe('book reader MangaCopy source', () => {
+  it('resolves MangaCopy chapter rules to the API proxy', () => {
     const detail = {
       id: 'book-1',
-      origin: 'https://komiic.com',
+      origin: 'https://www.mangacopy.com',
       part: 1,
-      comicId: '400'
+      comicId: 'example-comic'
     } satisfies PublicBookDetailResponse
     const chapter = {
       id: 1,
       order: 1,
       size: 0,
       title: '第 1 话',
-      rule: 'komiicChapterId=6160'
+      rule: 'mangaCopyComicId=example-comic; mangaCopyChapterId=chapter-one'
     } satisfies PublicBookChapterItemResponse
 
-    expect(resolveKomiicChapterId('komiicChapterId=6160')).toBe('6160')
+    expect(
+      resolveMangaCopyChapterIdentity(
+        'mangaCopyComicId=example-comic; mangaCopyChapterId=chapter-one',
+        ''
+      )
+    ).toEqual({
+      chapterId: 'chapter-one',
+      comicId: 'example-comic'
+    })
     expect(resolveBookReaderSource(detail, chapter)).toEqual({
       mode: 'comic',
-      proxyUrl: '/proxy/komiic/api/query',
-      sourcePath: '6160',
-      sourceType: 'komiicComic'
+      proxyUrl: '/proxy/mangacopy-api/api/v3/comic/example-comic/chapter/chapter-one',
+      sourcePath: 'example-comic/chapter-one',
+      sourceType: 'mangaCopyComic'
     })
   })
 
-  it('fetches Komiic image tickets and keeps chapter image order', async () => {
-    const fetchMock = vi
-      .fn()
-      .mockResolvedValueOnce(
-        Response.json({
-          data: {
-            imagesByChapterId: [
+  it('fetches MangaCopy chapter images from the proxied API', async () => {
+    const fetchMock = vi.fn().mockResolvedValueOnce(
+      Response.json({
+        results: {
+          comic: {
+            name: 'Example Comic'
+          },
+          chapter: {
+            name: '第 1 话',
+            contents: [
               {
-                id: 'image-1',
-                kid: 'kid-1',
-                height: 1200,
-                width: 800
+                url: 'https://cdn.example.test/page-1-c800x.jpg'
               },
               {
-                id: 'image-2',
-                kid: 'kid-2',
-                height: 1300,
-                width: 820
+                url: 'https://cdn.example.test/page-2.webp'
               }
             ]
           }
-        })
-      )
-      .mockResolvedValueOnce(
-        Response.json({
-          data: {
-            getImageTickets: [
-              {
-                kid: 'kid-2',
-                url: 'https://cdn.example.test/page-2.webp',
-                ticket: 'ticket-2',
-                height: 1300,
-                width: 820
-              },
-              {
-                kid: 'kid-1',
-                url: 'https://cdn.example.test/page-1.webp',
-                ticket: 'ticket-1',
-                height: 1200,
-                width: 800
-              }
-            ]
-          }
-        })
-      )
+        }
+      })
+    )
 
     vi.stubGlobal('fetch', fetchMock)
 
-    const content = await fetchKomiicComicChapter('/proxy/komiic/api/query', '6160')
-    const imagesRequest = fetchMock.mock.calls[0]?.[1] as RequestInit
-    const ticketsRequest = fetchMock.mock.calls[1]?.[1] as RequestInit
+    const content = await fetchMangaCopyComicChapter(
+      '/proxy/mangacopy-api/api/v3/comic/example-comic/chapter/chapter-one'
+    )
 
     expect(fetchMock).toHaveBeenNthCalledWith(
       1,
-      '/proxy/komiic/api/query',
-      expect.objectContaining({
-        method: 'POST',
-        credentials: 'omit'
-      })
+      '/proxy/mangacopy-api/api/v3/comic/example-comic/chapter/chapter-one',
+      {
+        method: 'GET',
+        credentials: 'omit',
+        headers: {
+          accept: 'application/json',
+          platform: '1',
+          version: '2025.08.08'
+        }
+      }
     )
-    expect(JSON.parse(String(imagesRequest.body))).toMatchObject({
-      operationName: 'imagesByChapterId',
-      variables: {
-        chapterId: '6160'
-      }
-    })
-    expect(JSON.parse(String(ticketsRequest.body))).toMatchObject({
-      operationName: 'getImageTickets',
-      variables: {
-        kids: ['kid-1', 'kid-2']
-      }
-    })
     expect(content).toEqual({
       items: [
         {
-          alt: 'Komiic 漫画第 1 页',
+          alt: '第 1 话 第 1 页',
+          enhance: false,
           loading: 'lazy',
-          requestHeaders: {
-            'x-image-ticket': 'ticket-1'
-          },
-          src: 'https://cdn.example.test/page-1.webp',
+          src: 'https://cdn.example.test/page-1-c1500x.jpg',
           type: 'image'
         },
         {
-          alt: 'Komiic 漫画第 2 页',
+          alt: '第 1 话 第 2 页',
+          enhance: false,
           loading: 'lazy',
-          requestHeaders: {
-            'x-image-ticket': 'ticket-2'
-          },
           src: 'https://cdn.example.test/page-2.webp',
           type: 'image'
         }
       ],
       paragraphs: [],
-      title: ''
+      title: '第 1 话'
     })
   })
 })

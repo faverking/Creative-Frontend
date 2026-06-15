@@ -96,7 +96,7 @@ describe('BookComicEnhancedImage', () => {
 
     mount(BookComicEnhancedImage, {
       props: {
-        alt: 'Komiic 漫画第 1 页',
+        alt: '漫画第 1 页',
         loading: 'eager',
         requestHeaders: {
           'x-image-ticket': 'ticket-1'
