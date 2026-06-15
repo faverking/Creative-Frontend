@@ -464,7 +464,7 @@ function resolveBookTags(item: HomeBookshelfSectionResponse['items'][number]) {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   line-clamp: 2;
-  max-width: 37ch;
+  max-width: 40ch;
   opacity: 0.78;
 }
 
