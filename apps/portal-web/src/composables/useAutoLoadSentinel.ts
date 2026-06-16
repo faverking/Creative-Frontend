@@ -7,7 +7,6 @@ interface AutoLoadSentinelOptions {
 
 const AUTO_LOAD_COOLDOWN_MS = 520
 const AUTO_LOAD_TRIGGER_OFFSET = 180
-const AUTO_LOAD_TRIGGER_OFFSET_REM = AUTO_LOAD_TRIGGER_OFFSET / 10
 const FALLBACK_SCROLL_DELAY_MS = 200
 
 export function useAutoLoadSentinel(options: AutoLoadSentinelOptions) {
@@ -96,7 +95,7 @@ export function useAutoLoadSentinel(options: AutoLoadSentinelOptions) {
         },
         {
           root: null,
-          rootMargin: `0rem 0rem ${AUTO_LOAD_TRIGGER_OFFSET_REM}rem 0rem`,
+          rootMargin: `0px 0px ${AUTO_LOAD_TRIGGER_OFFSET}px 0px`,
           threshold: 0.01
         }
       )
