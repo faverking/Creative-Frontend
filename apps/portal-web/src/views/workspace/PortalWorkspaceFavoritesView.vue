@@ -168,7 +168,6 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessage } from 'element-plus'
 import { computed, onMounted, ref } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 
@@ -197,6 +196,7 @@ import {
   resolveWorkspaceTargetLabel,
   type WorkspaceMetricEntry
 } from '@/utils/workspace'
+import { portalMessage } from '@/utils/portal-message'
 
 interface WorkspaceFavoriteCard {
   business: 'article' | 'book' | 'gallery' | 'topic'
@@ -347,7 +347,7 @@ async function handleToggleFavorite(item: WorkspaceFavoriteCard): Promise<void> 
         total.value = nextTotal
         activePage.value = nextTotalPages
         await loadFavorites()
-        ElMessage.success('已取消收藏。')
+        portalMessage.success('已取消收藏。')
         return
       }
 
@@ -356,7 +356,7 @@ async function handleToggleFavorite(item: WorkspaceFavoriteCard): Promise<void> 
       if (nextTotal === 0) {
         activePage.value = WORKSPACE_DEFAULT_PAGE
       }
-      ElMessage.success('已取消收藏。')
+      portalMessage.success('已取消收藏。')
     }
   } catch {
     // 消息提示由请求层统一处理
@@ -405,9 +405,7 @@ async function handleToggleFavorite(item: WorkspaceFavoriteCard): Promise<void> 
 
 .workspace-favorite-card {
   display: grid;
-  grid-template-columns: var(
-    --workspace-favorite-card-columns
-  );
+  grid-template-columns: var(--workspace-favorite-card-columns);
   align-items: start;
   gap: var(--home-card-gap-base);
   padding: var(--workspace-card-padding);

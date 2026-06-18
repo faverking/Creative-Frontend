@@ -41,49 +41,38 @@
           <div class="portal-toolbar__utility-nav">
             <div class="portal-toolbar__utility-group">
               <span class="portal-toolbar__slot">
-                <el-popover
-                  :disabled="!isAuthenticated"
-                  trigger="hover"
-                  placement="bottom"
-                  :offset="10"
-                  :show-arrow="false"
-                  popper-class="portal-toolbar__account-popper"
+                <span
+                  ref="accountMenuRef"
+                  class="portal-toolbar__account-menu"
+                  :class="{ 'is-authenticated': isAuthenticated }"
+                  @focusin="openAccountPanel"
+                  @focusout="scheduleAccountPanelClose"
+                  @pointerenter="openAccountPanel"
+                  @pointerleave="scheduleAccountPanelClose"
                 >
-                  <template #reference>
-                    <router-link
-                      :to="accountLink.to"
-                      :aria-label="accountLink.title"
-                      class="portal-toolbar__item"
-                      :class="[
-                        `portal-toolbar__item--${accountLink.key}`,
-                        `portal-toolbar__item--tone-${accountLink.tone}`,
-                        { 'portal-toolbar__item--account-authenticated': isAuthenticated }
-                      ]"
-                      :title="isAuthenticated ? undefined : accountLink.title"
-                    >
-                      <portal-svg-icon
-                        :name="accountLink.iconName"
-                        class="portal-toolbar__icon"
-                        :class="{ 'portal-toolbar__icon--account': isAuthenticated }"
-                      />
-                      <span v-if="accountLink.label" class="portal-toolbar__label">
-                        {{ accountLink.label }}
-                      </span>
-                    </router-link>
-                  </template>
-
-                  <div v-if="isAuthenticated" class="portal-toolbar__account-panel">
-                    <p class="portal-toolbar__account-name">{{ accountDisplayName }}</p>
-
-                    <button
-                      type="button"
-                      class="portal-toolbar__account-action"
-                      @click="handleLogout"
-                    >
-                      注销登录
-                    </button>
-                  </div>
-                </el-popover>
+                  <router-link
+                    :to="accountLink.to"
+                    :aria-label="accountLink.title"
+                    :aria-expanded="isAuthenticated ? isAccountPanelOpen : undefined"
+                    :aria-haspopup="isAuthenticated ? 'menu' : undefined"
+                    class="portal-toolbar__item"
+                    :class="[
+                      `portal-toolbar__item--${accountLink.key}`,
+                      `portal-toolbar__item--tone-${accountLink.tone}`,
+                      { 'portal-toolbar__item--account-authenticated': isAuthenticated }
+                    ]"
+                    :title="isAuthenticated ? undefined : accountLink.title"
+                  >
+                    <portal-svg-icon
+                      :name="accountLink.iconName"
+                      class="portal-toolbar__icon"
+                      :class="{ 'portal-toolbar__icon--account': isAuthenticated }"
+                    />
+                    <span v-if="accountLink.label" class="portal-toolbar__label">
+                      {{ accountLink.label }}
+                    </span>
+                  </router-link>
+                </span>
               </span>
             </div>
 
@@ -142,11 +131,36 @@
         </nav>
       </div>
     </header>
+
+    <teleport to="body">
+      <div
+        v-if="isAuthenticated && isAccountPanelOpen"
+        class="portal-toolbar__account-popper portal-toolbar__account-panel"
+        role="menu"
+        :aria-label="accountDisplayName"
+        :style="accountPanelStyle"
+        @focusin="clearAccountPanelCloseTimer"
+        @focusout="scheduleAccountPanelClose"
+        @pointerenter="clearAccountPanelCloseTimer"
+        @pointerleave="scheduleAccountPanelClose"
+      >
+        <p class="portal-toolbar__account-name">{{ accountDisplayName }}</p>
+
+        <button
+          type="button"
+          class="portal-toolbar__account-action"
+          role="menuitem"
+          @click="handleLogout"
+        >
+          注销登录
+        </button>
+      </div>
+    </teleport>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, nextTick, onBeforeUnmount, ref, watch, type CSSProperties } from 'vue'
 import { type RouteLocationRaw, useRoute, useRouter } from 'vue-router'
 
 import { useThemeStore, useUserStore } from '@frontend/store'
@@ -186,6 +200,14 @@ const route = useRoute()
 const router = useRouter()
 const userStore = useUserStore()
 const themeStore = useThemeStore()
+const accountMenuRef = ref<HTMLElement | null>(null)
+const isAccountPanelOpen = ref(false)
+const accountPanelStyle = ref<CSSProperties>({})
+let accountPanelCloseTimer: number | undefined
+let accountPanelPositionListenersBound = false
+
+const ACCOUNT_PANEL_OFFSET = 10
+const ACCOUNT_PANEL_HIDE_DELAY_MS = 160
 
 const userName = computed(() => userStore.profile?.name?.trim() ?? '')
 const userEmail = computed(() => userStore.profile?.email?.trim() ?? '')
@@ -274,6 +296,74 @@ const accountLink = computed<ToolbarItem>(() => ({
   tone: 'accent'
 }))
 
+function clearAccountPanelCloseTimer(): void {
+  if (accountPanelCloseTimer === undefined) {
+    return
+  }
+
+  window.clearTimeout(accountPanelCloseTimer)
+  accountPanelCloseTimer = undefined
+}
+
+function syncAccountPanelPosition(): void {
+  const anchor = accountMenuRef.value
+
+  if (!anchor) {
+    return
+  }
+
+  const anchorRect = anchor.getBoundingClientRect()
+
+  accountPanelStyle.value = {
+    left: `${anchorRect.left + anchorRect.width / 2}px`,
+    top: `${anchorRect.bottom + ACCOUNT_PANEL_OFFSET}px`
+  }
+}
+
+function bindAccountPanelPositionListeners(): void {
+  if (accountPanelPositionListenersBound) {
+    return
+  }
+
+  window.addEventListener('resize', syncAccountPanelPosition)
+  window.addEventListener('scroll', syncAccountPanelPosition, true)
+  accountPanelPositionListenersBound = true
+}
+
+function unbindAccountPanelPositionListeners(): void {
+  if (!accountPanelPositionListenersBound) {
+    return
+  }
+
+  window.removeEventListener('resize', syncAccountPanelPosition)
+  window.removeEventListener('scroll', syncAccountPanelPosition, true)
+  accountPanelPositionListenersBound = false
+}
+
+async function openAccountPanel(): Promise<void> {
+  if (!isAuthenticated.value) {
+    return
+  }
+
+  clearAccountPanelCloseTimer()
+  syncAccountPanelPosition()
+  isAccountPanelOpen.value = true
+  bindAccountPanelPositionListeners()
+  await nextTick()
+  syncAccountPanelPosition()
+}
+
+function closeAccountPanel(): void {
+  clearAccountPanelCloseTimer()
+  isAccountPanelOpen.value = false
+  unbindAccountPanelPositionListeners()
+}
+
+function scheduleAccountPanelClose(): void {
+  clearAccountPanelCloseTimer()
+  accountPanelCloseTimer = window.setTimeout(closeAccountPanel, ACCOUNT_PANEL_HIDE_DELAY_MS)
+}
+
 async function handleLogout(): Promise<void> {
   const runtime = getAuthRuntime()
 
@@ -283,10 +373,22 @@ async function handleLogout(): Promise<void> {
     clearAuthState()
   }
 
+  closeAccountPanel()
+
   if (route.matched.some((record) => record.meta.requiresAuth)) {
     await router.replace('/')
   }
 }
+
+watch(isAuthenticated, (value) => {
+  if (!value) {
+    closeAccountPanel()
+  }
+})
+
+onBeforeUnmount(() => {
+  closeAccountPanel()
+})
 </script>
 
 <style scoped>
@@ -728,9 +830,59 @@ async function handleLogout(): Promise<void> {
 </style>
 
 <style>
+.portal-toolbar__account-menu {
+  display: inline-flex;
+}
+
 .portal-toolbar__account-panel {
   display: grid;
   gap: 10px;
+}
+
+.portal-toolbar__account-popper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: var(--el-index-popper, 2000);
+  min-width: 188px;
+  padding: 12px;
+  border: 1px solid var(--portal-module-filter-border);
+  border-radius: 20px;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--portal-surface-top-soft) 100%, transparent),
+      transparent 26%
+    ),
+    var(--portal-module-filter-bg);
+  box-shadow:
+    var(--portal-module-filter-shadow),
+    0 18px 30px color-mix(in srgb, var(--portal-primary-strong) 12%, transparent);
+  transform: translateX(-50%);
+  animation: portal-toolbar-account-popper-in 160ms ease both;
+  backdrop-filter: blur(18px) saturate(1.08);
+  -webkit-backdrop-filter: blur(18px) saturate(1.08);
+}
+
+.portal-toolbar__account-popper::before {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  left: 0;
+  height: 10px;
+}
+
+@keyframes portal-toolbar-account-popper-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
 }
 
 .portal-toolbar__account-name {
@@ -788,24 +940,5 @@ async function handleLogout(): Promise<void> {
   box-shadow:
     inset 0 1px 0 color-mix(in srgb, var(--portal-surface-top) 100%, transparent),
     0 14px 22px color-mix(in srgb, var(--portal-primary-strong) 16%, transparent);
-}
-
-.portal-toolbar__account-popper.el-popover {
-  min-width: 188px;
-  padding: 12px;
-  border: 1px solid var(--portal-module-filter-border);
-  border-radius: 20px;
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--portal-surface-top-soft) 100%, transparent),
-      transparent 26%
-    ),
-    var(--portal-module-filter-bg);
-  box-shadow:
-    var(--portal-module-filter-shadow),
-    0 18px 30px color-mix(in srgb, var(--portal-primary-strong) 12%, transparent);
-  backdrop-filter: blur(18px) saturate(1.08);
-  -webkit-backdrop-filter: blur(18px) saturate(1.08);
 }
 </style>

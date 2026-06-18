@@ -1,5 +1,3 @@
-import { ElMessage } from 'element-plus'
-
 import {
   createAuthApi,
   getAppHttpClient,
@@ -15,6 +13,7 @@ import type { LoginSdk } from '@frontend/login-sdk'
 import type { HttpClient } from '@frontend/request'
 
 import { clearAuthState } from '@/auth/runtime'
+import { portalMessage } from '@/utils/portal-message'
 
 export type SetupHttpClientOptions = SetupAppHttpClientOptions
 export {
@@ -132,15 +131,15 @@ export function setupHttpClient(
     },
     onForbidden: () => {
       options.onForbidden?.()
-      ElMessage.error('当前账号暂时没有访问门户工作台的权限。')
+      portalMessage.error('当前账号暂时没有访问门户工作台的权限。')
     },
     onServerError: (status, message) => {
       options.onServerError?.(status, message)
-      ElMessage.error(resolveHttpErrorMessage(status, message))
+      portalMessage.error(resolveHttpErrorMessage(status, message))
     },
     onBusinessError: (payload) => {
       options.onBusinessError?.(payload)
-      ElMessage.error(resolveBusinessErrorMessage(payload))
+      portalMessage.error(resolveBusinessErrorMessage(payload))
     }
   })
 }

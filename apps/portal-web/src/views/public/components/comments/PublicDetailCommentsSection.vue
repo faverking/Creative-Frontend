@@ -158,7 +158,6 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessage } from 'element-plus'
 import { computed, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import type { RouteLocationRaw } from 'vue-router'
@@ -180,6 +179,7 @@ import {
   type PublicCommentTargetType
 } from '@/api/public-comments'
 import { formatCompactCount } from '@/utils/content'
+import { portalMessage } from '@/utils/portal-message'
 
 const COMMENTS_PAGE_SIZE = 10
 const COMMENT_REPLY_PREVIEW_LIMIT = 3
@@ -328,7 +328,7 @@ async function loadCommentThreads(forceLoading = false): Promise<boolean> {
       totalRootComments.value = 0
       resetThreadUiState()
     } else {
-      ElMessage.error('加载失败，请稍后再试。')
+      portalMessage.error('加载失败，请稍后再试。')
     }
 
     return false
@@ -392,7 +392,7 @@ function updateCommentThreadReply(
 
 async function handleRootSubmit(): Promise<void> {
   if (!props.interactive) {
-    ElMessage.warning('评论暂未开放。')
+    portalMessage.warning('评论暂未开放。')
     return
   }
 
@@ -438,7 +438,7 @@ async function handleRootSubmit(): Promise<void> {
       return
     }
 
-    ElMessage.error('评论失败，请稍后再试。')
+    portalMessage.error('评论失败，请稍后再试。')
   } finally {
     pendingRootSubmit.value = false
   }
@@ -480,7 +480,7 @@ async function handleReplySubmit(payload: {
   mentionUserId?: string
 }): Promise<void> {
   if (!props.interactive) {
-    ElMessage.warning('评论暂未开放。')
+    portalMessage.warning('评论暂未开放。')
     return
   }
 
@@ -512,7 +512,7 @@ async function handleReplySubmit(payload: {
       return
     }
 
-    ElMessage.error('回复失败，请稍后再试。')
+    portalMessage.error('回复失败，请稍后再试。')
   } finally {
     pendingReplyCommentId.value = ''
   }
@@ -539,7 +539,7 @@ async function handleExpandReplies(commentId: string): Promise<void> {
     })
 
     if (!result.data) {
-      ElMessage.error('加载失败，请稍后再试。')
+      portalMessage.error('加载失败，请稍后再试。')
       return
     }
 

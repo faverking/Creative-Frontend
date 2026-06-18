@@ -175,7 +175,6 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, watch, type ComponentPublicInstance } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
 
 import { useUserStore } from '@frontend/store'
 
@@ -207,6 +206,7 @@ import { usePublicDetailRequestState } from '@/views/public/composables/usePubli
 import { useDocumentTitle } from '@/composables/useDocumentTitle'
 import { buildProtectedAuthDialogLocation } from '@/utils/auth-dialog'
 import { normalizeDownloadFileName, triggerBlobDownload } from '@/utils/download'
+import { portalMessage } from '@/utils/portal-message'
 import {
   buildCssVarsStyle,
   copyTextToClipboard,
@@ -647,7 +647,7 @@ async function toggleGalleryFavorite(): Promise<void> {
     favorited.value = response.favored
     favoriteCount.value = Math.max(0, favoriteCount.value + (response.favored ? 1 : -1))
   } catch {
-    ElMessage.error('当前图包暂时无法收藏')
+    portalMessage.error('当前图包暂时无法收藏')
   } finally {
     isFavoriteSubmitting.value = false
   }
@@ -655,7 +655,7 @@ async function toggleGalleryFavorite(): Promise<void> {
 
 async function downloadGalleryArchive(): Promise<void> {
   if (galleryDownloadMediaIds.value.length === 0) {
-    ElMessage.warning('当前图包暂无可打包下载的原图资源')
+    portalMessage.warning('当前图包暂无可打包下载的原图资源')
     return
   }
 
@@ -667,7 +667,7 @@ async function downloadGalleryArchive(): Promise<void> {
 
     triggerBlobDownload(archiveBlob, galleryArchiveFileName.value)
   } catch {
-    ElMessage.error('图包下载失败，请稍后再试')
+    portalMessage.error('图包下载失败，请稍后再试')
   }
 }
 
@@ -675,14 +675,14 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
   const currentPreviewUrl = normalizeCopyableUrl(activePreview.value?.copyUrl?.trim() || '')
 
   if (!currentPreviewUrl) {
-    ElMessage.warning('当前预览图地址暂时无法复制')
+    portalMessage.warning('当前预览图地址暂时无法复制')
     return
   }
 
   const copiedToClipboard = await copyTextToClipboard(currentPreviewUrl)
 
   if (!copiedToClipboard) {
-    ElMessage.warning('当前预览图地址暂时无法复制')
+    portalMessage.warning('当前预览图地址暂时无法复制')
     return
   }
 

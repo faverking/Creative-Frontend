@@ -1,11 +1,9 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
-import 'element-plus/dist/index.css'
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import './styles/index.css'
 
-import ElementPlus from 'element-plus'
 import { AiChatPanel } from '@frontend/ai-sdk'
 import { setupObservabilityRuntime } from '@frontend/app-runtime'
 import { loadEnvConfig } from '@frontend/config'
@@ -68,7 +66,6 @@ async function bootstrap(): Promise<void> {
 
   app.use(router)
   app.use(pinia)
-  app.use(ElementPlus)
   app.use(FrontendUi)
   app.use(PortalComponentsPlugin)
   app.use(createLoginPlugin({ sdk: loginSdk }))

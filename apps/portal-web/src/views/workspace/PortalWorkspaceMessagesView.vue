@@ -228,7 +228,6 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessage } from 'element-plus'
 import { computed, onMounted, ref } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 
@@ -256,6 +255,7 @@ import {
   resolveWorkspaceNotificationTimeLabel,
   resolveWorkspaceTargetLabel
 } from '@/utils/workspace'
+import { portalMessage } from '@/utils/portal-message'
 
 interface WorkspaceMessageCard {
   action: string
@@ -487,7 +487,7 @@ async function handleMessageReply(item: WorkspaceMessageCard): Promise<void> {
       content,
       mentionUserId: item.mentionUserId
     })
-    ElMessage.success('回复已发送。')
+    portalMessage.success('回复已发送。')
     resetReplyComposer()
   } catch {
     // 消息提示由请求层统一处理
@@ -503,7 +503,7 @@ async function markAllNotificationsRead(): Promise<void> {
     const response = await portalWorkspaceApi.markAllNotificationsRead()
 
     if (response.updatedCount > 0) {
-      ElMessage.success('全部消息已标记为已读。')
+      portalMessage.success('全部消息已标记为已读。')
     }
 
     if (messageFilter.value === 'unread') {

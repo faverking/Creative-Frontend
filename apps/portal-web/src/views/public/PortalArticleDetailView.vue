@@ -91,7 +91,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { ElMessage } from 'element-plus'
 
 import { useUserStore } from '@frontend/store'
 
@@ -120,6 +119,7 @@ import { usePublicDetailReloadTriggers } from '@/views/public/composables/usePub
 import { usePublicDetailRequestState } from '@/views/public/composables/usePublicDetailRequestState'
 import { useDocumentTitle } from '@/composables/useDocumentTitle'
 import { buildProtectedAuthDialogLocation } from '@/utils/auth-dialog'
+import { portalMessage } from '@/utils/portal-message'
 import {
   copyTextToClipboard,
   formatCompactCount,
@@ -320,7 +320,7 @@ async function copyCurrentArticleLink(): Promise<void> {
   const copiedToClipboard = await copyTextToClipboard(normalizeCopyableUrl(route.fullPath))
 
   if (!copiedToClipboard) {
-    ElMessage.warning('当前页面链接暂时无法复制')
+    portalMessage.warning('当前页面链接暂时无法复制')
     return
   }
 
@@ -343,7 +343,7 @@ async function toggleArticleFavorite(): Promise<void> {
     favorited.value = response.favored
     favoriteCount.value = Math.max(0, favoriteCount.value + (response.favored ? 1 : -1))
   } catch {
-    ElMessage.error('当前情报暂时无法收藏')
+    portalMessage.error('当前情报暂时无法收藏')
   } finally {
     isFavoriteSubmitting.value = false
   }

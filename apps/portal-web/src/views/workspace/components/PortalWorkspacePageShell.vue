@@ -85,7 +85,6 @@
 </template>
 
 <script setup lang="ts">
-import { ElPopconfirm, ElTabPane, ElTabs } from 'element-plus'
 import { useRouter } from 'vue-router'
 
 import PortalWorkspaceProfileCard from './PortalWorkspaceProfileCard.vue'
@@ -423,11 +422,7 @@ function handleToolbarAction(key: string): void {
   --workspace-tab-accent: var(--workspace-messages-accent);
   --workspace-tab-accent-soft: var(--workspace-messages-accent-soft);
   --workspace-tab-icon-bg: color-mix(in srgb, var(--workspace-tab-accent-soft) 7%, transparent);
-  --workspace-tab-icon-border: color-mix(
-    in srgb,
-    var(--workspace-tab-accent) 8%,
-    transparent
-  );
+  --workspace-tab-icon-border: color-mix(in srgb, var(--workspace-tab-accent) 8%, transparent);
   --workspace-tab-icon-hover-bg: color-mix(
     in srgb,
     var(--workspace-tab-accent-soft) 10%,

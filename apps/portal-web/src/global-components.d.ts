@@ -1,3 +1,5 @@
+/// <reference types="element-plus/global" />
+
 import type AuthDialogShell from './components/AuthDialogShell.vue'
 import type PortalEmptyState from './components/PortalEmptyState.vue'
 import type PortalImage from './components/PortalImage.vue'

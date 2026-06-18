@@ -204,7 +204,6 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessage } from 'element-plus'
 import { computed, onMounted, ref, type ComponentPublicInstance } from 'vue'
 import type { RouteLocationRaw } from 'vue-router'
 
@@ -235,6 +234,7 @@ import {
   type WorkspaceHistoryGroup,
   type WorkspaceMetricEntry
 } from '@/utils/workspace'
+import { portalMessage } from '@/utils/portal-message'
 import { useAutoLoadSentinel } from '@/composables/useAutoLoadSentinel'
 
 interface WorkspaceHistoryCard {
@@ -464,7 +464,9 @@ async function clearHistory(): Promise<void> {
     historyItemsRaw.value = []
     activePage.value = WORKSPACE_DEFAULT_PAGE
     total.value = 0
-    ElMessage.success(response.deletedCount > 0 ? '浏览历史已清空。' : '当前没有可清空的浏览历史。')
+    portalMessage.success(
+      response.deletedCount > 0 ? '浏览历史已清空。' : '当前没有可清空的浏览历史。'
+    )
   } catch {
     // 消息提示由请求层统一处理
   } finally {
@@ -640,9 +642,7 @@ async function clearHistory(): Promise<void> {
 .workspace-history-card {
   position: relative;
   display: grid;
-  grid-template-columns: var(
-    --workspace-history-card-columns
-  );
+  grid-template-columns: var(--workspace-history-card-columns);
   align-items: start;
   gap: var(--home-card-gap-base);
   padding: var(--workspace-card-padding);

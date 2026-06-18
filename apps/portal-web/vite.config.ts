@@ -2,23 +2,15 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig, loadEnv } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import pxtorem from 'postcss-pxtorem'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
 
 const appRoot = fileURLToPath(new URL('.', import.meta.url))
 const MONO_REPO_ROOT = fileURLToPath(new URL('../..', import.meta.url)).replaceAll('\\', '/')
-const ELEMENT_PLUS_PREFIXES = [
+const ELEMENT_PLUS_PACKAGE_PREFIXES = [
   '/node_modules/element-plus/',
-  '/node_modules/@element-plus/',
-  '/node_modules/dayjs/',
-  '/node_modules/async-validator/',
-  '/node_modules/@floating-ui/',
-  '/node_modules/@popperjs/core/',
-  '/node_modules/@sxzz/popperjs-es/',
-  '/node_modules/@ctrl/tinycolor/',
-  '/node_modules/lodash-unified/',
-  '/node_modules/memoize-one/',
-  '/node_modules/normalize-wheel-es/'
+  '/node_modules/@element-plus/'
 ]
-const ELEMENT_PLUS_STYLE_PREFIXES = ['/node_modules/element-plus/', '/node_modules/@element-plus/']
 const FRAMEWORK_PREFIXES = [
   '/node_modules/vue/',
   '/node_modules/@vue/',
@@ -34,6 +26,20 @@ const IMAGE_PROCESSING_PREFIXES = [
 ]
 const PORTAL_SHARED_PREFIXES = [`${MONO_REPO_ROOT}/packages/`, '/node_modules/@frontend/']
 const PORTAL_PX_TO_REM_EXCLUDE_FRAGMENTS = ['/src/assets/', '/src/styles/adaptive/rem-root.css']
+const ELEMENT_PLUS_COMPONENT_IMPORTS: Record<string, string> = {
+  ElAlert: 'alert',
+  ElButton: 'button',
+  ElCarousel: 'carousel',
+  ElCarouselItem: 'carousel',
+  ElConfigProvider: 'config-provider',
+  ElEmpty: 'empty',
+  ElInput: 'input',
+  ElPagination: 'pagination',
+  ElPopconfirm: 'popconfirm',
+  ElScrollbar: 'scrollbar',
+  ElTabPane: 'tabs',
+  ElTabs: 'tabs'
+}
 
 function normalizeModuleId(id: string): string {
   return id.replaceAll('\\', '/')
@@ -56,8 +62,25 @@ function isPortalPxToRemExcluded(filePath?: string): boolean {
 
   return (
     normalizedFilePath.includes('/node_modules/') &&
-    !includesAny(normalizedFilePath, ELEMENT_PLUS_STYLE_PREFIXES)
+    !includesAny(normalizedFilePath, ELEMENT_PLUS_PACKAGE_PREFIXES)
   )
+}
+
+function resolveElementPlusComponent(name: string) {
+  if (!Object.prototype.hasOwnProperty.call(ELEMENT_PLUS_COMPONENT_IMPORTS, name)) {
+    return undefined
+  }
+
+  const componentDir = ELEMENT_PLUS_COMPONENT_IMPORTS[name]
+
+  return {
+    name,
+    from: `element-plus/es/components/${componentDir}/index`,
+    sideEffects: [
+      'element-plus/es/components/base/style/css',
+      `element-plus/es/components/${componentDir}/style/css`
+    ]
+  }
 }
 
 function resolvePortalManualChunk(id: string): string | undefined {
@@ -67,8 +90,8 @@ function resolvePortalManualChunk(id: string): string | undefined {
     return 'framework'
   }
 
-  if (includesAny(normalizedId, ELEMENT_PLUS_PREFIXES)) {
-    return 'element-plus'
+  if (includesAny(normalizedId, ELEMENT_PLUS_PACKAGE_PREFIXES)) {
+    return undefined
   }
 
   if (includesAny(normalizedId, IMAGE_PROCESSING_PREFIXES)) {
@@ -91,7 +114,17 @@ export default defineConfig(({ mode }) => {
 
   return {
     base: env.VITE_APP_BASE || '/',
-    plugins: [vue()],
+    plugins: [
+      vue(),
+      AutoImport({
+        dts: false,
+        resolvers: [resolveElementPlusComponent]
+      }),
+      Components({
+        dts: false,
+        resolvers: [resolveElementPlusComponent]
+      })
+    ],
     css: {
       postcss: {
         plugins: [

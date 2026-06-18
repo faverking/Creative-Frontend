@@ -210,7 +210,6 @@
 </template>
 
 <script setup lang="ts">
-import { ElMessage } from 'element-plus'
 import { computed, onMounted, reactive, ref, watch } from 'vue'
 
 import { useWorkspaceProfile } from '../composables/useWorkspaceProfile'
@@ -218,6 +217,7 @@ import {
   WORKSPACE_PROFILE_ROLE_LABELS,
   WORKSPACE_PROFILE_STATUS_LABELS
 } from '@/constants/workspace'
+import { portalMessage } from '@/utils/portal-message'
 import { formatWorkspaceDateLabel, resolveWorkspaceAvatarUrl } from '@/utils/workspace'
 
 const { profile, loadProfile, updateProfile } = useWorkspaceProfile()
@@ -296,7 +296,7 @@ async function saveProfile(): Promise<void> {
 
   const normalizedBio = draft.bio.trim()
   if (normalizedBio.length <= 2) {
-    ElMessage.warning('个人简介至少输入 3 个字。')
+    portalMessage.warning('个人简介至少输入 3 个字。')
     return
   }
 
@@ -306,7 +306,7 @@ async function saveProfile(): Promise<void> {
       bio: normalizedBio
     })
     resetDraft()
-    ElMessage.success('资料已更新。')
+    portalMessage.success('资料已更新。')
   } catch {
     // 消息提示由请求层统一处理
   }

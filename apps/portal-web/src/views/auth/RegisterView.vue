@@ -89,7 +89,6 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref } from 'vue'
-import { ElMessage } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router'
 
 import { useLoginSdk } from '@frontend/login-sdk'
@@ -97,6 +96,7 @@ import { useLoginSdk } from '@frontend/login-sdk'
 import { authApi } from '@/api'
 import { ensurePermissionHydrated, markPermissionDirty } from '@/auth/runtime'
 import { buildAuthDialogTabLocation, resolveAuthRedirectPath } from '@/utils/auth-dialog'
+import { portalMessage } from '@/utils/portal-message'
 
 const router = useRouter()
 const route = useRoute()
@@ -167,7 +167,7 @@ const submitRegister = async () => {
     markPermissionDirty()
     await ensurePermissionHydrated()
 
-    ElMessage.success('注册成功。')
+    portalMessage.success('注册成功。')
     await router.replace(redirectTarget.value)
   } catch (error) {
     errorMessage.value = error instanceof Error ? error.message : '注册失败，请稍后重试。'

@@ -1,5 +1,10 @@
 /// <reference types="vite/client" />
 
+declare module 'element-plus/es/components/message/style/css' {
+  const style: unknown
+  export default style
+}
+
 declare module 'postcss-pxtorem' {
   interface PostcssPxToRemOptions {
     rootValue?: number
