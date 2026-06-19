@@ -6,6 +6,7 @@ tmp/
 *.log
 .DS_Store
 .vscode/
+.codex/
 .idea/
 .temp/
 .env.local

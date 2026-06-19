@@ -116,7 +116,8 @@
                 <portal-image
                   :src="resolveFeaturedCoverUrl(item)"
                   class="home-hero__cover-image"
-                  loading="eager"
+                  :loading="resolveFeaturedImageLoading(index)"
+                  :fetch-priority="resolveFeaturedImageFetchPriority(index)"
                   position="center"
                 />
                 <div class="home-hero__cover-frame" />
@@ -405,6 +406,14 @@ function setActiveFeaturedIndex(index: number, direction: FeaturedTransitionDire
 
 function resolveFeaturedCoverUrl(item: HomeFeaturedResponse) {
   return resolveHomeMediaUrl(item.cover)
+}
+
+function resolveFeaturedImageLoading(index: number) {
+  return index === activeFeaturedIndex.value ? 'eager' : 'lazy'
+}
+
+function resolveFeaturedImageFetchPriority(index: number) {
+  return index === activeFeaturedIndex.value ? 'high' : 'low'
 }
 
 function resolveFeaturedTags(item: HomeFeaturedResponse) {

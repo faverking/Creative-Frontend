@@ -21,6 +21,7 @@
     "@frontend/permission-sdk": "workspace:*",
     "@frontend/request": "workspace:*",
     "@frontend/store": "workspace:*",
+    "@frontend/theme": "workspace:*",
     "@frontend/tracking-sdk": "workspace:*",
     "@frontend/ui": "workspace:*",
     "axios": "^1.13.6",

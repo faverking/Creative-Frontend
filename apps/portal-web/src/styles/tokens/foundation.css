@@ -10,35 +10,45 @@
   --portal-danger: #d05b52;
   --portal-border: rgba(125, 160, 201, 0.24);
   --portal-border-strong: rgba(111, 148, 191, 0.34);
-  --portal-button-secondary-bg:
-    linear-gradient(135deg, rgba(248, 252, 255, 0.98), rgba(229, 238, 247, 0.92));
-  --portal-button-primary-bg:
-    linear-gradient(135deg, #69d4ff 0%, #8ed8ff 44%, #98a4ff 100%);
+  --portal-button-secondary-bg: linear-gradient(
+    135deg,
+    rgba(248, 252, 255, 0.98),
+    rgba(229, 238, 247, 0.92)
+  );
+  --portal-button-primary-bg: linear-gradient(135deg, #69d4ff 0%, #8ed8ff 44%, #98a4ff 100%);
   --portal-button-primary-ink: #082038;
   --portal-button-primary-shadow:
-    0 16px 30px rgba(64, 112, 172, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.34);
-  --portal-dialog-bg:
-    linear-gradient(160deg, rgba(250, 253, 255, 0.96), rgba(228, 239, 250, 0.9));
-  --portal-dialog-aside-bg:
-    linear-gradient(180deg, rgba(230, 243, 252, 0.92), rgba(215, 229, 244, 0.84));
-  --portal-dialog-panel-bg:
-    linear-gradient(180deg, rgba(249, 253, 255, 0.86), rgba(232, 242, 251, 0.72));
-  --portal-dialog-field-bg:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(233, 243, 252, 0.78));
+    0 16px 30px rgba(64, 112, 172, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.34);
+  --portal-dialog-bg: linear-gradient(160deg, rgba(250, 253, 255, 0.96), rgba(228, 239, 250, 0.9));
+  --portal-dialog-aside-bg: linear-gradient(
+    180deg,
+    rgba(230, 243, 252, 0.92),
+    rgba(215, 229, 244, 0.84)
+  );
+  --portal-dialog-panel-bg: linear-gradient(
+    180deg,
+    rgba(249, 253, 255, 0.86),
+    rgba(232, 242, 251, 0.72)
+  );
+  --portal-dialog-field-bg: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.94),
+    rgba(233, 243, 252, 0.78)
+  );
   --portal-dialog-close-bg: rgba(248, 252, 255, 0.82);
   --portal-dialog-close-bg-hover: rgba(255, 255, 255, 0.96);
   --portal-dialog-close-color: #2b7eb7;
   --portal-dialog-close-color-hover: #102a42;
   --portal-dialog-close-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.62),
-    0 10px 22px rgba(30, 67, 111, 0.08);
-  --portal-dialog-note-bg:
-    linear-gradient(180deg, rgba(251, 253, 255, 0.9), rgba(235, 244, 251, 0.78));
+    inset 0 1px 0 rgba(255, 255, 255, 0.62), 0 10px 22px rgba(30, 67, 111, 0.08);
+  --portal-dialog-note-bg: linear-gradient(
+    180deg,
+    rgba(251, 253, 255, 0.9),
+    rgba(235, 244, 251, 0.78)
+  );
   --portal-dialog-note-color: #58718d;
   --portal-dialog-note-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.54),
-    0 12px 24px rgba(30, 67, 111, 0.06);
+    inset 0 1px 0 rgba(255, 255, 255, 0.54), 0 12px 24px rgba(30, 67, 111, 0.06);
   --portal-overlay:
     radial-gradient(circle at 22% 10%, rgba(105, 212, 255, 0.18), transparent 24%),
     linear-gradient(180deg, rgba(8, 22, 44, 0.46), rgba(11, 28, 54, 0.62));
@@ -65,30 +75,32 @@
   --portal-surface-top: rgba(255, 255, 255, 0.82);
   --portal-surface-top-soft: rgba(255, 255, 255, 0.62);
   --portal-scene-overlay:
-    repeating-linear-gradient(
-      115deg,
-      rgba(255, 255, 255, 0.08) 0 1px,
-      transparent 1px 146px
-    ),
-    repeating-linear-gradient(
-      24deg,
-      rgba(166, 181, 238, 0.04) 0 1px,
-      transparent 1px 176px
-    ),
+    repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 146px),
+    repeating-linear-gradient(24deg, rgba(166, 181, 238, 0.04) 0 1px, transparent 1px 176px),
     radial-gradient(circle at 14% -6%, rgba(121, 225, 255, 0.2), transparent 26%),
     radial-gradient(circle at 86% 8%, rgba(152, 164, 255, 0.12), transparent 22%),
     radial-gradient(circle at 62% 26%, rgba(255, 255, 255, 0.46), transparent 30%),
     radial-gradient(circle at 72% 74%, rgba(185, 232, 240, 0.12), transparent 21%),
-    linear-gradient(180deg, rgba(250, 253, 255, 0.98), rgba(240, 246, 252, 0.96) 42%, rgba(232, 240, 249, 0.98) 100%);
+    linear-gradient(
+      180deg,
+      rgba(250, 253, 255, 0.98),
+      rgba(240, 246, 252, 0.96) 42%,
+      rgba(232, 240, 249, 0.98) 100%
+    );
   --portal-scene-blur-overlay:
     radial-gradient(circle at 12% 12%, rgba(121, 225, 255, 0.16), transparent 24%),
     radial-gradient(circle at 82% 16%, rgba(152, 164, 255, 0.1), transparent 22%),
     radial-gradient(circle at 66% 70%, rgba(185, 232, 240, 0.14), transparent 24%),
-    linear-gradient(180deg, rgba(244, 249, 254, 0.24), rgba(236, 244, 251, 0.6) 36%, rgba(231, 240, 248, 0.88) 100%);
+    linear-gradient(
+      180deg,
+      rgba(244, 249, 254, 0.24),
+      rgba(236, 244, 251, 0.6) 36%,
+      rgba(231, 240, 248, 0.88) 100%
+    );
   --portal-scene-opacity: 0.9;
   --portal-scene-blur-opacity: 0.64;
   --portal-scene-saturate: 1.03;
-  --el-font-family: var(--app-font-family);
+  --el-font-family: var(--app-font-family, system-ui, sans-serif);
   --el-border-radius-base: 16px;
   --el-border-radius-small: 12px;
   --el-border-radius-round: 999px;

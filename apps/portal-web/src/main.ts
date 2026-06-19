@@ -14,7 +14,8 @@ import {
 } from '@frontend/login-sdk'
 import { createMonitorPlugin } from '@frontend/monitor-sdk'
 import { createPermissionPlugin, createRbacPermissionEngine } from '@frontend/permission-sdk'
-import { scheduleThemeFontsLoad, useThemeStore, useUserStore } from '@frontend/store'
+import { useThemeStore, useUserStore } from '@frontend/store'
+import { scheduleProgressiveThemeFontsLoad } from '@frontend/theme/fonts'
 import { createTrackingPlugin } from '@frontend/tracking-sdk'
 import FrontendUi from '@frontend/ui'
 
@@ -77,7 +78,7 @@ async function bootstrap(): Promise<void> {
   await router.isReady()
   observability.syncContext()
   app.mount('#app')
-  scheduleThemeFontsLoad()
+  scheduleProgressiveThemeFontsLoad()
 }
 
 void bootstrap()

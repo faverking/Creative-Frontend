@@ -89,7 +89,11 @@
           />
           <div class="home-column-section__media">
             <div class="home-column-section__cover" :style="coverStyle(index)">
-              <portal-image :src="resolveCoverUrl(item.cover)" />
+              <portal-image
+                :src="resolveCoverUrl(item.cover)"
+                loading="eager"
+                fetch-priority="auto"
+              />
             </div>
             <span class="home-column-section__clip" aria-hidden="true" />
           </div>

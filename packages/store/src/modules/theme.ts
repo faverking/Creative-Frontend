@@ -1,13 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import {
-  getThemeMode,
-  initTheme,
-  scheduleThemeFontsLoad,
-  setThemeMode,
-  toggleTheme,
-  type ThemeMode
-} from '@frontend/theme'
+import { getThemeMode, initTheme, setThemeMode, toggleTheme, type ThemeMode } from '@frontend/theme'
 
 // 全局主题状态：统一驱动 html.dark 与本地持久化。
 export const useThemeStore = defineStore('global-theme', () => {
@@ -33,5 +26,3 @@ export const useThemeStore = defineStore('global-theme', () => {
     toggle
   }
 })
-
-export { scheduleThemeFontsLoad }

@@ -17,6 +17,8 @@
     "paths": {
       "@frontend/ui": ["./packages/ui/src/index.ts"],
       "@frontend/theme": ["./packages/theme/src/index.ts"],
+      "@frontend/theme/font-subset": ["./packages/theme/src/font-subset-loader.ts"],
+      "@frontend/theme/fonts": ["./packages/theme/src/font-loader.ts"],
       "@frontend/types": ["./packages/types/src/index.ts"],
       "@frontend/constants": ["./packages/constants/src/index.ts"],
       "@frontend/composables": ["./packages/composables/src/index.ts"],

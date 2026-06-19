@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./font-subset": "./src/font-subset-loader.ts",
+    "./fonts": "./src/font-loader.ts"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json --noEmit",

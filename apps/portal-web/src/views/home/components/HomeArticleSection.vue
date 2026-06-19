@@ -134,7 +134,11 @@
             :title="featuredArticle.title"
           />
           <div class="home-article-section__feature-cover">
-            <portal-image :src="resolveCoverUrl(featuredArticle.cover)" />
+            <portal-image
+              :src="resolveCoverUrl(featuredArticle.cover)"
+              loading="eager"
+              fetch-priority="high"
+            />
             <span class="home-article-section__feature-badge">
               {{ formatArticleViewCountBadge(featuredArticle.viewCount) }}
             </span>
@@ -169,7 +173,11 @@
               :title="item.title"
             />
             <div class="home-article-section__thumb">
-              <portal-image :src="resolveCoverUrl(item.cover)" />
+              <portal-image
+                :src="resolveCoverUrl(item.cover)"
+                loading="eager"
+                fetch-priority="auto"
+              />
             </div>
 
             <div class="home-article-section__item-copy">

@@ -15,6 +15,5 @@
 }
 
 :root {
-  --app-font-family:
-    'Alibaba PuHuiTi 2.0', 'PingFang SC', 'Microsoft YaHei', 'Segoe UI', sans-serif;
+  --app-font-family: 'Alibaba PuHuiTi 2.0', 'Alibaba PuHuiTi Portal Subset', system-ui, sans-serif;
 }

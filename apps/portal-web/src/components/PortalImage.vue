@@ -25,6 +25,7 @@
       :alt="alt"
       :loading="loading"
       :decoding="decoding"
+      :fetchpriority="fetchPriority"
       class="portal-image__img"
       @load="handleLoad"
       @error="handleError"
@@ -56,6 +57,7 @@ const props = withDefaults(
     position?: string
     loading?: 'eager' | 'lazy'
     decoding?: 'async' | 'auto' | 'sync'
+    fetchPriority?: 'high' | 'auto' | 'low'
     hiddenOnError?: boolean
   }>(),
   {
@@ -67,6 +69,7 @@ const props = withDefaults(
     position: 'center',
     loading: 'lazy',
     decoding: 'async',
+    fetchPriority: 'auto',
     hiddenOnError: true
   }
 )
