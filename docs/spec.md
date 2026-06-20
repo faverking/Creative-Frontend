@@ -198,9 +198,12 @@
 
 规则：
 
-- `index.css` 是唯一全局样式入口，只负责导入 token、dark token、adaptive、reset 和少量基础交互样式。
-- 全局 token 固定分层：`foundation`、`shared-components`、`home`、`public-detail`、`modules`、`workspace`。
+- `index.css` 是唯一全局样式入口，只负责导入 foundation / shared-components token、全局 adaptive、reset 和少量基础交互样式。
+- 全局 token 固定分层：`foundation`、`shared-components`、`browse`、`home`、`public-detail`、`modules`、`workspace`。
 - 深色 token 按同名镜像维护，浅色与深色保持同一语义、同一命名、同一层级归属。
+- `browse` 放公开浏览域通用卡片、媒体、标签、section heading 和状态舞台基线；`home` 只放首页独有布局、hero、quick entry、bookshelf 展示；`public-detail` 只放详情页 / 阅读器独有语义；`modules` 只放公开模块页筛选、分页、列表和瀑布流语义；`workspace` 只放工作台独有语义。
+- 路由 CSS 聚合入口固定为三类：`routes/public-browse.css` 导入 `browse + home + modules`，`routes/public-detail.css` 导入 `browse + public-detail`，`routes/workspace.css` 只导入 `workspace` 与路由级通用移动端组件规则。
+- `modules` 不引用 `public-detail` / `home` / `workspace` token；`public-detail` 不引用 `modules` / `home` / `workspace` token；`workspace` 不引用 `browse` / `modules` / `public-detail` token。
 - 全局 token 只保留稳定业务语义；纯尺寸、局部布局、单组件实现细节默认留在组件内部。
 - 不为复用局部尺寸创建全局 token；确有跨页面 / 跨组件复用，或需要供 teleport 到全局层消费时，才提升为全局 token。
 - 桌面 adaptive 只保留 `rem-root.css`、`shared.css`、`desktop.css` 三层：根字号、共享基线、桌面布局变量。

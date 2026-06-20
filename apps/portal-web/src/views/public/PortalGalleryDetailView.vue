@@ -706,7 +706,7 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
 }
 
 .portal-gallery-detail-page :deep(.portal-request-boundary__state) {
-  --portal-request-boundary-accent: var(--home-business-gallery-accent);
+  --portal-request-boundary-accent: var(--portal-content-gallery-accent);
   min-height: 280px;
   padding: var(--portal-boundary-panel-padding-block) var(--portal-boundary-panel-padding-inline);
   border: 1px solid
@@ -715,7 +715,7 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
       var(--portal-request-boundary-accent) 14%,
       var(--portal-request-state-border)
     );
-  border-radius: var(--home-detail-panel-radius);
+  border-radius: var(--public-detail-panel-radius);
   background:
     linear-gradient(
       180deg,
@@ -723,22 +723,22 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
       transparent 74%
     ),
     var(--portal-request-state-bg);
-  box-shadow: var(--home-detail-panel-shadow);
+  box-shadow: var(--public-detail-panel-shadow);
 }
 
 .portal-gallery-detail-page__layout {
   display: grid;
   grid-template-columns: var(--portal-detail-layout-columns);
-  gap: var(--home-detail-column-gap);
+  gap: var(--public-detail-column-gap);
   align-items: start;
 }
 
 .portal-gallery-detail-page__viewer {
   --portal-gallery-detail-section-gap: 22px;
   --public-detail-comments-gap-before: 0;
-  --public-detail-comments-divider-gap: var(--home-detail-comments-divider-gap);
-  --public-detail-panel-padding-override: var(--home-detail-main-panel-padding-top)
-    var(--home-detail-main-panel-padding-inline) var(--home-detail-main-panel-padding-bottom);
+  --public-detail-comments-divider-gap: var(--public-detail-comments-divider-gap);
+  --public-detail-panel-padding-override: var(--public-detail-main-panel-padding-top)
+    var(--public-detail-main-panel-padding-inline) var(--public-detail-main-panel-padding-bottom);
   display: grid;
   gap: 0;
 }
@@ -779,27 +779,27 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
 .portal-gallery-detail-page__preview {
   position: relative;
   height: 540px;
-  border: 2px solid var(--home-detail-preview-frame-border);
+  border: 2px solid var(--public-detail-preview-frame-border);
   border-radius: 24px;
   background:
     linear-gradient(
       180deg,
-      color-mix(in srgb, var(--home-detail-preview-label-bg) 22%, transparent),
+      color-mix(in srgb, var(--public-detail-preview-label-bg) 22%, transparent),
       transparent 28%
     ),
-    var(--home-gallery-tile-bg);
+    var(--gallery-module-tile-bg);
   overflow: hidden;
   isolation: isolate;
   box-shadow:
-    0 0 0 4px var(--home-detail-preview-frame-ring),
-    var(--home-detail-preview-frame-shadow);
+    0 0 0 4px var(--public-detail-preview-frame-ring),
+    var(--public-detail-preview-frame-shadow);
 }
 
 .portal-gallery-detail-page__thumb-card::before {
   content: '';
   position: absolute;
   inset: 8px;
-  border: 1px solid var(--home-media-frame-border);
+  border: 1px solid var(--portal-browse-media-frame-border);
   border-radius: inherit;
   opacity: 0.72;
   pointer-events: none;
@@ -816,7 +816,7 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
   position: absolute;
   inset: 0;
   z-index: 3;
-  background: var(--home-detail-preview-sheen);
+  background: var(--public-detail-preview-sheen);
   pointer-events: none;
 }
 
@@ -839,7 +839,7 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: var(--home-detail-preview-overlay);
+  background: var(--public-detail-preview-overlay);
   pointer-events: none;
 }
 
@@ -848,12 +848,12 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
   position: absolute;
   inset: 18px 20px 20px;
   z-index: 0;
-  border: 1px solid color-mix(in srgb, var(--home-detail-preview-frame-border) 22%, transparent);
+  border: 1px solid color-mix(in srgb, var(--public-detail-preview-frame-border) 22%, transparent);
   border-radius: 20px;
   background: linear-gradient(
     180deg,
-    color-mix(in srgb, var(--home-detail-card-bg) 92%, white 8%),
-    color-mix(in srgb, var(--home-detail-card-bg) 98%, transparent)
+    color-mix(in srgb, var(--public-detail-card-bg) 92%, white 8%),
+    color-mix(in srgb, var(--public-detail-card-bg) 98%, transparent)
   );
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
   pointer-events: none;
@@ -884,16 +884,16 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
   gap: 7px;
   min-height: 34px;
   padding: 0 13px;
-  border: 1px solid var(--home-detail-button-border);
+  border: 1px solid var(--public-detail-button-border);
   border-radius: 999px;
-  background: var(--home-detail-button-bg);
-  color: var(--home-ink);
+  background: var(--public-detail-button-bg);
+  color: var(--portal-content-ink);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.03em;
-  box-shadow: var(--home-detail-button-shadow);
-  backdrop-filter: blur(calc(var(--home-panel-blur) * 0.66));
-  -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.66));
+  box-shadow: var(--public-detail-button-shadow);
+  backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.66));
+  -webkit-backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.66));
   cursor: pointer;
   transition:
     border-color 180ms ease,
@@ -903,8 +903,8 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
 }
 
 .portal-gallery-detail-page__preview-expand:hover {
-  border-color: var(--home-feature-ribbon-border);
-  box-shadow: var(--home-detail-preview-label-shadow);
+  border-color: var(--portal-content-feature-ribbon-border);
+  box-shadow: var(--public-detail-preview-label-shadow);
   transform: translateY(-1px);
 }
 
@@ -916,12 +916,12 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
 .portal-gallery-detail-page__preview :deep(.el-carousel__arrow) {
   width: 42px;
   height: 42px;
-  border: 1px solid var(--home-detail-button-border);
-  background: var(--home-detail-button-bg);
-  color: var(--home-ink);
-  box-shadow: var(--home-detail-button-shadow);
-  backdrop-filter: blur(calc(var(--home-panel-blur) * 0.72));
-  -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.72));
+  border: 1px solid var(--public-detail-button-border);
+  background: var(--public-detail-button-bg);
+  color: var(--portal-content-ink);
+  box-shadow: var(--public-detail-button-shadow);
+  backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.72));
+  -webkit-backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.72));
   transition:
     border-color 180ms ease,
     background 180ms ease,
@@ -930,8 +930,8 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
 }
 
 .portal-gallery-detail-page__preview :deep(.el-carousel__arrow:hover) {
-  border-color: var(--home-feature-ribbon-border);
-  box-shadow: var(--home-detail-button-shadow);
+  border-color: var(--portal-content-feature-ribbon-border);
+  box-shadow: var(--public-detail-button-shadow);
   transform: translateY(-50%) scale(1.02);
 }
 
@@ -955,32 +955,32 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
   z-index: 4;
   display: inline-flex;
   align-items: center;
-  min-height: var(--home-chip-height-sm);
+  min-height: var(--portal-content-chip-height-sm);
   padding: 0 13px;
-  border: 1px solid var(--home-detail-preview-label-border);
+  border: 1px solid var(--public-detail-preview-label-border);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--home-detail-preview-label-bg) 86%, white 14%);
-  color: var(--home-ink);
+  background: color-mix(in srgb, var(--public-detail-preview-label-bg) 86%, white 14%);
+  color: var(--portal-content-ink);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.03em;
   font-variant-numeric: tabular-nums;
   box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--home-detail-thumb-active-ring) 52%, transparent),
-    var(--home-detail-preview-label-shadow);
-  backdrop-filter: blur(calc(var(--home-panel-blur) * 0.66));
-  -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.66));
+    0 0 0 1px color-mix(in srgb, var(--public-detail-thumb-active-ring) 52%, transparent),
+    var(--public-detail-preview-label-shadow);
+  backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.66));
+  -webkit-backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.66));
 }
 
 .portal-gallery-detail-page__preview-footer {
   position: relative;
   padding: 12px 12px 8px;
-  border: 1px solid var(--home-detail-card-border);
-  border-radius: var(--home-detail-card-radius);
+  border: 1px solid var(--public-detail-card-border);
+  border-radius: var(--public-detail-card-radius);
   background: linear-gradient(
     180deg,
-    color-mix(in srgb, var(--home-detail-card-bg) 92%, white 8%),
-    var(--home-detail-card-bg)
+    color-mix(in srgb, var(--public-detail-card-bg) 92%, white 8%),
+    var(--public-detail-card-bg)
   );
   overflow: hidden;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
@@ -993,7 +993,7 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
   left: 18px;
   right: 18px;
   height: 1px;
-  background: var(--home-detail-footer-highlight);
+  background: var(--public-detail-footer-highlight);
   pointer-events: none;
 }
 
@@ -1010,13 +1010,13 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
 }
 
 .portal-gallery-detail-page__thumb-scrollbar :deep(.el-scrollbar__thumb) {
-  background: var(--home-detail-scrollbar-thumb-bg);
-  border: 1px solid var(--home-detail-scrollbar-thumb-border);
+  background: var(--public-detail-scrollbar-thumb-bg);
+  border: 1px solid var(--public-detail-scrollbar-thumb-border);
   opacity: 1;
 }
 
 .portal-gallery-detail-page__thumb-scrollbar :deep(.el-scrollbar__thumb:hover) {
-  background: var(--home-detail-scrollbar-thumb-hover-bg);
+  background: var(--public-detail-scrollbar-thumb-hover-bg);
 }
 
 .portal-gallery-detail-page__thumb-strip {
@@ -1032,10 +1032,11 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
   flex: 0 0 calc((100% - 50px) / 6);
   min-width: calc((100% - 50px) / 6);
   height: 82px;
-  border: 1px solid var(--home-media-panel-border);
+  border: 1px solid var(--portal-browse-media-panel-border);
   border-radius: 14px;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 48%), var(--home-gallery-tile-bg);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 48%),
+    var(--gallery-module-tile-bg);
   overflow: hidden;
   cursor: pointer;
   scroll-snap-align: center;
@@ -1066,11 +1067,11 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
 }
 
 .portal-gallery-detail-page__thumb-card.is-active {
-  border-color: var(--home-detail-thumb-active-ring);
+  border-color: var(--public-detail-thumb-active-ring);
   opacity: 1;
   box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--home-detail-thumb-active-ring) 82%, white 18%),
-    0 10px 18px color-mix(in srgb, var(--home-detail-thumb-active-glow) 58%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--public-detail-thumb-active-ring) 82%, white 18%),
+    0 10px 18px color-mix(in srgb, var(--public-detail-thumb-active-glow) 58%, transparent),
     inset 0 0 0 1px rgba(255, 255, 255, 0.16);
   transform: translateY(-2px);
 }
@@ -1081,14 +1082,14 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
 
 .portal-gallery-detail-page__thumb-card.is-active::before {
   opacity: 0.92;
-  border-color: color-mix(in srgb, var(--home-detail-thumb-active-ring) 72%, white 28%);
+  border-color: color-mix(in srgb, var(--public-detail-thumb-active-ring) 72%, white 28%);
 }
 
 .portal-gallery-detail-page__side {
   position: sticky;
   top: var(--portal-detail-sticky-top);
   display: grid;
-  gap: var(--home-detail-side-stack-gap);
+  gap: var(--public-detail-side-stack-gap);
   align-self: start;
   align-content: start;
 }

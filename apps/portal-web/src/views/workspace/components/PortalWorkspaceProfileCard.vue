@@ -352,15 +352,15 @@ function handleToggle(): void {
   );
   --workspace-chip-bg-current: var(
     --workspace-chip-bg,
-    color-mix(in srgb, var(--home-business-article-tag-bg) 92%, var(--workspace-chip-base-surface))
+    color-mix(in srgb, var(--portal-content-article-tag-bg) 92%, var(--workspace-chip-base-surface))
   );
   --workspace-chip-border-current: var(
     --workspace-chip-border,
-    color-mix(in srgb, var(--home-business-article-tag-border) 72%, rgba(255, 255, 255, 0.28))
+    color-mix(in srgb, var(--portal-content-article-tag-border) 72%, rgba(255, 255, 255, 0.28))
   );
   --workspace-chip-ink-current: var(
     --workspace-chip-ink,
-    color-mix(in srgb, var(--home-business-article-tag-ink) 84%, var(--portal-ink-strong) 16%)
+    color-mix(in srgb, var(--portal-content-article-tag-ink) 84%, var(--portal-ink-strong) 16%)
   );
   --workspace-field-divider-current: var(
     --workspace-field-divider,
@@ -378,7 +378,7 @@ function handleToggle(): void {
   --workspace-profile-label-line-height: 1.5;
   --workspace-profile-value-size: 13px;
   --workspace-profile-value-line-height: 1.68;
-  --workspace-profile-field-gap: calc(var(--home-copy-gap-tight) + 2px);
+  --workspace-profile-field-gap: calc(var(--portal-content-copy-gap-tight) + 2px);
   --workspace-profile-field-block-min-height: calc(
     var(--workspace-profile-value-size) * var(--workspace-profile-value-line-height)
   );
@@ -468,7 +468,7 @@ function handleToggle(): void {
 .workspace-profile-card__copy h2 {
   margin: 0;
   color: var(--portal-ink-strong);
-  font-size: var(--home-font-size-title-md);
+  font-size: var(--portal-content-font-size-title-md);
   line-height: 1.2;
   letter-spacing: 0;
 }
@@ -522,14 +522,14 @@ function handleToggle(): void {
 }
 
 .workspace-profile-card__chips {
-  gap: var(--home-card-gap-tight);
+  gap: var(--portal-content-card-gap-tight);
 }
 
 .workspace-profile-card__title,
 .workspace-profile-card__status {
   display: inline-flex;
   align-items: center;
-  min-height: var(--home-chip-height-xs);
+  min-height: var(--portal-content-chip-height-xs);
   padding: 0 8px;
   border-radius: 999px;
   font-size: 12px;
@@ -739,12 +739,12 @@ function handleToggle(): void {
   position: relative;
   display: block;
   overflow: hidden;
-  border: 1px solid var(--home-skeleton-border);
+  border: 1px solid var(--portal-skeleton-border);
   border-radius: 999px;
   background: linear-gradient(
     135deg,
-    var(--home-skeleton-block-strong),
-    var(--home-skeleton-block)
+    var(--portal-skeleton-block-strong),
+    var(--portal-skeleton-block)
   );
 }
 
@@ -753,7 +753,7 @@ function handleToggle(): void {
   position: absolute;
   inset: 0;
   transform: translateX(-100%);
-  background: var(--home-skeleton-shimmer);
+  background: var(--portal-skeleton-shimmer);
   animation: home-skeleton-wave 2.4s ease-in-out infinite;
 }
 
@@ -782,7 +782,7 @@ function handleToggle(): void {
 
 .workspace-profile-card__skeleton--title {
   width: 128px;
-  height: calc(var(--home-font-size-title-md) * 1.2);
+  height: calc(var(--portal-content-font-size-title-md) * 1.2);
 }
 
 .workspace-profile-card__skeleton--meta,
@@ -802,7 +802,7 @@ function handleToggle(): void {
 
 .workspace-profile-card__skeleton--chip {
   width: 56px;
-  height: var(--home-chip-height-xs);
+  height: var(--portal-content-chip-height-xs);
 }
 
 .workspace-profile-card__skeleton--joined {

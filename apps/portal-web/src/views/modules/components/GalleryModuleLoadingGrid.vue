@@ -81,7 +81,7 @@ const { columns: loadingColumns } = useGalleryModuleMasonryColumns(loadingItems)
 
 <style scoped>
 .gallery-module-loading-grid {
-  --gallery-module-card-gap-local: var(--home-card-gap-tight);
+  --gallery-module-card-gap-local: var(--portal-content-card-gap-tight);
   --gallery-module-card-meta-height-local: 22px;
   --gallery-module-card-meta-width-local: 72px;
   --gallery-module-card-meta-width-wide-local: 74px;
@@ -108,11 +108,11 @@ const { columns: loadingColumns } = useGalleryModuleMasonryColumns(loadingItems)
 .gallery-module-loading-card__block,
 .gallery-module-loading-card__pill {
   overflow: hidden;
-  border: 1px solid var(--home-skeleton-border);
+  border: 1px solid var(--portal-skeleton-border);
   background: linear-gradient(
     135deg,
-    var(--home-skeleton-block-strong),
-    var(--home-skeleton-block)
+    var(--portal-skeleton-block-strong),
+    var(--portal-skeleton-block)
   );
 }
 
@@ -122,7 +122,7 @@ const { columns: loadingColumns } = useGalleryModuleMasonryColumns(loadingItems)
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--home-skeleton-shimmer);
+  background: var(--portal-skeleton-shimmer);
   animation: home-skeleton-wave 2.4s ease-in-out infinite;
   transform: translateX(-100%);
 }
@@ -151,7 +151,7 @@ const { columns: loadingColumns } = useGalleryModuleMasonryColumns(loadingItems)
   width: 4px;
   height: 12px;
   border-radius: 999px;
-  background: var(--home-skeleton-block-strong);
+  background: var(--portal-skeleton-block-strong);
 }
 
 .gallery-module-loading-card__pill--right {
@@ -195,7 +195,7 @@ const { columns: loadingColumns } = useGalleryModuleMasonryColumns(loadingItems)
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--home-card-gap-tight);
+  gap: var(--portal-content-card-gap-tight);
 }
 
 .gallery-module-loading-card__line--stats,
@@ -219,21 +219,21 @@ const { columns: loadingColumns } = useGalleryModuleMasonryColumns(loadingItems)
 
 .gallery-module-loading-card__block--title {
   width: 100%;
-  height: var(--home-skeleton-title-sm-height);
+  height: var(--portal-skeleton-title-sm-height);
 }
 
 .gallery-module-loading-card__block--title-short {
   width: 100%;
-  height: var(--home-skeleton-title-sm-height);
+  height: var(--portal-skeleton-title-sm-height);
 }
 
 .gallery-module-loading-card__block--stats {
   width: 100%;
-  height: var(--home-skeleton-copy-12-height);
+  height: var(--portal-skeleton-copy-12-height);
 }
 
 .gallery-module-loading-card__block--time {
   width: 100%;
-  height: var(--home-skeleton-copy-12-height);
+  height: var(--portal-skeleton-copy-12-height);
 }
 </style>

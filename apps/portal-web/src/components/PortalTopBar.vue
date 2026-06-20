@@ -846,7 +846,7 @@ onBeforeUnmount(() => {
   z-index: var(--el-index-popper, 2000);
   min-width: 188px;
   padding: 12px;
-  border: 1px solid var(--portal-module-filter-border);
+  border: 1px solid var(--toolbar-account-panel-border);
   border-radius: 20px;
   background:
     linear-gradient(
@@ -854,9 +854,9 @@ onBeforeUnmount(() => {
       color-mix(in srgb, var(--portal-surface-top-soft) 100%, transparent),
       transparent 26%
     ),
-    var(--portal-module-filter-bg);
+    var(--toolbar-account-panel-bg);
   box-shadow:
-    var(--portal-module-filter-shadow),
+    var(--toolbar-account-panel-shadow),
     0 18px 30px color-mix(in srgb, var(--portal-primary-strong) 12%, transparent);
   transform: translateX(-50%);
   animation: portal-toolbar-account-popper-in 160ms ease both;
@@ -895,7 +895,7 @@ onBeforeUnmount(() => {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  border-bottom: 1px solid color-mix(in srgb, var(--portal-module-filter-border) 92%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--toolbar-account-panel-border) 92%, transparent);
 }
 
 .portal-toolbar__account-action {
@@ -906,13 +906,13 @@ onBeforeUnmount(() => {
   width: 100%;
   min-height: 36px;
   padding: 0 14px;
-  border: 1px solid var(--portal-module-filter-button-border);
+  border: 1px solid var(--toolbar-account-action-border);
   border-radius: 14px;
-  background: var(--portal-module-filter-button-bg);
+  background: var(--toolbar-account-action-bg);
   box-shadow:
     inset 0 1px 0 color-mix(in srgb, var(--portal-surface-top-soft) 100%, transparent),
     0 10px 18px color-mix(in srgb, var(--portal-primary-strong) 10%, transparent);
-  color: var(--portal-module-filter-button-ink);
+  color: var(--toolbar-account-action-ink);
   font: inherit;
   font-size: 12px;
   font-weight: 700;
@@ -930,13 +930,9 @@ onBeforeUnmount(() => {
   border-color: color-mix(
     in srgb,
     var(--portal-primary-strong) 30%,
-    var(--portal-module-filter-button-border)
+    var(--toolbar-account-action-border)
   );
-  background: color-mix(
-    in srgb,
-    var(--portal-module-filter-button-bg) 80%,
-    var(--portal-surface-top-soft)
-  );
+  background: var(--toolbar-account-action-hover-bg);
   box-shadow:
     inset 0 1px 0 color-mix(in srgb, var(--portal-surface-top) 100%, transparent),
     0 14px 22px color-mix(in srgb, var(--portal-primary-strong) 16%, transparent);

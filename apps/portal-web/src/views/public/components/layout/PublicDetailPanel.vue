@@ -45,12 +45,12 @@ const panelStyle = computed(() => ({
   position: relative;
   display: grid;
   padding: var(--public-detail-panel-padding-override, var(--public-detail-panel-padding));
-  border: 1px solid var(--home-detail-panel-border);
-  border-radius: var(--home-detail-panel-radius);
-  background: var(--home-detail-panel-bg);
-  box-shadow: var(--home-detail-panel-shadow);
-  backdrop-filter: blur(calc(var(--home-panel-blur) * 0.46));
-  -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.46));
+  border: 1px solid var(--public-detail-panel-border);
+  border-radius: var(--public-detail-panel-radius);
+  background: var(--public-detail-panel-bg);
+  box-shadow: var(--public-detail-panel-shadow);
+  backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.46));
+  -webkit-backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.46));
   isolation: isolate;
 }
 
@@ -65,13 +65,13 @@ const panelStyle = computed(() => ({
 .public-detail-panel::before {
   inset: 0;
   z-index: 0;
-  background: var(--home-detail-panel-top-gloss);
+  background: var(--public-detail-panel-top-gloss);
 }
 
 .public-detail-panel::after {
   inset: 1px;
   z-index: 0;
-  box-shadow: inset 0 1px 0 var(--home-detail-panel-inner-border);
+  box-shadow: inset 0 1px 0 var(--public-detail-panel-inner-border);
 }
 
 .public-detail-panel > * {
@@ -87,18 +87,18 @@ const panelStyle = computed(() => ({
 .public-detail-panel--main::before {
   inset: 0;
   background:
-    var(--home-detail-panel-top-gloss),
+    var(--public-detail-panel-top-gloss),
     linear-gradient(
       180deg,
-      rgba(255, 255, 255, 0) calc(100% - var(--home-detail-main-panel-fade-height)),
-      color-mix(in srgb, var(--home-detail-main-panel-bottom-fade-color) 44%, transparent)
+      rgba(255, 255, 255, 0) calc(100% - var(--public-detail-main-panel-fade-height)),
+      color-mix(in srgb, var(--public-detail-main-panel-bottom-fade-color) 44%, transparent)
         calc(100% - 28px),
-      var(--home-detail-main-panel-bottom-fade-color) 100%
+      var(--public-detail-main-panel-bottom-fade-color) 100%
     );
 }
 
 .public-detail-panel--main::after {
   box-shadow: inset 0 1px 0
-    color-mix(in srgb, var(--home-detail-panel-inner-border) 92%, transparent);
+    color-mix(in srgb, var(--public-detail-panel-inner-border) 92%, transparent);
 }
 </style>

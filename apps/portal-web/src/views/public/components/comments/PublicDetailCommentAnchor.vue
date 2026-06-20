@@ -58,12 +58,12 @@ defineEmits<{
   gap: 5px;
   width: 100%;
   margin-top: var(--public-detail-comments-gap-before, 0);
-  padding-top: var(--public-detail-comments-divider-gap, var(--home-detail-comments-divider-gap));
-  border-top: 1px solid var(--home-line);
+  padding-top: var(--public-detail-comments-divider-gap, var(--public-detail-comments-divider-gap));
+  border-top: 1px solid var(--portal-content-line);
 }
 
 .public-detail-comment-anchor strong {
-  color: color-mix(in srgb, var(--home-ink) 86%, transparent);
+  color: color-mix(in srgb, var(--portal-content-ink) 86%, transparent);
   font-size: 13px;
   font-weight: 700;
 }
@@ -71,7 +71,7 @@ defineEmits<{
 .public-detail-comment-anchor p {
   margin: 0;
   max-width: 720px;
-  color: color-mix(in srgb, var(--home-muted) 90%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 90%, transparent);
   font-size: 12px;
   line-height: 1.7;
 }

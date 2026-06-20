@@ -205,7 +205,7 @@ function bindSentinelRef(element: Element | ComponentPublicInstance | null): voi
 }
 
 .gallery-module-page__results :deep(.portal-request-boundary__state) {
-  --portal-request-boundary-accent: var(--home-business-gallery-accent);
+  --portal-request-boundary-accent: var(--portal-content-gallery-accent);
   min-height: 280px;
   padding: var(--portal-boundary-panel-padding-block) var(--portal-boundary-panel-padding-inline);
   border: 1px solid

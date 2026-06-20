@@ -71,11 +71,15 @@ const summaryLabel = computed(() => props.summary.trim())
 
 <style scoped>
 .public-detail-related-media-card {
-  --public-detail-related-tag-bg: var(--home-business-article-tag-bg);
-  --public-detail-related-tag-border: var(--home-business-article-tag-border);
-  --public-detail-related-tag-ink: var(--home-business-article-tag-ink);
-  --public-detail-related-accent: var(--home-business-article-accent);
-  --public-detail-related-divider: color-mix(in srgb, var(--home-detail-divider) 82%, transparent);
+  --public-detail-related-tag-bg: var(--portal-content-article-tag-bg);
+  --public-detail-related-tag-border: var(--portal-content-article-tag-border);
+  --public-detail-related-tag-ink: var(--portal-content-article-tag-ink);
+  --public-detail-related-accent: var(--portal-content-article-accent);
+  --public-detail-related-divider: color-mix(
+    in srgb,
+    var(--public-detail-divider) 82%,
+    transparent
+  );
   --public-detail-related-motion-duration: 180ms;
   --public-detail-related-motion-ease: ease;
   display: grid;
@@ -120,38 +124,39 @@ const summaryLabel = computed(() => props.summary.trim())
   --public-detail-related-divider: color-mix(
     in srgb,
     var(--public-detail-related-accent) 18%,
-    var(--home-detail-divider)
+    var(--public-detail-divider)
   );
 }
 
 .public-detail-related-media-card--topic {
-  --public-detail-related-tag-bg: var(--home-business-topic-tag-bg);
-  --public-detail-related-tag-border: var(--home-business-topic-tag-border);
-  --public-detail-related-tag-ink: var(--home-business-topic-tag-ink);
-  --public-detail-related-accent: var(--home-business-topic-accent);
+  --public-detail-related-tag-bg: var(--portal-content-topic-tag-bg);
+  --public-detail-related-tag-border: var(--portal-content-topic-tag-border);
+  --public-detail-related-tag-ink: var(--portal-content-topic-tag-ink);
+  --public-detail-related-accent: var(--portal-content-topic-accent);
 }
 
 .public-detail-related-media-card--book {
-  --public-detail-related-tag-bg: var(--home-business-bookshelf-tag-bg);
-  --public-detail-related-tag-border: var(--home-business-bookshelf-tag-border);
-  --public-detail-related-tag-ink: var(--home-business-bookshelf-tag-ink);
-  --public-detail-related-accent: var(--home-business-bookshelf-accent);
+  --public-detail-related-tag-bg: var(--portal-content-bookshelf-tag-bg);
+  --public-detail-related-tag-border: var(--portal-content-bookshelf-tag-border);
+  --public-detail-related-tag-ink: var(--portal-content-bookshelf-tag-ink);
+  --public-detail-related-accent: var(--portal-content-bookshelf-accent);
 }
 
 .public-detail-related-media-card--gallery {
-  --public-detail-related-tag-bg: var(--home-business-gallery-tag-bg);
-  --public-detail-related-tag-border: var(--home-business-gallery-tag-border);
-  --public-detail-related-tag-ink: var(--home-business-gallery-tag-ink);
-  --public-detail-related-accent: var(--home-business-gallery-accent);
+  --public-detail-related-tag-bg: var(--portal-content-gallery-tag-bg);
+  --public-detail-related-tag-border: var(--portal-content-gallery-tag-border);
+  --public-detail-related-tag-ink: var(--portal-content-gallery-tag-ink);
+  --public-detail-related-accent: var(--portal-content-gallery-accent);
 }
 
 .public-detail-related-media-card__cover {
   position: relative;
   height: 122px;
-  border: 1px solid color-mix(in srgb, var(--home-media-panel-border) 88%, transparent);
+  border: 1px solid color-mix(in srgb, var(--portal-browse-media-panel-border) 88%, transparent);
   border-radius: 16px;
-  background: var(--home-media-overlay-soft), var(--home-media-placeholder-surface);
-  box-shadow: var(--home-detail-card-shadow);
+  background:
+    var(--portal-browse-media-overlay-soft), var(--portal-browse-media-placeholder-surface);
+  box-shadow: var(--public-detail-card-shadow);
   overflow: hidden;
   transition:
     border-color var(--public-detail-related-motion-duration)
@@ -184,7 +189,7 @@ const summaryLabel = computed(() => props.summary.trim())
 }
 
 .public-detail-related-media-card__title {
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
   font-size: 14px;
   font-weight: 700;
   line-height: 1.46;
@@ -194,7 +199,7 @@ const summaryLabel = computed(() => props.summary.trim())
 }
 
 .public-detail-related-media-card__summary {
-  color: color-mix(in srgb, var(--home-muted) 84%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 84%, transparent);
   font-size: 12px;
   line-height: 1.5;
 }
@@ -230,10 +235,11 @@ const summaryLabel = computed(() => props.summary.trim())
   justify-content: center;
   height: 20px;
   padding: 0 8px;
-  border: 1px solid color-mix(in srgb, var(--home-feature-tag-soft-border) 80%, transparent);
+  border: 1px solid
+    color-mix(in srgb, var(--portal-content-feature-tag-soft-border) 80%, transparent);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--home-feature-tag-soft-bg) 90%, transparent);
-  color: color-mix(in srgb, var(--home-feature-tag-soft-ink) 92%, transparent);
+  background: color-mix(in srgb, var(--portal-content-feature-tag-soft-bg) 90%, transparent);
+  color: color-mix(in srgb, var(--portal-content-feature-tag-soft-ink) 92%, transparent);
   font-size: 12px;
   font-weight: 700;
   line-height: 20px;
@@ -248,7 +254,7 @@ const summaryLabel = computed(() => props.summary.trim())
 
 .public-detail-related-media-card__date {
   flex: 0 0 auto;
-  color: color-mix(in srgb, var(--home-muted) 84%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 84%, transparent);
   font-size: 12px;
   line-height: 1.4;
   white-space: nowrap;
@@ -256,7 +262,7 @@ const summaryLabel = computed(() => props.summary.trim())
 
 .public-detail-related-media-card:hover .public-detail-related-media-card__title,
 .public-detail-related-media-card:focus-visible .public-detail-related-media-card__title {
-  color: color-mix(in srgb, var(--public-detail-related-accent) 76%, var(--home-ink));
+  color: color-mix(in srgb, var(--public-detail-related-accent) 76%, var(--portal-content-ink));
 }
 
 .public-detail-related-media-card:hover .public-detail-related-media-card__cover,
@@ -264,9 +270,9 @@ const summaryLabel = computed(() => props.summary.trim())
   border-color: color-mix(
     in srgb,
     var(--public-detail-related-accent) 22%,
-    var(--home-media-panel-border)
+    var(--portal-browse-media-panel-border)
   );
-  box-shadow: var(--home-detail-card-shadow);
+  box-shadow: var(--public-detail-card-shadow);
 }
 
 .public-detail-related-media-card:hover .public-detail-related-media-card__cover-image,

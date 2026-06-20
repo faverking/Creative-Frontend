@@ -242,27 +242,27 @@ function handleReplyDraftInput(event: Event): void {
 
 <style scoped>
 .public-detail-comment-card {
-  --public-detail-comment-card-accent: var(--home-business-article-accent);
-  --public-detail-comment-card-accent-soft: var(--home-business-article-tag-bg);
+  --public-detail-comment-card-accent: var(--portal-content-article-accent);
+  --public-detail-comment-card-accent-soft: var(--portal-content-article-tag-bg);
   display: grid;
   gap: 10px;
   padding: 18px 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--home-line) 90%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--portal-content-line) 90%, transparent);
 }
 
 .public-detail-comment-card--topic {
-  --public-detail-comment-card-accent: var(--home-business-topic-accent);
-  --public-detail-comment-card-accent-soft: var(--home-business-topic-tag-bg);
+  --public-detail-comment-card-accent: var(--portal-content-topic-accent);
+  --public-detail-comment-card-accent-soft: var(--portal-content-topic-tag-bg);
 }
 
 .public-detail-comment-card--gallery {
-  --public-detail-comment-card-accent: var(--home-business-gallery-accent);
-  --public-detail-comment-card-accent-soft: var(--home-business-gallery-tag-bg);
+  --public-detail-comment-card-accent: var(--portal-content-gallery-accent);
+  --public-detail-comment-card-accent-soft: var(--portal-content-gallery-tag-bg);
 }
 
 .public-detail-comment-card--bookshelf {
-  --public-detail-comment-card-accent: var(--home-business-bookshelf-accent);
-  --public-detail-comment-card-accent-soft: var(--home-business-bookshelf-tag-bg);
+  --public-detail-comment-card-accent: var(--portal-content-bookshelf-accent);
+  --public-detail-comment-card-accent-soft: var(--portal-content-bookshelf-tag-bg);
 }
 
 .public-detail-comment-card__header {
@@ -282,9 +282,13 @@ function handleReplyDraftInput(event: Event): void {
   background: color-mix(
     in srgb,
     var(--public-detail-comment-card-accent-soft) 46%,
-    var(--home-detail-card-bg)
+    var(--public-detail-card-bg)
   );
-  color: color-mix(in srgb, var(--public-detail-comment-card-accent) 82%, var(--home-ink));
+  color: color-mix(
+    in srgb,
+    var(--public-detail-comment-card-accent) 82%,
+    var(--portal-content-ink)
+  );
   font-size: 13px;
   font-weight: 700;
   line-height: 1;
@@ -312,14 +316,14 @@ function handleReplyDraftInput(event: Event): void {
 }
 
 .public-detail-comment-card__author {
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
   font-size: 13px;
   font-weight: 700;
   line-height: 1.4;
 }
 
 .public-detail-comment-card__time {
-  color: color-mix(in srgb, var(--home-muted) 92%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 92%, transparent);
   font-size: 12px;
   font-weight: 600;
   line-height: 1.4;
@@ -328,7 +332,7 @@ function handleReplyDraftInput(event: Event): void {
 .public-detail-comment-card__content,
 .public-detail-comment-card__reply-content {
   margin: 0;
-  color: color-mix(in srgb, var(--home-ink) 92%, transparent);
+  color: color-mix(in srgb, var(--portal-content-ink) 92%, transparent);
   font-size: 13px;
   line-height: 1.76;
   white-space: pre-wrap;
@@ -353,7 +357,7 @@ function handleReplyDraftInput(event: Event): void {
 }
 
 .public-detail-comment-card__count {
-  color: color-mix(in srgb, var(--home-muted) 92%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 92%, transparent);
   font-size: 12px;
   font-weight: 700;
   line-height: 1.4;
@@ -368,7 +372,11 @@ function handleReplyDraftInput(event: Event): void {
   padding: 0;
   border: 0;
   background: transparent;
-  color: color-mix(in srgb, var(--public-detail-comment-card-accent) 86%, var(--home-ink));
+  color: color-mix(
+    in srgb,
+    var(--public-detail-comment-card-accent) 86%,
+    var(--portal-content-ink)
+  );
   font: inherit;
   font-size: 12px;
   font-weight: 700;
@@ -384,7 +392,11 @@ function handleReplyDraftInput(event: Event): void {
 .public-detail-comment-card__expand:hover:not(:disabled),
 .public-detail-comment-card__reply-cancel:hover:not(:disabled),
 .public-detail-comment-card__reply-submit:hover:not(:disabled) {
-  color: color-mix(in srgb, var(--public-detail-comment-card-accent) 96%, var(--home-ink));
+  color: color-mix(
+    in srgb,
+    var(--public-detail-comment-card-accent) 96%,
+    var(--portal-content-ink)
+  );
 }
 
 .public-detail-comment-card__reply-trigger:focus-visible,
@@ -436,21 +448,25 @@ function handleReplyDraftInput(event: Event): void {
 }
 
 .public-detail-comment-card__reply-meta strong {
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
   font-size: 12px;
   font-weight: 700;
   line-height: 1.4;
 }
 
 .public-detail-comment-card__reply-meta time {
-  color: color-mix(in srgb, var(--home-muted) 90%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 90%, transparent);
   font-size: 12px;
   font-weight: 600;
   line-height: 1.4;
 }
 
 .public-detail-comment-card__mention {
-  color: color-mix(in srgb, var(--public-detail-comment-card-accent) 88%, var(--home-ink));
+  color: color-mix(
+    in srgb,
+    var(--public-detail-comment-card-accent) 88%,
+    var(--portal-content-ink)
+  );
   font-weight: 700;
 }
 
@@ -465,7 +481,7 @@ function handleReplyDraftInput(event: Event): void {
 
 .public-detail-comment-card__reply-title {
   margin: 0;
-  color: color-mix(in srgb, var(--home-ink) 92%, transparent);
+  color: color-mix(in srgb, var(--portal-content-ink) 92%, transparent);
   font-size: 12px;
   font-weight: 700;
   line-height: 1.5;
@@ -477,11 +493,15 @@ function handleReplyDraftInput(event: Event): void {
   min-height: 76px;
   padding: 10px 12px;
   border: 1px solid
-    color-mix(in srgb, var(--public-detail-comment-card-accent) 14%, var(--home-detail-card-border));
+    color-mix(
+      in srgb,
+      var(--public-detail-comment-card-accent) 14%,
+      var(--public-detail-card-border)
+    );
   border-radius: 16px;
-  background: color-mix(in srgb, white 78%, var(--home-detail-card-bg));
+  background: color-mix(in srgb, white 78%, var(--public-detail-card-bg));
   box-sizing: border-box;
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
   font: inherit;
   font-size: 13px;
   line-height: 1.72;

@@ -121,7 +121,9 @@ export default defineConfig(({ mode }) => {
         resolvers: [resolveElementPlusComponent]
       }),
       Components({
+        dirs: ['src/components'],
         dts: false,
+        deep: true,
         resolvers: [resolveElementPlusComponent]
       })
     ],

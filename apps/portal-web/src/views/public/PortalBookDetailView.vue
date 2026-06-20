@@ -633,7 +633,7 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
 }
 
 .portal-book-detail-page :deep(.portal-request-boundary__state) {
-  --portal-request-boundary-accent: var(--home-business-bookshelf-accent);
+  --portal-request-boundary-accent: var(--portal-content-bookshelf-accent);
   min-height: 280px;
   padding: var(--portal-boundary-panel-padding-block) var(--portal-boundary-panel-padding-inline);
   border: 1px solid
@@ -642,7 +642,7 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
       var(--portal-request-boundary-accent) 14%,
       var(--portal-request-state-border)
     );
-  border-radius: var(--home-detail-panel-radius);
+  border-radius: var(--public-detail-panel-radius);
   background:
     linear-gradient(
       180deg,
@@ -650,13 +650,13 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
       transparent 74%
     ),
     var(--portal-request-state-bg);
-  box-shadow: var(--home-detail-panel-shadow);
+  box-shadow: var(--public-detail-panel-shadow);
 }
 
 .portal-book-detail-page__layout {
   display: grid;
   grid-template-columns: var(--portal-detail-layout-columns);
-  gap: var(--home-detail-column-gap);
+  gap: var(--public-detail-column-gap);
   align-items: start;
 }
 
@@ -664,9 +664,9 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
   --portal-book-detail-shell-width: 936px;
   --portal-book-detail-section-gap: 24px;
   --public-detail-comments-gap-before: 0;
-  --public-detail-comments-divider-gap: var(--home-detail-comments-divider-gap);
-  --public-detail-panel-padding-override: var(--home-detail-main-panel-padding-top)
-    var(--home-detail-main-panel-padding-inline) var(--home-detail-main-panel-padding-bottom);
+  --public-detail-comments-divider-gap: var(--public-detail-comments-divider-gap);
+  --public-detail-panel-padding-override: var(--public-detail-main-panel-padding-top)
+    var(--public-detail-main-panel-padding-inline) var(--public-detail-main-panel-padding-bottom);
   display: grid;
   justify-items: center;
   align-content: start;
@@ -747,8 +747,8 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
   background:
     linear-gradient(
       165deg,
-      color-mix(in srgb, var(--home-business-bookshelf-accent) 22%, white 78%),
-      color-mix(in srgb, var(--home-business-bookshelf-accent-soft) 16%, white 84%)
+      color-mix(in srgb, var(--portal-content-bookshelf-accent) 22%, white 78%),
+      color-mix(in srgb, var(--portal-content-bookshelf-accent-soft) 16%, white 84%)
     ),
     var(--home-bookshelf-media-bg);
 }
@@ -772,7 +772,7 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
 .portal-book-detail-page__cover-placeholder strong {
   display: -webkit-box;
   overflow: hidden;
-  color: color-mix(in srgb, var(--home-ink) 92%, transparent);
+  color: color-mix(in srgb, var(--portal-content-ink) 92%, transparent);
   font-size: 18px;
   line-height: 1.44;
   -webkit-box-orient: vertical;
@@ -790,7 +790,7 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
   border: 1px solid color-mix(in srgb, var(--home-bookshelf-cover-mark-border) 88%, transparent);
   border-radius: 999px;
   background: color-mix(in srgb, var(--home-bookshelf-cover-mark-bg) 88%, transparent);
-  color: var(--home-detail-glass-ink);
+  color: var(--public-detail-glass-ink);
   font-size: 12px;
   font-weight: 700;
   line-height: 26px;
@@ -814,7 +814,7 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
 
 .portal-book-detail-page__showcase-title {
   margin: 0;
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
   font-size: 28px;
   line-height: 1.14;
   letter-spacing: 0;
@@ -822,7 +822,7 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
 
 .portal-book-detail-page__showcase-author {
   margin: 0;
-  color: color-mix(in srgb, var(--home-muted) 84%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 84%, transparent);
   font-size: 14px;
   line-height: 1.6;
 }
@@ -846,7 +846,7 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
 }
 
 .portal-book-detail-page__detail-label {
-  color: var(--home-detail-info-row-label-ink);
+  color: var(--public-detail-info-row-label-ink);
   font-size: 12px;
   font-weight: 700;
   line-height: 1.7;
@@ -864,7 +864,7 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
 }
 
 .portal-book-detail-page__detail-row--intro .portal-book-detail-page__detail-label {
-  color: color-mix(in srgb, var(--home-ink) 90%, transparent);
+  color: color-mix(in srgb, var(--portal-content-ink) 90%, transparent);
   font-size: 14px;
   font-weight: 600;
   line-height: 1.72;
@@ -892,15 +892,16 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
 }
 
 .portal-book-detail-page__tag--primary {
-  border: 1px solid color-mix(in srgb, var(--home-business-bookshelf-tag-border) 90%, transparent);
-  background: color-mix(in srgb, var(--home-business-bookshelf-tag-bg) 94%, transparent);
-  color: color-mix(in srgb, var(--home-business-bookshelf-tag-ink) 94%, transparent);
+  border: 1px solid color-mix(in srgb, var(--portal-content-bookshelf-tag-border) 90%, transparent);
+  background: color-mix(in srgb, var(--portal-content-bookshelf-tag-bg) 94%, transparent);
+  color: color-mix(in srgb, var(--portal-content-bookshelf-tag-ink) 94%, transparent);
 }
 
 .portal-book-detail-page__tag--style {
-  border: 1px solid color-mix(in srgb, var(--home-feature-tag-soft-border) 90%, transparent);
-  background: color-mix(in srgb, var(--home-feature-tag-soft-bg) 96%, transparent);
-  color: color-mix(in srgb, var(--home-feature-tag-soft-ink) 92%, transparent);
+  border: 1px solid
+    color-mix(in srgb, var(--portal-content-feature-tag-soft-border) 90%, transparent);
+  background: color-mix(in srgb, var(--portal-content-feature-tag-soft-bg) 96%, transparent);
+  color: color-mix(in srgb, var(--portal-content-feature-tag-soft-ink) 92%, transparent);
 }
 
 .portal-book-detail-page__showcase-intro {
@@ -912,7 +913,7 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
   display: -webkit-box;
   margin: 0;
   overflow: hidden;
-  color: color-mix(in srgb, var(--home-ink) 92%, transparent);
+  color: color-mix(in srgb, var(--portal-content-ink) 92%, transparent);
   font-size: 14px;
   line-height: 1.72;
   white-space: pre-line;
@@ -960,14 +961,14 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: color-mix(in srgb, var(--home-muted) 84%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 84%, transparent);
   font-size: 13px;
   line-height: 1;
   white-space: nowrap;
 }
 
 .portal-book-detail-page__showcase-stat strong {
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
   font-size: 13px;
   font-weight: 700;
   line-height: 1.1;
@@ -975,7 +976,7 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
 
 .portal-book-detail-page__status-line {
   margin: 0;
-  color: color-mix(in srgb, var(--home-muted) 86%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 86%, transparent);
   font-size: 13px;
   line-height: 1.7;
 }
@@ -1004,12 +1005,12 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
 .portal-book-detail-page__section-toggle {
   min-height: 34px;
   padding: 0 16px;
-  border: 1px solid color-mix(in srgb, var(--home-detail-button-border) 86%, transparent);
+  border: 1px solid color-mix(in srgb, var(--public-detail-button-border) 86%, transparent);
   border-radius: 999px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04)),
-    color-mix(in srgb, var(--home-detail-card-bg) 86%, white 14%);
-  color: color-mix(in srgb, var(--home-ink) 82%, white 18%);
+    color-mix(in srgb, var(--public-detail-card-bg) 86%, white 14%);
+  color: color-mix(in srgb, var(--portal-content-ink) 82%, white 18%);
   font-size: 12px;
   font-weight: 700;
   line-height: 1;
@@ -1026,12 +1027,12 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
 .portal-book-detail-page__chapter-group {
   min-height: 32px;
   padding: 0 14px;
-  border: 1px solid color-mix(in srgb, var(--home-detail-button-border) 84%, transparent);
+  border: 1px solid color-mix(in srgb, var(--public-detail-button-border) 84%, transparent);
   border-radius: 999px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.03)),
-    color-mix(in srgb, var(--home-detail-card-bg) 88%, white 12%);
-  color: color-mix(in srgb, var(--home-ink) 82%, transparent);
+    color-mix(in srgb, var(--public-detail-card-bg) 88%, white 12%);
+  color: color-mix(in srgb, var(--portal-content-ink) 82%, transparent);
   font-size: 12px;
   font-weight: 700;
   line-height: 1;
@@ -1039,9 +1040,9 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
 }
 
 .portal-book-detail-page__chapter-group.is-active {
-  border-color: color-mix(in srgb, var(--home-business-bookshelf-tag-border) 90%, transparent);
-  background: color-mix(in srgb, var(--home-business-bookshelf-tag-bg) 92%, transparent);
-  color: color-mix(in srgb, var(--home-business-bookshelf-tag-ink) 96%, transparent);
+  border-color: color-mix(in srgb, var(--portal-content-bookshelf-tag-border) 90%, transparent);
+  background: color-mix(in srgb, var(--portal-content-bookshelf-tag-bg) 92%, transparent);
+  color: color-mix(in srgb, var(--portal-content-bookshelf-tag-ink) 96%, transparent);
 }
 
 .portal-book-detail-page__chapter-list {
@@ -1056,12 +1057,12 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
   min-width: 0;
   min-height: 42px;
   padding: 8px 12px;
-  border: 1px solid color-mix(in srgb, var(--home-detail-card-border) 88%, transparent);
+  border: 1px solid color-mix(in srgb, var(--public-detail-card-border) 88%, transparent);
   border-radius: 14px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02)),
-    color-mix(in srgb, var(--home-detail-card-bg) 96%, transparent);
-  box-shadow: var(--home-detail-info-row-shadow);
+    color-mix(in srgb, var(--public-detail-card-bg) 96%, transparent);
+  box-shadow: var(--public-detail-info-row-shadow);
   color: inherit;
   text-decoration: none;
   transition:
@@ -1074,25 +1075,25 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
 .portal-book-detail-page__chapter:hover,
 .portal-book-detail-page__chapter:focus-visible {
   transform: translateY(-1px);
-  border-color: color-mix(in srgb, var(--home-business-bookshelf-tag-border) 74%, transparent);
+  border-color: color-mix(in srgb, var(--portal-content-bookshelf-tag-border) 74%, transparent);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04)),
-    color-mix(in srgb, var(--home-business-bookshelf-tag-bg) 42%, var(--home-detail-card-bg));
-  box-shadow: var(--home-detail-card-shadow);
+    color-mix(in srgb, var(--portal-content-bookshelf-tag-bg) 42%, var(--public-detail-card-bg));
+  box-shadow: var(--public-detail-card-shadow);
 }
 
 .portal-book-detail-page__chapter:focus-visible {
   outline: none;
   box-shadow:
     0 0 0 3px var(--portal-focus-ring),
-    var(--home-detail-card-shadow);
+    var(--public-detail-card-shadow);
 }
 
 .portal-book-detail-page__chapter strong {
   display: block;
   min-width: 0;
   overflow: hidden;
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
   font-size: 13px;
   line-height: 1.45;
   text-overflow: ellipsis;
@@ -1103,7 +1104,7 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
   position: sticky;
   top: var(--portal-detail-sticky-top);
   display: grid;
-  gap: var(--home-detail-side-stack-gap);
+  gap: var(--public-detail-side-stack-gap);
   align-content: start;
 }
 </style>

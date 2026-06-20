@@ -24,7 +24,6 @@ import { setupPortalViewportModeSync } from './utils/viewport-mode'
 import { getHttpClient, setupHttpClient } from './api'
 import { setupAuthRuntime } from './auth/runtime'
 import { PORTAL_PUBLIC_PERMISSIONS } from './permission'
-import PortalComponentsPlugin from './components'
 import router from './router'
 
 async function bootstrap(): Promise<void> {
@@ -68,7 +67,6 @@ async function bootstrap(): Promise<void> {
   app.use(router)
   app.use(pinia)
   app.use(FrontendUi)
-  app.use(PortalComponentsPlugin)
   app.use(createLoginPlugin({ sdk: loginSdk }))
   app.use(createPermissionPlugin({ engine: permissionEngine }))
   app.use(createTrackingPlugin({ tracker: observability.tracker }))

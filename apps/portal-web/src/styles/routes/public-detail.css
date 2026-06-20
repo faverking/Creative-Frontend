@@ -1,0 +1,10 @@
+/* Public detail stage: detail pages and book reader routes. */
+@import '../tokens/browse.css';
+@import '../tokens/public-detail.css';
+
+@import '../tokens-dark/browse.css';
+@import '../tokens-dark/public-detail.css';
+
+@import '../adaptive/mobile/route-components.css';
+@import '../adaptive/mobile/public-detail.css';
+@import '../adaptive/mobile/book-reader.css';

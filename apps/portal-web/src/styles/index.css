@@ -1,27 +1,16 @@
 /* Token layers */
 @import './tokens/foundation.css';
 @import './tokens/shared-components.css';
-@import './tokens/home.css';
-@import './tokens/public-detail.css';
-@import './tokens/modules.css';
-@import './tokens/workspace.css';
 
 /* Theme overrides */
 @import './tokens-dark/foundation.css';
 @import './tokens-dark/shared-components.css';
-@import './tokens-dark/home.css';
-@import './tokens-dark/public-detail.css';
-@import './tokens-dark/modules.css';
-@import './tokens-dark/workspace.css';
 
 /* Viewport adaptive layout */
 @import './adaptive/rem-root.css';
 @import './adaptive/shared.css';
 @import './adaptive/desktop.css';
 @import './adaptive/mobile.css';
-
-/* Shared behavior layers */
-@import './home-motion.css';
 
 html,
 body,

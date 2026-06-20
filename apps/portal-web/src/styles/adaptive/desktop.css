@@ -1,13 +1,20 @@
 :root {
+  /* Public browse stage layout */
   --portal-browse-stage-max-width: 1620px;
-  --home-section-gap-x: 40px;
-  --home-section-gap-y: 60px;
+
+  /* Portal content spacing */
+  --portal-content-section-gap-x: 40px;
+  --portal-content-section-gap-y: 60px;
+
+  /* Public module desktop columns */
+  --portal-module-article-feature-col: minmax(0, 1.22fr);
+  --portal-module-article-list-col: minmax(312px, 0.78fr);
+
+  /* Home desktop columns */
   --home-main-col: minmax(0, 2.18fr);
   --home-side-col: minmax(344px, 0.82fr);
   --home-middle-main-col: minmax(0, 1.72fr);
   --home-middle-side-col: minmax(360px, 0.84fr);
-  --home-article-feature-col: minmax(0, 1.22fr);
-  --home-article-list-col: minmax(312px, 0.78fr);
   --home-bottom-side-col: minmax(348px, 0.98fr);
   --home-bottom-main-col: minmax(0, 1.58fr);
 }

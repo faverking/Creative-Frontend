@@ -1,6 +1,6 @@
 ﻿:root[data-portal-viewport='mobile'] .portal-home-page {
   width: 100%;
-  gap: var(--home-section-gap-y);
+  gap: var(--portal-content-section-gap-y);
   padding-bottom: var(--portal-stage-padding-bottom);
 }
 

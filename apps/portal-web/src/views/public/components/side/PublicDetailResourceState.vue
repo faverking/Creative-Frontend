@@ -93,64 +93,70 @@ const actionIconPath = computed(() => {
 .public-detail-resource-state {
   --public-detail-resource-accent: color-mix(
     in srgb,
-    var(--home-business-topic-accent) 72%,
+    var(--portal-content-topic-accent) 72%,
     white 28%
   );
   --public-detail-resource-label-border-local: color-mix(
     in srgb,
     var(--public-detail-resource-accent) 24%,
-    var(--home-detail-glass-border) 76%
+    var(--public-detail-glass-border) 76%
   );
   --public-detail-resource-label-bg-local:
     linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.01)),
-    color-mix(in srgb, var(--public-detail-resource-accent) 14%, var(--home-surface) 86%);
+    color-mix(in srgb, var(--public-detail-resource-accent) 14%, var(--public-detail-surface) 86%);
   --public-detail-resource-label-ink-local: color-mix(
     in srgb,
     var(--public-detail-resource-accent) 72%,
-    var(--home-ink) 28%
+    var(--portal-content-ink) 28%
   );
   --public-detail-resource-label-shadow-local: inset 0 1px 0 rgba(255, 255, 255, 0.12);
   --public-detail-resource-control-border-local: color-mix(
     in srgb,
-    var(--home-detail-button-border) 84%,
+    var(--public-detail-button-border) 84%,
     transparent
   );
-  --public-detail-resource-control-bg-local: var(--home-detail-button-bg);
-  --public-detail-resource-meta-ink-local: color-mix(in srgb, var(--home-muted) 84%, transparent);
+  --public-detail-resource-control-bg-local: var(--public-detail-button-bg);
+  --public-detail-resource-meta-ink-local: color-mix(
+    in srgb,
+    var(--portal-content-muted) 84%,
+    transparent
+  );
   --public-detail-resource-action-border-local: color-mix(
     in srgb,
     var(--public-detail-resource-accent) 22%,
-    var(--home-detail-button-border) 78%
+    var(--public-detail-button-border) 78%
   );
   --public-detail-resource-action-bg-local:
     linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.01)),
-    color-mix(in srgb, var(--public-detail-resource-accent) 10%, var(--home-surface) 90%);
+    color-mix(in srgb, var(--public-detail-resource-accent) 10%, var(--public-detail-surface) 90%);
   --public-detail-resource-action-ink-local: color-mix(
     in srgb,
     var(--public-detail-resource-accent) 72%,
-    var(--home-ink) 28%
+    var(--portal-content-ink) 28%
   );
-  --public-detail-resource-action-shadow-local:
-    var(--home-detail-button-shadow);
+  --public-detail-resource-action-shadow-local: var(--public-detail-button-shadow);
   --public-detail-resource-action-hover-border-local: color-mix(
     in srgb,
     var(--public-detail-resource-accent) 30%,
-    var(--home-detail-button-border) 70%
+    var(--public-detail-button-border) 70%
   );
-  --public-detail-resource-action-hover-shadow-local:
-    var(--home-detail-button-shadow);
+  --public-detail-resource-action-hover-shadow-local: var(--public-detail-button-shadow);
   --public-detail-resource-locked-border-local: color-mix(
     in srgb,
-    var(--home-feature-tag-amber-ink) 24%,
-    var(--home-detail-button-border) 76%
+    var(--portal-content-feature-tag-amber-ink) 24%,
+    var(--public-detail-button-border) 76%
   );
   --public-detail-resource-locked-bg-local:
     linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.01)),
-    color-mix(in srgb, var(--home-feature-tag-amber-bg) 24%, var(--home-surface) 76%);
+    color-mix(
+      in srgb,
+      var(--portal-content-feature-tag-amber-bg) 24%,
+      var(--public-detail-surface) 76%
+    );
   --public-detail-resource-locked-ink-local: color-mix(
     in srgb,
-    var(--home-feature-tag-amber-ink) 72%,
-    var(--home-ink) 28%
+    var(--portal-content-feature-tag-amber-ink) 72%,
+    var(--portal-content-ink) 28%
   );
   position: relative;
   display: grid;
@@ -159,12 +165,12 @@ const actionIconPath = computed(() => {
   gap: 16px;
   width: 100%;
   padding: 18px 20px;
-  border: 1px solid color-mix(in srgb, var(--home-detail-glass-border) 68%, transparent);
-  border-radius: var(--home-detail-card-radius);
+  border: 1px solid color-mix(in srgb, var(--public-detail-glass-border) 68%, transparent);
+  border-radius: var(--public-detail-card-radius);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.01)),
-    var(--home-detail-glass-bg);
-  box-shadow: var(--home-detail-card-shadow);
+    var(--public-detail-glass-bg);
+  box-shadow: var(--public-detail-card-shadow);
   overflow: hidden;
 }
 
@@ -172,14 +178,14 @@ const actionIconPath = computed(() => {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--home-detail-glass-gloss);
+  background: var(--public-detail-glass-gloss);
   pointer-events: none;
 }
 
 .public-detail-resource-state--article {
   --public-detail-resource-accent: color-mix(
     in srgb,
-    var(--home-business-article-accent) 72%,
+    var(--portal-content-article-accent) 72%,
     white 28%
   );
 }
@@ -187,7 +193,7 @@ const actionIconPath = computed(() => {
 .public-detail-resource-state--gallery {
   --public-detail-resource-accent: color-mix(
     in srgb,
-    var(--home-business-gallery-accent) 72%,
+    var(--portal-content-gallery-accent) 72%,
     white 28%
   );
 }
@@ -195,7 +201,7 @@ const actionIconPath = computed(() => {
 .public-detail-resource-state--book {
   --public-detail-resource-accent: color-mix(
     in srgb,
-    var(--home-business-bookshelf-accent) 72%,
+    var(--portal-content-bookshelf-accent) 72%,
     white 28%
   );
 }
@@ -254,7 +260,7 @@ const actionIconPath = computed(() => {
 }
 
 .public-detail-resource-state__title {
-  color: color-mix(in srgb, var(--home-ink) 92%, transparent);
+  color: color-mix(in srgb, var(--portal-content-ink) 92%, transparent);
   font-size: 15px;
   font-weight: 700;
   line-height: 1.35;
@@ -264,7 +270,7 @@ const actionIconPath = computed(() => {
 .public-detail-resource-state__detail {
   margin: 0;
   max-width: none;
-  color: color-mix(in srgb, var(--home-muted) 84%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 84%, transparent);
   font-size: 12px;
   line-height: 1.7;
 }

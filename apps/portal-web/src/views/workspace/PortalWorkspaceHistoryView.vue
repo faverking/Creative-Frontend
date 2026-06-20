@@ -506,8 +506,8 @@ async function clearHistory(): Promise<void> {
   --workspace-history-time-size: 12px;
   --workspace-history-time-line-height: 1.25;
   --workspace-history-time-weight: 600;
-  --workspace-history-list-gap: var(--home-card-gap-base);
-  --workspace-history-stack-gap: var(--home-card-gap-tight);
+  --workspace-history-list-gap: var(--portal-content-card-gap-base);
+  --workspace-history-stack-gap: var(--portal-content-card-gap-tight);
   --workspace-history-content-min-height: 80px;
 }
 
@@ -644,7 +644,7 @@ async function clearHistory(): Promise<void> {
   display: grid;
   grid-template-columns: var(--workspace-history-card-columns);
   align-items: start;
-  gap: var(--home-card-gap-base);
+  gap: var(--portal-content-card-gap-base);
   padding: var(--workspace-card-padding);
   border: 1px solid var(--workspace-card-border-current);
   border-radius: var(--workspace-card-radius);
@@ -688,7 +688,7 @@ async function clearHistory(): Promise<void> {
   background:
     linear-gradient(
       135deg,
-      color-mix(in srgb, var(--home-business-article-accent-soft) 58%, transparent),
+      color-mix(in srgb, var(--portal-content-article-accent-soft) 58%, transparent),
       transparent 80%
     ),
     var(--workspace-media-bg-current);
@@ -698,7 +698,7 @@ async function clearHistory(): Promise<void> {
   background:
     linear-gradient(
       135deg,
-      color-mix(in srgb, var(--home-business-topic-accent-soft) 58%, transparent),
+      color-mix(in srgb, var(--portal-content-topic-accent-soft) 58%, transparent),
       transparent 80%
     ),
     var(--workspace-media-bg-current);
@@ -708,7 +708,7 @@ async function clearHistory(): Promise<void> {
   background:
     linear-gradient(
       135deg,
-      color-mix(in srgb, var(--home-business-gallery-accent-soft) 58%, transparent),
+      color-mix(in srgb, var(--portal-content-gallery-accent-soft) 58%, transparent),
       transparent 80%
     ),
     var(--workspace-media-bg-current);
@@ -718,7 +718,7 @@ async function clearHistory(): Promise<void> {
   background:
     linear-gradient(
       135deg,
-      color-mix(in srgb, var(--home-business-bookshelf-accent-soft) 58%, transparent),
+      color-mix(in srgb, var(--portal-content-bookshelf-accent-soft) 58%, transparent),
       transparent 80%
     ),
     var(--workspace-media-bg-current);
@@ -735,7 +735,7 @@ async function clearHistory(): Promise<void> {
 .workspace-history-card__header,
 .workspace-history-card__footer {
   display: flex;
-  gap: var(--home-card-gap-tight);
+  gap: var(--portal-content-card-gap-tight);
   min-width: 0;
 }
 
@@ -746,7 +746,7 @@ async function clearHistory(): Promise<void> {
 .workspace-history-card__footer {
   align-items: flex-start;
   justify-content: space-between;
-  gap: var(--home-card-gap-base);
+  gap: var(--portal-content-card-gap-base);
   padding-top: 10px;
   border-top: 1px dashed var(--workspace-meta-divider);
 }
@@ -758,7 +758,7 @@ async function clearHistory(): Promise<void> {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: var(--home-card-gap-tight);
+  gap: var(--portal-content-card-gap-tight);
   min-width: 0;
 }
 
@@ -776,7 +776,7 @@ async function clearHistory(): Promise<void> {
 .workspace-history-card__title {
   margin: 0;
   min-width: 0;
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
   font-size: var(--workspace-history-title-size);
   font-weight: 700;
   line-height: var(--workspace-history-title-line-height);
@@ -802,7 +802,7 @@ async function clearHistory(): Promise<void> {
 .workspace-history-card__summary {
   min-width: 0;
   overflow: hidden;
-  color: color-mix(in srgb, var(--home-muted) 88%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 88%, transparent);
   font-size: var(--workspace-history-body-size);
   line-height: var(--workspace-history-body-line-height);
   text-overflow: ellipsis;
@@ -826,14 +826,14 @@ async function clearHistory(): Promise<void> {
 
 .workspace-history-card__meta,
 .workspace-history-card__metrics {
-  color: color-mix(in srgb, var(--home-muted) 84%, var(--home-detail-glass-ink) 16%);
+  color: color-mix(in srgb, var(--portal-content-muted) 84%, var(--portal-content-ink) 16%);
   font-size: var(--workspace-history-meta-size);
   font-weight: 600;
   line-height: var(--workspace-history-meta-line-height);
 }
 
 .workspace-history-card__time {
-  color: color-mix(in srgb, var(--home-muted) 88%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 88%, transparent);
   font-size: var(--workspace-history-time-size);
   font-weight: var(--workspace-history-time-weight);
   line-height: var(--workspace-history-time-line-height);
@@ -896,7 +896,7 @@ async function clearHistory(): Promise<void> {
 
 .workspace-history-card__metric-icon {
   flex: 0 0 auto;
-  color: color-mix(in srgb, var(--workspace-accent-current) 82%, var(--home-ink) 18%);
+  color: color-mix(in srgb, var(--workspace-accent-current) 82%, var(--portal-content-ink) 18%);
 }
 
 .workspace-history-groups--skeleton .workspace-history-card {
@@ -937,11 +937,11 @@ async function clearHistory(): Promise<void> {
 .workspace-history-skeleton__block {
   position: relative;
   overflow: hidden;
-  border: 1px solid var(--home-skeleton-border);
+  border: 1px solid var(--portal-skeleton-border);
   background: linear-gradient(
     135deg,
-    var(--home-skeleton-block-strong),
-    var(--home-skeleton-block)
+    var(--portal-skeleton-block-strong),
+    var(--portal-skeleton-block)
   );
 }
 
@@ -953,7 +953,7 @@ async function clearHistory(): Promise<void> {
   position: absolute;
   inset: 0;
   transform: translateX(-100%);
-  background: var(--home-skeleton-shimmer);
+  background: var(--portal-skeleton-shimmer);
   animation: home-skeleton-wave 2.4s ease-in-out infinite;
 }
 

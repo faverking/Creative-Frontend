@@ -1,0 +1,6 @@
+/* Protected workspace stage. */
+@import '../tokens/workspace.css';
+@import '../tokens-dark/workspace.css';
+
+@import '../adaptive/mobile/route-components.css';
+@import '../adaptive/mobile/workspace.css';

@@ -3,6 +3,7 @@
 dist/
 coverage/
 tmp/
+scripts/
 *.log
 .DS_Store
 .vscode/

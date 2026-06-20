@@ -148,9 +148,9 @@ function handleToolbarAction(key: string): void {
 .workspace-page {
   --workspace-accent: var(--workspace-messages-accent);
   --workspace-accent-soft: var(--workspace-messages-accent-soft);
-  --workspace-tag-bg: var(--home-business-article-tag-bg);
-  --workspace-tag-border: var(--home-business-article-tag-border);
-  --workspace-tag-ink: var(--home-business-article-tag-ink);
+  --workspace-tag-bg: var(--portal-content-article-tag-bg);
+  --workspace-tag-border: var(--portal-content-article-tag-border);
+  --workspace-tag-ink: var(--portal-content-article-tag-ink);
   --workspace-surface-bg:
     linear-gradient(
       118deg,
@@ -245,7 +245,11 @@ function handleToolbarAction(key: string): void {
     color-mix(in srgb, var(--workspace-tag-bg) 90%, var(--workspace-chip-base-surface));
   --workspace-chip-active-border: color-mix(in srgb, var(--workspace-tag-border) 74%, transparent);
   --workspace-chip-active-ink: var(--portal-ink-strong);
-  --workspace-tab-line: color-mix(in srgb, var(--workspace-accent) 5%, var(--home-line) 95%);
+  --workspace-tab-line: color-mix(
+    in srgb,
+    var(--workspace-accent) 5%,
+    var(--portal-content-line) 95%
+  );
   --workspace-tab-track: color-mix(in srgb, var(--workspace-accent) 42%, transparent);
   width: min(var(--portal-workspace-stage-max-width), 100%);
   margin: 0 auto;
@@ -259,17 +263,17 @@ function handleToolbarAction(key: string): void {
 .workspace-page--favorites {
   --workspace-accent: var(--workspace-favorites-accent);
   --workspace-accent-soft: var(--workspace-favorites-accent-soft);
-  --workspace-tag-bg: var(--home-business-bookshelf-tag-bg);
-  --workspace-tag-border: var(--home-business-bookshelf-tag-border);
-  --workspace-tag-ink: var(--home-business-bookshelf-tag-ink);
+  --workspace-tag-bg: var(--portal-content-bookshelf-tag-bg);
+  --workspace-tag-border: var(--portal-content-bookshelf-tag-border);
+  --workspace-tag-ink: var(--portal-content-bookshelf-tag-ink);
 }
 
 .workspace-page--history {
   --workspace-accent: var(--workspace-history-accent);
   --workspace-accent-soft: var(--workspace-history-accent-soft);
-  --workspace-tag-bg: var(--home-business-topic-tag-bg);
-  --workspace-tag-border: var(--home-business-topic-tag-border);
-  --workspace-tag-ink: var(--home-business-topic-tag-ink);
+  --workspace-tag-bg: var(--portal-content-topic-tag-bg);
+  --workspace-tag-border: var(--portal-content-topic-tag-border);
+  --workspace-tag-ink: var(--portal-content-topic-tag-ink);
 }
 
 .workspace-page__toolbar {
@@ -286,8 +290,8 @@ function handleToolbarAction(key: string): void {
   border-radius: var(--workspace-surface-radius);
   background: var(--workspace-surface-bg);
   box-shadow: var(--workspace-surface-shadow);
-  backdrop-filter: blur(calc(var(--home-panel-blur) * 0.64)) saturate(1);
-  -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.64)) saturate(1);
+  backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.64)) saturate(1);
+  -webkit-backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.64)) saturate(1);
 }
 
 .workspace-page__tabs {
@@ -388,17 +392,17 @@ function handleToolbarAction(key: string): void {
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--home-section-heading-gap);
+  gap: var(--portal-content-section-heading-gap);
   min-width: 0;
 }
 
 .workspace-page__section-head h1 {
   margin: 0;
   color: var(--portal-ink-strong);
-  font-size: var(--home-heading-title-size);
+  font-size: var(--workspace-section-title-size);
   font-weight: 700;
   line-height: 1.12;
-  letter-spacing: var(--home-heading-title-tracking);
+  letter-spacing: var(--workspace-section-title-tracking);
 }
 
 .workspace-page__section-pill {
@@ -583,42 +587,42 @@ function handleToolbarAction(key: string): void {
 :deep(.workspace-badge--article) {
   background: color-mix(
     in srgb,
-    var(--home-business-article-tag-bg) 90%,
+    var(--portal-content-article-tag-bg) 90%,
     var(--workspace-chip-base-surface)
   );
-  border-color: color-mix(in srgb, var(--home-business-article-tag-border) 82%, transparent);
-  color: color-mix(in srgb, var(--home-business-article-tag-ink) 86%, transparent);
+  border-color: color-mix(in srgb, var(--portal-content-article-tag-border) 82%, transparent);
+  color: color-mix(in srgb, var(--portal-content-article-tag-ink) 86%, transparent);
 }
 
 :deep(.workspace-badge--reply),
 :deep(.workspace-badge--topic) {
   background: color-mix(
     in srgb,
-    var(--home-business-topic-tag-bg) 90%,
+    var(--portal-content-topic-tag-bg) 90%,
     var(--workspace-chip-base-surface)
   );
-  border-color: color-mix(in srgb, var(--home-business-topic-tag-border) 82%, transparent);
-  color: color-mix(in srgb, var(--home-business-topic-tag-ink) 86%, transparent);
+  border-color: color-mix(in srgb, var(--portal-content-topic-tag-border) 82%, transparent);
+  color: color-mix(in srgb, var(--portal-content-topic-tag-ink) 86%, transparent);
 }
 
 :deep(.workspace-badge--gallery) {
   background: color-mix(
     in srgb,
-    var(--home-business-gallery-tag-bg) 90%,
+    var(--portal-content-gallery-tag-bg) 90%,
     var(--workspace-chip-base-surface)
   );
-  border-color: color-mix(in srgb, var(--home-business-gallery-tag-border) 82%, transparent);
-  color: color-mix(in srgb, var(--home-business-gallery-tag-ink) 86%, transparent);
+  border-color: color-mix(in srgb, var(--portal-content-gallery-tag-border) 82%, transparent);
+  color: color-mix(in srgb, var(--portal-content-gallery-tag-ink) 86%, transparent);
 }
 
 :deep(.workspace-badge--book) {
   background: color-mix(
     in srgb,
-    var(--home-business-bookshelf-tag-bg) 90%,
+    var(--portal-content-bookshelf-tag-bg) 90%,
     var(--workspace-chip-base-surface)
   );
-  border-color: color-mix(in srgb, var(--home-business-bookshelf-tag-border) 82%, transparent);
-  color: color-mix(in srgb, var(--home-business-bookshelf-tag-ink) 86%, transparent);
+  border-color: color-mix(in srgb, var(--portal-content-bookshelf-tag-border) 82%, transparent);
+  color: color-mix(in srgb, var(--portal-content-bookshelf-tag-ink) 86%, transparent);
 }
 
 :deep(.workspace-action-button) {
@@ -673,7 +677,7 @@ function handleToolbarAction(key: string): void {
 :deep(.workspace-action-note) {
   margin: 0;
   font-size: 12px;
-  color: color-mix(in srgb, var(--home-muted) 84%, var(--home-detail-glass-ink) 16%);
+  color: color-mix(in srgb, var(--portal-content-muted) 84%, var(--portal-content-ink) 16%);
   font-weight: 600;
   line-height: 1.35;
 }
@@ -687,7 +691,7 @@ function handleToolbarAction(key: string): void {
 :deep(.workspace-tag) {
   display: inline-flex;
   align-items: center;
-  min-height: var(--home-chip-height-sm);
+  min-height: var(--portal-content-chip-height-sm);
   padding: 0 8px;
   border: 1px solid var(--workspace-chip-border);
   border-radius: 999px;

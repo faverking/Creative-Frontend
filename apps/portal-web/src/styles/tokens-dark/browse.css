@@ -1,0 +1,89 @@
+html.dark {
+  /* Public Browse Shared Surfaces */
+  --portal-browse-card-bg: linear-gradient(180deg, rgba(18, 37, 69, 0.82), rgba(12, 25, 49, 0.82));
+  --portal-browse-card-border: rgba(182, 224, 255, 0.14);
+  --portal-browse-glass-ink: #d6ebff;
+  --portal-browse-glass-bg-emphasis: linear-gradient(
+    180deg,
+    rgba(24, 47, 80, 0.92),
+    rgba(12, 25, 49, 0.9)
+  );
+
+  /* Public Browse Section Heading Tokens */
+  --portal-browse-section-heading-gap: 8px;
+  --portal-browse-section-heading-icon-size: 28px;
+  --portal-browse-section-heading-icon-filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
+  --portal-browse-section-heading-icon-opacity: 0.88;
+  --portal-browse-section-heading-wrap-padding-end: 12px;
+  --portal-browse-section-heading-title-size: 18px;
+  --portal-browse-section-heading-title-tracking: 0;
+  --portal-browse-section-heading-deco-width: 4px;
+  --portal-browse-section-heading-deco-gap: 1px;
+  --portal-browse-section-heading-deco-tilt: 15deg;
+  --portal-browse-section-heading-deco-offset-x: 1px;
+  --portal-browse-section-heading-deco-offset-y: -5px;
+  --portal-browse-section-heading-deco-height-1: 7px;
+  --portal-browse-section-heading-deco-height-2: 10px;
+  --portal-browse-section-heading-deco-height-3: 12px;
+  --portal-browse-section-heading-deco-opacity-1: 0.12;
+  --portal-browse-section-heading-deco-opacity-2: 0.22;
+  --portal-browse-section-heading-deco-opacity-3: 0.32;
+
+  /* Public Browse Media Surface Tokens */
+  --portal-browse-media-panel-border: rgba(182, 224, 255, 0.1);
+  --portal-browse-media-frame-border: rgba(255, 255, 255, 0.16);
+  --portal-browse-media-placeholder-surface: linear-gradient(
+    145deg,
+    rgba(83, 122, 171, 0.34),
+    rgba(10, 20, 38, 0.72)
+  );
+  --portal-browse-media-overlay-soft: linear-gradient(
+    180deg,
+    rgba(8, 18, 38, 0.12),
+    rgba(8, 18, 38, 0.4)
+  );
+  --portal-browse-media-overlay-strong: linear-gradient(
+    180deg,
+    rgba(8, 18, 38, 0.18),
+    rgba(8, 18, 38, 0.46)
+  );
+  --portal-browse-media-deco-bg: rgba(255, 255, 255, 0.1);
+  --portal-browse-media-deco-border: rgba(255, 255, 255, 0.14);
+  --portal-browse-media-icon-border: rgba(255, 255, 255, 0.14);
+  --portal-browse-media-icon-shadow: 0 10px 24px rgba(121, 225, 255, 0.16);
+  --portal-browse-media-hover-shadow-soft:
+    0 14px 22px rgba(0, 0, 0, 0.24), 0 0 18px rgba(121, 225, 255, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+
+  /* Public Browse Card Tokens */
+  --portal-browse-card-radius: 18px;
+  --portal-browse-feature-radius: 20px;
+  --portal-browse-feature-media-radius: 18px;
+  --portal-browse-card-padding: var(--portal-content-card-padding-xs);
+  --portal-browse-feature-padding: var(--portal-content-card-padding-sm);
+  --portal-browse-state-padding: var(--portal-content-card-padding-sm);
+  --portal-browse-card-surface:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.008)),
+    linear-gradient(180deg, rgba(22, 43, 76, 0.56), rgba(12, 25, 49, 0.4));
+  --portal-browse-article-card-surface:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.008)),
+    linear-gradient(180deg, rgba(22, 43, 76, 0.56), rgba(12, 25, 49, 0.4));
+  --portal-browse-article-card-border: rgba(182, 224, 255, 0.13);
+  --portal-browse-state-surface:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--portal-request-boundary-accent) 8%, transparent),
+      transparent 72%
+    ),
+    var(--portal-browse-card-surface);
+  --portal-browse-card-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  --portal-browse-feature-shadow: var(--portal-browse-card-shadow);
+  --portal-browse-media-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+  --portal-browse-card-hover-shadow: var(--portal-browse-card-shadow);
+  --portal-browse-card-hover-surface:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01)),
+    var(--portal-browse-card-surface);
+  --portal-browse-article-card-hover-surface:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01)),
+    var(--portal-browse-article-card-surface);
+}

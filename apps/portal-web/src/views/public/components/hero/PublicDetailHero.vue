@@ -204,36 +204,36 @@ const normalizedActions = computed(() =>
 
 <style scoped>
 .public-detail-hero {
-  --public-detail-hero-accent: var(--home-business-article-accent);
-  --public-detail-hero-tag-bg: var(--home-business-article-tag-bg);
-  --public-detail-hero-tag-border: var(--home-business-article-tag-border);
-  --public-detail-hero-tag-ink: var(--home-business-article-tag-ink);
+  --public-detail-hero-accent: var(--portal-content-article-accent);
+  --public-detail-hero-tag-bg: var(--portal-content-article-tag-bg);
+  --public-detail-hero-tag-border: var(--portal-content-article-tag-border);
+  --public-detail-hero-tag-ink: var(--portal-content-article-tag-ink);
   display: grid;
   gap: 0;
   width: 100%;
   padding-bottom: 24px;
-  border-bottom: 1px solid var(--home-line);
+  border-bottom: 1px solid var(--portal-content-line);
 }
 
 .public-detail-hero--topic {
-  --public-detail-hero-accent: var(--home-business-topic-accent);
-  --public-detail-hero-tag-bg: var(--home-business-topic-tag-bg);
-  --public-detail-hero-tag-border: var(--home-business-topic-tag-border);
-  --public-detail-hero-tag-ink: var(--home-business-topic-tag-ink);
+  --public-detail-hero-accent: var(--portal-content-topic-accent);
+  --public-detail-hero-tag-bg: var(--portal-content-topic-tag-bg);
+  --public-detail-hero-tag-border: var(--portal-content-topic-tag-border);
+  --public-detail-hero-tag-ink: var(--portal-content-topic-tag-ink);
 }
 
 .public-detail-hero--book {
-  --public-detail-hero-accent: var(--home-business-bookshelf-accent);
-  --public-detail-hero-tag-bg: var(--home-business-bookshelf-tag-bg);
-  --public-detail-hero-tag-border: var(--home-business-bookshelf-tag-border);
-  --public-detail-hero-tag-ink: var(--home-business-bookshelf-tag-ink);
+  --public-detail-hero-accent: var(--portal-content-bookshelf-accent);
+  --public-detail-hero-tag-bg: var(--portal-content-bookshelf-tag-bg);
+  --public-detail-hero-tag-border: var(--portal-content-bookshelf-tag-border);
+  --public-detail-hero-tag-ink: var(--portal-content-bookshelf-tag-ink);
 }
 
 .public-detail-hero--gallery {
-  --public-detail-hero-accent: var(--home-business-gallery-accent);
-  --public-detail-hero-tag-bg: var(--home-business-gallery-tag-bg);
-  --public-detail-hero-tag-border: var(--home-business-gallery-tag-border);
-  --public-detail-hero-tag-ink: var(--home-business-gallery-tag-ink);
+  --public-detail-hero-accent: var(--portal-content-gallery-accent);
+  --public-detail-hero-tag-bg: var(--portal-content-gallery-tag-bg);
+  --public-detail-hero-tag-border: var(--portal-content-gallery-tag-border);
+  --public-detail-hero-tag-ink: var(--portal-content-gallery-tag-ink);
 }
 
 .public-detail-hero__cover-shell {
@@ -246,16 +246,16 @@ const normalizedActions = computed(() =>
   width: 100%;
   min-height: 116px;
   aspect-ratio: 16 / 3.2;
-  border: 1px solid color-mix(in srgb, var(--home-detail-card-border) 90%, transparent);
-  border-radius: var(--home-detail-card-radius);
+  border: 1px solid color-mix(in srgb, var(--public-detail-card-border) 90%, transparent);
+  border-radius: var(--public-detail-card-radius);
   background:
     linear-gradient(
       180deg,
       color-mix(in srgb, rgba(255, 255, 255, 0.14) 74%, transparent),
       rgba(255, 255, 255, 0) 42%
     ),
-    var(--home-detail-card-bg);
-  box-shadow: var(--home-detail-card-shadow);
+    var(--public-detail-card-bg);
+  box-shadow: var(--public-detail-card-shadow);
   overflow: hidden;
 }
 
@@ -288,7 +288,7 @@ const normalizedActions = computed(() =>
   display: -webkit-box;
   margin: 0;
   overflow: hidden;
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
   font-size: 28px;
   line-height: 1.14;
   letter-spacing: 0;
@@ -302,7 +302,7 @@ const normalizedActions = computed(() =>
   max-width: 720px;
   margin: 0;
   overflow: hidden;
-  color: color-mix(in srgb, var(--home-muted) 82%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 82%, transparent);
   font-size: 14px;
   line-height: 1.74;
   -webkit-box-orient: vertical;
@@ -348,7 +348,7 @@ const normalizedActions = computed(() =>
 
 .public-detail-hero__meta-list {
   gap: 12px;
-  color: color-mix(in srgb, var(--home-muted) 88%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 88%, transparent);
   font-size: 12px;
   font-weight: 700;
   line-height: 1.4;
@@ -372,7 +372,7 @@ const normalizedActions = computed(() =>
   width: 1px;
   height: 16px;
   border-radius: 999px;
-  background: color-mix(in srgb, var(--home-line) 90%, white 10%);
+  background: color-mix(in srgb, var(--portal-content-line) 90%, white 10%);
   transform: translateY(-50%);
 }
 
@@ -381,10 +381,10 @@ const normalizedActions = computed(() =>
   align-items: center;
   min-height: 20px;
   padding: 0 11px;
-  border: 1px solid var(--home-feature-tag-soft-border);
+  border: 1px solid var(--portal-content-feature-tag-soft-border);
   border-radius: 999px;
-  background: var(--home-feature-tag-soft-bg);
-  color: var(--home-feature-tag-soft-ink);
+  background: var(--portal-content-feature-tag-soft-bg);
+  color: var(--portal-content-feature-tag-soft-ink);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -401,14 +401,14 @@ const normalizedActions = computed(() =>
   border-color: color-mix(
     in srgb,
     var(--public-detail-hero-accent) 18%,
-    var(--home-feature-tag-soft-border)
+    var(--portal-content-feature-tag-soft-border)
   );
   background: color-mix(
     in srgb,
     var(--public-detail-hero-accent) 10%,
-    var(--home-feature-tag-soft-bg)
+    var(--portal-content-feature-tag-soft-bg)
   );
-  color: color-mix(in srgb, var(--public-detail-hero-accent) 74%, var(--home-ink) 26%);
+  color: color-mix(in srgb, var(--public-detail-hero-accent) 74%, var(--portal-content-ink) 26%);
 }
 
 .public-detail-hero__meta-item {
@@ -423,8 +423,8 @@ const normalizedActions = computed(() =>
   background: linear-gradient(
     90deg,
     transparent 0%,
-    color-mix(in srgb, var(--home-line) 90%, white 10%) 18%,
-    color-mix(in srgb, var(--home-line) 90%, white 10%) 82%,
+    color-mix(in srgb, var(--portal-content-line) 90%, white 10%) 18%,
+    color-mix(in srgb, var(--portal-content-line) 90%, white 10%) 82%,
     transparent 100%
   );
 }
@@ -438,7 +438,7 @@ const normalizedActions = computed(() =>
   align-items: center;
   gap: 5px;
   min-height: 20px;
-  color: color-mix(in srgb, var(--home-muted) 90%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 90%, transparent);
   font-size: 12px;
   font-weight: 700;
   line-height: 1;
@@ -449,11 +449,11 @@ const normalizedActions = computed(() =>
 .public-detail-hero__metric-icon {
   --portal-icon-size: 18px;
   flex: 0 0 auto;
-  color: color-mix(in srgb, var(--public-detail-hero-accent) 66%, var(--home-ink) 34%);
+  color: color-mix(in srgb, var(--public-detail-hero-accent) 66%, var(--portal-content-ink) 34%);
 }
 
 .public-detail-hero__metric-value {
-  color: color-mix(in srgb, var(--home-ink) 96%, transparent);
+  color: color-mix(in srgb, var(--portal-content-ink) 96%, transparent);
   font-size: 12px;
   font-weight: 700;
   line-height: 1;

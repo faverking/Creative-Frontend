@@ -555,23 +555,23 @@ async function handleExpandReplies(commentId: string): Promise<void> {
 
 <style scoped>
 .public-detail-comments-section {
-  --public-detail-comments-accent: var(--home-business-article-accent);
+  --public-detail-comments-accent: var(--portal-content-article-accent);
   width: 100%;
   margin-top: var(--public-detail-comments-gap-before, 0);
-  padding-top: var(--public-detail-comments-divider-gap, var(--home-detail-comments-divider-gap));
-  border-top: 1px solid var(--home-line);
+  padding-top: var(--public-detail-comments-divider-gap, var(--public-detail-comments-divider-gap));
+  border-top: 1px solid var(--portal-content-line);
 }
 
 .public-detail-comments-section--topic {
-  --public-detail-comments-accent: var(--home-business-topic-accent);
+  --public-detail-comments-accent: var(--portal-content-topic-accent);
 }
 
 .public-detail-comments-section--gallery {
-  --public-detail-comments-accent: var(--home-business-gallery-accent);
+  --public-detail-comments-accent: var(--portal-content-gallery-accent);
 }
 
 .public-detail-comments-section--bookshelf {
-  --public-detail-comments-accent: var(--home-business-bookshelf-accent);
+  --public-detail-comments-accent: var(--portal-content-bookshelf-accent);
 }
 
 .public-detail-comments-section__stage {
@@ -588,7 +588,7 @@ async function handleExpandReplies(commentId: string): Promise<void> {
 }
 
 .public-detail-comments-section__summary {
-  color: color-mix(in srgb, var(--home-muted) 90%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 90%, transparent);
   font-size: 12px;
   font-weight: 700;
   line-height: 1.5;
@@ -634,7 +634,7 @@ async function handleExpandReplies(commentId: string): Promise<void> {
   display: grid;
   gap: 12px;
   padding: 18px 0;
-  border-bottom: 1px solid var(--home-skeleton-border);
+  border-bottom: 1px solid var(--portal-skeleton-border);
 }
 
 .public-detail-comments-section__card-skeleton:last-child {
@@ -658,7 +658,7 @@ async function handleExpandReplies(commentId: string): Promise<void> {
   gap: 12px;
   margin-left: 54px;
   padding-left: 14px;
-  border-left: 2px solid var(--home-skeleton-border);
+  border-left: 2px solid var(--portal-skeleton-border);
 }
 
 .public-detail-comments-section__reply-skeleton {
@@ -693,7 +693,7 @@ async function handleExpandReplies(commentId: string): Promise<void> {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--home-skeleton-shimmer);
+  background: var(--portal-skeleton-shimmer);
   animation: home-skeleton-wave 2.4s ease-in-out infinite;
   transform: translateX(-100%);
 }
@@ -701,11 +701,11 @@ async function handleExpandReplies(commentId: string): Promise<void> {
 .public-detail-comments-section__skeleton-block,
 .public-detail-comments-section__skeleton-line,
 .public-detail-comments-section__skeleton-pill {
-  border: 1px solid var(--home-skeleton-border);
+  border: 1px solid var(--portal-skeleton-border);
   background: linear-gradient(
     135deg,
-    var(--home-skeleton-block-strong),
-    var(--home-skeleton-block)
+    var(--portal-skeleton-block-strong),
+    var(--portal-skeleton-block)
   );
   box-sizing: border-box;
 }
@@ -721,7 +721,7 @@ async function handleExpandReplies(commentId: string): Promise<void> {
 
 .public-detail-comments-section__skeleton-pill--heading {
   width: 118px;
-  height: var(--home-skeleton-title-sm-height);
+  height: var(--portal-skeleton-title-sm-height);
 }
 
 .public-detail-comments-section__skeleton-pill--summary {
@@ -748,7 +748,7 @@ async function handleExpandReplies(commentId: string): Promise<void> {
 }
 
 .public-detail-comments-section__skeleton-line {
-  height: var(--home-skeleton-copy-14-height);
+  height: var(--portal-skeleton-copy-14-height);
 }
 
 .public-detail-comments-section__skeleton-line--hint {
@@ -780,12 +780,12 @@ async function handleExpandReplies(commentId: string): Promise<void> {
 }
 
 .public-detail-comments-section__skeleton-line--reply {
-  height: var(--home-skeleton-copy-13-height);
+  height: var(--portal-skeleton-copy-13-height);
 }
 
 .public-detail-comments-section__skeleton-line--reply-action {
   width: 32px;
-  height: var(--home-skeleton-copy-13-height);
+  height: var(--portal-skeleton-copy-13-height);
 }
 
 .public-detail-comments-section :deep(.portal-request-boundary__state) {
@@ -793,7 +793,7 @@ async function handleExpandReplies(commentId: string): Promise<void> {
   padding: var(--portal-boundary-panel-padding-block) var(--portal-boundary-panel-padding-inline);
   border: 1px solid
     color-mix(in srgb, var(--public-detail-comments-accent) 14%, var(--portal-request-state-border));
-  border-radius: var(--home-detail-panel-radius);
+  border-radius: var(--public-detail-panel-radius);
   background:
     linear-gradient(
       180deg,
@@ -801,6 +801,6 @@ async function handleExpandReplies(commentId: string): Promise<void> {
       transparent 74%
     ),
     var(--portal-request-state-bg);
-  box-shadow: var(--home-detail-panel-shadow);
+  box-shadow: var(--public-detail-panel-shadow);
 }
 </style>

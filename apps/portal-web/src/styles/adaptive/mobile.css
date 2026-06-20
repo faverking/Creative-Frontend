@@ -1,8 +1,3 @@
 @import './mobile/base.css';
 @import './mobile/shared-components.css';
-@import './mobile/home.css';
-@import './mobile/modules.css';
-@import './mobile/public-detail.css';
-@import './mobile/book-reader.css';
-@import './mobile/workspace.css';
 @import './mobile/auth.css';

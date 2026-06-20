@@ -24,7 +24,7 @@ withDefaults(
 .public-detail-rich-text {
   --public-detail-rich-text-accent: var(
     --public-detail-rich-text-accent-ink,
-    var(--home-business-article-accent)
+    var(--portal-content-article-accent)
   );
   --public-detail-rich-text-default-font-size: 17px;
   --public-detail-rich-text-default-line-height: 1.78;
@@ -58,7 +58,7 @@ withDefaults(
     100%,
     var(--public-detail-rich-text-max-width, var(--public-detail-rich-text-default-max-width))
   );
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
   font-size: var(
     --public-detail-rich-text-font-size,
     var(--public-detail-rich-text-default-font-size)
@@ -70,11 +70,11 @@ withDefaults(
 }
 
 .public-detail-rich-text--topic {
-  --public-detail-rich-text-accent-ink: var(--home-business-topic-accent);
+  --public-detail-rich-text-accent-ink: var(--portal-content-topic-accent);
 }
 
 .public-detail-rich-text--gallery {
-  --public-detail-rich-text-accent-ink: var(--home-business-gallery-accent);
+  --public-detail-rich-text-accent-ink: var(--portal-content-gallery-accent);
 }
 
 .public-detail-rich-text :deep(> :first-child) {
@@ -88,7 +88,7 @@ withDefaults(
 .public-detail-rich-text :deep(> p:first-of-type) {
   color: var(
     --public-detail-rich-text-intro-ink,
-    color-mix(in srgb, var(--home-ink) 94%, transparent)
+    color-mix(in srgb, var(--portal-content-ink) 94%, transparent)
   );
   font-size: var(
     --public-detail-rich-text-intro-size,
@@ -127,7 +127,7 @@ withDefaults(
 
 .public-detail-rich-text :deep(h2),
 .public-detail-rich-text :deep(h3) {
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
   letter-spacing: 0;
 }
 
@@ -164,7 +164,7 @@ withDefaults(
 }
 
 .public-detail-rich-text :deep(p) {
-  color: color-mix(in srgb, var(--home-ink) 88%, transparent);
+  color: color-mix(in srgb, var(--portal-content-ink) 88%, transparent);
 }
 
 .public-detail-rich-text :deep(p + p) {
@@ -175,7 +175,11 @@ withDefaults(
 }
 
 .public-detail-rich-text :deep(a) {
-  color: color-mix(in srgb, var(--public-detail-rich-text-accent) 90%, var(--home-ink) 10%);
+  color: color-mix(
+    in srgb,
+    var(--public-detail-rich-text-accent) 90%,
+    var(--portal-content-ink) 10%
+  );
   font-weight: 700;
   text-decoration-line: underline;
   text-decoration-thickness: 1px;
@@ -205,7 +209,7 @@ withDefaults(
 }
 
 .public-detail-rich-text :deep(li) {
-  color: color-mix(in srgb, var(--home-ink) 88%, transparent);
+  color: color-mix(in srgb, var(--portal-content-ink) 88%, transparent);
 }
 
 .public-detail-rich-text :deep(li + li) {
@@ -221,7 +225,11 @@ withDefaults(
 
 .public-detail-rich-text :deep(ul li::marker),
 .public-detail-rich-text :deep(ol li::marker) {
-  color: color-mix(in srgb, var(--public-detail-rich-text-accent) 58%, var(--home-muted) 42%);
+  color: color-mix(
+    in srgb,
+    var(--public-detail-rich-text-accent) 58%,
+    var(--portal-content-muted) 42%
+  );
   font-weight: 700;
 }
 
@@ -231,11 +239,11 @@ withDefaults(
     --public-detail-rich-text-quote-padding,
     var(--public-detail-rich-text-default-quote-padding)
   );
-  border: 1px solid var(--home-detail-glass-border-emphasis);
+  border: 1px solid var(--public-detail-glass-border-emphasis);
   border-radius: 18px;
-  background: var(--home-detail-glass-bg-emphasis);
-  box-shadow: var(--home-detail-glass-shadow-emphasis);
-  color: var(--home-ink);
+  background: var(--public-detail-glass-bg-emphasis);
+  box-shadow: var(--public-detail-glass-shadow-emphasis);
+  color: var(--portal-content-ink);
   font-size: var(
     --public-detail-rich-text-quote-font-size,
     var(--public-detail-rich-text-default-quote-font-size)
@@ -286,10 +294,10 @@ withDefaults(
   justify-items: center;
   align-items: start;
   overflow: hidden;
-  border: 1px solid var(--home-detail-card-border);
-  border-radius: var(--home-detail-card-radius);
-  background: var(--home-detail-card-bg);
-  box-shadow: var(--home-detail-card-shadow);
+  border: 1px solid var(--public-detail-card-border);
+  border-radius: var(--public-detail-card-radius);
+  background: var(--public-detail-card-bg);
+  box-shadow: var(--public-detail-card-shadow);
 }
 
 .public-detail-rich-text :deep(figure > a) {
@@ -304,15 +312,15 @@ withDefaults(
   max-width: 100%;
   height: auto;
   margin-inline: auto;
-  background: color-mix(in srgb, var(--home-detail-card-bg) 88%, transparent);
+  background: color-mix(in srgb, var(--public-detail-card-bg) 88%, transparent);
 }
 
 .public-detail-rich-text :deep(figcaption) {
   width: 100%;
   box-sizing: border-box;
   padding: 8px 12px 10px;
-  border-top: 1px solid color-mix(in srgb, var(--home-line) 78%, transparent);
-  color: color-mix(in srgb, var(--home-muted) 88%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--portal-content-line) 78%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 88%, transparent);
   font-size: 12px;
   line-height: 1.8;
   letter-spacing: 0.01em;
@@ -324,10 +332,10 @@ withDefaults(
   width: 100%;
   aspect-ratio: 16 / 9;
   min-height: 420px;
-  border: 1px solid var(--home-detail-card-border);
-  border-radius: var(--home-detail-card-radius);
-  background: color-mix(in srgb, var(--home-detail-card-bg) 86%, rgba(8, 18, 38, 0.14));
-  box-shadow: var(--home-detail-card-shadow);
+  border: 1px solid var(--public-detail-card-border);
+  border-radius: var(--public-detail-card-radius);
+  background: color-mix(in srgb, var(--public-detail-card-bg) 86%, rgba(8, 18, 38, 0.14));
+  box-shadow: var(--public-detail-card-shadow);
   overflow: hidden;
 }
 
@@ -343,9 +351,7 @@ withDefaults(
   box-sizing: border-box;
   width: calc(
     100% +
-      (
-        var(--public-detail-rich-text-outset, var(--public-detail-rich-text-default-outset)) * 2
-      )
+      (var(--public-detail-rich-text-outset, var(--public-detail-rich-text-default-outset)) * 2)
   );
   margin-left: calc(
     var(--public-detail-rich-text-outset, var(--public-detail-rich-text-default-outset)) * -1
@@ -362,6 +368,6 @@ withDefaults(
     var(--public-detail-rich-text-default-divider-space-bottom)
   );
   border: 0;
-  border-top: 1px solid color-mix(in srgb, var(--home-line) 78%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--portal-content-line) 78%, transparent);
 }
 </style>

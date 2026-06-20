@@ -306,21 +306,21 @@ function roundCssNumber(value: number): number {
   width: min(100%, 1080px);
   min-height: 420px;
   padding: 28px;
-  color: color-mix(in srgb, var(--home-muted) 86%, var(--home-ink));
+  color: color-mix(in srgb, var(--portal-content-muted) 86%, var(--portal-content-ink));
   font-size: 13px;
   font-weight: 700;
   line-height: 1.3;
 }
 
 .book-comic-enhanced-image__state--error {
-  color: color-mix(in srgb, var(--home-danger, #c2410c) 78%, var(--home-ink));
+  color: color-mix(in srgb, var(--portal-danger, #c2410c) 78%, var(--portal-content-ink));
 }
 
 .book-comic-enhanced-image__spinner {
   width: 28px;
   height: 28px;
   border: 3px solid color-mix(in srgb, var(--portal-book-reader-border) 68%, transparent);
-  border-top-color: color-mix(in srgb, var(--home-business-bookshelf-accent) 72%, transparent);
+  border-top-color: color-mix(in srgb, var(--portal-content-bookshelf-accent) 72%, transparent);
   border-radius: 999px;
   animation: book-comic-enhanced-image-spin 760ms linear infinite;
 }

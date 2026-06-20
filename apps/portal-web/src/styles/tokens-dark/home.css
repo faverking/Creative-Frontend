@@ -1,4 +1,8 @@
 html.dark {
+  /* Home Hero Layout Tokens */
+  --home-hero-cover-art: linear-gradient(180deg, rgba(8, 18, 38, 0.12), rgba(8, 18, 38, 0.4));
+
+  /* Home Featured Carousel Tokens */
   --home-featured-nav-slot-bg: linear-gradient(
     180deg,
     rgba(24, 47, 80, 0.74),
@@ -16,8 +20,8 @@ html.dark {
     rgba(15, 31, 58, 0.58)
   );
   --home-featured-nav-item-hover-border: rgba(182, 224, 255, 0.22);
-  --home-featured-nav-item-shadow:
-    0 8px 14px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --home-featured-nav-item-shadow: 0 8px 14px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --home-featured-nav-slot-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
   --home-featured-nav-item-line: linear-gradient(
     90deg,
     rgba(121, 225, 255, 0),
@@ -34,7 +38,8 @@ html.dark {
   --home-featured-nav-fill-opacity: 0;
   --home-featured-nav-slot-hover-border: rgba(182, 224, 255, 0.2);
   --home-featured-nav-fill-opacity-active: 1;
-  /* Quick Entry and Shortcut Tokens */
+
+  /* Home Quick Entry Tokens */
   --home-quick-icon-surface-bg: linear-gradient(
     180deg,
     rgba(22, 42, 74, 0.94),
@@ -44,8 +49,7 @@ html.dark {
   --home-quick-item-border: rgba(182, 224, 255, 0.06);
   --home-quick-item-hover-bg: linear-gradient(180deg, rgba(28, 52, 87, 0.8), rgba(14, 29, 54, 0.7));
   --home-quick-item-hover-border: rgba(182, 224, 255, 0.16);
-  --home-quick-item-hover-shadow:
-    0 12px 18px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --home-quick-item-hover-shadow: 0 12px 18px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   --home-quick-meta-bg: rgba(18, 37, 69, 0.62);
   --home-quick-meta-border: rgba(182, 224, 255, 0.08);
   --home-quick-arrow-bg: rgba(18, 37, 69, 0.18);
@@ -55,9 +59,8 @@ html.dark {
   --home-quick-icon-surface-border: rgba(255, 255, 255, 0.14);
   --home-quick-icon-surface-highlight: rgba(255, 255, 255, 0.14);
   --home-quick-icon-svg-shadow: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.24));
-  /* Home Hero Section Tokens */
-  --home-hero-cover-art: linear-gradient(180deg, rgba(8, 18, 38, 0.12), rgba(8, 18, 38, 0.4));
-  /* Bookshelf Presentation Tokens */
+
+  /* Home Bookshelf Presentation Tokens */
   --home-bookshelf-media-bg: linear-gradient(
     180deg,
     rgba(22, 42, 74, 0.64),
@@ -97,8 +100,7 @@ html.dark {
     rgba(255, 255, 255, 0.02)
   );
   --home-bookshelf-cover-border: rgba(255, 255, 255, 0.14);
-  --home-bookshelf-cover-shadow:
-    0 18px 28px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  --home-bookshelf-cover-shadow: 0 18px 28px rgba(0, 0, 0, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.12);
   --home-bookshelf-cover-sheen: rgba(255, 255, 255, 0.12);
   --home-bookshelf-cover-spine: rgba(255, 255, 255, 0.12);
   --home-bookshelf-cover-line: rgba(241, 248, 255, 0.62);

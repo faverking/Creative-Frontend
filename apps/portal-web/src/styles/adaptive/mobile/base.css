@@ -1,4 +1,5 @@
 ﻿:root[data-portal-viewport='mobile'] {
+  /* Portal mobile frame and route stages */
   --portal-frame-width: 100%;
   --portal-stage-padding-inline: 12px;
   --portal-stage-padding-top: 12px;
@@ -7,36 +8,21 @@
   --portal-boundary-panel-padding-inline: 14px;
   --portal-home-stage-padding-inline: 12px;
   --portal-browse-stage-max-width: 100%;
-
-  --home-section-gap-x: 16px;
-  --home-section-gap-y: 26px;
-  --home-main-col: minmax(0, 1fr);
-  --home-side-col: minmax(0, 1fr);
-  --home-middle-main-col: minmax(0, 1fr);
-  --home-middle-side-col: minmax(0, 1fr);
-  --home-article-feature-col: minmax(0, 1fr);
-  --home-article-list-col: minmax(0, 1fr);
-  --home-bottom-side-col: minmax(0, 1fr);
-  --home-bottom-main-col: minmax(0, 1fr);
-  --home-hero-feature-cover-width: 100%;
-  --home-card-padding-xs: 14px;
-
+  --portal-content-section-gap-x: 16px;
+  --portal-content-section-gap-y: 26px;
+  --portal-content-card-padding-xs: 14px;
   --portal-module-gap: 12px;
-
+  --portal-module-article-feature-col: minmax(0, 1fr);
+  --portal-module-article-list-col: minmax(0, 1fr);
   --portal-detail-stage-gap: 14px;
   --portal-detail-stage-max-width: 100%;
   --portal-gallery-detail-stage-max-width: 100%;
   --portal-detail-layout-columns: minmax(0, 1fr);
   --portal-detail-sticky-top: 12px;
-  --home-detail-main-panel-padding-top: 18px;
-  --home-detail-main-panel-padding-inline: 16px;
-  --home-detail-main-panel-padding-bottom: 20px;
-
   --portal-book-reader-novel-content-width: 100%;
   --portal-book-reader-comic-content-width: 100%;
   --portal-book-reader-paper-padding-inline: 18px;
   --portal-book-reader-catalog-width: min(100%, 320px);
-
   --portal-workspace-stage-max-width: 100%;
   --portal-workspace-stage-gap: 16px;
   --portal-workspace-layout-columns: 1fr;
@@ -51,10 +37,26 @@
   --portal-workspace-sidebar-position: static;
   --portal-workspace-sidebar-top: 0;
 
+  /* Public detail mobile panel */
+  --public-detail-main-panel-padding-top: 18px;
+  --public-detail-main-panel-padding-inline: 16px;
+  --public-detail-main-panel-padding-bottom: 20px;
+
+  /* Home mobile layout */
+  --home-main-col: minmax(0, 1fr);
+  --home-side-col: minmax(0, 1fr);
+  --home-middle-main-col: minmax(0, 1fr);
+  --home-middle-side-col: minmax(0, 1fr);
+  --home-bottom-side-col: minmax(0, 1fr);
+  --home-bottom-main-col: minmax(0, 1fr);
+  --home-hero-feature-cover-width: 100%;
+
+  /* Workspace favorite mobile layout */
   --workspace-favorite-card-columns: 1fr;
   --workspace-favorite-cover-width: 100%;
   --workspace-favorite-aside-justify-items: start;
 
+  /* Workspace history mobile layout */
   --workspace-history-group-columns: 1fr;
   --workspace-history-group-head-position: static;
   --workspace-history-track-padding-left: 0;

@@ -1,139 +1,139 @@
 html.dark {
   /* Public Detail Surface Tokens */
-  --home-surface: rgba(9, 18, 34, 0.84);
-  --home-detail-panel-radius: 18px;
-  --home-detail-card-radius: 18px;
-  --home-detail-panel-border: rgba(182, 224, 255, 0.14);
-  --home-detail-divider: color-mix(in srgb, var(--home-detail-panel-border) 82%, transparent);
-  --home-detail-panel-bg: linear-gradient(180deg, rgba(14, 29, 53, 0.84), rgba(10, 22, 43, 0.9));
-  --home-detail-panel-shadow:
+  --public-detail-surface: rgba(9, 18, 34, 0.84);
+  --public-detail-panel-radius: 18px;
+  --public-detail-card-radius: 18px;
+  --public-detail-panel-border: rgba(182, 224, 255, 0.14);
+  --public-detail-divider: color-mix(in srgb, var(--public-detail-panel-border) 82%, transparent);
+  --public-detail-panel-bg: linear-gradient(180deg, rgba(14, 29, 53, 0.84), rgba(10, 22, 43, 0.9));
+  --public-detail-panel-shadow:
     0 6px 14px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  --home-detail-main-panel-bottom-fade-color: rgba(10, 22, 43, 0.94);
-  --home-detail-panel-top-gloss:
+  --public-detail-main-panel-bottom-fade-color: rgba(10, 22, 43, 0.94);
+  --public-detail-panel-top-gloss:
     radial-gradient(circle at 18% 0%, rgba(121, 225, 255, 0.06), transparent 24%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0) 22%);
-  --home-detail-panel-inner-border: rgba(255, 255, 255, 0.06);
-  --home-detail-card-bg: linear-gradient(180deg, rgba(23, 45, 78, 0.78), rgba(14, 29, 54, 0.68));
-  --home-detail-card-primary-bg: linear-gradient(
+  --public-detail-panel-inner-border: rgba(255, 255, 255, 0.06);
+  --public-detail-card-bg: linear-gradient(180deg, rgba(23, 45, 78, 0.78), rgba(14, 29, 54, 0.68));
+  --public-detail-card-primary-bg: linear-gradient(
     135deg,
     rgba(121, 225, 255, 0.2),
     rgba(108, 203, 255, 0.16),
     rgba(122, 132, 246, 0.16)
   );
-  --home-detail-card-border: rgba(182, 224, 255, 0.12);
-  --home-detail-card-shadow:
+  --public-detail-card-border: rgba(182, 224, 255, 0.12);
+  --public-detail-card-shadow:
     0 4px 10px rgba(0, 0, 0, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  --home-detail-glass-bg: linear-gradient(180deg, rgba(16, 34, 61, 0.86), rgba(10, 22, 43, 0.92));
-  --home-detail-glass-border: rgba(182, 224, 255, 0.14);
-  --home-detail-glass-bg-emphasis: linear-gradient(
+  --public-detail-glass-bg: linear-gradient(180deg, rgba(16, 34, 61, 0.86), rgba(10, 22, 43, 0.92));
+  --public-detail-glass-border: rgba(182, 224, 255, 0.14);
+  --public-detail-glass-bg-emphasis: linear-gradient(
     180deg,
     rgba(25, 49, 83, 0.96),
     rgba(12, 27, 50, 0.96)
   );
-  --home-detail-glass-border-emphasis: rgba(182, 224, 255, 0.24);
-  --home-detail-glass-shadow-emphasis:
+  --public-detail-glass-border-emphasis: rgba(182, 224, 255, 0.24);
+  --public-detail-glass-shadow-emphasis:
     0 6px 14px rgba(0, 0, 0, 0.14), 0 0 10px rgba(121, 225, 255, 0.05),
     inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  --home-detail-glass-gloss:
+  --public-detail-glass-gloss:
     radial-gradient(circle at 18% 0%, rgba(121, 225, 255, 0.12), transparent 24%),
     radial-gradient(circle at 82% 18%, rgba(122, 132, 246, 0.1), transparent 22%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0));
-  --home-detail-glass-ink: #f5fbff;
-  --home-detail-section-icon-shadow: drop-shadow(0 8px 16px rgba(121, 225, 255, 0.16));
-  --home-detail-button-bg: linear-gradient(180deg, rgba(16, 34, 60, 0.84), rgba(10, 24, 46, 0.8));
-  --home-detail-button-border: rgba(182, 224, 255, 0.18);
-  --home-detail-button-shadow:
+  --public-detail-glass-ink: #f5fbff;
+  --public-detail-section-icon-shadow: drop-shadow(0 8px 16px rgba(121, 225, 255, 0.16));
+  --public-detail-button-bg: linear-gradient(180deg, rgba(16, 34, 60, 0.84), rgba(10, 24, 46, 0.8));
+  --public-detail-button-border: rgba(182, 224, 255, 0.18);
+  --public-detail-button-shadow:
     0 6px 12px rgba(0, 0, 0, 0.13), inset 0 1px 0 rgba(255, 255, 255, 0.06);
   /* Public Detail Heading Tokens */
-  --home-detail-heading-accent-neutral: color-mix(
+  --public-detail-heading-accent-neutral: color-mix(
     in srgb,
-    var(--home-muted) 52%,
+    var(--portal-content-muted) 52%,
     rgba(182, 224, 255, 0.16)
   );
   /* Public Detail Info Row Tokens */
-  --home-detail-info-row-border: color-mix(
+  --public-detail-info-row-border: color-mix(
     in srgb,
-    var(--home-detail-glass-border-emphasis) 82%,
+    var(--public-detail-glass-border-emphasis) 82%,
     transparent
   );
-  --home-detail-info-row-bg:
+  --public-detail-info-row-bg:
     linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.01)),
-    color-mix(in srgb, var(--home-detail-glass-bg-emphasis) 86%, transparent);
-  --home-detail-info-row-shadow:
+    color-mix(in srgb, var(--public-detail-glass-bg-emphasis) 86%, transparent);
+  --public-detail-info-row-shadow:
     0 4px 10px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  --home-detail-info-row-label-ink: color-mix(in srgb, var(--home-muted) 92%, transparent);
+  --public-detail-info-row-label-ink: color-mix(in srgb, var(--portal-content-muted) 92%, transparent);
   /* Public Detail Author Card Tokens */
-  --home-detail-author-avatar-tone-article: linear-gradient(
+  --public-detail-author-avatar-tone-article: linear-gradient(
     160deg,
     rgba(80, 196, 255, 0.18),
     rgba(61, 110, 222, 0.08)
   );
-  --home-detail-author-avatar-tone-topic: linear-gradient(
+  --public-detail-author-avatar-tone-topic: linear-gradient(
     160deg,
     rgba(226, 140, 182, 0.18),
     rgba(158, 88, 150, 0.08)
   );
-  --home-detail-author-avatar-tone-gallery: linear-gradient(
+  --public-detail-author-avatar-tone-gallery: linear-gradient(
     160deg,
     rgba(112, 214, 188, 0.18),
     rgba(58, 126, 105, 0.08)
   );
-  --home-detail-author-avatar-ring: rgba(154, 224, 255, 0.34);
-  --home-detail-author-avatar-shadow:
+  --public-detail-author-avatar-ring: rgba(154, 224, 255, 0.34);
+  --public-detail-author-avatar-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 16px 26px rgba(0, 0, 0, 0.24),
     0 0 0 1px rgba(121, 225, 255, 0.1);
-  --home-detail-author-bio-ink: color-mix(in srgb, var(--home-muted) 92%, transparent);
+  --public-detail-author-bio-ink: color-mix(in srgb, var(--portal-content-muted) 92%, transparent);
   /* Public Detail Gallery Viewer Tokens */
-  --home-detail-preview-frame-border: rgba(121, 225, 255, 0.78);
-  --home-detail-preview-frame-ring: rgba(122, 132, 246, 0.34);
-  --home-detail-preview-frame-shadow:
+  --public-detail-preview-frame-border: rgba(121, 225, 255, 0.78);
+  --public-detail-preview-frame-ring: rgba(122, 132, 246, 0.34);
+  --public-detail-preview-frame-shadow:
     0 28px 52px rgba(0, 0, 0, 0.34), 0 0 28px rgba(121, 225, 255, 0.18),
     0 0 0 1px rgba(182, 224, 255, 0.08);
-  --home-detail-preview-sheen: linear-gradient(
+  --public-detail-preview-sheen: linear-gradient(
     180deg,
     rgba(121, 225, 255, 0.12),
     rgba(255, 255, 255, 0) 24%
   );
-  --home-detail-preview-label-bg: linear-gradient(
+  --public-detail-preview-label-bg: linear-gradient(
     180deg,
     rgba(17, 34, 61, 0.9),
     rgba(10, 21, 41, 0.92)
   );
-  --home-detail-preview-label-border: rgba(182, 224, 255, 0.16);
-  --home-detail-preview-label-shadow:
+  --public-detail-preview-label-border: rgba(182, 224, 255, 0.16);
+  --public-detail-preview-label-shadow:
     0 6px 12px rgba(0, 0, 0, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.06);
-  --home-detail-preview-overlay: linear-gradient(
+  --public-detail-preview-overlay: linear-gradient(
     180deg,
     rgba(8, 18, 38, 0.08),
     rgba(8, 18, 38, 0.4)
   );
-  --home-detail-footer-highlight: linear-gradient(
+  --public-detail-footer-highlight: linear-gradient(
     90deg,
     rgba(121, 225, 255, 0),
     rgba(121, 225, 255, 0.48),
     rgba(121, 225, 255, 0)
   );
-  --home-detail-thumb-active-ring: rgba(121, 225, 255, 0.4);
-  --home-detail-thumb-active-glow: rgba(121, 225, 255, 0.26);
-  --home-detail-scrollbar-thumb-bg: linear-gradient(
+  --public-detail-thumb-active-ring: rgba(121, 225, 255, 0.4);
+  --public-detail-thumb-active-glow: rgba(121, 225, 255, 0.26);
+  --public-detail-scrollbar-thumb-bg: linear-gradient(
     180deg,
     rgba(109, 185, 224, 0.84),
     rgba(61, 110, 169, 0.92)
   );
-  --home-detail-scrollbar-thumb-hover-bg: linear-gradient(
+  --public-detail-scrollbar-thumb-hover-bg: linear-gradient(
     180deg,
     rgba(128, 204, 238, 0.9),
     rgba(74, 126, 188, 0.96)
   );
-  --home-detail-scrollbar-thumb-border: rgba(10, 24, 46, 0.88);
+  --public-detail-scrollbar-thumb-border: rgba(10, 24, 46, 0.88);
 }
 /* Component-Level Public Detail Overrides */
 html.dark .public-detail-hero__meta-divider {
   background: linear-gradient(
     90deg,
     rgba(255, 255, 255, 0),
-    color-mix(in srgb, var(--home-line) 82%, rgba(187, 229, 255, 0.18)),
+    color-mix(in srgb, var(--portal-content-line) 82%, rgba(187, 229, 255, 0.18)),
     rgba(255, 255, 255, 0)
   );
 }

@@ -1,0 +1,28 @@
+:root[data-portal-viewport='mobile'] .portal-module-filter-panel {
+  position: static;
+  padding: 14px;
+  border-radius: 18px;
+}
+
+:root[data-portal-viewport='mobile'] .portal-module-filter-panel__categories,
+:root[data-portal-viewport='mobile'] .portal-module-filter-panel__toolbar,
+:root[data-portal-viewport='mobile'] .portal-module-filter-panel__search-row {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+:root[data-portal-viewport='mobile'] .portal-module-filter-panel__categories,
+:root[data-portal-viewport='mobile'] .portal-module-filter-panel__sorts,
+:root[data-portal-viewport='mobile'] .portal-module-filter-panel__actions {
+  width: 100%;
+  overflow-x: auto;
+}
+
+:root[data-portal-viewport='mobile'] .portal-module-filter-panel__category,
+:root[data-portal-viewport='mobile'] .portal-module-filter-panel__sort,
+:root[data-portal-viewport='mobile'] .portal-module-filter-panel__button {
+  flex: 0 0 auto;
+}
+
+:root[data-portal-viewport='mobile'] .portal-module-filter-panel__button {
+  min-height: 36px;
+}

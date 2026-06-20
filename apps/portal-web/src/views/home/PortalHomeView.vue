@@ -324,12 +324,12 @@ function createEmptyHomeResponse(): HomeResponse {
   padding: var(--portal-stage-padding-top) var(--portal-home-stage-padding-inline) 0;
   box-sizing: border-box;
   display: grid;
-  gap: var(--home-section-gap-y);
+  gap: var(--portal-content-section-gap-y);
 }
 
 .portal-home-page__row {
   display: grid;
-  gap: var(--home-section-gap-x);
+  gap: var(--portal-content-section-gap-x);
   align-items: stretch;
 }
 

@@ -218,7 +218,11 @@ const cardAriaLabel = computed(
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0) 54%),
     color-mix(in srgb, var(--portal-module-card-tag-bg) 86%, rgba(255, 255, 255, 0.18));
-  color: color-mix(in srgb, var(--portal-module-card-tag-accent) 82%, var(--home-ink) 18%);
+  color: color-mix(
+    in srgb,
+    var(--portal-module-card-tag-accent) 82%,
+    var(--portal-content-ink) 18%
+  );
   box-shadow:
     0 8px 16px color-mix(in srgb, var(--portal-module-card-tag-accent) 10%, rgba(18, 41, 74, 0.08)),
     inset 0 1px 0 rgba(255, 255, 255, 0.24);
@@ -253,8 +257,8 @@ const cardAriaLabel = computed(
   position: relative;
   z-index: 1;
   overflow: hidden;
-  border: 1px solid var(--home-media-panel-border);
-  background: var(--home-gallery-tile-bg);
+  border: 1px solid var(--portal-browse-media-panel-border);
+  background: var(--gallery-module-tile-bg);
   box-shadow: var(--portal-browse-media-shadow);
   transition:
     border-color 180ms ease,
@@ -264,13 +268,13 @@ const cardAriaLabel = computed(
 
 .gallery-module-card:hover .gallery-module-card__cover-shell,
 .gallery-module-card:focus-within .gallery-module-card__cover-shell {
-  border-color: var(--home-feature-ribbon-border);
+  border-color: var(--portal-content-feature-ribbon-border);
   box-shadow: var(--portal-browse-media-shadow);
-  filter: var(--home-card-hover-filter);
+  filter: var(--portal-content-card-hover-filter);
 }
 
 .gallery-module-card:focus-visible .gallery-module-card__cover-shell {
-  border-color: var(--home-feature-ribbon-border);
+  border-color: var(--portal-content-feature-ribbon-border);
   box-shadow:
     0 0 0 4px var(--portal-focus-ring),
     var(--portal-browse-media-shadow);
@@ -281,7 +285,7 @@ const cardAriaLabel = computed(
   position: absolute;
   inset: var(--gallery-module-card-inner-frame-inset-local);
   z-index: 1;
-  border: 1px solid var(--home-media-frame-border);
+  border: 1px solid var(--portal-browse-media-frame-border);
   border-radius: var(--gallery-module-card-inner-frame-radius-local);
   opacity: var(--gallery-module-card-inner-frame-opacity);
   pointer-events: none;
@@ -316,7 +320,7 @@ const cardAriaLabel = computed(
 .gallery-module-card__copy h3 {
   margin: 0;
   min-height: 2.76em;
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
   font-size: 14px;
   line-height: 1.38;
   letter-spacing: 0;
@@ -340,7 +344,7 @@ const cardAriaLabel = computed(
 .gallery-module-card__meta-text {
   display: block;
   min-width: 0;
-  color: color-mix(in srgb, var(--home-detail-glass-ink) 80%, transparent);
+  color: color-mix(in srgb, var(--public-detail-glass-ink) 80%, transparent);
   font-size: 12px;
   font-weight: 600;
   line-height: 1.5;
@@ -352,7 +356,7 @@ const cardAriaLabel = computed(
 
 .gallery-module-card__time {
   flex: 0 0 auto;
-  color: color-mix(in srgb, var(--home-muted) 78%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 78%, transparent);
   font-size: 12px;
   font-weight: 700;
   line-height: 1.5;

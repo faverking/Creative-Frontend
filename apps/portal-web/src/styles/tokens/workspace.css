@@ -1,32 +1,30 @@
 :root {
   /* Workspace Surface Tokens */
-  --workspace-messages-accent: var(--home-business-article-accent);
-  --workspace-messages-accent-soft: var(--home-business-article-accent-soft);
-  --workspace-favorites-accent: var(--home-business-bookshelf-accent);
-  --workspace-favorites-accent-soft: var(--home-business-bookshelf-accent-soft);
-  --workspace-history-accent: var(--home-business-topic-accent);
-  --workspace-history-accent-soft: var(--home-business-topic-accent-soft);
-  --workspace-surface-base-bg:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(248, 251, 255, 0.08)),
-    color-mix(in srgb, var(--home-detail-panel-bg) 90%, white 10%);
-  --workspace-surface-base-border: color-mix(
-    in srgb,
-    var(--home-detail-panel-border) 88%,
-    white 12%
+  --workspace-messages-accent: var(--portal-content-article-accent);
+  --workspace-messages-accent-soft: var(--portal-content-article-accent-soft);
+  --workspace-favorites-accent: var(--portal-content-bookshelf-accent);
+  --workspace-favorites-accent-soft: var(--portal-content-bookshelf-accent-soft);
+  --workspace-history-accent: var(--portal-content-topic-accent);
+  --workspace-history-accent-soft: var(--portal-content-topic-accent-soft);
+  --workspace-surface-base-bg: linear-gradient(
+    180deg,
+    rgba(248, 251, 254, 0.863),
+    rgba(232, 240, 248, 0.785)
   );
+  --workspace-surface-base-border: rgba(138, 171, 206, 0.296);
   --workspace-surface-base-shadow:
     0 1px 3px rgba(18, 41, 74, 0.012), inset 0 1px 0 rgba(255, 255, 255, 0.16);
   --workspace-surface-radius: 16px;
   --workspace-card-base-bg:
     linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.03)),
-    color-mix(in srgb, var(--home-detail-card-bg) 96%, white 4%);
-  --workspace-card-base-border: var(--portal-module-filter-border);
+    linear-gradient(180deg, rgba(249, 253, 255, 0.9), rgba(236, 244, 251, 0.8));
+  --workspace-card-base-border: rgba(122, 160, 199, 0.18);
   --workspace-card-base-shadow:
     0 4px 10px rgba(18, 41, 74, 0.032), inset 0 1px 0 rgba(255, 255, 255, 0.16);
   --workspace-card-radius: 18px;
   --workspace-card-subtle-base-bg:
     linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
-    color-mix(in srgb, var(--home-detail-card-bg) 72%, white 28%);
+    rgba(244, 249, 255, 0.78);
   --workspace-media-base-bg:
     linear-gradient(180deg, rgba(255, 255, 255, 0.28), rgba(255, 255, 255, 0.08)),
     rgba(244, 249, 255, 0.78);
@@ -41,20 +39,22 @@
     rgba(255, 255, 255, 0.94),
     rgba(255, 255, 255, 0.78)
   );
-  --workspace-control-bg: var(--portal-module-filter-button-bg);
-  --workspace-control-border: var(--portal-module-filter-button-border);
-  --workspace-control-ink: var(--portal-module-filter-button-ink);
-  --workspace-control-primary-bg: var(--portal-module-filter-button-primary-bg);
-  --workspace-control-primary-border: var(--portal-module-filter-button-primary-border);
+  --workspace-control-bg: rgba(248, 252, 255, 0.3);
+  --workspace-control-border: rgba(122, 160, 199, 0.12);
+  --workspace-control-ink: color-mix(in srgb, var(--portal-ink-strong) 78%, transparent);
+  --workspace-control-primary-bg: rgba(252, 254, 255, 0.48);
+  --workspace-control-primary-border: rgba(136, 175, 226, 0.26);
   --workspace-control-primary-ink: color-mix(in srgb, var(--portal-ink-strong) 88%, transparent);
   --workspace-control-danger-bg: color-mix(in srgb, #db5b6b 10%, rgba(255, 255, 255, 0.82));
   --workspace-control-danger-border: color-mix(in srgb, #db5b6b 28%, transparent);
   --workspace-control-danger-ink: #b64353;
-  --workspace-input-bg: var(--portal-module-filter-input-bg);
-  --workspace-input-border: var(--portal-module-filter-input-border);
-  --workspace-card-padding: var(--home-card-padding-sm);
-  --workspace-section-gap: var(--home-card-gap-loose);
-  --workspace-action-stack-gap: var(--home-card-gap-base);
+  --workspace-input-bg: rgba(255, 255, 255, 0.54);
+  --workspace-input-border: rgba(122, 160, 199, 0.12);
+  --workspace-card-padding: var(--portal-content-card-padding-sm);
+  --workspace-section-gap: var(--portal-content-card-gap-loose);
+  --workspace-section-title-size: 18px;
+  --workspace-section-title-tracking: 0;
+  --workspace-action-stack-gap: var(--portal-content-card-gap-base);
   --workspace-action-column-width: 108px;
   --workspace-action-column-min-height: 58px;
   --workspace-action-button-height: 32px;
@@ -64,8 +64,8 @@
   --workspace-history-group-columns: 112px minmax(0, 1fr);
   --workspace-history-track-padding-left: 28px;
   --workspace-history-card-columns: 116px minmax(0, 1fr) var(--workspace-action-column-width);
-  --workspace-stage-top-space: var(--home-copy-gap-base);
-  --workspace-meta-divider: color-mix(in srgb, var(--home-line) 78%, transparent);
+  --workspace-stage-top-space: var(--portal-content-copy-gap-base);
+  --workspace-meta-divider: color-mix(in srgb, var(--portal-content-line) 78%, transparent);
   --workspace-meta-divider-gap: 10px;
   --workspace-meta-divider-height: 10px;
   --workspace-tab-text: var(--portal-muted);

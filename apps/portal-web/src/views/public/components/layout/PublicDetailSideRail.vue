@@ -23,8 +23,8 @@ withDefaults(
   --public-detail-side-rail-divider-gap-after: 22px;
   display: grid;
   gap: 0;
-  border-color: color-mix(in srgb, var(--home-detail-panel-border) 82%, transparent);
-  box-shadow: var(--home-detail-panel-shadow);
+  border-color: color-mix(in srgb, var(--public-detail-panel-border) 82%, transparent);
+  box-shadow: var(--public-detail-panel-shadow);
 }
 
 .public-detail-side-rail::before {
@@ -39,6 +39,6 @@ withDefaults(
   :deep(.public-detail-side-rail__section + .public-detail-side-rail__section) {
   margin-top: var(--public-detail-side-rail-divider-gap-before);
   padding-top: var(--public-detail-side-rail-divider-gap-after);
-  border-top: 1px solid var(--home-line);
+  border-top: 1px solid var(--portal-content-line);
 }
 </style>

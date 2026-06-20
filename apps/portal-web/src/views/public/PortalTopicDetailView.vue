@@ -502,7 +502,7 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
 }
 
 .portal-topic-detail-page :deep(.portal-request-boundary__state) {
-  --portal-request-boundary-accent: var(--home-business-topic-accent);
+  --portal-request-boundary-accent: var(--portal-content-topic-accent);
   min-height: 280px;
   padding: var(--portal-boundary-panel-padding-block) var(--portal-boundary-panel-padding-inline);
   border: 1px solid
@@ -511,7 +511,7 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
       var(--portal-request-boundary-accent) 14%,
       var(--portal-request-state-border)
     );
-  border-radius: var(--home-detail-panel-radius);
+  border-radius: var(--public-detail-panel-radius);
   background:
     linear-gradient(
       180deg,
@@ -519,24 +519,24 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
       transparent 74%
     ),
     var(--portal-request-state-bg);
-  box-shadow: var(--home-detail-panel-shadow);
+  box-shadow: var(--public-detail-panel-shadow);
 }
 
 .portal-topic-detail-page__layout {
   display: grid;
   grid-template-columns: var(--portal-detail-layout-columns);
-  gap: var(--home-detail-column-gap);
+  gap: var(--public-detail-column-gap);
   align-items: start;
 }
 
 .portal-topic-detail-page__body-panel {
   --portal-topic-detail-body-max-width: 772px;
   --portal-topic-detail-shell-width: 936px;
-  --portal-topic-detail-section-gap: var(--home-detail-main-section-gap);
+  --portal-topic-detail-section-gap: var(--public-detail-main-section-gap);
   --public-detail-comments-gap-before: var(--portal-topic-detail-section-gap);
-  --public-detail-comments-divider-gap: var(--home-detail-comments-divider-gap);
-  --public-detail-panel-padding-override: var(--home-detail-main-panel-padding-top)
-    var(--home-detail-main-panel-padding-inline) var(--home-detail-main-panel-padding-bottom);
+  --public-detail-comments-divider-gap: var(--public-detail-comments-divider-gap);
+  --public-detail-panel-padding-override: var(--public-detail-main-panel-padding-top)
+    var(--public-detail-main-panel-padding-inline) var(--public-detail-main-panel-padding-bottom);
   display: grid;
   justify-items: center;
   align-content: start;
@@ -549,14 +549,14 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
 
 .portal-topic-detail-page__body {
   --public-detail-rich-text-max-width: var(--portal-topic-detail-body-max-width);
-  --public-detail-rich-text-outset: var(--home-detail-rich-text-outset);
+  --public-detail-rich-text-outset: var(--public-detail-rich-text-outset);
 }
 
 .portal-topic-detail-page__side {
   position: sticky;
   top: var(--portal-detail-sticky-top);
   display: grid;
-  gap: var(--home-detail-side-stack-gap);
+  gap: var(--public-detail-side-stack-gap);
   align-content: start;
 }
 

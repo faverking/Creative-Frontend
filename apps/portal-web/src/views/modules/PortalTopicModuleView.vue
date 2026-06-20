@@ -352,7 +352,7 @@ function handleCategoryChange(value?: string | number): void {
 <style scoped>
 .portal-topic-module-page {
   --portal-topic-module-card-radius-local: 18px;
-  --portal-topic-module-card-padding-local: var(--home-card-padding-xs);
+  --portal-topic-module-card-padding-local: var(--portal-content-card-padding-xs);
   --portal-topic-module-title-line-height-local: calc(18px * 1.34);
   --portal-topic-module-summary-line-height-local: calc(13px * 1.68);
   --portal-topic-module-summary-height-local: calc(
@@ -385,7 +385,7 @@ function handleCategoryChange(value?: string | number): void {
 }
 
 .portal-topic-module-page__results :deep(.portal-request-boundary__state) {
-  --portal-request-boundary-accent: var(--home-business-topic-accent);
+  --portal-request-boundary-accent: var(--portal-content-topic-accent);
   min-height: 320px;
   padding: var(--portal-boundary-panel-padding-block) var(--portal-boundary-panel-padding-inline);
   border: 1px solid
@@ -418,9 +418,9 @@ function handleCategoryChange(value?: string | number): void {
   gap: 12px;
   align-items: stretch;
   padding: var(--portal-topic-module-card-padding-local);
-  border: 1px solid var(--home-column-module-border);
+  border: 1px solid var(--portal-module-topic-border);
   border-radius: var(--portal-topic-module-card-radius-local);
-  background: var(--home-column-module-surface);
+  background: var(--portal-module-topic-surface);
 }
 
 .portal-topic-module-page__card::after {
@@ -429,7 +429,7 @@ function handleCategoryChange(value?: string | number): void {
   left: 12px;
   right: 12px;
   bottom: 0;
-  border-bottom: 1px dashed var(--home-column-module-divider);
+  border-bottom: 1px dashed var(--portal-module-topic-divider);
   opacity: 0.74;
   pointer-events: none;
 }
@@ -437,8 +437,8 @@ function handleCategoryChange(value?: string | number): void {
 .portal-topic-module-page__card--link {
   --portal-interactive-hover-background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)),
-    var(--home-column-module-surface);
-  --portal-interactive-hover-border: var(--home-column-module-divider-strong);
+    var(--portal-module-topic-surface);
+  --portal-interactive-hover-border: var(--portal-module-topic-divider-strong);
 }
 
 .portal-topic-module-page__link-layer {
@@ -448,11 +448,12 @@ function handleCategoryChange(value?: string | number): void {
 .portal-topic-module-page__media {
   position: relative;
   min-height: 152px;
-  border: 1px solid var(--home-media-panel-border);
+  border: 1px solid var(--portal-browse-media-panel-border);
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 4px 10px rgba(18, 41, 74, 0.04);
-  background: var(--home-media-overlay-soft), var(--home-media-placeholder-surface);
+  background:
+    var(--portal-browse-media-overlay-soft), var(--portal-browse-media-placeholder-surface);
 }
 
 .portal-topic-module-page__media::before {
@@ -460,7 +461,7 @@ function handleCategoryChange(value?: string | number): void {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: var(--home-column-media-overlay);
+  background: var(--portal-module-topic-media-overlay);
 }
 
 .portal-topic-module-page__media-image {
@@ -482,7 +483,7 @@ function handleCategoryChange(value?: string | number): void {
 .portal-topic-module-page__skeleton-footer {
   display: flex;
   align-items: center;
-  gap: var(--home-card-gap-tight);
+  gap: var(--portal-content-card-gap-tight);
   min-width: 0;
 }
 
@@ -497,7 +498,7 @@ function handleCategoryChange(value?: string | number): void {
   justify-content: space-between;
   gap: 12px;
   padding-top: 9px;
-  border-top: 1px dashed var(--home-column-module-divider);
+  border-top: 1px dashed var(--portal-module-topic-divider);
 }
 
 .portal-topic-module-page__meta,
@@ -507,7 +508,7 @@ function handleCategoryChange(value?: string | number): void {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: var(--home-card-gap-tight);
+  gap: var(--portal-content-card-gap-tight);
   min-width: 0;
 }
 
@@ -527,18 +528,18 @@ function handleCategoryChange(value?: string | number): void {
 .portal-topic-module-page__skeleton-pill {
   display: inline-flex;
   align-items: center;
-  height: var(--home-chip-height-xs);
+  height: var(--portal-content-chip-height-xs);
   padding: 0 9px;
   border-radius: 999px;
   font-size: 12px;
   font-weight: 700;
-  line-height: var(--home-chip-height-xs);
+  line-height: var(--portal-content-chip-height-xs);
 }
 
 .portal-topic-module-page__theme-tag {
   flex: 0 1 auto;
   min-width: 0;
-  height: var(--home-chip-height-sm);
+  height: var(--portal-content-chip-height-sm);
   padding: 0 11px 0 12px;
   max-width: min(46%, 176px);
   overflow: hidden;
@@ -551,8 +552,12 @@ function handleCategoryChange(value?: string | number): void {
   box-shadow:
     0 4px 10px color-mix(in srgb, var(--portal-module-card-tag-accent) 9%, rgba(18, 41, 74, 0.08)),
     inset 0 1px 0 rgba(255, 255, 255, 0.42);
-  color: color-mix(in srgb, var(--portal-module-card-tag-accent) 82%, var(--home-ink) 18%);
-  line-height: var(--home-chip-height-sm);
+  color: color-mix(
+    in srgb,
+    var(--portal-module-card-tag-accent) 82%,
+    var(--portal-content-ink) 18%
+  );
+  line-height: var(--portal-content-chip-height-sm);
   letter-spacing: 0.02em;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -574,7 +579,7 @@ function handleCategoryChange(value?: string | number): void {
   min-height: 22px;
   flex: 1 1 auto;
   min-width: 0;
-  color: var(--home-column-module-eyebrow-ink);
+  color: var(--portal-module-topic-eyebrow-ink);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -587,7 +592,7 @@ function handleCategoryChange(value?: string | number): void {
 .portal-topic-module-page__card h2 {
   margin: 0;
   min-width: 0;
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
   font-size: 16px;
   font-weight: 700;
   line-height: var(--portal-topic-module-title-line-height-local);
@@ -599,7 +604,7 @@ function handleCategoryChange(value?: string | number): void {
 
 .portal-topic-module-page__card p {
   margin: 0;
-  color: color-mix(in srgb, var(--home-muted) 82%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 82%, transparent);
   font-size: 13px;
   line-height: var(--portal-topic-module-summary-line-height-local);
   display: -webkit-box;
@@ -618,7 +623,7 @@ function handleCategoryChange(value?: string | number): void {
   font-size: 12px;
   font-weight: 600;
   line-height: 1.35;
-  color: color-mix(in srgb, var(--home-muted) 84%, var(--home-detail-glass-ink) 16%);
+  color: color-mix(in srgb, var(--portal-content-muted) 84%, var(--public-detail-glass-ink) 16%);
 }
 
 .portal-topic-module-page__meta-item {
@@ -633,7 +638,7 @@ function handleCategoryChange(value?: string | number): void {
   top: 50%;
   width: 1px;
   height: 10px;
-  background: var(--home-column-module-divider);
+  background: var(--portal-module-topic-divider);
   transform: translateY(-50%);
 }
 
@@ -641,7 +646,7 @@ function handleCategoryChange(value?: string | number): void {
 .portal-topic-module-page__skeleton-divider {
   width: 1px;
   height: 10px;
-  background: var(--home-column-module-divider);
+  background: var(--portal-module-topic-divider);
   flex: 0 0 auto;
 }
 
@@ -661,13 +666,13 @@ function handleCategoryChange(value?: string | number): void {
   top: 50%;
   width: 1px;
   height: 10px;
-  background: var(--home-column-module-divider);
+  background: var(--portal-module-topic-divider);
   transform: translateY(-50%);
 }
 
 .portal-topic-module-page__metric-icon {
   flex: 0 0 auto;
-  color: var(--home-column-module-meta-icon-ink);
+  color: var(--portal-module-topic-meta-icon-ink);
 }
 
 .portal-topic-module-page__media--skeleton,
@@ -682,11 +687,11 @@ function handleCategoryChange(value?: string | number): void {
 .portal-topic-module-page__skeleton-block,
 .portal-topic-module-page__skeleton-pill {
   overflow: hidden;
-  border: 1px solid var(--home-skeleton-border);
+  border: 1px solid var(--portal-skeleton-border);
   background: linear-gradient(
     135deg,
-    var(--home-skeleton-block-strong),
-    var(--home-skeleton-block)
+    var(--portal-skeleton-block-strong),
+    var(--portal-skeleton-block)
   );
 }
 
@@ -697,7 +702,7 @@ function handleCategoryChange(value?: string | number): void {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--home-skeleton-shimmer);
+  background: var(--portal-skeleton-shimmer);
   animation: home-skeleton-wave 2.4s ease-in-out infinite;
   transform: translateX(-100%);
 }
@@ -720,7 +725,7 @@ function handleCategoryChange(value?: string | number): void {
   flex: 0 0 auto;
   margin-left: auto;
   width: 72px;
-  height: var(--home-chip-height-sm);
+  height: var(--portal-content-chip-height-sm);
   border-radius: 11px 15px 13px 11px;
 }
 
@@ -761,37 +766,37 @@ function handleCategoryChange(value?: string | number): void {
 
 .portal-topic-module-page__skeleton-block--title {
   width: 82%;
-  height: var(--home-skeleton-title-md-height);
+  height: var(--portal-skeleton-title-md-height);
 }
 
 .portal-topic-module-page__skeleton-block--summary {
   width: 100%;
-  height: var(--home-skeleton-copy-13-height);
+  height: var(--portal-skeleton-copy-13-height);
 }
 
 .portal-topic-module-page__skeleton-block--summary-short {
   width: 78%;
-  height: var(--home-skeleton-copy-13-height);
+  height: var(--portal-skeleton-copy-13-height);
 }
 
 .portal-topic-module-page__skeleton-block--eyebrow {
   width: 74px;
-  height: var(--home-skeleton-copy-12-height);
+  height: var(--portal-skeleton-copy-12-height);
 }
 
 .portal-topic-module-page__skeleton-block--meta-feature {
   width: 74px;
-  height: var(--home-skeleton-copy-12-height);
+  height: var(--portal-skeleton-copy-12-height);
 }
 
 .portal-topic-module-page__skeleton-block--author {
   width: 56px;
-  height: var(--home-skeleton-copy-12-height);
+  height: var(--portal-skeleton-copy-12-height);
 }
 
 .portal-topic-module-page__skeleton-block--time {
   width: 60px;
-  height: var(--home-skeleton-copy-12-height);
+  height: var(--portal-skeleton-copy-12-height);
 }
 
 .portal-topic-module-page__skeleton-pill--metric {

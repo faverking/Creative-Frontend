@@ -74,12 +74,18 @@ not in this file.
 - Keep adaptive structure limited to `rem-root.css`, `shared.css`,
   `desktop.css`, and `adaptive/mobile/*`.
 - Global portal token layers are fixed: `foundation`, `shared-components`,
-  `home`, `public-detail`, `modules`, and `workspace`. Mirror dark tokens with
-  the same semantic names and ownership.
+  `browse`, `home`, `public-detail`, `modules`, and `workspace`. Mirror dark
+  tokens with the same semantic names and ownership.
+- Route CSS is grouped by responsibility: `routes/public-browse.css` loads
+  `browse + home + modules`, `routes/public-detail.css` loads
+  `browse + public-detail`, and `routes/workspace.css` loads only `workspace`
+  plus route-level shared mobile component rules.
 - Promote tokens to global only for stable cross-page or cross-component
   semantics. Keep one-off sizes and component implementation details local.
 - Home and public module surfaces should share the browse-stage baseline unless
   a real density, column, or media-ratio difference requires local variance.
+- Workspace styles may reference foundation and workspace tokens, but must not
+  consume `browse`, `modules`, or `public-detail` tokens.
 - Public content requests must use the existing public request/result patterns;
   pages should render true loading, error, empty, and ready states rather than
   fallback static data.

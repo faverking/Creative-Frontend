@@ -965,17 +965,17 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
 
 <style scoped>
 .portal-book-reader-page {
-  --portal-book-reader-accent: var(--home-business-bookshelf-accent);
+  --portal-book-reader-accent: var(--portal-content-bookshelf-accent);
   --portal-book-reader-font-size: 22px;
-  --portal-book-reader-tool-bg: color-mix(in srgb, var(--home-detail-panel-bg) 86%, transparent);
+  --portal-book-reader-tool-bg: color-mix(in srgb, var(--public-detail-panel-bg) 86%, transparent);
   --portal-book-reader-hover-shadow: 0 4px 10px
     color-mix(in srgb, var(--portal-book-reader-accent) 8%, transparent);
-  --portal-book-reader-panel-shadow: var(--home-detail-panel-shadow);
-  --portal-book-reader-card-shadow: var(--home-detail-card-shadow);
+  --portal-book-reader-panel-shadow: var(--public-detail-panel-shadow);
+  --portal-book-reader-card-shadow: var(--public-detail-card-shadow);
   --portal-book-reader-border: color-mix(
     in srgb,
-    var(--home-business-bookshelf-tag-border) 54%,
-    var(--home-detail-panel-border)
+    var(--portal-content-bookshelf-tag-border) 54%,
+    var(--public-detail-panel-border)
   );
   min-height: calc(100vh - var(--portal-topbar-height));
   overflow-x: clip;
@@ -986,8 +986,8 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
   min-height: 520px;
   padding: var(--portal-boundary-panel-padding-block) var(--portal-boundary-panel-padding-inline);
   border: 1px solid color-mix(in srgb, var(--portal-book-reader-border) 78%, transparent);
-  border-radius: var(--home-detail-panel-radius);
-  background: var(--home-detail-panel-bg);
+  border-radius: var(--public-detail-panel-radius);
+  background: var(--public-detail-panel-bg);
   box-shadow: var(--portal-book-reader-panel-shadow);
 }
 
@@ -1022,12 +1022,16 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
   min-height: 52px;
   padding: 9px 12px;
   border: 1px solid color-mix(in srgb, var(--portal-book-reader-border) 64%, transparent);
-  border-radius: var(--home-detail-panel-radius);
+  border-radius: var(--public-detail-panel-radius);
   background:
-    linear-gradient(180deg, color-mix(in srgb, var(--home-surface) 98%, transparent), transparent),
-    color-mix(in srgb, var(--home-surface) 88%, transparent);
-  backdrop-filter: blur(calc(var(--home-panel-blur) * 0.52));
-  -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.52));
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--public-detail-surface) 98%, transparent),
+      transparent
+    ),
+    color-mix(in srgb, var(--public-detail-surface) 88%, transparent);
+  backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.52));
+  -webkit-backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.52));
 }
 
 .portal-book-reader-page__breadcrumb-link,
@@ -1040,8 +1044,8 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
   min-width: 0;
   border: 1px solid color-mix(in srgb, var(--portal-book-reader-border) 72%, transparent);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--home-detail-card-bg) 76%, transparent);
-  color: color-mix(in srgb, var(--home-business-bookshelf-tag-ink) 92%, var(--home-ink));
+  background: color-mix(in srgb, var(--public-detail-card-bg) 76%, transparent);
+  color: color-mix(in srgb, var(--portal-content-bookshelf-tag-ink) 92%, var(--portal-content-ink));
   font-size: 13px;
   font-weight: 700;
   line-height: 1;
@@ -1070,14 +1074,14 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
 
 .portal-book-reader-page__breadcrumb-current {
   min-width: 0;
-  color: color-mix(in srgb, var(--home-ink) 84%, transparent);
+  color: color-mix(in srgb, var(--portal-content-ink) 84%, transparent);
   font-size: 13px;
   font-weight: 700;
   line-height: 1.35;
 }
 
 .portal-book-reader-page__breadcrumb-separator {
-  color: color-mix(in srgb, var(--home-muted) 72%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 72%, transparent);
   font-size: 13px;
   font-weight: 700;
   line-height: 1;
@@ -1095,7 +1099,7 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
 .portal-book-reader-page__nav-action:hover:not(.is-disabled) {
   transform: translateY(-1px);
   border-color: color-mix(in srgb, var(--portal-book-reader-accent) 38%, transparent);
-  background: color-mix(in srgb, var(--home-business-bookshelf-tag-bg) 72%, white);
+  background: color-mix(in srgb, var(--portal-content-bookshelf-tag-bg) 72%, white);
   box-shadow: var(--portal-book-reader-hover-shadow);
 }
 
@@ -1132,11 +1136,11 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
   gap: 6px;
   padding: 8px;
   border: 1px solid color-mix(in srgb, var(--portal-book-reader-border) 68%, transparent);
-  border-radius: var(--home-detail-panel-radius);
+  border-radius: var(--public-detail-panel-radius);
   background: var(--portal-book-reader-tool-bg);
   box-shadow: var(--portal-book-reader-card-shadow);
-  backdrop-filter: blur(calc(var(--home-panel-blur) * 0.58));
-  -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.58));
+  backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.58));
+  -webkit-backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.58));
 }
 
 .portal-book-reader-page__tool-button,
@@ -1156,7 +1160,7 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
   justify-content: center;
   width: 100%;
   min-height: 30px;
-  color: color-mix(in srgb, var(--home-muted) 88%, var(--home-ink));
+  color: color-mix(in srgb, var(--portal-content-muted) 88%, var(--portal-content-ink));
   font-size: 12px;
   font-weight: 700;
   line-height: 1;
@@ -1164,16 +1168,16 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
 
 .portal-book-reader-page__catalog-toggle {
   min-height: 38px;
-  border-radius: var(--home-detail-panel-radius);
+  border-radius: var(--public-detail-panel-radius);
   background: var(--portal-book-reader-tool-bg);
   box-shadow: var(--portal-book-reader-card-shadow);
-  backdrop-filter: blur(calc(var(--home-panel-blur) * 0.58));
-  -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.58));
+  backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.58));
+  -webkit-backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.58));
 }
 
 .portal-book-reader-page__catalog-toggle.is-active {
   border-color: color-mix(in srgb, var(--portal-book-reader-accent) 44%, transparent);
-  background: color-mix(in srgb, var(--home-business-bookshelf-tag-bg) 70%, white);
+  background: color-mix(in srgb, var(--portal-content-bookshelf-tag-bg) 70%, white);
 }
 
 .portal-book-reader-page__layout {
@@ -1188,16 +1192,16 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
   min-height: 560px;
   padding: 40px var(--portal-book-reader-paper-padding-inline) 50px;
   border: 1px solid color-mix(in srgb, var(--portal-book-reader-border) 78%, transparent);
-  border-radius: var(--home-detail-panel-radius);
+  border-radius: var(--public-detail-panel-radius);
   background:
     linear-gradient(
       180deg,
       color-mix(in srgb, white 12%, transparent),
-      color-mix(in srgb, var(--home-business-bookshelf-accent-soft) 4%, transparent)
+      color-mix(in srgb, var(--portal-content-bookshelf-accent-soft) 4%, transparent)
     ),
-    color-mix(in srgb, var(--home-detail-panel-bg) 92%, white);
+    color-mix(in srgb, var(--public-detail-panel-bg) 92%, white);
   box-shadow: var(--portal-book-reader-panel-shadow);
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
 }
 
 .portal-book-reader-page__paper--comic {
@@ -1220,14 +1224,14 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
 }
 
 .portal-book-reader-page__paper-head span {
-  color: var(--home-muted);
+  color: var(--portal-content-muted);
   font-size: 12px;
   font-weight: 700;
   line-height: 1.2;
 }
 
 .portal-book-reader-page__paper-head h1 {
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
   font-size: 24px;
   line-height: 1.4;
 }
@@ -1251,8 +1255,8 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
   justify-items: center;
   width: min(100%, 760px);
   border: 1px solid color-mix(in srgb, var(--portal-book-reader-border) 64%, transparent);
-  border-radius: var(--home-detail-card-radius);
-  background: color-mix(in srgb, var(--home-detail-card-bg) 72%, transparent);
+  border-radius: var(--public-detail-card-radius);
+  background: color-mix(in srgb, var(--public-detail-card-bg) 72%, transparent);
   box-shadow: var(--portal-book-reader-card-shadow);
 }
 
@@ -1291,13 +1295,13 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
   overflow: hidden;
   padding: 14px 12px 14px 14px;
   border: 1px solid color-mix(in srgb, var(--portal-book-reader-border) 78%, transparent);
-  border-radius: var(--home-detail-panel-radius);
+  border-radius: var(--public-detail-panel-radius);
   background:
     linear-gradient(180deg, color-mix(in srgb, white 12%, transparent), transparent),
-    color-mix(in srgb, var(--home-detail-panel-bg) 92%, transparent);
+    color-mix(in srgb, var(--public-detail-panel-bg) 92%, transparent);
   box-shadow: var(--portal-book-reader-panel-shadow);
-  backdrop-filter: blur(calc(var(--home-panel-blur) * 0.62));
-  -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.62));
+  backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.62));
+  -webkit-backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.62));
 }
 
 .portal-book-reader-page__catalog-head {
@@ -1310,13 +1314,13 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
 }
 
 .portal-book-reader-page__catalog-head strong {
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
   font-size: 15px;
   line-height: 1.25;
 }
 
 .portal-book-reader-page__catalog-head span {
-  color: var(--home-muted);
+  color: var(--portal-content-muted);
   font-size: 12px;
   font-weight: 700;
   line-height: 1;
@@ -1342,13 +1346,13 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
 }
 
 .portal-book-reader-page__catalog-scrollbar :deep(.el-scrollbar__thumb) {
-  border: 1px solid var(--home-detail-scrollbar-thumb-border);
-  background: var(--home-detail-scrollbar-thumb-bg);
+  border: 1px solid var(--public-detail-scrollbar-thumb-border);
+  background: var(--public-detail-scrollbar-thumb-bg);
   opacity: 1;
 }
 
 .portal-book-reader-page__catalog-scrollbar :deep(.el-scrollbar__thumb:hover) {
-  background: var(--home-detail-scrollbar-thumb-hover-bg);
+  background: var(--public-detail-scrollbar-thumb-hover-bg);
 }
 
 .portal-book-reader-page__catalog-list {
@@ -1365,7 +1369,7 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
   padding: 8px 9px;
   border: 1px solid transparent;
   border-radius: 10px;
-  color: color-mix(in srgb, var(--home-ink) 86%, transparent);
+  color: color-mix(in srgb, var(--portal-content-ink) 86%, transparent);
   font-size: 13px;
   font-weight: 700;
   line-height: 1.42;
@@ -1379,9 +1383,9 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
 .portal-book-reader-page__catalog-item:hover,
 .portal-book-reader-page__catalog-item:focus-visible,
 .portal-book-reader-page__catalog-item.is-active {
-  border-color: color-mix(in srgb, var(--home-business-bookshelf-tag-border) 72%, transparent);
-  background: color-mix(in srgb, var(--home-business-bookshelf-tag-bg) 72%, transparent);
-  color: color-mix(in srgb, var(--home-business-bookshelf-tag-ink) 94%, var(--home-ink));
+  border-color: color-mix(in srgb, var(--portal-content-bookshelf-tag-border) 72%, transparent);
+  background: color-mix(in srgb, var(--portal-content-bookshelf-tag-bg) 72%, transparent);
+  color: color-mix(in srgb, var(--portal-content-bookshelf-tag-ink) 94%, var(--portal-content-ink));
 }
 
 .portal-book-reader-page__catalog-item:focus-visible {
@@ -1403,19 +1407,19 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
   margin-top: auto;
   padding: 9px 8px;
   border: 1px solid color-mix(in srgb, var(--portal-book-reader-border) 62%, transparent);
-  border-radius: var(--home-detail-panel-radius);
+  border-radius: var(--public-detail-panel-radius);
   background:
     linear-gradient(
       180deg,
-      color-mix(in srgb, var(--home-business-bookshelf-tag-bg) 42%, transparent),
+      color-mix(in srgb, var(--portal-content-bookshelf-tag-bg) 42%, transparent),
       transparent 54%
     ),
-    color-mix(in srgb, var(--home-detail-panel-bg) 78%, transparent);
-  color: color-mix(in srgb, var(--home-muted) 86%, var(--home-ink));
+    color-mix(in srgb, var(--public-detail-panel-bg) 78%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 86%, var(--portal-content-ink));
   text-align: center;
   box-shadow: var(--portal-book-reader-card-shadow);
-  backdrop-filter: blur(calc(var(--home-panel-blur) * 0.5));
-  -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.5));
+  backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.5));
+  -webkit-backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.5));
 }
 
 .portal-book-reader-page__stage--comic .portal-book-reader-page__progress-panel {
@@ -1428,13 +1432,13 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
 }
 
 .portal-book-reader-page__progress-label {
-  color: color-mix(in srgb, var(--home-muted) 88%, var(--home-ink));
+  color: color-mix(in srgb, var(--portal-content-muted) 88%, var(--portal-content-ink));
   font-weight: 600;
   line-height: 1.7;
 }
 
 .portal-book-reader-page__progress-value {
-  color: color-mix(in srgb, var(--portal-book-reader-accent) 78%, var(--home-ink));
+  color: color-mix(in srgb, var(--portal-book-reader-accent) 78%, var(--portal-content-ink));
   font-size: 13px;
   font-weight: 700;
   line-height: 1.35;
@@ -1457,7 +1461,7 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
   background: linear-gradient(
     90deg,
     color-mix(in srgb, var(--portal-book-reader-accent) 56%, white),
-    color-mix(in srgb, var(--portal-book-reader-accent) 84%, var(--home-ink))
+    color-mix(in srgb, var(--portal-book-reader-accent) 84%, var(--portal-content-ink))
   );
   transform: scaleX(var(--portal-book-reader-progress-ratio, 0));
   transform-origin: left center;
@@ -1472,7 +1476,7 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
 }
 
 .portal-book-reader-page__progress-meta {
-  color: color-mix(in srgb, var(--home-muted) 82%, var(--home-ink));
+  color: color-mix(in srgb, var(--portal-content-muted) 82%, var(--portal-content-ink));
   font-weight: 600;
   line-height: 1.7;
   white-space: nowrap;
@@ -1541,8 +1545,8 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
   border-radius: 999px;
   background: linear-gradient(
     135deg,
-    var(--home-skeleton-block-strong),
-    var(--home-skeleton-block)
+    var(--portal-skeleton-block-strong),
+    var(--portal-skeleton-block)
   );
 }
 
@@ -1551,7 +1555,7 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--home-skeleton-shimmer);
+  background: var(--portal-skeleton-shimmer);
   animation: home-skeleton-wave 2.4s ease-in-out infinite;
   transform: translateX(-100%);
 }
@@ -1629,6 +1633,6 @@ function resolveVisibleComicPageIndex(paper: HTMLElement): number {
   width: 100%;
   height: 66px;
   margin-top: auto;
-  border-radius: var(--home-detail-panel-radius);
+  border-radius: var(--public-detail-panel-radius);
 }
 </style>

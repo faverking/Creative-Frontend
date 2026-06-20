@@ -216,26 +216,12 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
   display: grid;
   gap: var(--portal-module-filter-gap-local);
   padding: var(--portal-module-filter-padding-local);
-  background:
-    linear-gradient(
-      118deg,
-      color-mix(in srgb, var(--portal-module-filter-current-accent) 8%, transparent) 0%,
-      transparent 68%
-    ),
-    var(--portal-module-filter-bg);
-  border: 1px solid
-    color-mix(
-      in srgb,
-      var(--portal-module-filter-current-accent) 12%,
-      var(--portal-module-filter-border) 88%
-    );
+  background: rgba(0, 0, 0, 0);
+  border: 1px solid var(--portal-module-filter-border);
   border-radius: var(--portal-module-filter-radius-local);
-  box-shadow:
-    0 3px 6px
-      color-mix(in srgb, var(--portal-module-filter-current-accent) 1.6%, rgba(18, 41, 74, 0.024)),
-    var(--portal-module-filter-shadow);
-  backdrop-filter: blur(calc(var(--home-panel-blur) * 0.64)) saturate(1);
-  -webkit-backdrop-filter: blur(calc(var(--home-panel-blur) * 0.64)) saturate(1);
+  box-shadow: var(--portal-module-filter-shadow);
+  backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.64)) saturate(1);
+  -webkit-backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.64)) saturate(1);
   overflow: visible;
 }
 
@@ -289,7 +275,7 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 100%),
     var(--topic-bg);
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
   overflow: visible;
   box-shadow: var(--portal-module-filter-category-shadow);
   cursor: pointer;
@@ -355,7 +341,7 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
 }
 
 .portal-module-filter-panel__category:hover {
-  color: color-mix(in srgb, var(--home-ink) 94%, transparent);
+  color: color-mix(in srgb, var(--portal-content-ink) 94%, transparent);
   border-color: color-mix(in srgb, var(--topic-accent) 56%, var(--topic-border) 44%);
   box-shadow: var(--portal-module-filter-category-hover-shadow);
   transform: translateY(-1px);
@@ -384,7 +370,7 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
   padding: var(--portal-module-filter-search-row-padding-local);
   border: 1px solid var(--portal-module-filter-search-border);
   border-radius: var(--portal-module-filter-search-row-radius-local);
-  background: var(--portal-module-filter-search-bg);
+  background: rgba(0, 0, 0, 0);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
@@ -411,7 +397,7 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
   border: 1px solid var(--portal-module-filter-input-border);
   border-radius: 12px;
   background: var(--portal-module-filter-input-bg);
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
   font: inherit;
   font-size: 12px;
   box-sizing: border-box;
@@ -423,7 +409,7 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
 }
 
 .portal-module-filter-panel__field input:focus {
-  border-color: var(--home-feature-ribbon-border);
+  border-color: var(--portal-content-feature-ribbon-border);
   box-shadow: 0 0 0 4px rgba(105, 212, 255, 0.12);
 }
 
@@ -460,7 +446,7 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
 }
 
 .portal-module-filter-panel__button:hover {
-  border-color: var(--home-feature-ribbon-border);
+  border-color: var(--portal-content-feature-ribbon-border);
   box-shadow: 0 2px 5px rgba(18, 41, 74, 0.02);
 }
 
@@ -488,10 +474,10 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
   height: 1px;
   background: linear-gradient(
     90deg,
-    color-mix(in srgb, var(--home-feature-ribbon-border) 0%, transparent) 0%,
-    color-mix(in srgb, var(--home-feature-ribbon-border) 48%, transparent) 14%,
-    color-mix(in srgb, var(--home-feature-ribbon-border) 34%, transparent) 86%,
-    color-mix(in srgb, var(--home-feature-ribbon-border) 0%, transparent) 100%
+    color-mix(in srgb, var(--portal-content-feature-ribbon-border) 0%, transparent) 0%,
+    color-mix(in srgb, var(--portal-content-feature-ribbon-border) 48%, transparent) 14%,
+    color-mix(in srgb, var(--portal-content-feature-ribbon-border) 34%, transparent) 86%,
+    color-mix(in srgb, var(--portal-content-feature-ribbon-border) 0%, transparent) 100%
   );
   pointer-events: none;
 }
@@ -519,7 +505,7 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
   position: absolute;
   left: -11px;
   top: 50%;
-  color: color-mix(in srgb, var(--home-muted) 38%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 38%, transparent);
   font-size: 12px;
   font-weight: 600;
   transform: translateY(-62%);
@@ -537,7 +523,7 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
   background: linear-gradient(
     90deg,
     color-mix(in srgb, var(--portal-module-filter-current-accent) 70%, transparent) 0%,
-    color-mix(in srgb, var(--home-feature-ribbon-ink) 92%, transparent) 100%
+    color-mix(in srgb, var(--portal-content-feature-ribbon-ink) 92%, transparent) 100%
   );
   box-shadow: 0 2px 6px
     color-mix(in srgb, var(--portal-module-filter-current-accent) 10%, transparent);
@@ -547,11 +533,11 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
 }
 
 .portal-module-filter-panel__sort:hover {
-  color: color-mix(in srgb, var(--home-ink) 88%, transparent);
+  color: color-mix(in srgb, var(--portal-content-ink) 88%, transparent);
 }
 
 .portal-module-filter-panel__sort.is-active {
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
 }
 
 .portal-module-filter-panel__sort.is-active::after {

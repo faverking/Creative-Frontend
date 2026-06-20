@@ -76,13 +76,13 @@ const normalizedTags = computed(() =>
 }
 
 .public-detail-author-section__content {
-  --public-detail-author-avatar-tone: var(--home-detail-author-avatar-tone-article);
-  --public-detail-author-tag-bg: var(--home-feature-tag-soft-bg);
-  --public-detail-author-tag-border: var(--home-feature-tag-soft-border);
-  --public-detail-author-tag-ink: var(--home-feature-tag-soft-ink);
-  --public-detail-author-tag-primary-bg: var(--home-business-article-tag-bg);
-  --public-detail-author-tag-primary-border: var(--home-business-article-tag-border);
-  --public-detail-author-tag-primary-ink: var(--home-business-article-tag-ink);
+  --public-detail-author-avatar-tone: var(--public-detail-author-avatar-tone-article);
+  --public-detail-author-tag-bg: var(--portal-content-feature-tag-soft-bg);
+  --public-detail-author-tag-border: var(--portal-content-feature-tag-soft-border);
+  --public-detail-author-tag-ink: var(--portal-content-feature-tag-soft-ink);
+  --public-detail-author-tag-primary-bg: var(--portal-content-article-tag-bg);
+  --public-detail-author-tag-primary-border: var(--portal-content-article-tag-border);
+  --public-detail-author-tag-primary-ink: var(--portal-content-article-tag-ink);
   display: grid;
   gap: 14px;
   width: 100%;
@@ -90,23 +90,23 @@ const normalizedTags = computed(() =>
 }
 
 .public-detail-author-section__content--topic {
-  --public-detail-author-avatar-tone: var(--home-detail-author-avatar-tone-topic);
-  --public-detail-author-tag-primary-bg: var(--home-business-topic-tag-bg);
-  --public-detail-author-tag-primary-border: var(--home-business-topic-tag-border);
-  --public-detail-author-tag-primary-ink: var(--home-business-topic-tag-ink);
+  --public-detail-author-avatar-tone: var(--public-detail-author-avatar-tone-topic);
+  --public-detail-author-tag-primary-bg: var(--portal-content-topic-tag-bg);
+  --public-detail-author-tag-primary-border: var(--portal-content-topic-tag-border);
+  --public-detail-author-tag-primary-ink: var(--portal-content-topic-tag-ink);
 }
 
 .public-detail-author-section__content--gallery {
-  --public-detail-author-avatar-tone: var(--home-detail-author-avatar-tone-gallery);
-  --public-detail-author-tag-primary-bg: var(--home-business-gallery-tag-bg);
-  --public-detail-author-tag-primary-border: var(--home-business-gallery-tag-border);
-  --public-detail-author-tag-primary-ink: var(--home-business-gallery-tag-ink);
+  --public-detail-author-avatar-tone: var(--public-detail-author-avatar-tone-gallery);
+  --public-detail-author-tag-primary-bg: var(--portal-content-gallery-tag-bg);
+  --public-detail-author-tag-primary-border: var(--portal-content-gallery-tag-border);
+  --public-detail-author-tag-primary-ink: var(--portal-content-gallery-tag-ink);
 }
 
 .public-detail-author-section__content--book {
-  --public-detail-author-tag-primary-bg: var(--home-business-bookshelf-tag-bg);
-  --public-detail-author-tag-primary-border: var(--home-business-bookshelf-tag-border);
-  --public-detail-author-tag-primary-ink: var(--home-business-bookshelf-tag-ink);
+  --public-detail-author-tag-primary-bg: var(--portal-content-bookshelf-tag-bg);
+  --public-detail-author-tag-primary-border: var(--portal-content-bookshelf-tag-border);
+  --public-detail-author-tag-primary-ink: var(--portal-content-bookshelf-tag-ink);
 }
 
 .public-detail-author-section__main {
@@ -122,10 +122,10 @@ const normalizedTags = computed(() =>
   place-items: center;
   width: 78px;
   height: 78px;
-  border: 4px solid var(--home-detail-author-avatar-ring);
+  border: 4px solid var(--public-detail-author-avatar-ring);
   border-radius: 22px;
   background: var(--public-detail-author-avatar-tone);
-  box-shadow: var(--home-detail-author-avatar-shadow);
+  box-shadow: var(--public-detail-author-avatar-shadow);
   overflow: hidden;
 }
 
@@ -136,7 +136,7 @@ const normalizedTags = computed(() =>
   z-index: 1;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0)),
-    var(--home-column-media-overlay);
+    var(--portal-module-topic-media-overlay);
   pointer-events: none;
 }
 
@@ -157,7 +157,7 @@ const normalizedTags = computed(() =>
 
 .public-detail-author-section__name {
   margin: 0;
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
   font-size: 16px;
   font-weight: 700;
   line-height: 1.3;
@@ -168,7 +168,7 @@ const normalizedTags = computed(() =>
   display: -webkit-box;
   margin: 0;
   overflow: hidden;
-  color: var(--home-detail-author-bio-ink);
+  color: var(--public-detail-author-bio-ink);
   font-size: 13px;
   line-height: 1.72;
   -webkit-box-orient: vertical;

@@ -362,7 +362,7 @@ function handleCategoryChange(value?: number | string): void {
 <style scoped>
 .portal-book-module-page {
   --portal-book-module-card-radius-local: 18px;
-  --portal-book-module-card-padding-local: var(--home-card-padding-xs);
+  --portal-book-module-card-padding-local: var(--portal-content-card-padding-xs);
   --portal-book-module-author-line-height-local: calc(12px * 1.35);
   --portal-book-module-title-line-height-local: calc(18px * 1.34);
   --portal-book-module-summary-line-height-local: calc(13px * 1.68);
@@ -391,7 +391,7 @@ function handleCategoryChange(value?: number | string): void {
 }
 
 .portal-book-module-page__results :deep(.portal-request-boundary__state) {
-  --portal-request-boundary-accent: var(--home-business-bookshelf-accent);
+  --portal-request-boundary-accent: var(--portal-content-bookshelf-accent);
   min-height: 320px;
   padding: var(--portal-boundary-panel-padding-block) var(--portal-boundary-panel-padding-inline);
   border: 1px solid
@@ -423,9 +423,9 @@ function handleCategoryChange(value?: number | string): void {
   grid-template-columns: 126px minmax(0, 1fr);
   gap: 16px;
   padding: var(--portal-book-module-card-padding-local);
-  border: 1px solid var(--home-column-module-border);
+  border: 1px solid var(--portal-module-topic-border);
   border-radius: var(--portal-book-module-card-radius-local);
-  background: var(--home-column-module-surface);
+  background: var(--portal-module-topic-surface);
 }
 
 .portal-book-module-page__card::after {
@@ -434,7 +434,7 @@ function handleCategoryChange(value?: number | string): void {
   left: 12px;
   right: 12px;
   bottom: 0;
-  border-bottom: 1px dashed var(--home-column-module-divider);
+  border-bottom: 1px dashed var(--portal-module-topic-divider);
   opacity: 0.74;
   pointer-events: none;
 }
@@ -442,11 +442,11 @@ function handleCategoryChange(value?: number | string): void {
 .portal-book-module-page__card--link {
   --portal-interactive-hover-background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)),
-    var(--home-column-module-surface);
+    var(--portal-module-topic-surface);
   --portal-interactive-hover-border: color-mix(
     in srgb,
-    var(--home-business-bookshelf-accent) 24%,
-    var(--home-column-module-divider) 76%
+    var(--portal-content-bookshelf-accent) 24%,
+    var(--portal-module-topic-divider) 76%
   );
 }
 
@@ -502,7 +502,7 @@ function handleCategoryChange(value?: number | string): void {
   pointer-events: none;
   display: inline-flex;
   align-items: center;
-  height: var(--home-chip-height-sm);
+  height: var(--portal-content-chip-height-sm);
   max-width: min(42%, 172px);
   padding: 0 11px 0 12px;
   border: 1px solid
@@ -514,10 +514,14 @@ function handleCategoryChange(value?: number | string): void {
   box-shadow:
     0 4px 10px color-mix(in srgb, var(--portal-module-card-tag-accent) 9%, rgba(18, 41, 74, 0.08)),
     inset 0 1px 0 rgba(255, 255, 255, 0.44);
-  color: color-mix(in srgb, var(--portal-module-card-tag-accent) 82%, var(--home-ink) 18%);
+  color: color-mix(
+    in srgb,
+    var(--portal-module-card-tag-accent) 82%,
+    var(--portal-content-ink) 18%
+  );
   font-size: 12px;
   font-weight: 700;
-  line-height: var(--home-chip-height-sm);
+  line-height: var(--portal-content-chip-height-sm);
   letter-spacing: 0.02em;
   white-space: nowrap;
   overflow: hidden;
@@ -546,7 +550,7 @@ function handleCategoryChange(value?: number | string): void {
   min-width: 0;
   padding-right: min(154px, 40%);
   box-sizing: border-box;
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
   font-size: 16px;
   font-weight: 700;
   line-height: var(--portal-book-module-title-line-height-local);
@@ -557,7 +561,11 @@ function handleCategoryChange(value?: number | string): void {
 }
 
 .portal-book-module-page__author {
-  color: color-mix(in srgb, var(--home-business-bookshelf-accent) 32%, var(--home-muted) 68%);
+  color: color-mix(
+    in srgb,
+    var(--portal-content-bookshelf-accent) 32%,
+    var(--portal-content-muted) 68%
+  );
   font-size: 12px;
   font-weight: 600;
   line-height: var(--portal-book-module-author-line-height-local);
@@ -568,7 +576,7 @@ function handleCategoryChange(value?: number | string): void {
 
 .portal-book-module-page__copy p {
   margin: 0;
-  color: color-mix(in srgb, var(--home-muted) 82%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 82%, transparent);
   font-size: 13px;
   line-height: var(--portal-book-module-summary-line-height-local);
   display: -webkit-box;
@@ -585,43 +593,43 @@ function handleCategoryChange(value?: number | string): void {
   flex-wrap: wrap;
   gap: 8px;
   align-content: start;
-  min-height: var(--home-chip-height-sm);
+  min-height: var(--portal-content-chip-height-sm);
 }
 
 .portal-book-module-page__style-tag {
   display: inline-flex;
   align-items: center;
-  height: var(--home-chip-height-sm);
+  height: var(--portal-content-chip-height-sm);
   padding: 0 10px;
   border: 1px solid transparent;
   border-radius: 999px;
   font-size: 12px;
   font-weight: 700;
-  line-height: var(--home-chip-height-sm);
+  line-height: var(--portal-content-chip-height-sm);
 }
 
 .portal-book-module-page__style-tag--cyan {
-  background: var(--home-feature-tag-cyan-bg);
-  border-color: var(--home-feature-tag-cyan-border);
-  color: var(--home-feature-tag-cyan-ink);
+  background: var(--portal-content-feature-tag-cyan-bg);
+  border-color: var(--portal-content-feature-tag-cyan-border);
+  color: var(--portal-content-feature-tag-cyan-ink);
 }
 
 .portal-book-module-page__style-tag--sky {
-  background: var(--home-feature-tag-sky-bg);
-  border-color: var(--home-feature-tag-sky-border);
-  color: var(--home-feature-tag-sky-ink);
+  background: var(--portal-content-feature-tag-sky-bg);
+  border-color: var(--portal-content-feature-tag-sky-border);
+  color: var(--portal-content-feature-tag-sky-ink);
 }
 
 .portal-book-module-page__style-tag--iris {
-  background: var(--home-feature-tag-iris-bg);
-  border-color: var(--home-feature-tag-iris-border);
-  color: var(--home-feature-tag-iris-ink);
+  background: var(--portal-content-feature-tag-iris-bg);
+  border-color: var(--portal-content-feature-tag-iris-border);
+  color: var(--portal-content-feature-tag-iris-ink);
 }
 
 .portal-book-module-page__style-tag--soft {
-  background: var(--home-feature-tag-soft-bg);
-  border-color: var(--home-feature-tag-soft-border);
-  color: var(--home-feature-tag-soft-ink);
+  background: var(--portal-content-feature-tag-soft-bg);
+  border-color: var(--portal-content-feature-tag-soft-border);
+  color: var(--portal-content-feature-tag-soft-ink);
 }
 
 .portal-book-module-page__footer,
@@ -641,7 +649,7 @@ function handleCategoryChange(value?: number | string): void {
   justify-content: space-between;
   padding-top: 10px;
   margin-top: auto;
-  border-top: 1px dashed var(--home-column-module-divider);
+  border-top: 1px dashed var(--portal-module-topic-divider);
 }
 
 .portal-book-module-page__meta,
@@ -661,7 +669,7 @@ function handleCategoryChange(value?: number | string): void {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  color: color-mix(in srgb, var(--home-muted) 84%, var(--home-detail-glass-ink) 16%);
+  color: color-mix(in srgb, var(--portal-content-muted) 84%, var(--public-detail-glass-ink) 16%);
   font-size: 12px;
   font-weight: 600;
   line-height: 1.35;
@@ -680,7 +688,7 @@ function handleCategoryChange(value?: number | string): void {
   top: 50%;
   width: 1px;
   height: 10px;
-  background: var(--home-column-module-divider);
+  background: var(--portal-module-topic-divider);
   transform: translateY(-50%);
 }
 
@@ -696,7 +704,11 @@ function handleCategoryChange(value?: number | string): void {
 
 .portal-book-module-page__metric-icon {
   flex: 0 0 auto;
-  color: color-mix(in srgb, var(--home-business-bookshelf-accent) 74%, var(--home-ink) 26%);
+  color: color-mix(
+    in srgb,
+    var(--portal-content-bookshelf-accent) 74%,
+    var(--portal-content-ink) 26%
+  );
 }
 
 .portal-book-module-page__cover--skeleton,
@@ -705,11 +717,11 @@ function handleCategoryChange(value?: number | string): void {
 .portal-book-module-page__skeleton-pill {
   position: relative;
   overflow: hidden;
-  border: 1px solid var(--home-skeleton-border);
+  border: 1px solid var(--portal-skeleton-border);
   background: linear-gradient(
     135deg,
-    var(--home-skeleton-block-strong),
-    var(--home-skeleton-block)
+    var(--portal-skeleton-block-strong),
+    var(--portal-skeleton-block)
   );
 }
 
@@ -720,7 +732,7 @@ function handleCategoryChange(value?: number | string): void {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--home-skeleton-shimmer);
+  background: var(--portal-skeleton-shimmer);
   animation: home-skeleton-wave 2.4s ease-in-out infinite;
   transform: translateX(-100%);
 }
@@ -737,8 +749,8 @@ function handleCategoryChange(value?: number | string): void {
 .portal-book-module-page__cover--skeleton {
   background: linear-gradient(
     135deg,
-    var(--home-skeleton-block-strong),
-    var(--home-skeleton-block)
+    var(--portal-skeleton-block-strong),
+    var(--portal-skeleton-block)
   );
 }
 
@@ -749,7 +761,7 @@ function handleCategoryChange(value?: number | string): void {
   z-index: 2;
   pointer-events: none;
   width: 72px;
-  height: var(--home-chip-height-sm);
+  height: var(--portal-content-chip-height-sm);
   border-radius: 11px 15px 13px 11px;
 }
 
@@ -796,7 +808,7 @@ function handleCategoryChange(value?: number | string): void {
 .portal-book-module-page__skeleton-divider {
   width: 1px;
   height: 10px;
-  background: color-mix(in srgb, var(--home-line) 78%, transparent);
+  background: color-mix(in srgb, var(--portal-content-line) 78%, transparent);
   flex: 0 0 auto;
 }
 
@@ -808,41 +820,41 @@ function handleCategoryChange(value?: number | string): void {
 
 .portal-book-module-page__skeleton-block--title {
   width: 78%;
-  height: var(--home-skeleton-title-md-height);
+  height: var(--portal-skeleton-title-md-height);
 }
 
 .portal-book-module-page__skeleton-block--author {
   width: 92px;
-  height: var(--home-skeleton-copy-12-height);
+  height: var(--portal-skeleton-copy-12-height);
 }
 
 .portal-book-module-page__skeleton-block--summary {
   width: 100%;
-  height: var(--home-skeleton-copy-13-height);
+  height: var(--portal-skeleton-copy-13-height);
 }
 
 .portal-book-module-page__skeleton-block--summary-short {
   width: 84%;
-  height: var(--home-skeleton-copy-13-height);
+  height: var(--portal-skeleton-copy-13-height);
 }
 
 .portal-book-module-page__skeleton-block--meta-chapters {
   width: 72px;
-  height: var(--home-skeleton-copy-12-height);
+  height: var(--portal-skeleton-copy-12-height);
 }
 
 .portal-book-module-page__skeleton-block--meta-time {
   width: 74px;
-  height: var(--home-skeleton-copy-12-height);
+  height: var(--portal-skeleton-copy-12-height);
 }
 
 .portal-book-module-page__style-tags--skeleton {
-  min-height: var(--home-chip-height-sm);
+  min-height: var(--portal-content-chip-height-sm);
 }
 
 .portal-book-module-page__skeleton-pill--style {
   width: 72px;
-  height: var(--home-chip-height-sm);
+  height: var(--portal-content-chip-height-sm);
 }
 
 .portal-book-module-page__skeleton-pill--style-short {

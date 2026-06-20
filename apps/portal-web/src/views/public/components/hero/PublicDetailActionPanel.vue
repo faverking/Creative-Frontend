@@ -48,20 +48,24 @@ defineEmits<{
 
 <style scoped>
 .public-detail-action-panel {
-  --public-detail-action-primary-bg: var(--home-business-article-tag-bg);
-  --public-detail-action-primary-border: var(--home-business-article-tag-border);
-  --public-detail-action-primary-ink: var(--home-business-article-tag-ink);
+  --public-detail-action-primary-bg: var(--portal-content-article-tag-bg);
+  --public-detail-action-primary-border: var(--portal-content-article-tag-border);
+  --public-detail-action-primary-ink: var(--portal-content-article-tag-ink);
   --public-detail-action-secondary-bg: color-mix(
     in srgb,
-    var(--home-detail-card-bg) 82%,
+    var(--public-detail-card-bg) 82%,
     white 18%
   );
   --public-detail-action-secondary-border: color-mix(
     in srgb,
-    var(--home-detail-button-border) 82%,
+    var(--public-detail-button-border) 82%,
     white 18%
   );
-  --public-detail-action-secondary-ink: color-mix(in srgb, var(--home-ink) 78%, white 22%);
+  --public-detail-action-secondary-ink: color-mix(
+    in srgb,
+    var(--portal-content-ink) 78%,
+    white 22%
+  );
   display: flex;
   align-items: center;
   gap: 7px;
@@ -70,21 +74,21 @@ defineEmits<{
 }
 
 .public-detail-action-panel--topic {
-  --public-detail-action-primary-bg: var(--home-business-topic-tag-bg);
-  --public-detail-action-primary-border: var(--home-business-topic-tag-border);
-  --public-detail-action-primary-ink: var(--home-business-topic-tag-ink);
+  --public-detail-action-primary-bg: var(--portal-content-topic-tag-bg);
+  --public-detail-action-primary-border: var(--portal-content-topic-tag-border);
+  --public-detail-action-primary-ink: var(--portal-content-topic-tag-ink);
 }
 
 .public-detail-action-panel--book {
-  --public-detail-action-primary-bg: var(--home-business-bookshelf-tag-bg);
-  --public-detail-action-primary-border: var(--home-business-bookshelf-tag-border);
-  --public-detail-action-primary-ink: var(--home-business-bookshelf-tag-ink);
+  --public-detail-action-primary-bg: var(--portal-content-bookshelf-tag-bg);
+  --public-detail-action-primary-border: var(--portal-content-bookshelf-tag-border);
+  --public-detail-action-primary-ink: var(--portal-content-bookshelf-tag-ink);
 }
 
 .public-detail-action-panel--gallery {
-  --public-detail-action-primary-bg: var(--home-business-gallery-tag-bg);
-  --public-detail-action-primary-border: var(--home-business-gallery-tag-border);
-  --public-detail-action-primary-ink: var(--home-business-gallery-tag-ink);
+  --public-detail-action-primary-bg: var(--portal-content-gallery-tag-bg);
+  --public-detail-action-primary-border: var(--portal-content-gallery-tag-border);
+  --public-detail-action-primary-ink: var(--portal-content-gallery-tag-ink);
 }
 
 .public-detail-action-panel__action {
@@ -94,13 +98,13 @@ defineEmits<{
   gap: 7px;
   min-height: 36px;
   padding: 0 13px;
-  border: 1px solid var(--home-detail-button-border);
+  border: 1px solid var(--public-detail-button-border);
   border-radius: 11px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04)),
     var(--public-detail-action-secondary-bg);
-  color: var(--home-ink);
-  box-shadow: var(--home-detail-button-shadow);
+  color: var(--portal-content-ink);
+  box-shadow: var(--public-detail-button-shadow);
   cursor: pointer;
   transition:
     border-color 180ms ease,
@@ -114,9 +118,9 @@ defineEmits<{
   border-color: color-mix(
     in srgb,
     var(--public-detail-action-primary-border) 54%,
-    var(--home-detail-button-border)
+    var(--public-detail-button-border)
   );
-  box-shadow: var(--home-detail-button-shadow);
+  box-shadow: var(--public-detail-button-shadow);
 }
 
 .public-detail-action-panel__action.is-active {
@@ -136,9 +140,9 @@ defineEmits<{
       color-mix(in srgb, white 16%, transparent),
       color-mix(in srgb, white 0%, transparent)
     ),
-    var(--home-detail-card-primary-bg);
+    var(--public-detail-card-primary-bg);
   color: var(--public-detail-action-primary-ink);
-  box-shadow: var(--home-detail-button-shadow);
+  box-shadow: var(--public-detail-button-shadow);
 }
 
 .public-detail-action-panel__action--secondary {

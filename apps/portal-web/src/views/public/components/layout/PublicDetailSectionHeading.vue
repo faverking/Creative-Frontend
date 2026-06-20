@@ -28,45 +28,45 @@ withDefaults(
 
 <style scoped>
 .public-detail-section-heading {
-  --public-detail-section-heading-accent: var(--home-detail-heading-accent-neutral);
+  --public-detail-section-heading-accent: var(--public-detail-heading-accent-neutral);
   display: inline-flex;
   align-items: center;
   gap: 7px;
   min-width: 0;
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
 }
 
 .public-detail-section-heading--article {
-  --public-detail-section-heading-accent: var(--home-business-article-accent);
+  --public-detail-section-heading-accent: var(--portal-content-article-accent);
 }
 
 .public-detail-section-heading--topic {
-  --public-detail-section-heading-accent: var(--home-business-topic-accent);
+  --public-detail-section-heading-accent: var(--portal-content-topic-accent);
 }
 
 .public-detail-section-heading--book {
-  --public-detail-section-heading-accent: var(--home-business-bookshelf-accent);
+  --public-detail-section-heading-accent: var(--portal-content-bookshelf-accent);
 }
 
 .public-detail-section-heading--gallery {
-  --public-detail-section-heading-accent: var(--home-business-gallery-accent);
+  --public-detail-section-heading-accent: var(--portal-content-gallery-accent);
 }
 
 .public-detail-section-heading--bookshelf {
-  --public-detail-section-heading-accent: var(--home-business-bookshelf-accent);
+  --public-detail-section-heading-accent: var(--portal-content-bookshelf-accent);
 }
 
 .public-detail-section-heading__icon {
   --portal-icon-size: 18px;
   flex: 0 0 auto;
-  color: var(--home-detail-glass-ink);
-  filter: var(--home-detail-section-icon-shadow);
+  color: var(--public-detail-glass-ink);
+  filter: var(--public-detail-section-icon-shadow);
 }
 
 .public-detail-section-heading__title {
   margin: 0;
   min-width: 0;
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
   font-size: 16px;
   font-weight: 700;
   line-height: 1.25;

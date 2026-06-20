@@ -1,5 +1,7 @@
 html.dark {
   color-scheme: dark;
+
+  /* Portal Site Foundation Tokens */
   --portal-page-bg: #08172b;
   --portal-ink: #eaf7ff;
   --portal-ink-strong: #f5fbff;
@@ -16,8 +18,7 @@ html.dark {
   );
   --portal-button-primary-bg: linear-gradient(135deg, #79e1ff 0%, #6ccbff 42%, #7a84f6 100%);
   --portal-button-primary-ink: #082038;
-  --portal-button-primary-shadow:
-    0 16px 30px rgba(121, 225, 255, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  --portal-button-primary-shadow: 0 16px 30px rgba(121, 225, 255, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.16);
   --portal-dialog-bg: linear-gradient(160deg, rgba(10, 22, 44, 0.94), rgba(12, 25, 49, 0.9));
   --portal-dialog-aside-bg: linear-gradient(180deg, rgba(16, 34, 60, 0.88), rgba(11, 24, 46, 0.84));
   --portal-dialog-panel-bg: linear-gradient(180deg, rgba(14, 29, 54, 0.82), rgba(11, 22, 43, 0.8));
@@ -30,14 +31,11 @@ html.dark {
   );
   --portal-dialog-close-color: #a4d8ff;
   --portal-dialog-close-color-hover: #f5fbff;
-  --portal-dialog-close-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 12px 24px rgba(0, 0, 0, 0.24);
+  --portal-dialog-close-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 12px 24px rgba(0, 0, 0, 0.24);
   --portal-dialog-note-bg: linear-gradient(180deg, rgba(18, 37, 69, 0.74), rgba(12, 25, 49, 0.82));
   --portal-dialog-note-color: #c5dcf3;
-  --portal-dialog-note-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 14px 26px rgba(0, 0, 0, 0.18);
-  --portal-overlay:
-    radial-gradient(circle at 18% 8%, rgba(121, 225, 255, 0.16), transparent 24%),
+  --portal-dialog-note-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 14px 26px rgba(0, 0, 0, 0.18);
+  --portal-overlay: radial-gradient(circle at 18% 8%, rgba(121, 225, 255, 0.16), transparent 24%),
     linear-gradient(180deg, rgba(3, 9, 20, 0.64), rgba(5, 12, 24, 0.8));
   --portal-dialog-shadow: 0 28px 72px rgba(0, 0, 0, 0.42);
   --portal-focus-ring: rgba(121, 225, 255, 0.16);
@@ -61,8 +59,7 @@ html.dark {
   --portal-scrollbar-thumb-border: rgba(10, 24, 46, 0.92);
   --portal-surface-top: rgba(255, 255, 255, 0.12);
   --portal-surface-top-soft: rgba(255, 255, 255, 0.08);
-  --portal-scene-overlay:
-    repeating-linear-gradient(115deg, rgba(182, 224, 255, 0.04) 0 1px, transparent 1px 150px),
+  --portal-scene-overlay: repeating-linear-gradient(115deg, rgba(182, 224, 255, 0.04) 0 1px, transparent 1px 150px),
     repeating-linear-gradient(20deg, rgba(122, 132, 246, 0.035) 0 1px, transparent 1px 178px),
     radial-gradient(circle at 18% -8%, rgba(121, 225, 255, 0.1), transparent 26%),
     radial-gradient(circle at 84% 8%, rgba(122, 132, 246, 0.09), transparent 22%),
@@ -74,8 +71,7 @@ html.dark {
       rgba(9, 24, 45, 0.96) 42%,
       rgba(8, 23, 43, 1) 100%
     );
-  --portal-scene-blur-overlay:
-    radial-gradient(circle at 14% 10%, rgba(121, 225, 255, 0.14), transparent 24%),
+  --portal-scene-blur-overlay: radial-gradient(circle at 14% 10%, rgba(121, 225, 255, 0.14), transparent 24%),
     radial-gradient(circle at 86% 18%, rgba(122, 132, 246, 0.12), transparent 22%),
     radial-gradient(circle at 56% 72%, rgba(122, 226, 214, 0.06), transparent 24%),
     linear-gradient(
@@ -87,121 +83,93 @@ html.dark {
   --portal-scene-opacity: 0.91;
   --portal-scene-blur-opacity: 0.64;
   --portal-scene-saturate: 1.08;
-  /* Core Content Surface Tokens */
-  --home-ink: #eaf7ff;
-  --home-muted: #9fc2e6;
-  --home-line: rgba(182, 224, 255, 0.12);
-  --home-panel-deep: linear-gradient(180deg, rgba(20, 39, 72, 0.76), rgba(12, 25, 49, 0.84));
-  --home-card-sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0) 24%);
-  --home-card-shadow: 0 10px 20px rgba(0, 0, 0, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  --home-card-hover-shadow:
-    0 14px 24px rgba(0, 0, 0, 0.24), 0 0 0 1px rgba(121, 225, 255, 0.08),
-    0 0 16px rgba(121, 225, 255, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  --home-card-hover-filter: brightness(1.025) saturate(1.03);
-  --home-panel-blur: 16px;
-  --home-divider-fade: linear-gradient(
+
+  /* Portal Content Foundation Tokens */
+  --portal-content-ink: #eaf7ff;
+  --portal-content-muted: #9fc2e6;
+  --portal-content-line: rgba(182, 224, 255, 0.12);
+  --portal-content-card-hover-filter: brightness(1.025) saturate(1.03);
+  --portal-content-panel-blur: 16px;
+  --portal-content-divider-fade: linear-gradient(
     90deg,
     rgba(182, 224, 255, 0),
     rgba(182, 224, 255, 0.28),
     rgba(182, 224, 255, 0)
   );
-  --home-divider-opacity: 0.72;
-  /* Shared Badge and Pill Tokens */
-  --home-feature-badge-bg: rgba(121, 225, 255, 0.14);
-  --home-feature-badge-border: rgba(121, 225, 255, 0.18);
-  --home-feature-badge-ink: #eaf7ff;
-  --home-feature-ribbon-bg: linear-gradient(
+  --portal-content-divider-opacity: 0.72;
+  --portal-content-tone-blue-soft: #8acfff;
+  --portal-content-tone-iris-soft: #a9b4ff;
+  --portal-content-tone-yellow-soft: #e0bd82;
+  --portal-content-tone-mint-soft: #86dbc9;
+  --portal-content-feature-badge-bg: rgba(121, 225, 255, 0.14);
+  --portal-content-feature-badge-border: rgba(121, 225, 255, 0.18);
+  --portal-content-feature-badge-ink: #eaf7ff;
+  --portal-content-feature-ribbon-bg: linear-gradient(
     135deg,
     rgba(24, 47, 80, 0.96),
     rgba(14, 29, 54, 0.9) 64%,
     rgba(45, 79, 125, 0.9)
   );
-  --home-feature-ribbon-border: rgba(182, 224, 255, 0.18);
-  --home-feature-ribbon-ink: #f5fbff;
-  --home-feature-ribbon-shadow:
-    0 14px 24px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  --home-feature-ribbon-gloss: rgba(255, 255, 255, 0.18);
-  --home-feature-tag-cyan-bg: rgba(121, 225, 255, 0.16);
-  --home-feature-tag-cyan-border: transparent;
-  --home-feature-tag-cyan-ink: #eaf7ff;
-  --home-feature-tag-sky-bg: rgba(164, 216, 255, 0.16);
-  --home-feature-tag-sky-border: transparent;
-  --home-feature-tag-sky-ink: #eaf7ff;
-  --home-feature-tag-iris-bg: rgba(154, 170, 255, 0.16);
-  --home-feature-tag-iris-border: transparent;
-  --home-feature-tag-iris-ink: #f3f5ff;
-  --home-feature-tag-mint-bg: rgba(122, 226, 214, 0.16);
-  --home-feature-tag-mint-border: transparent;
-  --home-feature-tag-mint-ink: #f0fff9;
-  --home-feature-tag-amber-bg: rgba(172, 132, 84, 0.22);
-  --home-feature-tag-amber-border: transparent;
-  --home-feature-tag-amber-ink: #f0e0c4;
-  --home-feature-tag-soft-bg: rgba(164, 216, 255, 0.08);
-  --home-feature-tag-soft-border: rgba(182, 224, 255, 0.1);
-  --home-feature-tag-soft-ink: #9fc2e6;
-  /* Business Semantic Mapping Tokens */
-  --home-business-featured-accent: color-mix(
+  --portal-content-feature-ribbon-border: rgba(182, 224, 255, 0.18);
+  --portal-content-feature-ribbon-ink: #f5fbff;
+  --portal-content-feature-ribbon-shadow: 0 14px 24px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --portal-content-feature-ribbon-gloss: rgba(255, 255, 255, 0.18);
+  --portal-content-feature-tag-cyan-bg: rgba(121, 225, 255, 0.16);
+  --portal-content-feature-tag-cyan-border: transparent;
+  --portal-content-feature-tag-cyan-ink: #eaf7ff;
+  --portal-content-feature-tag-sky-bg: rgba(164, 216, 255, 0.16);
+  --portal-content-feature-tag-sky-border: transparent;
+  --portal-content-feature-tag-sky-ink: #eaf7ff;
+  --portal-content-feature-tag-iris-bg: rgba(154, 170, 255, 0.16);
+  --portal-content-feature-tag-iris-border: transparent;
+  --portal-content-feature-tag-iris-ink: #f3f5ff;
+  --portal-content-feature-tag-mint-bg: rgba(122, 226, 214, 0.16);
+  --portal-content-feature-tag-mint-border: transparent;
+  --portal-content-feature-tag-mint-ink: #f0fff9;
+  --portal-content-feature-tag-amber-bg: rgba(172, 132, 84, 0.22);
+  --portal-content-feature-tag-amber-border: transparent;
+  --portal-content-feature-tag-amber-ink: #f0e0c4;
+  --portal-content-feature-tag-soft-bg: rgba(164, 216, 255, 0.08);
+  --portal-content-feature-tag-soft-border: rgba(182, 224, 255, 0.1);
+  --portal-content-feature-tag-soft-ink: #9fc2e6;
+  --portal-content-featured-accent: color-mix(
     in srgb,
     var(--portal-accent-cyan) 74%,
     white 26%
   );
-  --home-business-featured-accent-soft: color-mix(
+  --portal-content-featured-accent-soft: color-mix(
     in srgb,
     var(--portal-accent-cyan) 42%,
     white 58%
   );
-  --home-business-catalog-accent: color-mix(
+  --portal-content-catalog-accent: color-mix(
     in srgb,
     var(--portal-accent-cyan) 54%,
-    var(--home-muted) 46%
+    var(--portal-content-muted) 46%
   );
-  --home-business-catalog-accent-soft: color-mix(
+  --portal-content-catalog-accent-soft: color-mix(
     in srgb,
     var(--portal-accent-cyan) 24%,
-    var(--home-muted) 76%
+    var(--portal-content-muted) 76%
   );
-  --home-business-article-accent: var(--home-feature-tag-cyan-ink);
-  --home-business-article-accent-soft: var(--home-blue-soft);
-  --home-business-article-tag-bg: var(--home-feature-tag-cyan-bg);
-  --home-business-article-tag-border: var(--home-feature-tag-cyan-border);
-  --home-business-article-tag-ink: var(--home-feature-tag-cyan-ink);
-  --home-business-topic-accent: var(--home-feature-tag-iris-ink);
-  --home-business-topic-accent-soft: var(--home-iris-soft);
-  --home-business-topic-tag-bg: var(--home-feature-tag-iris-bg);
-  --home-business-topic-tag-border: var(--home-feature-tag-iris-border);
-  --home-business-topic-tag-ink: var(--home-feature-tag-iris-ink);
-  --home-business-gallery-accent: var(--home-feature-tag-mint-ink);
-  --home-business-gallery-accent-soft: var(--home-mint-soft);
-  --home-business-gallery-tag-bg: var(--home-feature-tag-mint-bg);
-  --home-business-gallery-tag-border: var(--home-feature-tag-mint-border);
-  --home-business-gallery-tag-ink: var(--home-feature-tag-mint-ink);
-  --home-business-bookshelf-accent: var(--home-feature-tag-amber-ink);
-  --home-business-bookshelf-accent-soft: var(--home-yellow-soft);
-  --home-business-bookshelf-tag-bg: var(--home-feature-tag-amber-bg);
-  --home-business-bookshelf-tag-border: var(--home-feature-tag-amber-border);
-  --home-business-bookshelf-tag-ink: var(--home-feature-tag-amber-ink);
-  /* Shared Media Surface Tokens */
-  --home-media-panel-border: rgba(182, 224, 255, 0.1);
-  --home-media-frame-border: rgba(255, 255, 255, 0.16);
-  --home-media-placeholder-surface: linear-gradient(
-    145deg,
-    rgba(83, 122, 171, 0.34),
-    rgba(10, 20, 38, 0.72)
-  );
-  --home-media-overlay-soft: linear-gradient(180deg, rgba(8, 18, 38, 0.12), rgba(8, 18, 38, 0.4));
-  --home-media-overlay-strong: linear-gradient(
-    180deg,
-    rgba(8, 18, 38, 0.18),
-    rgba(8, 18, 38, 0.46)
-  );
-  --home-media-deco-bg: rgba(255, 255, 255, 0.1);
-  --home-media-deco-border: rgba(255, 255, 255, 0.14);
-  --home-media-icon-border: rgba(255, 255, 255, 0.14);
-  --home-media-icon-shadow: 0 10px 24px rgba(121, 225, 255, 0.16);
-  --home-media-hover-shadow-strong:
-    0 16px 28px rgba(0, 0, 0, 0.3), 0 0 22px rgba(121, 225, 255, 0.1),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
-  --home-media-hover-shadow-soft:
-    0 14px 22px rgba(0, 0, 0, 0.24), 0 0 18px rgba(121, 225, 255, 0.08),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  --portal-content-article-accent: var(--portal-content-feature-tag-cyan-ink);
+  --portal-content-article-accent-soft: var(--portal-content-tone-blue-soft);
+  --portal-content-article-tag-bg: var(--portal-content-feature-tag-cyan-bg);
+  --portal-content-article-tag-border: var(--portal-content-feature-tag-cyan-border);
+  --portal-content-article-tag-ink: var(--portal-content-feature-tag-cyan-ink);
+  --portal-content-topic-accent: var(--portal-content-feature-tag-iris-ink);
+  --portal-content-topic-accent-soft: var(--portal-content-tone-iris-soft);
+  --portal-content-topic-tag-bg: var(--portal-content-feature-tag-iris-bg);
+  --portal-content-topic-tag-border: var(--portal-content-feature-tag-iris-border);
+  --portal-content-topic-tag-ink: var(--portal-content-feature-tag-iris-ink);
+  --portal-content-gallery-accent: var(--portal-content-feature-tag-mint-ink);
+  --portal-content-gallery-accent-soft: var(--portal-content-tone-mint-soft);
+  --portal-content-gallery-tag-bg: var(--portal-content-feature-tag-mint-bg);
+  --portal-content-gallery-tag-border: var(--portal-content-feature-tag-mint-border);
+  --portal-content-gallery-tag-ink: var(--portal-content-feature-tag-mint-ink);
+  --portal-content-bookshelf-accent: var(--portal-content-feature-tag-amber-ink);
+  --portal-content-bookshelf-accent-soft: var(--portal-content-tone-yellow-soft);
+  --portal-content-bookshelf-tag-bg: var(--portal-content-feature-tag-amber-bg);
+  --portal-content-bookshelf-tag-border: var(--portal-content-feature-tag-amber-border);
+  --portal-content-bookshelf-tag-ink: var(--portal-content-feature-tag-amber-ink);
 }

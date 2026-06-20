@@ -34,24 +34,53 @@
   --portal-empty-description-ink: var(--portal-muted);
   --portal-empty-description-size: 12px;
   --portal-empty-description-line-height: 1.7;
+  /* Portal Pagination Tokens */
+  --portal-pagination-bg: linear-gradient(180deg, rgba(249, 253, 255, 0.9), rgba(236, 244, 251, 0.8));
+  --portal-pagination-border: rgba(122, 160, 199, 0.18);
+  --portal-pagination-ink: color-mix(in srgb, #23476d 88%, transparent);
+  --portal-pagination-active-bg: linear-gradient(180deg, rgba(252, 254, 255, 0.96), rgba(236, 244, 252, 0.92));
+  --portal-pagination-active-border: rgba(136, 175, 226, 0.34);
+  --portal-pagination-active-ink: var(--portal-content-ink);
+  --portal-pagination-hover-shadow: 0 10px 18px rgba(18, 41, 74, 0.08);
+  --portal-pagination-active-shadow: 0 12px 20px rgba(18, 41, 74, 0.1);
   /* Shared Skeleton Tokens */
-  --home-skeleton-block: rgba(169, 196, 222, 0.3);
-  --home-skeleton-block-strong: rgba(136, 175, 211, 0.42);
-  --home-skeleton-border: rgba(122, 160, 199, 0.18);
-  --home-skeleton-highlight: rgba(255, 255, 255, 0.34);
-  --home-skeleton-title-hero-height: calc(var(--home-font-size-title-hero) * 0.9);
-  --home-skeleton-title-lg-height: calc(var(--home-font-size-title-lg) * 0.9);
-  --home-skeleton-title-md-height: calc(var(--home-font-size-title-md) * 0.833);
-  --home-skeleton-title-sm-height: calc(var(--home-font-size-title-sm) * 0.875);
-  --home-skeleton-copy-14-height: calc(var(--home-font-size-body-lg) * 1);
-  --home-skeleton-copy-12-height: 12px;
-  --home-skeleton-copy-13-height: calc(var(--home-font-size-body-md) * 0.923);
-  --home-skeleton-shimmer: linear-gradient(
+  --portal-skeleton-block: rgba(169, 196, 222, 0.3);
+  --portal-skeleton-block-strong: rgba(136, 175, 211, 0.42);
+  --portal-skeleton-border: rgba(122, 160, 199, 0.18);
+  --portal-skeleton-highlight: rgba(255, 255, 255, 0.34);
+  --portal-skeleton-title-hero-height: calc(var(--portal-content-font-size-title-hero) * 0.9);
+  --portal-skeleton-title-lg-height: calc(var(--portal-content-font-size-title-lg) * 0.9);
+  --portal-skeleton-title-md-height: calc(var(--portal-content-font-size-title-md) * 0.833);
+  --portal-skeleton-title-sm-height: calc(var(--portal-content-font-size-title-sm) * 0.875);
+  --portal-skeleton-copy-14-height: calc(var(--portal-content-font-size-body-lg) * 1);
+  --portal-skeleton-copy-12-height: 12px;
+  --portal-skeleton-copy-13-height: calc(var(--portal-content-font-size-body-md) * 0.923);
+  --portal-skeleton-shimmer: linear-gradient(
     90deg,
     transparent 0%,
     rgba(255, 255, 255, 0.34) 48%,
     transparent 100%
   );
+  /* Teleported Toolbar Account Panel Tokens */
+  --toolbar-account-panel-bg:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.3), rgba(248, 251, 255, 0.12)),
+    linear-gradient(180deg, rgba(244, 249, 254, 0.8), rgba(228, 237, 246, 0.74));
+  --toolbar-account-panel-border: rgba(122, 160, 199, 0.2);
+  --toolbar-account-panel-shadow:
+    0 3px 8px rgba(18, 41, 74, 0.016), 0 1px 2px rgba(18, 41, 74, 0.01),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  --toolbar-account-action-bg: linear-gradient(
+    180deg,
+    rgba(248, 252, 255, 0.86),
+    rgba(232, 240, 249, 0.76)
+  );
+  --toolbar-account-action-hover-bg: linear-gradient(
+    180deg,
+    rgba(252, 254, 255, 0.9),
+    rgba(238, 246, 253, 0.82)
+  );
+  --toolbar-account-action-border: rgba(122, 160, 199, 0.18);
+  --toolbar-account-action-ink: color-mix(in srgb, #23476d 88%, transparent);
 }
 
 .portal-toolbar-shell {

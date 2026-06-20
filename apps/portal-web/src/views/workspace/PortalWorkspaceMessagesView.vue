@@ -621,9 +621,9 @@ async function handleMarkRead(notificationId: string): Promise<void> {
   --workspace-message-body-line-height: 1.68;
   --workspace-message-meta-size: 12px;
   --workspace-message-meta-line-height: 1.35;
-  --workspace-message-list-gap: var(--home-card-gap-base);
+  --workspace-message-list-gap: var(--portal-content-card-gap-base);
   --workspace-message-stack-gap: 10px;
-  --workspace-message-inline-gap: var(--home-card-gap-tight);
+  --workspace-message-inline-gap: var(--portal-content-card-gap-tight);
 }
 
 .workspace-message-list {
@@ -635,7 +635,7 @@ async function handleMarkRead(notificationId: string): Promise<void> {
 .workspace-message-card {
   display: grid;
   grid-template-columns: 52px minmax(0, 1fr);
-  gap: var(--home-card-gap-base);
+  gap: var(--portal-content-card-gap-base);
   padding: var(--workspace-card-padding);
   border: 1px solid var(--workspace-card-border-current);
   border-radius: var(--workspace-card-radius);
@@ -776,7 +776,7 @@ async function handleMarkRead(notificationId: string): Promise<void> {
 
 .workspace-message-card__reference-header {
   display: flex;
-  gap: var(--home-card-gap-tight);
+  gap: var(--portal-content-card-gap-tight);
   min-width: 0;
   align-items: center;
 }
@@ -784,7 +784,7 @@ async function handleMarkRead(notificationId: string): Promise<void> {
 .workspace-message-card__reference-title {
   margin: 0;
   min-width: 0;
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
   font-size: var(--workspace-message-title-size);
   font-weight: 700;
   line-height: var(--workspace-message-title-line-height);
@@ -964,11 +964,11 @@ async function handleMarkRead(notificationId: string): Promise<void> {
 .workspace-message-skeleton__block {
   position: relative;
   overflow: hidden;
-  border: 1px solid var(--home-skeleton-border);
+  border: 1px solid var(--portal-skeleton-border);
   background: linear-gradient(
     135deg,
-    var(--home-skeleton-block-strong),
-    var(--home-skeleton-block)
+    var(--portal-skeleton-block-strong),
+    var(--portal-skeleton-block)
   );
 }
 
@@ -981,7 +981,7 @@ async function handleMarkRead(notificationId: string): Promise<void> {
   position: absolute;
   inset: 0;
   transform: translateX(-100%);
-  background: var(--home-skeleton-shimmer);
+  background: var(--portal-skeleton-shimmer);
   animation: home-skeleton-wave 2.4s ease-in-out infinite;
 }
 

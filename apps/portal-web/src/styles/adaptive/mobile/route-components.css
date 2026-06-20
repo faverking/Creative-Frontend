@@ -1,0 +1,20 @@
+:root[data-portal-viewport='mobile'] .portal-request-boundary__state {
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+:root[data-portal-viewport='mobile'] .portal-request-boundary__copy {
+  justify-items: center;
+}
+
+:root[data-portal-viewport='mobile'] .portal-request-boundary__actions {
+  justify-content: center;
+}
+
+:root[data-portal-viewport='mobile'] .portal-module-pagination :where(.el-pagination) {
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}

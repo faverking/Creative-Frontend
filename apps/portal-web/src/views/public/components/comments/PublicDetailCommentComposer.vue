@@ -113,15 +113,15 @@ function handlePrimaryAction(): void {
 .public-detail-comment-composer {
   --public-detail-comment-tone-border: color-mix(
     in srgb,
-    var(--home-business-article-accent) 18%,
-    var(--home-detail-card-border)
+    var(--portal-content-article-accent) 18%,
+    var(--public-detail-card-border)
   );
   --public-detail-comment-tone-surface: color-mix(
     in srgb,
-    var(--home-business-article-tag-bg) 26%,
-    var(--home-detail-card-bg)
+    var(--portal-content-article-tag-bg) 26%,
+    var(--public-detail-card-bg)
   );
-  --public-detail-comment-tone-ink: var(--home-business-article-tag-ink);
+  --public-detail-comment-tone-ink: var(--portal-content-article-tag-ink);
   display: grid;
   gap: 10px;
 }
@@ -129,43 +129,43 @@ function handlePrimaryAction(): void {
 .public-detail-comment-composer--topic {
   --public-detail-comment-tone-border: color-mix(
     in srgb,
-    var(--home-business-topic-accent) 18%,
-    var(--home-detail-card-border)
+    var(--portal-content-topic-accent) 18%,
+    var(--public-detail-card-border)
   );
   --public-detail-comment-tone-surface: color-mix(
     in srgb,
-    var(--home-business-topic-tag-bg) 26%,
-    var(--home-detail-card-bg)
+    var(--portal-content-topic-tag-bg) 26%,
+    var(--public-detail-card-bg)
   );
-  --public-detail-comment-tone-ink: var(--home-business-topic-tag-ink);
+  --public-detail-comment-tone-ink: var(--portal-content-topic-tag-ink);
 }
 
 .public-detail-comment-composer--gallery {
   --public-detail-comment-tone-border: color-mix(
     in srgb,
-    var(--home-business-gallery-accent) 18%,
-    var(--home-detail-card-border)
+    var(--portal-content-gallery-accent) 18%,
+    var(--public-detail-card-border)
   );
   --public-detail-comment-tone-surface: color-mix(
     in srgb,
-    var(--home-business-gallery-tag-bg) 26%,
-    var(--home-detail-card-bg)
+    var(--portal-content-gallery-tag-bg) 26%,
+    var(--public-detail-card-bg)
   );
-  --public-detail-comment-tone-ink: var(--home-business-gallery-tag-ink);
+  --public-detail-comment-tone-ink: var(--portal-content-gallery-tag-ink);
 }
 
 .public-detail-comment-composer--bookshelf {
   --public-detail-comment-tone-border: color-mix(
     in srgb,
-    var(--home-business-bookshelf-accent) 18%,
-    var(--home-detail-card-border)
+    var(--portal-content-bookshelf-accent) 18%,
+    var(--public-detail-card-border)
   );
   --public-detail-comment-tone-surface: color-mix(
     in srgb,
-    var(--home-business-bookshelf-tag-bg) 26%,
-    var(--home-detail-card-bg)
+    var(--portal-content-bookshelf-tag-bg) 26%,
+    var(--public-detail-card-bg)
   );
-  --public-detail-comment-tone-ink: var(--home-business-bookshelf-tag-ink);
+  --public-detail-comment-tone-ink: var(--portal-content-bookshelf-tag-ink);
 }
 
 .public-detail-comment-composer__field {
@@ -181,7 +181,7 @@ function handlePrimaryAction(): void {
   border-radius: 16px;
   background: color-mix(in srgb, white 78%, var(--public-detail-comment-tone-surface));
   box-sizing: border-box;
-  color: var(--home-ink);
+  color: var(--portal-content-ink);
   font: inherit;
   font-size: 13px;
   line-height: 1.72;
@@ -194,7 +194,7 @@ function handlePrimaryAction(): void {
 }
 
 .public-detail-comment-composer__textarea::placeholder {
-  color: color-mix(in srgb, var(--home-muted) 92%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 92%, transparent);
 }
 
 .public-detail-comment-composer__textarea:hover:not(:disabled) {
@@ -222,7 +222,7 @@ function handlePrimaryAction(): void {
 
 .public-detail-comment-composer__hint {
   margin: 0;
-  color: color-mix(in srgb, var(--home-muted) 92%, transparent);
+  color: color-mix(in srgb, var(--portal-content-muted) 92%, transparent);
   font-size: 12px;
   line-height: 1.66;
 }
@@ -234,7 +234,7 @@ function handlePrimaryAction(): void {
   border: 1px solid color-mix(in srgb, var(--public-detail-comment-tone-border) 76%, transparent);
   border-radius: 999px;
   background: color-mix(in srgb, var(--public-detail-comment-tone-surface) 86%, white);
-  color: color-mix(in srgb, var(--public-detail-comment-tone-ink) 88%, var(--home-ink));
+  color: color-mix(in srgb, var(--public-detail-comment-tone-ink) 88%, var(--portal-content-ink));
   font: inherit;
   font-size: 12px;
   font-weight: 700;

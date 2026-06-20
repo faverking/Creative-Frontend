@@ -51,19 +51,11 @@ function handleCurrentChange(page: number): void {
 
 <style scoped>
 .portal-module-pagination {
-  --portal-module-pagination-bg: var(--home-detail-card-bg);
-  --portal-module-pagination-border: var(--home-detail-card-border);
-  --portal-module-pagination-ink: color-mix(in srgb, var(--home-detail-glass-ink) 88%, transparent);
-  --portal-module-pagination-active-bg: var(--home-detail-glass-bg-emphasis);
-  --portal-module-pagination-active-border: var(--home-feature-ribbon-border);
-  --portal-module-pagination-active-ink: var(--home-ink);
-  --portal-module-pagination-hover-shadow: 0 10px 18px rgba(18, 41, 74, 0.08);
-  --portal-module-pagination-active-shadow: 0 12px 20px rgba(18, 41, 74, 0.1);
-  --portal-module-pagination-control-gap: 8px;
-  --portal-module-pagination-control-radius: 14px;
-  --portal-module-pagination-nav-width: 44px;
-  --portal-module-pagination-page-min-width: 40px;
-  --portal-module-pagination-section-gap: 12px;
+  --portal-pagination-control-gap: 8px;
+  --portal-pagination-control-radius: 14px;
+  --portal-pagination-nav-width: 44px;
+  --portal-pagination-page-min-width: 40px;
+  --portal-pagination-section-gap: 12px;
   display: flex;
   justify-content: center;
 }
@@ -73,12 +65,12 @@ function handleCurrentChange(page: number): void {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: var(--portal-module-pagination-section-gap);
+  gap: var(--portal-pagination-section-gap);
 }
 
 .portal-module-pagination :deep(.el-pagination__total) {
   margin: 0;
-  color: var(--portal-module-pagination-ink);
+  color: var(--portal-pagination-ink);
   font-size: 12px;
   font-weight: 700;
   line-height: 1.5;
@@ -88,7 +80,7 @@ function handleCurrentChange(page: number): void {
 .portal-module-pagination :deep(.el-pager) {
   display: flex;
   align-items: center;
-  gap: var(--portal-module-pagination-control-gap);
+  gap: var(--portal-pagination-control-gap);
   margin: 0;
   padding: 0;
 }
@@ -101,11 +93,11 @@ function handleCurrentChange(page: number): void {
   justify-content: center;
   height: 36px;
   margin: 0;
-  border: 1px solid var(--portal-module-pagination-border);
-  border-radius: var(--portal-module-pagination-control-radius);
-  background: var(--portal-module-pagination-bg);
+  border: 1px solid var(--portal-pagination-border);
+  border-radius: var(--portal-pagination-control-radius);
+  background: var(--portal-pagination-bg);
   box-sizing: border-box;
-  color: var(--portal-module-pagination-ink);
+  color: var(--portal-pagination-ink);
   font-size: 12px;
   font-weight: 700;
   line-height: 1;
@@ -118,27 +110,27 @@ function handleCurrentChange(page: number): void {
 
 .portal-module-pagination :deep(.btn-prev),
 .portal-module-pagination :deep(.btn-next) {
-  width: var(--portal-module-pagination-nav-width);
-  min-width: var(--portal-module-pagination-nav-width);
+  width: var(--portal-pagination-nav-width);
+  min-width: var(--portal-pagination-nav-width);
 }
 
 .portal-module-pagination :deep(.el-pager li) {
-  min-width: var(--portal-module-pagination-page-min-width);
+  min-width: var(--portal-pagination-page-min-width);
   padding: 0 12px;
 }
 
 .portal-module-pagination :deep(.btn-prev:hover),
 .portal-module-pagination :deep(.btn-next:hover),
 .portal-module-pagination :deep(.el-pager li:hover) {
-  border-color: var(--portal-module-pagination-active-border);
-  box-shadow: var(--portal-module-pagination-hover-shadow);
+  border-color: var(--portal-pagination-active-border);
+  box-shadow: var(--portal-pagination-hover-shadow);
 }
 
 .portal-module-pagination :deep(.el-pager li.is-active) {
-  border-color: var(--portal-module-pagination-active-border);
-  background: var(--portal-module-pagination-active-bg);
-  color: var(--portal-module-pagination-active-ink);
-  box-shadow: var(--portal-module-pagination-active-shadow);
+  border-color: var(--portal-pagination-active-border);
+  background: var(--portal-pagination-active-bg);
+  color: var(--portal-pagination-active-ink);
+  box-shadow: var(--portal-pagination-active-shadow);
 }
 
 .portal-module-pagination :deep(.el-pager li.is-disabled),

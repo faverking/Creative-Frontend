@@ -1,19 +1,31 @@
 :root {
+  /* Portal frame and shared stage layout */
   --portal-stage-padding-inline: 24px;
   --portal-stage-padding-top: 18px;
   --portal-stage-padding-bottom: 40px;
   --portal-boundary-panel-padding-block: 18px;
   --portal-boundary-panel-padding-inline: 20px;
+
+  /* Home stage layout */
   --portal-home-stage-padding-inline: 0px;
 
+  /* Public module stage layout */
   --portal-module-gap: 16px;
 
+  /* Public detail stage layout */
   --portal-detail-stage-gap: 18px;
   --portal-detail-stage-max-width: 1360px;
   --portal-gallery-detail-stage-max-width: calc(var(--portal-detail-stage-max-width) + 40px);
   --portal-detail-layout-columns: minmax(0, 1.8fr) minmax(274px, 302px);
   --portal-detail-sticky-top: 20px;
 
+  /* Book reader stage layout */
+  --portal-book-reader-novel-content-width: 1040px;
+  --portal-book-reader-comic-content-width: 1120px;
+  --portal-book-reader-paper-padding-inline: 64px;
+  --portal-book-reader-catalog-width: 320px;
+
+  /* Workspace stage layout */
   --portal-workspace-stage-max-width: 1460px;
   --portal-workspace-stage-gap: 24px;
   --portal-workspace-layout-columns: minmax(0, 1fr) 320px;
@@ -27,9 +39,4 @@
   --portal-workspace-toolbar-side-margin-left: auto;
   --portal-workspace-sidebar-position: sticky;
   --portal-workspace-sidebar-top: 152px;
-
-  --portal-book-reader-novel-content-width: 1040px;
-  --portal-book-reader-comic-content-width: 1120px;
-  --portal-book-reader-paper-padding-inline: 64px;
-  --portal-book-reader-catalog-width: 320px;
 }
