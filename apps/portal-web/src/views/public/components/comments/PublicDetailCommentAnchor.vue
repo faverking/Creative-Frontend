@@ -58,7 +58,7 @@ defineEmits<{
   gap: 5px;
   width: 100%;
   margin-top: var(--public-detail-comments-gap-before, 0);
-  padding-top: var(--public-detail-comments-divider-gap, var(--public-detail-comments-divider-gap));
+  padding-top: var(--public-detail-comments-divider-gap);
   border-top: 1px solid var(--portal-content-line);
 }
 

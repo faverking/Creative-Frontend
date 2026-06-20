@@ -1,8 +1,5 @@
-import {
-  PORTAL_DETAIL_ROUTE_NAMES,
-  PORTAL_MODULE_ROUTE_NAMES,
-  PORTAL_PUBLIC_DETAIL_ROUTE_NAMES
-} from '@/constants/portal-business'
+import { PORTAL_DETAIL_ROUTE_NAMES, PORTAL_MODULE_ROUTE_NAMES } from '@/constants/portal-business'
+import { PORTAL_WORKSPACE_ROUTE_NAMES } from '@/constants/workspace'
 
 const routePreloadCache = new WeakSet<RouteLoader>()
 
@@ -13,16 +10,16 @@ const loadPublicDetailRouteStyles = () => import('@/styles/routes/public-detail.
 const loadWorkspaceRouteStyles = () => import('@/styles/routes/workspace.css')
 
 const HOME_ROUTE_NAMES = new Set(['home', 'login', 'register'])
+const AUTH_DIALOG_ROUTE_SUFFIX_PATTERN = /-(?:login|register)$/
 const PUBLIC_MODULE_ROUTE_NAME_SET: ReadonlySet<string> = new Set(
   Object.values(PORTAL_MODULE_ROUTE_NAMES)
 )
-const PUBLIC_DETAIL_ROUTE_NAME_SET: ReadonlySet<string> = new Set([
-  ...PORTAL_PUBLIC_DETAIL_ROUTE_NAMES,
-  ...Object.values(PORTAL_DETAIL_ROUTE_NAMES).flatMap((routeName) => [
-    `${routeName}-login`,
-    `${routeName}-register`
-  ])
-])
+const PUBLIC_DETAIL_ROUTE_NAME_SET: ReadonlySet<string> = new Set(
+  Object.values(PORTAL_DETAIL_ROUTE_NAMES)
+)
+const WORKSPACE_ROUTE_NAME_SET: ReadonlySet<string> = new Set(
+  Object.values(PORTAL_WORKSPACE_ROUTE_NAMES)
+)
 
 function withRouteStyles<T>(
   loadStyles: RouteLoader,
@@ -91,17 +88,21 @@ export const loadGalleryDetailView = withRouteStyles(
   () => import('@/views/public/PortalGalleryDetailView.vue')
 )
 
-const homeFollowupLoaders = [
+const authDialogLoaders = [loadLoginView, loadRegisterView]
+
+const publicBrowseFollowupLoaders = [
   loadLoginView,
   loadRegisterView,
   loadArticleModuleView,
   loadTopicModuleView,
   loadBookModuleView,
-  loadGalleryModuleView,
+  loadGalleryModuleView
+]
+
+const publicModuleFollowupLoaders = [
   loadArticleDetailView,
   loadTopicDetailView,
   loadBookDetailView,
-  loadBookReaderView,
   loadGalleryDetailView
 ]
 
@@ -128,7 +129,7 @@ function scheduleIdleTask(task: () => void): void {
   globalThis.setTimeout(task, 320)
 }
 
-function preloadRoutes(loaders: RouteLoader[]): void {
+function preloadRoutes(loaders: readonly RouteLoader[]): void {
   for (const loader of loaders) {
     if (routePreloadCache.has(loader)) {
       continue
@@ -141,8 +142,32 @@ function preloadRoutes(loaders: RouteLoader[]): void {
   }
 }
 
-function scheduleRoutePreload(loaders: RouteLoader[]): void {
+function scheduleRoutePreload(loaders: readonly RouteLoader[]): void {
+  if (loaders.length === 0) {
+    return
+  }
+
   scheduleIdleTask(() => preloadRoutes(loaders))
+}
+
+function resolvePortalRoutePreloadLoaders(routeName: string): readonly RouteLoader[] {
+  if (AUTH_DIALOG_ROUTE_SUFFIX_PATTERN.test(routeName)) {
+    return []
+  }
+
+  if (HOME_ROUTE_NAMES.has(routeName)) {
+    return publicBrowseFollowupLoaders
+  }
+
+  if (PUBLIC_MODULE_ROUTE_NAME_SET.has(routeName)) {
+    return publicModuleFollowupLoaders
+  }
+
+  if (PUBLIC_DETAIL_ROUTE_NAME_SET.has(routeName)) {
+    return authDialogLoaders
+  }
+
+  return []
 }
 
 export function schedulePortalRoutePreload(routeName: string | null | undefined): void {
@@ -150,17 +175,14 @@ export function schedulePortalRoutePreload(routeName: string | null | undefined)
     return
   }
 
-  if (
-    HOME_ROUTE_NAMES.has(routeName) ||
-    PUBLIC_MODULE_ROUTE_NAME_SET.has(routeName) ||
-    PUBLIC_DETAIL_ROUTE_NAME_SET.has(routeName)
-  ) {
-    scheduleRoutePreload(homeFollowupLoaders)
-  }
+  scheduleRoutePreload(resolvePortalRoutePreloadLoaders(routeName))
 }
 
-export function scheduleProtectedRoutePreload(isAuthenticated: boolean): void {
-  if (!isAuthenticated) {
+export function scheduleProtectedRoutePreload(
+  routeName: string | null | undefined,
+  isAuthenticated: boolean
+): void {
+  if (!isAuthenticated || !routeName || !WORKSPACE_ROUTE_NAME_SET.has(routeName)) {
     return
   }
 

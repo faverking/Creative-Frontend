@@ -596,13 +596,12 @@ async function handleMarkRead(notificationId: string): Promise<void> {
     --workspace-accent-soft,
     var(--workspace-messages-accent-soft)
   );
-  --workspace-card-bg-current: var(--workspace-card-bg, var(--workspace-card-base-bg));
+  --workspace-inner-surface-bg-current: var(
+    --workspace-content-surface-bg,
+    var(--workspace-card-base-bg)
+  );
   --workspace-card-border-current: var(--workspace-card-border, var(--workspace-card-base-border));
   --workspace-card-shadow-current: var(--workspace-card-shadow, var(--workspace-card-base-shadow));
-  --workspace-card-emphasis-bg-current: var(
-    --workspace-card-emphasis-bg,
-    var(--workspace-card-bg-current)
-  );
   --workspace-media-bg-current: var(--workspace-media-bg, var(--workspace-media-base-bg));
   --workspace-media-border-current: var(
     --workspace-media-border,
@@ -639,13 +638,12 @@ async function handleMarkRead(notificationId: string): Promise<void> {
   padding: var(--workspace-card-padding);
   border: 1px solid var(--workspace-card-border-current);
   border-radius: var(--workspace-card-radius);
-  background: var(--workspace-card-bg-current);
+  background: var(--workspace-list-card-bg);
   box-shadow: var(--workspace-card-shadow-current);
 }
 
 .workspace-message-card.is-unread {
-  border-color: color-mix(in srgb, var(--workspace-accent-current) 18%, transparent);
-  background: var(--workspace-card-emphasis-bg-current);
+  border-color: var(--workspace-message-unread-border);
 }
 
 .workspace-message-card__avatar-rail {
@@ -887,7 +885,7 @@ async function handleMarkRead(notificationId: string): Promise<void> {
   background: color-mix(
     in srgb,
     var(--workspace-accent-soft-current) 34%,
-    var(--workspace-card-bg-current)
+    var(--workspace-inner-surface-bg-current)
   );
   color: var(--portal-ink-strong);
   font: inherit;
@@ -982,7 +980,7 @@ async function handleMarkRead(notificationId: string): Promise<void> {
   inset: 0;
   transform: translateX(-100%);
   background: var(--portal-skeleton-shimmer);
-  animation: home-skeleton-wave 2.4s ease-in-out infinite;
+  animation: portal-skeleton-wave 2.4s ease-in-out infinite;
 }
 
 .workspace-message-skeleton__block,

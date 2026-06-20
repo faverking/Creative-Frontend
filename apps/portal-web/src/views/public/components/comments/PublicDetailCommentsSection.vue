@@ -558,7 +558,7 @@ async function handleExpandReplies(commentId: string): Promise<void> {
   --public-detail-comments-accent: var(--portal-content-article-accent);
   width: 100%;
   margin-top: var(--public-detail-comments-gap-before, 0);
-  padding-top: var(--public-detail-comments-divider-gap, var(--public-detail-comments-divider-gap));
+  padding-top: var(--public-detail-comments-divider-gap);
   border-top: 1px solid var(--portal-content-line);
 }
 
@@ -694,7 +694,7 @@ async function handleExpandReplies(commentId: string): Promise<void> {
   position: absolute;
   inset: 0;
   background: var(--portal-skeleton-shimmer);
-  animation: home-skeleton-wave 2.4s ease-in-out infinite;
+  animation: portal-skeleton-wave 2.4s ease-in-out infinite;
   transform: translateX(-100%);
 }
 

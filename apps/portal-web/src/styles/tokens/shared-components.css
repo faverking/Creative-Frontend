@@ -83,6 +83,12 @@
   --toolbar-account-action-ink: color-mix(in srgb, #23476d 88%, transparent);
 }
 
+@keyframes portal-skeleton-wave {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 .portal-toolbar-shell {
   --toolbar-text: rgba(29, 55, 84, 0.76);
   --toolbar-text-strong: var(--portal-ink-strong);

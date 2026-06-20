@@ -412,7 +412,6 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
   --portal-article-detail-shell-width: 936px;
   --portal-article-detail-section-gap: var(--public-detail-main-section-gap);
   --public-detail-comments-gap-before: var(--portal-article-detail-section-gap);
-  --public-detail-comments-divider-gap: var(--public-detail-comments-divider-gap);
   --public-detail-panel-padding-override: var(--public-detail-main-panel-padding-top)
     var(--public-detail-main-panel-padding-inline) var(--public-detail-main-panel-padding-bottom);
   display: grid;
@@ -427,7 +426,6 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
 
 .portal-article-detail-page__body {
   --public-detail-rich-text-max-width: var(--portal-article-detail-body-max-width);
-  --public-detail-rich-text-outset: var(--public-detail-rich-text-outset);
 }
 
 .portal-article-detail-page__side {

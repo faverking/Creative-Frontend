@@ -151,12 +151,12 @@ const props = withDefaults(
 )
 
 const TONE_ACCENTS: Record<PortalModuleFilterTone, string> = {
-  neutral: 'var(--portal-module-filter-tone-neutral-accent)',
-  amber: 'var(--portal-module-filter-tone-amber-accent)',
-  pink: 'var(--portal-module-filter-tone-pink-accent)',
-  blue: 'var(--portal-module-filter-tone-blue-accent)',
-  mint: 'var(--portal-module-filter-tone-mint-accent)',
-  violet: 'var(--portal-module-filter-tone-violet-accent)'
+  neutral: 'var(--portal-module-filter-category-neutral-accent)',
+  amber: 'var(--portal-module-filter-category-amber-accent)',
+  pink: 'var(--portal-module-filter-category-pink-accent)',
+  blue: 'var(--portal-module-filter-category-blue-accent)',
+  mint: 'var(--portal-module-filter-category-mint-accent)',
+  violet: 'var(--portal-module-filter-category-violet-accent)'
 }
 
 const activeTone = computed<PortalModuleFilterTone>(() => {
@@ -190,7 +190,7 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
 
 <style scoped>
 .portal-module-filter-panel {
-  --portal-module-filter-current-accent: var(--portal-module-filter-tone-neutral-accent);
+  --portal-module-filter-current-accent: var(--portal-module-filter-category-neutral-accent);
   --portal-module-filter-gap-local: 12px;
   --portal-module-filter-padding-local: 10px 12px;
   --portal-module-filter-radius-local: 20px;
@@ -209,6 +209,34 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
   --portal-module-filter-star-size-local: 44px;
   --portal-module-filter-star-top-local: -28px;
   --portal-module-filter-star-right-local: 50px;
+  --portal-module-filter-star-ink: color-mix(
+    in srgb,
+    var(--portal-primary-strong) 64%,
+    var(--portal-ink) 36%
+  );
+  --portal-module-filter-star-outline: color-mix(
+    in srgb,
+    white 34%,
+    var(--portal-primary-strong) 66%
+  );
+  --portal-module-filter-star-inner-line: color-mix(
+    in srgb,
+    white 46%,
+    var(--portal-accent-cyan) 54%
+  );
+  --portal-module-filter-star-fill-mid: color-mix(
+    in srgb,
+    white 54%,
+    var(--portal-accent-cyan) 46%
+  );
+  --portal-module-filter-star-fill-core: color-mix(
+    in srgb,
+    white 78%,
+    var(--portal-accent-cyan) 22%
+  );
+  --portal-module-filter-star-fill-highlight: rgba(255, 255, 255, 0.84);
+  --portal-module-filter-star-shadow: 0 8px 14px
+    color-mix(in srgb, var(--portal-accent-cyan) 18%, transparent);
   position: sticky;
   top: 82px;
   z-index: 4;
@@ -223,6 +251,29 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
   backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.64)) saturate(1);
   -webkit-backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.64)) saturate(1);
   overflow: visible;
+}
+
+:global(html.dark) .portal-module-filter-panel {
+  --portal-module-filter-star-ink: color-mix(in srgb, var(--portal-accent-cyan) 74%, white 26%);
+  --portal-module-filter-star-outline: color-mix(in srgb, white 38%, var(--portal-accent-cyan) 62%);
+  --portal-module-filter-star-inner-line: color-mix(
+    in srgb,
+    white 52%,
+    var(--portal-accent-cyan) 48%
+  );
+  --portal-module-filter-star-fill-mid: color-mix(
+    in srgb,
+    white 58%,
+    var(--portal-accent-cyan) 42%
+  );
+  --portal-module-filter-star-fill-core: color-mix(
+    in srgb,
+    white 76%,
+    var(--portal-accent-cyan) 24%
+  );
+  --portal-module-filter-star-fill-highlight: rgba(255, 255, 255, 0.9);
+  --portal-module-filter-star-shadow: 0 8px 16px
+    color-mix(in srgb, var(--portal-accent-cyan) 22%, transparent);
 }
 
 .portal-module-filter-panel__categories,
@@ -257,9 +308,13 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
 }
 
 .portal-module-filter-panel__category {
-  --topic-bg: var(--portal-module-filter-category-neutral-bg);
-  --topic-border: var(--portal-module-filter-category-neutral-border);
-  --topic-accent: var(--portal-module-filter-category-neutral-accent);
+  --portal-module-filter-category-bg-current: var(--portal-module-filter-category-neutral-bg);
+  --portal-module-filter-category-border-current: var(
+    --portal-module-filter-category-neutral-border
+  );
+  --portal-module-filter-category-accent-current: var(
+    --portal-module-filter-category-neutral-accent
+  );
   appearance: none;
   -webkit-appearance: none;
   position: relative;
@@ -270,11 +325,11 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
   width: var(--portal-module-filter-category-width-local);
   min-height: var(--portal-module-filter-category-min-height-local);
   padding: var(--portal-module-filter-category-padding-local);
-  border: 1px solid var(--topic-border);
+  border: 1px solid var(--portal-module-filter-category-border-current);
   border-radius: var(--portal-module-filter-category-radius-local);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 100%),
-    var(--topic-bg);
+    var(--portal-module-filter-category-bg-current);
   color: var(--portal-content-ink);
   overflow: visible;
   box-shadow: var(--portal-module-filter-category-shadow);
@@ -299,50 +354,62 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
   width: 22px;
   height: 3px;
   border-radius: 999px;
-  background: var(--topic-accent);
+  background: var(--portal-module-filter-category-accent-current);
   opacity: 0.9;
 }
 
 .portal-module-filter-panel__category--all,
 .portal-module-filter-panel__category--neutral {
-  --topic-bg: var(--portal-module-filter-category-neutral-bg);
-  --topic-border: var(--portal-module-filter-category-neutral-border);
-  --topic-accent: var(--portal-module-filter-category-neutral-accent);
+  --portal-module-filter-category-bg-current: var(--portal-module-filter-category-neutral-bg);
+  --portal-module-filter-category-border-current: var(
+    --portal-module-filter-category-neutral-border
+  );
+  --portal-module-filter-category-accent-current: var(
+    --portal-module-filter-category-neutral-accent
+  );
 }
 
 .portal-module-filter-panel__category--amber {
-  --topic-bg: var(--portal-module-filter-category-amber-bg);
-  --topic-border: var(--portal-module-filter-category-amber-border);
-  --topic-accent: var(--portal-module-filter-category-amber-accent);
+  --portal-module-filter-category-bg-current: var(--portal-module-filter-category-amber-bg);
+  --portal-module-filter-category-border-current: var(--portal-module-filter-category-amber-border);
+  --portal-module-filter-category-accent-current: var(--portal-module-filter-category-amber-accent);
 }
 
 .portal-module-filter-panel__category--pink {
-  --topic-bg: var(--portal-module-filter-category-pink-bg);
-  --topic-border: var(--portal-module-filter-category-pink-border);
-  --topic-accent: var(--portal-module-filter-category-pink-accent);
+  --portal-module-filter-category-bg-current: var(--portal-module-filter-category-pink-bg);
+  --portal-module-filter-category-border-current: var(--portal-module-filter-category-pink-border);
+  --portal-module-filter-category-accent-current: var(--portal-module-filter-category-pink-accent);
 }
 
 .portal-module-filter-panel__category--blue {
-  --topic-bg: var(--portal-module-filter-category-blue-bg);
-  --topic-border: var(--portal-module-filter-category-blue-border);
-  --topic-accent: var(--portal-module-filter-category-blue-accent);
+  --portal-module-filter-category-bg-current: var(--portal-module-filter-category-blue-bg);
+  --portal-module-filter-category-border-current: var(--portal-module-filter-category-blue-border);
+  --portal-module-filter-category-accent-current: var(--portal-module-filter-category-blue-accent);
 }
 
 .portal-module-filter-panel__category--mint {
-  --topic-bg: var(--portal-module-filter-category-mint-bg);
-  --topic-border: var(--portal-module-filter-category-mint-border);
-  --topic-accent: var(--portal-module-filter-category-mint-accent);
+  --portal-module-filter-category-bg-current: var(--portal-module-filter-category-mint-bg);
+  --portal-module-filter-category-border-current: var(--portal-module-filter-category-mint-border);
+  --portal-module-filter-category-accent-current: var(--portal-module-filter-category-mint-accent);
 }
 
 .portal-module-filter-panel__category--violet {
-  --topic-bg: var(--portal-module-filter-category-violet-bg);
-  --topic-border: var(--portal-module-filter-category-violet-border);
-  --topic-accent: var(--portal-module-filter-category-violet-accent);
+  --portal-module-filter-category-bg-current: var(--portal-module-filter-category-violet-bg);
+  --portal-module-filter-category-border-current: var(
+    --portal-module-filter-category-violet-border
+  );
+  --portal-module-filter-category-accent-current: var(
+    --portal-module-filter-category-violet-accent
+  );
 }
 
 .portal-module-filter-panel__category:hover {
   color: color-mix(in srgb, var(--portal-content-ink) 94%, transparent);
-  border-color: color-mix(in srgb, var(--topic-accent) 56%, var(--topic-border) 44%);
+  border-color: color-mix(
+    in srgb,
+    var(--portal-module-filter-category-accent-current) 56%,
+    var(--portal-module-filter-category-border-current) 44%
+  );
   box-shadow: var(--portal-module-filter-category-hover-shadow);
   transform: translateY(-1px);
 }
@@ -350,8 +417,12 @@ function resolveToneClass(tone: PortalModuleFilterTone | undefined): string {
 .portal-module-filter-panel__category.is-active {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.02) 100%),
-    var(--topic-bg);
-  border-color: color-mix(in srgb, var(--topic-accent) 70%, var(--topic-border) 30%);
+    var(--portal-module-filter-category-bg-current);
+  border-color: color-mix(
+    in srgb,
+    var(--portal-module-filter-category-accent-current) 70%,
+    var(--portal-module-filter-category-border-current) 30%
+  );
   box-shadow: var(--portal-module-filter-category-active-shadow);
 }
 

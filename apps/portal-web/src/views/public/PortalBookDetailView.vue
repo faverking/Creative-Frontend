@@ -664,7 +664,6 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
   --portal-book-detail-shell-width: 936px;
   --portal-book-detail-section-gap: 24px;
   --public-detail-comments-gap-before: 0;
-  --public-detail-comments-divider-gap: var(--public-detail-comments-divider-gap);
   --public-detail-panel-padding-override: var(--public-detail-main-panel-padding-top)
     var(--public-detail-main-panel-padding-inline) var(--public-detail-main-panel-padding-bottom);
   display: grid;

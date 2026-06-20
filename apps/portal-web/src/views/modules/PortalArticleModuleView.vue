@@ -650,7 +650,7 @@ function handleCategoryChange(value?: string | number): void {
   position: absolute;
   inset: 0;
   background: var(--portal-skeleton-shimmer);
-  animation: home-skeleton-wave 2.4s ease-in-out infinite;
+  animation: portal-skeleton-wave 2.4s ease-in-out infinite;
   transform: translateX(-100%);
 }
 

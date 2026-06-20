@@ -534,7 +534,6 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
   --portal-topic-detail-shell-width: 936px;
   --portal-topic-detail-section-gap: var(--public-detail-main-section-gap);
   --public-detail-comments-gap-before: var(--portal-topic-detail-section-gap);
-  --public-detail-comments-divider-gap: var(--public-detail-comments-divider-gap);
   --public-detail-panel-padding-override: var(--public-detail-main-panel-padding-top)
     var(--public-detail-main-panel-padding-inline) var(--public-detail-main-panel-padding-bottom);
   display: grid;
@@ -549,7 +548,6 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
 
 .portal-topic-detail-page__body {
   --public-detail-rich-text-max-width: var(--portal-topic-detail-body-max-width);
-  --public-detail-rich-text-outset: var(--public-detail-rich-text-outset);
 }
 
 .portal-topic-detail-page__side {

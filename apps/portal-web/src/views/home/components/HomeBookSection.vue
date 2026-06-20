@@ -435,9 +435,9 @@ function resolveBookTags(item: HomeBookshelfSectionResponse['items'][number]) {
 
 .home-book-section__copy {
   display: grid;
-  grid-template-rows: var(--portal-content-block-title-md-1) var(
-      --portal-content-block-body-md-2
-    ) auto;
+  grid-template-rows:
+    var(--portal-content-block-title-md-1) var(--portal-content-block-body-md-2)
+    auto;
   align-content: start;
   gap: 10px;
   padding-top: 2px;
@@ -573,7 +573,7 @@ function resolveBookTags(item: HomeBookshelfSectionResponse['items'][number]) {
   position: absolute;
   inset: 0;
   background: var(--portal-skeleton-shimmer);
-  animation: home-skeleton-wave 2.4s ease-in-out infinite;
+  animation: portal-skeleton-wave 2.4s ease-in-out infinite;
   transform: translateX(-100%);
 }
 

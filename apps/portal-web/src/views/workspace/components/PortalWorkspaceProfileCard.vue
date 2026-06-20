@@ -333,13 +333,20 @@ function handleToggle(): void {
 <style scoped>
 .workspace-profile-card {
   --workspace-accent-current: var(--workspace-accent, var(--workspace-messages-accent));
-  --workspace-card-bg-current: var(--workspace-card-bg, var(--workspace-card-base-bg));
+  --workspace-content-surface-bg-current: var(
+    --workspace-content-surface-bg,
+    var(--workspace-card-base-bg)
+  );
+  --workspace-profile-context-bg-current: var(
+    --workspace-profile-context-bg,
+    var(--workspace-surface-base-bg)
+  );
   --workspace-card-border-current: var(--workspace-card-border, var(--workspace-card-base-border));
   --workspace-card-shadow-current: var(--workspace-card-shadow, var(--workspace-card-base-shadow));
   --workspace-profile-card-bg-current: color-mix(
     in srgb,
-    var(--workspace-card-bg-current) 88%,
-    var(--workspace-surface-bg, var(--workspace-surface-base-bg)) 12%
+    var(--workspace-content-surface-bg-current) 88%,
+    var(--workspace-profile-context-bg-current) 12%
   );
   --workspace-media-bg-current: var(--workspace-media-bg, var(--workspace-media-base-bg));
   --workspace-media-border-current: var(
@@ -754,7 +761,7 @@ function handleToggle(): void {
   inset: 0;
   transform: translateX(-100%);
   background: var(--portal-skeleton-shimmer);
-  animation: home-skeleton-wave 2.4s ease-in-out infinite;
+  animation: portal-skeleton-wave 2.4s ease-in-out infinite;
 }
 
 .workspace-profile-card__copy--skeleton {

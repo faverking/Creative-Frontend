@@ -736,7 +736,6 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
 .portal-gallery-detail-page__viewer {
   --portal-gallery-detail-section-gap: 22px;
   --public-detail-comments-gap-before: 0;
-  --public-detail-comments-divider-gap: var(--public-detail-comments-divider-gap);
   --public-detail-panel-padding-override: var(--public-detail-main-panel-padding-top)
     var(--public-detail-main-panel-padding-inline) var(--public-detail-main-panel-padding-bottom);
   display: grid;

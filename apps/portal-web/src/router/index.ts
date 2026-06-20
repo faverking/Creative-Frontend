@@ -348,7 +348,7 @@ router.beforeEach(async (to, from) => {
 router.afterEach((to) => {
   const routeName = typeof to.name === 'string' ? to.name : null
   schedulePortalRoutePreload(routeName)
-  scheduleProtectedRoutePreload(TokenManager.hasAccessToken())
+  scheduleProtectedRoutePreload(routeName, TokenManager.hasAccessToken())
 })
 
 export default router

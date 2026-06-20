@@ -373,7 +373,6 @@ async function handleToggleFavorite(item: WorkspaceFavoriteCard): Promise<void> 
     --workspace-accent-soft,
     var(--workspace-favorites-accent-soft)
   );
-  --workspace-card-bg-current: var(--workspace-card-bg, var(--workspace-card-base-bg));
   --workspace-card-border-current: var(--workspace-card-border, var(--workspace-card-base-border));
   --workspace-card-shadow-current: var(--workspace-card-shadow, var(--workspace-card-base-shadow));
   --workspace-media-bg-current: var(--workspace-media-bg, var(--workspace-media-base-bg));
@@ -411,7 +410,7 @@ async function handleToggleFavorite(item: WorkspaceFavoriteCard): Promise<void> 
   padding: var(--workspace-card-padding);
   border: 1px solid var(--workspace-card-border-current);
   border-radius: var(--workspace-card-radius);
-  background: var(--workspace-card-bg-current);
+  background: var(--workspace-list-card-bg);
   box-shadow: var(--workspace-card-shadow-current);
 }
 
@@ -699,7 +698,7 @@ async function handleToggleFavorite(item: WorkspaceFavoriteCard): Promise<void> 
   inset: 0;
   transform: translateX(-100%);
   background: var(--portal-skeleton-shimmer);
-  animation: home-skeleton-wave 2.4s ease-in-out infinite;
+  animation: portal-skeleton-wave 2.4s ease-in-out infinite;
 }
 
 .workspace-favorite-skeleton__pill,

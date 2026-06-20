@@ -390,9 +390,9 @@ function resolveCoverUrl(cover: HomeArticleFeaturedResponse['cover']) {
 
 .home-article-section__feature-copy {
   display: grid;
-  grid-template-rows: var(--portal-content-block-title-lg-2) var(
-      --portal-content-block-body-md-2
-    ) auto;
+  grid-template-rows:
+    var(--portal-content-block-title-lg-2) var(--portal-content-block-body-md-2)
+    auto;
   gap: var(--portal-content-copy-gap-loose);
 }
 
@@ -662,7 +662,7 @@ function resolveCoverUrl(cover: HomeArticleFeaturedResponse['cover']) {
   position: absolute;
   inset: 0;
   background: var(--portal-skeleton-shimmer);
-  animation: home-skeleton-wave 2.4s ease-in-out infinite;
+  animation: portal-skeleton-wave 2.4s ease-in-out infinite;
   transform: translateX(-100%);
 }
 

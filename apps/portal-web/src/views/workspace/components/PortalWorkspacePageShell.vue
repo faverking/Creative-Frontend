@@ -151,20 +151,16 @@ function handleToolbarAction(key: string): void {
   --workspace-tag-bg: var(--portal-content-article-tag-bg);
   --workspace-tag-border: var(--portal-content-article-tag-border);
   --workspace-tag-ink: var(--portal-content-article-tag-ink);
-  --workspace-surface-bg:
+  --workspace-profile-context-bg:
     linear-gradient(
       118deg,
       color-mix(in srgb, var(--workspace-accent) 3%, transparent) 0%,
       transparent 76%
     ),
     var(--workspace-surface-base-bg);
-  --workspace-surface-border: color-mix(
-    in srgb,
-    var(--workspace-accent) 4%,
-    var(--workspace-surface-base-border) 96%
-  );
+  --workspace-surface-border: var(--workspace-toolbar-border);
   --workspace-surface-shadow: var(--workspace-surface-base-shadow);
-  --workspace-card-bg:
+  --workspace-content-surface-bg:
     linear-gradient(
       180deg,
       color-mix(in srgb, var(--workspace-accent-soft) 8%, transparent),
@@ -177,27 +173,6 @@ function handleToolbarAction(key: string): void {
     var(--workspace-card-base-border) 93%
   );
   --workspace-card-shadow: var(--workspace-card-base-shadow);
-  --workspace-card-subtle-bg:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--workspace-accent) 6%, transparent),
-      transparent 68%
-    ),
-    var(--workspace-card-subtle-base-bg);
-  --workspace-card-emphasis-bg:
-    linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--workspace-accent-soft) 14%, transparent),
-      transparent 78%
-    ),
-    var(--workspace-card-bg);
-  --workspace-card-subtle-emphasis-bg:
-    linear-gradient(
-      135deg,
-      color-mix(in srgb, var(--workspace-accent) 10%, transparent),
-      transparent 74%
-    ),
-    var(--workspace-card-subtle-bg);
   --workspace-control-hover-bg: color-mix(
     in srgb,
     var(--workspace-accent-soft) 8%,
@@ -288,7 +263,7 @@ function handleToolbarAction(key: string): void {
   padding: var(--portal-workspace-toolbar-padding);
   border: 1px solid var(--workspace-surface-border);
   border-radius: var(--workspace-surface-radius);
-  background: var(--workspace-surface-bg);
+  background: var(--workspace-toolbar-bg);
   box-shadow: var(--workspace-surface-shadow);
   backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.64)) saturate(1);
   -webkit-backdrop-filter: blur(calc(var(--portal-content-panel-blur) * 0.64)) saturate(1);
