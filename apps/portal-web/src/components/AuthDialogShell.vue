@@ -199,34 +199,6 @@ const closeDialog = async () => {
 }
 
 .auth-dialog__qr-shell {
-  --portal-qr-shell-bg:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(238, 244, 255, 0.88)),
-    radial-gradient(circle at 18% 14%, rgba(121, 225, 255, 0.26), transparent 36%),
-    radial-gradient(circle at 78% 16%, rgba(170, 162, 255, 0.2), transparent 30%),
-    radial-gradient(circle at 66% 76%, rgba(255, 189, 226, 0.14), transparent 26%);
-  --portal-qr-shell-border: rgba(143, 170, 214, 0.28);
-  --portal-qr-shell-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.78), 0 18px 34px rgba(79, 109, 170, 0.14);
-  --portal-qr-frame-start: #ffffff;
-  --portal-qr-frame-end: #e0e8ff;
-  --portal-qr-device-fill: #fbfcff;
-  --portal-qr-device-stroke: #d6dff8;
-  --portal-qr-device-detail: #d5def5;
-  --portal-qr-screen-start: #fbfdff;
-  --portal-qr-screen-end: #b7cbff;
-  --portal-qr-screen-band: #ffffff;
-  --portal-qr-code-bg: #ffffff;
-  --portal-qr-code-module: #193c7b;
-  --portal-qr-code-accent: #7ce7ff;
-  --portal-qr-wave: #dce5ff;
-  --portal-qr-badge-start: #81ecff;
-  --portal-qr-badge-mid: #a392ff;
-  --portal-qr-badge-end: #ffb6dc;
-  --portal-qr-badge-mark: #ffffff;
-  --portal-qr-cloud: #dbe5ff;
-  --portal-qr-bubble-fill: #fffaff;
-  --portal-qr-bubble-stroke: #d2d9ff;
-  --portal-qr-shadow: rgba(89, 108, 170, 0.18);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -378,16 +350,6 @@ const closeDialog = async () => {
 }
 
 :deep(.auth-dialog__alert) {
-  --portal-auth-alert-border: rgba(141, 146, 255, 0.2);
-  --portal-auth-alert-bg: linear-gradient(
-    180deg,
-    rgba(244, 248, 255, 0.9),
-    rgba(233, 239, 249, 0.82)
-  );
-  --portal-auth-alert-title: var(--portal-ink-strong);
-  --portal-auth-alert-description: var(--portal-ink-strong);
-  --portal-auth-alert-icon: #d46b8c;
-  --portal-auth-alert-shadow: none;
   margin-top: -2px;
   border: 1px solid var(--portal-auth-alert-border);
   border-radius: 16px;

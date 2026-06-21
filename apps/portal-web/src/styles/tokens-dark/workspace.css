@@ -10,7 +10,6 @@ html.dark {
     linear-gradient(180deg, rgba(23, 45, 76, 0.34), rgba(10, 22, 42, 0.22)),
     linear-gradient(180deg, rgba(14, 28, 51, 0.848), rgba(10, 22, 42, 0.903));
   --workspace-toolbar-bg: transparent;
-  --workspace-surface-base-border: rgba(182, 224, 255, 0.08);
   --workspace-toolbar-border: color(srgb 0.792637 0.878431 0.919728 / 0.115294);
   --workspace-surface-base-shadow:
     0 2px 5px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.03);
@@ -37,11 +36,6 @@ html.dark {
   --workspace-media-radius: 16px;
   --workspace-media-base-ring: rgba(8, 18, 35, 0.92);
   --workspace-chip-base-surface: rgba(18, 37, 69, 0.92);
-  --workspace-chip-active-gloss: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.08),
-    rgba(255, 255, 255, 0.02)
-  );
   --workspace-control-bg: linear-gradient(180deg, rgba(16, 34, 60, 0.84), rgba(10, 24, 46, 0.8));
   --workspace-control-border: rgba(182, 224, 255, 0.18);
   --workspace-control-ink: color-mix(in srgb, #f5fbff 88%, transparent);

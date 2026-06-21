@@ -786,7 +786,7 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
       color-mix(in srgb, var(--public-detail-preview-label-bg) 22%, transparent),
       transparent 28%
     ),
-    var(--gallery-module-tile-bg);
+    var(--public-detail-gallery-preview-tile-bg);
   overflow: hidden;
   isolation: isolate;
   box-shadow:
@@ -1035,7 +1035,7 @@ async function copyCurrentPreviewImageUrl(): Promise<void> {
   border-radius: 14px;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 48%),
-    var(--gallery-module-tile-bg);
+    var(--public-detail-gallery-preview-tile-bg);
   overflow: hidden;
   cursor: pointer;
   scroll-snap-align: center;

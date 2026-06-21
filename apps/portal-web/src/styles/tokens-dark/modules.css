@@ -1,26 +1,6 @@
 html.dark {
-  /* Portal Module Article Tokens */
-  --portal-module-article-cover-art: linear-gradient(180deg, rgba(8, 18, 38, 0.18), rgba(8, 18, 38, 0.46));
-  --portal-module-article-thumb-bg: linear-gradient(180deg, rgba(8, 18, 38, 0.08), rgba(8, 18, 38, 0.28));
-  --portal-module-article-list-surface: linear-gradient(
-    180deg,
-    rgba(22, 43, 76, 0.56),
-    rgba(12, 25, 49, 0.4)
-  );
-  --portal-module-article-surface: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.008)),
-    var(--portal-module-article-list-surface);
-  --portal-module-article-border: rgba(182, 224, 255, 0.13);
-  --portal-module-article-divider: rgba(182, 224, 255, 0.14);
-  --portal-module-article-divider-strong: rgba(121, 225, 255, 0.2);
-  --portal-module-article-meta-icon-ink: color-mix(
-    in srgb,
-    var(--portal-content-article-accent) 72%,
-    white 28%
-  );
-  --portal-module-article-item-inset-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07);
-  --portal-module-article-time-bg: rgba(164, 216, 255, 0.09);
-  --portal-module-article-time-border: rgba(182, 224, 255, 0.11);
-  --portal-module-article-time-ink: #c4dcef;
+  /* Portal Module Shared Tokens */
+  --portal-module-meta-ink: color-mix(in srgb, var(--portal-content-muted) 84%, var(--portal-content-ink) 16%);
 
   /* Portal Module Filter Tokens */
   --portal-module-filter-border: color(srgb 0.713726 0.869386 0.98191 / 0.218315);
@@ -59,64 +39,6 @@ html.dark {
   --portal-module-filter-category-violet-bg: rgba(52, 58, 98, 0.84);
   --portal-module-filter-category-violet-border: rgba(147, 157, 220, 0.44);
   --portal-module-filter-category-violet-accent: rgba(214, 220, 255, 0.9);
-  /* Portal Module Topic Tokens */
-  --portal-module-topic-cover-blue-bg: linear-gradient(
-    135deg,
-    rgba(121, 225, 255, 0.96),
-    rgba(122, 132, 246, 0.76)
-  );
-  --portal-module-topic-cover-iris-bg: linear-gradient(
-    135deg,
-    rgba(160, 176, 255, 0.92),
-    rgba(121, 225, 255, 0.66)
-  );
-  --portal-module-topic-cover-gold-bg: linear-gradient(
-    135deg,
-    rgba(255, 225, 154, 0.92),
-    rgba(108, 203, 255, 0.66)
-  );
-  --portal-module-topic-surface: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.008)),
-    var(--portal-module-article-list-surface);
-  --portal-module-topic-border: rgba(182, 224, 255, 0.14);
-  --portal-module-topic-divider: rgba(182, 224, 255, 0.15);
-  --portal-module-topic-divider-strong: color-mix(
-    in srgb,
-    var(--portal-content-topic-accent) 24%,
-    rgba(182, 224, 255, 0.15)
-  );
-  --portal-module-topic-eyebrow-ink: color-mix(
-    in srgb,
-    var(--portal-content-topic-accent) 42%,
-    var(--portal-content-muted) 58%
-  );
-  --portal-module-topic-meta-icon-ink: color-mix(
-    in srgb,
-    var(--portal-content-topic-accent) 72%,
-    white 28%
-  );
-  --portal-module-topic-media-width: 90px;
-  --portal-module-topic-media-height: 112px;
-  --portal-module-topic-media-radius: 26px;
-  --portal-module-topic-media-overlay: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.08),
-    rgba(255, 255, 255, 0)
-  );
-  --portal-module-topic-clip-bg: linear-gradient(180deg, rgba(28, 53, 88, 0.94), rgba(12, 25, 49, 0.92));
-  --portal-module-topic-clip-border: rgba(182, 224, 255, 0.16);
-  --portal-module-topic-clip-ink: rgba(223, 239, 255, 0.58);
-  --portal-module-topic-clip-highlight: rgba(255, 255, 255, 0.16);
-  --portal-module-topic-clip-shadow: 0 12px 20px rgba(0, 0, 0, 0.28);
-
-  /* Gallery Module Foundation Tokens */
-  --gallery-module-tile-bg: linear-gradient(180deg, rgba(8, 18, 38, 0.08), rgba(8, 18, 38, 0.24));
-  --gallery-module-stack-bg: linear-gradient(180deg, rgba(36, 66, 106, 0.88), rgba(14, 29, 54, 0.64));
-  --gallery-module-stack-border: rgba(182, 224, 255, 0.22);
-  --gallery-module-stack-shadow: 0 18px 34px rgba(0, 0, 0, 0.3);
-  --gallery-module-badge-bg: rgba(18, 37, 69, 0.84);
-  --gallery-module-badge-border: rgba(182, 224, 255, 0.14);
-  --gallery-module-badge-ink: color-mix(in srgb, var(--portal-content-gallery-accent) 88%, white 12%);
-
   /* Gallery Module Listing Tokens */
   --gallery-module-page-refreshing-opacity: 0.72;
   --gallery-module-card-stack-shadow: 0 14px 22px rgba(0, 0, 0, 0.22);
@@ -129,17 +51,17 @@ html.dark {
   --gallery-module-card-stack-mark-opacity: 0.72;
   --gallery-module-card-meta-bg: color-mix(
     in srgb,
-    var(--gallery-module-badge-bg) 88%,
+    var(--portal-browse-gallery-badge-bg) 88%,
     rgba(11, 24, 46, 0.12)
   );
   --gallery-module-card-meta-border: color-mix(
     in srgb,
-    var(--gallery-module-badge-border) 82%,
+    var(--portal-browse-gallery-badge-border) 82%,
     transparent
   );
   --gallery-module-card-meta-ink: color-mix(
     in srgb,
-    var(--gallery-module-badge-ink) 88%,
+    var(--portal-browse-gallery-badge-ink) 88%,
     transparent
   );
   --gallery-module-card-meta-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);

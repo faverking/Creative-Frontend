@@ -376,7 +376,7 @@ function handleCategoryChange(value?: number | string): void {
     var(--portal-stage-padding-bottom);
   box-sizing: border-box;
   display: grid;
-  gap: var(--portal-module-gap);
+  gap: var(--portal-module-layout-gap);
 }
 
 .portal-book-module-page > .portal-section-heading {
@@ -386,7 +386,7 @@ function handleCategoryChange(value?: number | string): void {
 .portal-book-module-page__results,
 .portal-book-module-page__results-stage {
   display: grid;
-  gap: var(--portal-module-gap);
+  gap: var(--portal-module-layout-gap);
   min-width: 0;
 }
 
@@ -414,7 +414,7 @@ function handleCategoryChange(value?: number | string): void {
 .portal-book-module-page__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--portal-module-gap);
+  gap: var(--portal-module-layout-gap);
 }
 
 .portal-book-module-page__card {
@@ -423,9 +423,9 @@ function handleCategoryChange(value?: number | string): void {
   grid-template-columns: 126px minmax(0, 1fr);
   gap: 16px;
   padding: var(--portal-book-module-card-padding-local);
-  border: 1px solid var(--portal-module-topic-border);
+  border: 1px solid var(--portal-browse-topic-card-border);
   border-radius: var(--portal-book-module-card-radius-local);
-  background: var(--portal-module-topic-surface);
+  background: var(--portal-browse-topic-card-surface);
 }
 
 .portal-book-module-page__card::after {
@@ -434,7 +434,7 @@ function handleCategoryChange(value?: number | string): void {
   left: 12px;
   right: 12px;
   bottom: 0;
-  border-bottom: 1px dashed var(--portal-module-topic-divider);
+  border-bottom: 1px dashed var(--portal-browse-topic-divider);
   opacity: 0.74;
   pointer-events: none;
 }
@@ -442,11 +442,11 @@ function handleCategoryChange(value?: number | string): void {
 .portal-book-module-page__card--link {
   --portal-interactive-hover-background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)),
-    var(--portal-module-topic-surface);
+    var(--portal-browse-topic-card-surface);
   --portal-interactive-hover-border: color-mix(
     in srgb,
     var(--portal-content-bookshelf-accent) 24%,
-    var(--portal-module-topic-divider) 76%
+    var(--portal-browse-topic-divider) 76%
   );
 }
 
@@ -461,10 +461,10 @@ function handleCategoryChange(value?: number | string): void {
   align-self: center;
   justify-self: start;
   margin-left: 4px;
-  border: 1px solid var(--home-bookshelf-cover-border);
+  border: 1px solid var(--portal-browse-book-cover-border);
   border-radius: 14px;
-  background: var(--home-bookshelf-cover-a);
-  box-shadow: var(--home-bookshelf-cover-shadow);
+  background: var(--portal-browse-book-cover-a);
+  box-shadow: var(--portal-browse-book-cover-shadow);
   overflow: hidden;
   transform: rotate(-2deg) translateY(1px);
 }
@@ -478,7 +478,7 @@ function handleCategoryChange(value?: number | string): void {
 
 .portal-book-module-page__cover::before {
   inset: 0;
-  background: linear-gradient(180deg, var(--home-bookshelf-cover-sheen), transparent 42%);
+  background: linear-gradient(180deg, var(--portal-browse-book-cover-sheen), transparent 42%);
 }
 
 .portal-book-module-page__cover::after {
@@ -486,7 +486,7 @@ function handleCategoryChange(value?: number | string): void {
   right: 0;
   width: 7px;
   height: 100%;
-  background: linear-gradient(180deg, var(--home-bookshelf-cover-spine), transparent 82%);
+  background: linear-gradient(180deg, var(--portal-browse-book-cover-spine), transparent 82%);
 }
 
 .portal-book-module-page__cover-image {
@@ -649,7 +649,7 @@ function handleCategoryChange(value?: number | string): void {
   justify-content: space-between;
   padding-top: 10px;
   margin-top: auto;
-  border-top: 1px dashed var(--portal-module-topic-divider);
+  border-top: 1px dashed var(--portal-browse-topic-divider);
 }
 
 .portal-book-module-page__meta,
@@ -669,7 +669,7 @@ function handleCategoryChange(value?: number | string): void {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  color: color-mix(in srgb, var(--portal-content-muted) 84%, var(--public-detail-glass-ink) 16%);
+  color: var(--portal-module-meta-ink);
   font-size: 12px;
   font-weight: 600;
   line-height: 1.35;
@@ -688,7 +688,7 @@ function handleCategoryChange(value?: number | string): void {
   top: 50%;
   width: 1px;
   height: 10px;
-  background: var(--portal-module-topic-divider);
+  background: var(--portal-browse-topic-divider);
   transform: translateY(-50%);
 }
 

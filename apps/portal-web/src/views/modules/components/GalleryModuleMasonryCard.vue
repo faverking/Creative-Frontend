@@ -258,7 +258,7 @@ const cardAriaLabel = computed(
   z-index: 1;
   overflow: hidden;
   border: 1px solid var(--portal-browse-media-panel-border);
-  background: var(--gallery-module-tile-bg);
+  background: var(--portal-browse-gallery-tile-bg);
   box-shadow: var(--portal-browse-media-shadow);
   transition:
     border-color 180ms ease,
@@ -344,7 +344,7 @@ const cardAriaLabel = computed(
 .gallery-module-card__meta-text {
   display: block;
   min-width: 0;
-  color: color-mix(in srgb, var(--public-detail-glass-ink) 80%, transparent);
+  color: color-mix(in srgb, var(--portal-module-meta-ink) 80%, transparent);
   font-size: 12px;
   font-weight: 600;
   line-height: 1.5;

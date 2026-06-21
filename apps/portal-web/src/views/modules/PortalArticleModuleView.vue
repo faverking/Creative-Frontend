@@ -333,7 +333,7 @@ function handleCategoryChange(value?: string | number): void {
     var(--portal-stage-padding-bottom);
   box-sizing: border-box;
   display: grid;
-  gap: var(--portal-module-gap);
+  gap: var(--portal-module-layout-gap);
 }
 
 .portal-article-module-page > .portal-section-heading {
@@ -342,13 +342,13 @@ function handleCategoryChange(value?: string | number): void {
 
 .portal-article-module-page__results {
   display: grid;
-  gap: var(--portal-module-gap);
+  gap: var(--portal-module-layout-gap);
   min-width: 0;
 }
 
 .portal-article-module-page__results-stage {
   display: grid;
-  gap: var(--portal-module-gap);
+  gap: var(--portal-module-layout-gap);
   min-width: 0;
 }
 
@@ -376,7 +376,7 @@ function handleCategoryChange(value?: string | number): void {
 .portal-article-module-page__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--portal-module-gap);
+  gap: var(--portal-module-layout-gap);
 }
 
 .portal-article-module-page__card {
@@ -384,10 +384,10 @@ function handleCategoryChange(value?: string | number): void {
   display: grid;
   gap: var(--portal-content-card-gap-tight);
   padding: var(--portal-article-module-card-padding-local);
-  border: 1px solid var(--portal-module-article-border);
+  border: 1px solid var(--portal-browse-article-card-border);
   border-radius: var(--portal-article-module-card-radius-local);
-  background: var(--portal-module-article-surface);
-  box-shadow: var(--portal-module-article-item-inset-shadow);
+  background: var(--portal-browse-article-card-surface);
+  box-shadow: var(--portal-browse-card-shadow);
 }
 
 .portal-article-module-page__card::after {
@@ -396,7 +396,7 @@ function handleCategoryChange(value?: string | number): void {
   left: 12px;
   right: 12px;
   bottom: 0;
-  border-bottom: 1px dashed var(--portal-module-article-divider);
+  border-bottom: 1px dashed var(--portal-browse-article-divider);
   opacity: 0.74;
   pointer-events: none;
 }
@@ -404,9 +404,9 @@ function handleCategoryChange(value?: string | number): void {
 .portal-article-module-page__card--link {
   --portal-interactive-hover-background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)),
-    var(--portal-module-article-surface);
-  --portal-interactive-hover-border: var(--portal-module-article-divider-strong);
-  --portal-interactive-hover-shadow: var(--portal-module-article-item-inset-shadow);
+    var(--portal-browse-article-card-surface);
+  --portal-interactive-hover-border: var(--portal-browse-article-divider-strong);
+  --portal-interactive-hover-shadow: var(--portal-browse-card-shadow);
 }
 
 .portal-article-module-page__link-layer {
@@ -429,7 +429,7 @@ function handleCategoryChange(value?: string | number): void {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: var(--portal-module-article-cover-art);
+  background: var(--portal-browse-article-cover-art);
 }
 
 .portal-article-module-page__cover-image {
@@ -459,7 +459,7 @@ function handleCategoryChange(value?: string | number): void {
 .portal-article-module-page__skeleton-footer {
   justify-content: space-between;
   padding-top: 9px;
-  border-top: 1px dashed var(--portal-module-article-divider);
+  border-top: 1px dashed var(--portal-browse-article-divider);
 }
 
 .portal-article-module-page__metrics {
@@ -496,7 +496,7 @@ function handleCategoryChange(value?: string | number): void {
 
 .portal-article-module-page__meta-item {
   position: relative;
-  color: color-mix(in srgb, var(--portal-content-muted) 84%, var(--public-detail-glass-ink) 16%);
+  color: var(--portal-module-meta-ink);
 }
 
 .portal-article-module-page__meta-item:not(:last-child) {
@@ -510,7 +510,7 @@ function handleCategoryChange(value?: string | number): void {
   top: 50%;
   width: 1px;
   height: 10px;
-  background: var(--portal-module-article-divider);
+  background: var(--portal-browse-article-divider);
   transform: translateY(-50%);
 }
 
@@ -544,7 +544,7 @@ function handleCategoryChange(value?: string | number): void {
 .portal-article-module-page__metric {
   position: relative;
   gap: 5px;
-  color: color-mix(in srgb, var(--portal-content-muted) 84%, var(--public-detail-glass-ink) 16%);
+  color: var(--portal-module-meta-ink);
 }
 
 .portal-article-module-page__metric + .portal-article-module-page__metric {
@@ -558,13 +558,13 @@ function handleCategoryChange(value?: string | number): void {
   top: 50%;
   width: 1px;
   height: 10px;
-  background: var(--portal-module-article-divider);
+  background: var(--portal-browse-article-divider);
   transform: translateY(-50%);
 }
 
 .portal-article-module-page__metric-icon {
   flex: 0 0 auto;
-  color: var(--portal-module-article-meta-icon-ink);
+  color: var(--portal-browse-article-meta-icon-ink);
 }
 
 .portal-article-module-page__cover-tag {
@@ -693,7 +693,7 @@ function handleCategoryChange(value?: string | number): void {
 .portal-article-module-page__skeleton-divider {
   width: 1px;
   height: 10px;
-  background: var(--portal-module-article-divider);
+  background: var(--portal-browse-article-divider);
   flex: 0 0 auto;
 }
 

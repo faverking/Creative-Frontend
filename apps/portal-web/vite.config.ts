@@ -40,6 +40,9 @@ const ELEMENT_PLUS_COMPONENT_IMPORTS: Record<string, string> = {
   ElTabPane: 'tabs',
   ElTabs: 'tabs'
 }
+const ELEMENT_PLUS_COMPONENT_STYLE_IMPORTS: Partial<Record<string, string[]>> = {
+  ElCarouselItem: ['carousel-item']
+}
 
 function normalizeModuleId(id: string): string {
   return id.replaceAll('\\', '/')
@@ -72,13 +75,14 @@ function resolveElementPlusComponent(name: string) {
   }
 
   const componentDir = ELEMENT_PLUS_COMPONENT_IMPORTS[name]
+  const styleDirs = ELEMENT_PLUS_COMPONENT_STYLE_IMPORTS[name] ?? [componentDir]
 
   return {
     name,
     from: `element-plus/es/components/${componentDir}/index`,
     sideEffects: [
       'element-plus/es/components/base/style/css',
-      `element-plus/es/components/${componentDir}/style/css`
+      ...styleDirs.map((styleDir) => `element-plus/es/components/${styleDir}/style/css`)
     ]
   }
 }

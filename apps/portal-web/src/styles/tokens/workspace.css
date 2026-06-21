@@ -10,7 +10,6 @@
     linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(248, 251, 255, 0.08)),
     linear-gradient(180deg, rgba(245, 250, 254, 0.82), rgba(231, 239, 247, 0.766));
   --workspace-toolbar-bg: transparent;
-  --workspace-surface-base-border: rgba(138, 171, 206, 0.296);
   --workspace-toolbar-border: color(srgb 0.627494 0.745814 0.85263 / 0.32416);
   --workspace-surface-base-shadow:
     0 1px 3px rgba(18, 41, 74, 0.012), inset 0 1px 0 rgba(255, 255, 255, 0.16);
@@ -33,11 +32,6 @@
   --workspace-media-radius: 16px;
   --workspace-media-base-ring: rgba(250, 252, 255, 0.92);
   --workspace-chip-base-surface: rgba(255, 255, 255, 0.74);
-  --workspace-chip-active-gloss: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.94),
-    rgba(255, 255, 255, 0.78)
-  );
   --workspace-control-bg: linear-gradient(
     180deg,
     rgba(250, 253, 255, 0.782),

@@ -83,6 +83,9 @@ html.dark {
   --public-detail-author-avatar-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 16px 26px rgba(0, 0, 0, 0.24),
     0 0 0 1px rgba(121, 225, 255, 0.1);
+  --public-detail-author-avatar-overlay:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0)),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0));
   --public-detail-author-bio-ink: color-mix(in srgb, var(--portal-content-muted) 92%, transparent);
   /* Public Detail Gallery Viewer Tokens */
   --public-detail-preview-frame-border: rgba(121, 225, 255, 0.78);
@@ -107,6 +110,11 @@ html.dark {
     180deg,
     rgba(8, 18, 38, 0.08),
     rgba(8, 18, 38, 0.4)
+  );
+  --public-detail-gallery-preview-tile-bg: linear-gradient(
+    180deg,
+    rgba(8, 18, 38, 0.08),
+    rgba(8, 18, 38, 0.24)
   );
   --public-detail-footer-highlight: linear-gradient(
     90deg,

@@ -699,10 +699,10 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
 
 .portal-book-detail-page__cover-stack {
   position: absolute;
-  border: 1px solid var(--home-bookshelf-stack-border);
+  border: 1px solid var(--portal-browse-book-stack-border);
   border-radius: 26px;
-  background: var(--home-bookshelf-stack-a);
-  box-shadow: var(--home-bookshelf-stack-shadow);
+  background: var(--portal-browse-book-stack-a);
+  box-shadow: var(--portal-browse-book-stack-shadow);
 }
 
 .portal-book-detail-page__cover-stack--back {
@@ -713,7 +713,7 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
 
 .portal-book-detail-page__cover-stack--mid {
   inset: 12px 12px 8px 10px;
-  background: var(--home-bookshelf-stack-b);
+  background: var(--portal-browse-book-stack-b);
   opacity: 0.72;
   transform: rotate(-2deg);
 }
@@ -723,10 +723,10 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
   z-index: 2;
   width: 100%;
   aspect-ratio: 0.72;
-  border: 1px solid var(--home-bookshelf-cover-border);
+  border: 1px solid var(--portal-browse-book-cover-border);
   border-radius: 26px;
-  background: var(--home-bookshelf-media-bg);
-  box-shadow: var(--home-bookshelf-cover-shadow);
+  background: var(--portal-browse-book-media-bg);
+  box-shadow: var(--portal-browse-book-cover-shadow);
   overflow: hidden;
 }
 
@@ -735,8 +735,8 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(180deg, var(--home-bookshelf-cover-sheen), transparent 30%),
-    var(--home-bookshelf-media-overlay);
+    linear-gradient(180deg, var(--portal-browse-book-cover-sheen), transparent 30%),
+    var(--portal-browse-book-media-overlay);
   pointer-events: none;
 }
 
@@ -749,7 +749,7 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
       color-mix(in srgb, var(--portal-content-bookshelf-accent) 22%, white 78%),
       color-mix(in srgb, var(--portal-content-bookshelf-accent-soft) 16%, white 84%)
     ),
-    var(--home-bookshelf-media-bg);
+    var(--portal-browse-book-media-bg);
 }
 
 .portal-book-detail-page__cover-image {
@@ -786,9 +786,9 @@ async function handleAction(action: PublicDetailActionItem): Promise<void> {
   width: fit-content;
   height: 26px;
   padding: 0 12px;
-  border: 1px solid color-mix(in srgb, var(--home-bookshelf-cover-mark-border) 88%, transparent);
+  border: 1px solid color-mix(in srgb, var(--portal-browse-book-cover-mark-border) 88%, transparent);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--home-bookshelf-cover-mark-bg) 88%, transparent);
+  background: color-mix(in srgb, var(--portal-browse-book-cover-mark-bg) 88%, transparent);
   color: var(--public-detail-glass-ink);
   font-size: 12px;
   font-weight: 700;

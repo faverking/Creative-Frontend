@@ -134,9 +134,7 @@ const normalizedTags = computed(() =>
   position: absolute;
   inset: 0;
   z-index: 1;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0)),
-    var(--portal-module-topic-media-overlay);
+  background: var(--public-detail-author-avatar-overlay);
   pointer-events: none;
 }
 

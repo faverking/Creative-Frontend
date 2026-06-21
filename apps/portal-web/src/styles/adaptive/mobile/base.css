@@ -11,9 +11,9 @@
   --portal-content-section-gap-x: 16px;
   --portal-content-section-gap-y: 26px;
   --portal-content-card-padding-xs: 14px;
-  --portal-module-gap: 12px;
-  --portal-module-article-feature-col: minmax(0, 1fr);
-  --portal-module-article-list-col: minmax(0, 1fr);
+  --portal-module-layout-gap: 12px;
+  --portal-browse-article-feature-col: minmax(0, 1fr);
+  --portal-browse-article-list-col: minmax(0, 1fr);
   --portal-detail-stage-gap: 14px;
   --portal-detail-stage-max-width: 100%;
   --portal-gallery-detail-stage-max-width: 100%;

@@ -288,8 +288,8 @@ function resolveCoverUrl(cover: HomeArticleFeaturedResponse['cover']) {
 
 .home-article-section__layout {
   display: grid;
-  grid-template-columns: var(--portal-module-article-feature-col) var(
-      --portal-module-article-list-col
+  grid-template-columns: var(--portal-browse-article-feature-col) var(
+      --portal-browse-article-list-col
     );
   gap: var(--portal-content-card-gap-loose);
   min-height: 100%;
@@ -316,7 +316,7 @@ function resolveCoverUrl(cover: HomeArticleFeaturedResponse['cover']) {
 
 .home-article-section__feature--link {
   --portal-interactive-hover-background: var(--portal-browse-article-card-hover-surface);
-  --portal-interactive-hover-border: var(--portal-module-article-divider-strong);
+  --portal-interactive-hover-border: var(--portal-browse-article-divider-strong);
   --portal-interactive-hover-shadow: var(--portal-browse-card-hover-shadow);
 }
 
@@ -367,7 +367,7 @@ function resolveCoverUrl(cover: HomeArticleFeaturedResponse['cover']) {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: var(--portal-browse-media-overlay-strong), var(--portal-module-article-cover-art);
+  background: var(--portal-browse-media-overlay-strong), var(--portal-browse-article-cover-art);
 }
 
 .home-article-section__feature-badge {
@@ -488,7 +488,7 @@ function resolveCoverUrl(cover: HomeArticleFeaturedResponse['cover']) {
   height: 100%;
   padding: 6px;
   border-radius: var(--portal-browse-card-radius);
-  background: var(--portal-module-article-list-surface);
+  background: var(--portal-browse-article-list-surface);
 }
 
 .home-article-section__item {
@@ -498,7 +498,7 @@ function resolveCoverUrl(cover: HomeArticleFeaturedResponse['cover']) {
   gap: var(--portal-content-card-gap-base);
   padding: var(--portal-browse-card-padding);
   border-radius: 18px;
-  box-shadow: var(--portal-module-article-item-inset-shadow);
+  box-shadow: var(--portal-browse-card-shadow);
 }
 
 .home-article-section__item:hover .home-article-section__thumb,
@@ -543,7 +543,7 @@ function resolveCoverUrl(cover: HomeArticleFeaturedResponse['cover']) {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: var(--portal-module-article-thumb-bg);
+  background: var(--portal-browse-article-thumb-bg);
 }
 
 .home-article-section__item-copy {
@@ -590,10 +590,10 @@ function resolveCoverUrl(cover: HomeArticleFeaturedResponse['cover']) {
   min-width: 68px;
   height: 20px;
   padding: 0 8px;
-  border: 1px solid var(--portal-module-article-time-border);
+  border: 1px solid var(--portal-content-feature-tag-soft-border);
   border-radius: 999px;
-  background: var(--portal-module-article-time-bg);
-  color: var(--portal-module-article-time-ink);
+  background: var(--portal-content-feature-tag-soft-bg);
+  color: var(--portal-content-feature-tag-soft-ink);
   font-size: 12px;
   line-height: 12px;
   font-weight: 700;

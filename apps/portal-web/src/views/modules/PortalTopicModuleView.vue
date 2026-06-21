@@ -365,7 +365,7 @@ function handleCategoryChange(value?: string | number): void {
     var(--portal-stage-padding-bottom);
   box-sizing: border-box;
   display: grid;
-  gap: var(--portal-module-gap);
+  gap: var(--portal-module-layout-gap);
 }
 
 .portal-topic-module-page > .portal-section-heading {
@@ -374,13 +374,13 @@ function handleCategoryChange(value?: string | number): void {
 
 .portal-topic-module-page__results {
   display: grid;
-  gap: var(--portal-module-gap);
+  gap: var(--portal-module-layout-gap);
   min-width: 0;
 }
 
 .portal-topic-module-page__results-stage {
   display: grid;
-  gap: var(--portal-module-gap);
+  gap: var(--portal-module-layout-gap);
   min-width: 0;
 }
 
@@ -408,7 +408,7 @@ function handleCategoryChange(value?: string | number): void {
 .portal-topic-module-page__list {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--portal-module-gap);
+  gap: var(--portal-module-layout-gap);
 }
 
 .portal-topic-module-page__card {
@@ -418,9 +418,9 @@ function handleCategoryChange(value?: string | number): void {
   gap: 12px;
   align-items: stretch;
   padding: var(--portal-topic-module-card-padding-local);
-  border: 1px solid var(--portal-module-topic-border);
+  border: 1px solid var(--portal-browse-topic-card-border);
   border-radius: var(--portal-topic-module-card-radius-local);
-  background: var(--portal-module-topic-surface);
+  background: var(--portal-browse-topic-card-surface);
 }
 
 .portal-topic-module-page__card::after {
@@ -429,7 +429,7 @@ function handleCategoryChange(value?: string | number): void {
   left: 12px;
   right: 12px;
   bottom: 0;
-  border-bottom: 1px dashed var(--portal-module-topic-divider);
+  border-bottom: 1px dashed var(--portal-browse-topic-divider);
   opacity: 0.74;
   pointer-events: none;
 }
@@ -437,8 +437,8 @@ function handleCategoryChange(value?: string | number): void {
 .portal-topic-module-page__card--link {
   --portal-interactive-hover-background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.01)),
-    var(--portal-module-topic-surface);
-  --portal-interactive-hover-border: var(--portal-module-topic-divider-strong);
+    var(--portal-browse-topic-card-surface);
+  --portal-interactive-hover-border: var(--portal-browse-topic-divider-strong);
 }
 
 .portal-topic-module-page__link-layer {
@@ -461,7 +461,7 @@ function handleCategoryChange(value?: string | number): void {
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: var(--portal-module-topic-media-overlay);
+  background: var(--portal-browse-topic-media-overlay);
 }
 
 .portal-topic-module-page__media-image {
@@ -498,7 +498,7 @@ function handleCategoryChange(value?: string | number): void {
   justify-content: space-between;
   gap: 12px;
   padding-top: 9px;
-  border-top: 1px dashed var(--portal-module-topic-divider);
+  border-top: 1px dashed var(--portal-browse-topic-divider);
 }
 
 .portal-topic-module-page__meta,
@@ -579,7 +579,7 @@ function handleCategoryChange(value?: string | number): void {
   min-height: 22px;
   flex: 1 1 auto;
   min-width: 0;
-  color: var(--portal-module-topic-eyebrow-ink);
+  color: var(--portal-browse-topic-eyebrow-ink);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -623,7 +623,7 @@ function handleCategoryChange(value?: string | number): void {
   font-size: 12px;
   font-weight: 600;
   line-height: 1.35;
-  color: color-mix(in srgb, var(--portal-content-muted) 84%, var(--public-detail-glass-ink) 16%);
+  color: var(--portal-module-meta-ink);
 }
 
 .portal-topic-module-page__meta-item {
@@ -638,7 +638,7 @@ function handleCategoryChange(value?: string | number): void {
   top: 50%;
   width: 1px;
   height: 10px;
-  background: var(--portal-module-topic-divider);
+  background: var(--portal-browse-topic-divider);
   transform: translateY(-50%);
 }
 
@@ -646,7 +646,7 @@ function handleCategoryChange(value?: string | number): void {
 .portal-topic-module-page__skeleton-divider {
   width: 1px;
   height: 10px;
-  background: var(--portal-module-topic-divider);
+  background: var(--portal-browse-topic-divider);
   flex: 0 0 auto;
 }
 
@@ -666,13 +666,13 @@ function handleCategoryChange(value?: string | number): void {
   top: 50%;
   width: 1px;
   height: 10px;
-  background: var(--portal-module-topic-divider);
+  background: var(--portal-browse-topic-divider);
   transform: translateY(-50%);
 }
 
 .portal-topic-module-page__metric-icon {
   flex: 0 0 auto;
-  color: var(--portal-module-topic-meta-icon-ink);
+  color: var(--portal-browse-topic-meta-icon-ink);
 }
 
 .portal-topic-module-page__media--skeleton,

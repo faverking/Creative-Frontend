@@ -43,11 +43,11 @@
 
 :where(.gallery-module-card__media, .gallery-module-loading-card__media)::before {
   inset: var(--gallery-module-card-stack-inset-local);
-  border: 1px solid color-mix(in srgb, var(--gallery-module-stack-border) 88%, white 12%);
+  border: 1px solid color-mix(in srgb, var(--portal-browse-gallery-stack-border) 88%, white 12%);
   border-radius: var(--gallery-module-card-cover-radius-local);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 100%),
-    var(--gallery-module-stack-bg);
+    var(--portal-browse-gallery-stack-bg);
   box-shadow: var(--gallery-module-card-stack-shadow);
 }
 

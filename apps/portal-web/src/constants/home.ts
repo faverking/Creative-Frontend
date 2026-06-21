@@ -9,9 +9,9 @@ export const HOME_BOOKSHELF_SECTION_LIMIT = 2
 export const HOME_GALLERY_SECTION_LIMIT = 3
 
 export const HOME_COLUMN_COVER_BACKGROUNDS = {
-  blue: 'var(--portal-module-topic-cover-blue-bg)',
-  iris: 'var(--portal-module-topic-cover-iris-bg)',
-  gold: 'var(--portal-module-topic-cover-gold-bg)'
+  blue: 'var(--portal-browse-topic-cover-blue-bg)',
+  iris: 'var(--portal-browse-topic-cover-iris-bg)',
+  gold: 'var(--portal-browse-topic-cover-gold-bg)'
 } as const
 
 export const HOME_TAG_TONES = ['cyan', 'sky', 'iris', 'soft'] as const

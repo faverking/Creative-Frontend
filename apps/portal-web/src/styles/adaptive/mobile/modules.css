@@ -6,7 +6,7 @@
     .gallery-module-page
   ) {
   width: 100%;
-  gap: var(--portal-module-gap);
+  gap: var(--portal-module-layout-gap);
 }
 
 :root[data-portal-viewport='mobile']

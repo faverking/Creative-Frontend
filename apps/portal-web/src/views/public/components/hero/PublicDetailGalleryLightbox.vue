@@ -492,6 +492,10 @@ function handleKeydown(event: KeyboardEvent) {
 
 .public-detail-gallery-lightbox__image {
   position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
 }
 
 .public-detail-gallery-lightbox__nav {

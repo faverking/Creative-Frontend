@@ -215,10 +215,6 @@ function handleToolbarAction(key: string): void {
     var(--workspace-tag-ink) 84%,
     var(--portal-ink-strong) 16%
   );
-  --workspace-chip-active-bg:
-    var(--workspace-chip-active-gloss),
-    color-mix(in srgb, var(--workspace-tag-bg) 90%, var(--workspace-chip-base-surface));
-  --workspace-chip-active-border: color-mix(in srgb, var(--workspace-tag-border) 74%, transparent);
   --workspace-chip-active-ink: var(--portal-ink-strong);
   --workspace-tab-line: color-mix(
     in srgb,

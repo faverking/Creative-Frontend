@@ -7,8 +7,8 @@
   --portal-content-section-gap-y: 60px;
 
   /* Public module desktop columns */
-  --portal-module-article-feature-col: minmax(0, 1.22fr);
-  --portal-module-article-list-col: minmax(312px, 0.78fr);
+  --portal-browse-article-feature-col: minmax(0, 1.22fr);
+  --portal-browse-article-list-col: minmax(312px, 0.78fr);
 
   /* Home desktop columns */
   --home-main-col: minmax(0, 2.18fr);

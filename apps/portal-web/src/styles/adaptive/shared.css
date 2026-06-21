@@ -10,7 +10,7 @@
   --portal-home-stage-padding-inline: 0px;
 
   /* Public module stage layout */
-  --portal-module-gap: 16px;
+  --portal-module-layout-gap: 16px;
 
   /* Public detail stage layout */
   --portal-detail-stage-gap: 18px;

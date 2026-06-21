@@ -185,7 +185,7 @@ function bindSentinelRef(element: Element | ComponentPublicInstance | null): voi
     var(--portal-stage-padding-bottom);
   box-sizing: border-box;
   display: grid;
-  gap: var(--portal-module-gap);
+  gap: var(--portal-module-layout-gap);
 }
 
 .gallery-module-page > .portal-section-heading {
@@ -194,13 +194,13 @@ function bindSentinelRef(element: Element | ComponentPublicInstance | null): voi
 
 .gallery-module-page__results {
   display: grid;
-  gap: var(--portal-module-gap);
+  gap: var(--portal-module-layout-gap);
   min-width: 0;
 }
 
 .gallery-module-page__results-stage {
   display: grid;
-  gap: var(--portal-module-gap);
+  gap: var(--portal-module-layout-gap);
   min-width: 0;
 }
 
