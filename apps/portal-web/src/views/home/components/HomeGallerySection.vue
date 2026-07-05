@@ -13,8 +13,8 @@
       <template #loading>
         <div key="gallery-skeleton" class="home-gallery-section__grid" aria-hidden="true">
           <article
-            v-for="(item, itemIndex) in section.items"
-            :key="`gallery-skeleton-${item.id || itemIndex}`"
+            v-for="itemIndex in HOME_GALLERY_SECTION_LIMIT"
+            :key="`gallery-skeleton-${itemIndex}`"
             class="home-gallery-section__card"
           >
             <div class="home-gallery-section__mosaic-shell">
@@ -23,8 +23,9 @@
                   v-for="tileIndex in HOME_GALLERY_TILE_COUNT"
                   :key="`gallery-skeleton-tile-${itemIndex}-${tileIndex}`"
                   class="home-gallery-section__tile home-gallery-section__tile--skeleton"
-                  :data-badge="tileIndex === 1 ? resolveGalleryBadge(item) : undefined"
-                />
+                >
+                  <span v-if="tileIndex === 1" class="home-gallery-section__skeleton-badge" />
+                </span>
               </div>
             </div>
 
@@ -104,7 +105,7 @@ import type {
 } from '@/components/PortalRequestBoundary.vue'
 import type { HomeGalleryItemResponse, HomeGallerySectionResponse } from '@/api/content'
 import { resolveHomeMediaUrl } from '@/api/content'
-import { HOME_GALLERY_TILE_COUNT } from '@/constants/home'
+import { HOME_GALLERY_SECTION_LIMIT, HOME_GALLERY_TILE_COUNT } from '@/constants/home'
 import { resolvePortalContentDetailLocation } from '@/utils/content'
 
 const emit = defineEmits<{
@@ -393,7 +394,26 @@ function resolveGalleryBadge(item: HomeGalleryItemResponse): string {
   );
 }
 
-.home-gallery-section__skeleton-block::after {
+.home-gallery-section__skeleton-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 3;
+  display: inline-flex;
+  width: 42px;
+  height: 18px;
+  overflow: hidden;
+  border: 1px solid var(--portal-skeleton-border);
+  border-radius: 999px;
+  background: linear-gradient(
+    135deg,
+    var(--portal-skeleton-block-strong),
+    var(--portal-skeleton-block)
+  );
+}
+
+.home-gallery-section__skeleton-block::after,
+.home-gallery-section__skeleton-badge::after {
   content: '';
   position: absolute;
   inset: 0;

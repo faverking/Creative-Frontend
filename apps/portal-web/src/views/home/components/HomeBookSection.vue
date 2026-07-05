@@ -13,8 +13,8 @@
       <template #loading>
         <div key="book-skeleton" class="home-book-section__list" aria-hidden="true">
           <article
-            v-for="(item, itemIndex) in section.items"
-            :key="`book-skeleton-${item.id || itemIndex}`"
+            v-for="index in HOME_BOOKSHELF_SECTION_LIMIT"
+            :key="`book-skeleton-${index}`"
             class="home-book-section__card"
           >
             <div class="home-book-section__media">
@@ -165,7 +165,7 @@ import type {
 } from '@/components/PortalRequestBoundary.vue'
 import type { HomeBookshelfSectionResponse } from '@/api/content'
 import { resolveHomeMediaUrl } from '@/api/content'
-import { HOME_TAG_TONES } from '@/constants/home'
+import { HOME_BOOKSHELF_SECTION_LIMIT, HOME_TAG_TONES } from '@/constants/home'
 import { resolvePortalContentDetailLocation } from '@/utils/content'
 import { createToneTagList } from '@/utils/home'
 
