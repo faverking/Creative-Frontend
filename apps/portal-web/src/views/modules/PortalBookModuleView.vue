@@ -463,7 +463,8 @@ function handleCategoryChange(value?: number | string): void {
   margin-left: 4px;
   border: 1px solid var(--portal-browse-book-cover-border);
   border-radius: 14px;
-  background: var(--portal-browse-book-cover-a);
+  background:
+    var(--portal-browse-media-overlay-soft), var(--portal-browse-media-placeholder-surface);
   box-shadow: var(--portal-browse-book-cover-shadow);
   overflow: hidden;
   transform: rotate(-2deg) translateY(1px);
